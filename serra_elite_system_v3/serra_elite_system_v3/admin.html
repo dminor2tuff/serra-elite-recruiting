@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Serra Admin Panel – Coach Minor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  background: #020617;
+  margin: 0;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+  color: #e5e7eb;
+  display: flex;
+  justify-content: center;
+}
+.card {
+  background: #020617;
+  padding: 24px;
+  max-width: 950px;
+  width: 100%;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+  border: 1px solid #1f2937;
+}
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.header img { width: 70px; }
+.header h1 {
+  margin: 0;
+  font-size: 22px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.header span {
+  font-size: 12px;
+  color: #9ca3af;
+}
+#loginPane {
+  margin-top: 16px;
+}
+#loginPane input {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #4b5563;
+  background: #020617;
+  color: #e5e7eb;
+}
+#loginPane button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  margin-left: 6px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+#errorMsg {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #f97373;
+}
+#adminPane {
+  display: none;
+  margin-top: 16px;
+  font-size: 13px;
+}
+.section-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #60a5fa;
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+}
+th, td {
+  border-bottom: 1px solid #1f2937;
+  padding: 6px 4px;
+  font-size: 12px;
+}
+th {
+  text-align: left;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+td a {
+  color: #38bdf8;
+  text-decoration: none;
+}
+td a:hover { text-decoration: underline; }
+.button-row {
+  margin-top: 10px;
+}
+.button-row button {
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid #4b5563;
+  background: #111827;
+  color: #e5e7eb;
+  cursor: pointer;
+  font-size: 12px;
+  margin-right: 6px;
+}
+.back-link {
+  margin-top: 16px;
+  font-size: 12px;
+}
+.back-link a {
+  color: #60a5fa;
+  text-decoration: none;
+}
+.back-link a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <img src="serra-logo.png" alt="Serra">
+    <div>
+      <h1>Coach Minor Admin Panel</h1>
+      <span>Local-only control center for Serra recruits (this device).</span>
+    </div>
+  </div>
+
+  <div id="loginPane">
+    <div style="font-size:13px;margin-bottom:6px;">Enter admin password to view / manage prospects:</div>
+    <input type="password" id="adminPass" placeholder="Password">
+    <button type="button" onclick="checkPass()">Enter</button>
+    <div id="errorMsg"></div>
+  </div>
+
+  <div id="adminPane">
+    <div class="section-title">Prospects by Class</div>
+    <table id="prospectTable">
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Name</th>
+          <th>Position</th>
+          <th>Profile</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="button-row">
+      <button type="button" onclick="exportCSV()">Export CSV</button>
+      <button type="button" onclick="downloadFullRosterPDF()">Download Full Roster PDF</button>
+      <button type="button" onclick="clearAll()">CLEAR ALL (this device)</button>
+    </div>
+
+    <div class="section-title">Note</div>
+    <div style="font-size:12px;color:#9ca3af;">
+      Data here comes from your browser's storage (localStorage). To share rosters across devices or coaches,
+      we'd need to plug this into a real database in the future.
+    </div>
+  </div>
+
+  <div class="back-link">
+    <a href="serra_prospect_builder.html">&larr; Back to Prospect Builder</a>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const ADMIN_PASSWORD = 'cavsfootball';
+
+function checkPass() {
+  const val = document.getElementById('adminPass').value;
+  const err = document.getElementById('errorMsg');
+  if (val === ADMIN_PASSWORD) {
+    document.getElementById('loginPane').style.display = 'none';
+    document.getElementById('adminPane').style.display = 'block';
+    loadProspects();
+  } else {
+    err.textContent = 'Incorrect password.';
+  }
+}
+
+function getAllClasses() {
+  return ['2026','2027','2028','2029'];
+}
+
+function loadProspects() {
+  const tbody = document.querySelector('#prospectTable tbody');
+  tbody.innerHTML = '';
+  const classes = getAllClasses();
+  classes.forEach(cls => {
+    const key = 'serra_roster_' + cls;
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e){ list=[]; }
+    list.forEach(p => {
+      const tr = document.createElement('tr');
+      const tdClass = document.createElement('td');
+      tdClass.textContent = cls;
+      const tdName = document.createElement('td');
+      tdName.textContent = p.name || '';
+      const tdPos = document.createElement('td');
+      tdPos.textContent = p.position || '';
+      const tdProfile = document.createElement('td');
+      if (p.profile) {
+        const a = document.createElement('a');
+        a.href = p.profile;
+        a.target = '_blank';
+        a.textContent = 'View';
+        tdProfile.appendChild(a);
+      } else {
+        tdProfile.textContent = '-';
+      }
+      tr.appendChild(tdClass);
+      tr.appendChild(tdName);
+      tr.appendChild(tdPos);
+      tr.appendChild(tdProfile);
+      tbody.appendChild(tr);
+    });
+  });
+}
+
+function exportCSV() {
+  const classes = getAllClasses();
+  let rows = [['class','name','position','profile']];
+  classes.forEach(cls => {
+    const key = 'serra_roster_' + cls;
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e){ list=[]; }
+    list.forEach(p => {
+      rows.push([cls, p.name || '', p.position || '', p.profile || '']);
+    });
+  });
+  let csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g,'""') + '"').join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'serra_recruits.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+async function downloadFullRosterPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+
+  let y = 40;
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(18);
+  doc.text('Serra Football – Full Recruit Roster', 40, y);
+  y += 26;
+
+  const classes = getAllClasses();
+  doc.setFontSize(11);
+  classes.forEach(cls => {
+    const key = 'serra_roster_' + cls;
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e){ list=[]; }
+    if (!list.length) return;
+    doc.setFont('helvetica','bold');
+    doc.text('Class of ' + cls, 40, y);
+    y += 16;
+    doc.setFont('helvetica','normal');
+    list.forEach(p => {
+      const line = (p.name || '') + ' – ' + (p.position || '') + ' – ' + (p.profile || '');
+      const split = doc.splitTextToSize(line, 520);
+      split.forEach(t => {
+        if (y > 760) {
+          doc.addPage();
+          y = 40;
+        }
+        doc.text(t, 40, y);
+        y += 14;
+      });
+      y += 4;
+    });
+    y += 10;
+  });
+
+  doc.save('serra_full_roster.pdf');
+}
+
+function clearAll() {
+  if (!confirm('This will clear all roster data stored on THIS device only. Continue?')) return;
+  const classes = getAllClasses();
+  classes.forEach(cls => {
+    localStorage.removeItem('serra_roster_' + cls);
+  });
+  loadProspects();
+}
+</script>
+</body>
+</html>
