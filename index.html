@@ -79,11 +79,13 @@ async function loadRosterFromSheets() {
       const hudl = r.c[4]?.v || "";
       const wu = r.c[5]?.v || "";
       const img = r.c[6]?.v || "assets/img/default-player.png";
+      const twitter = r.c[7]?.v || "";
+      const gpa = r.c[8]?.v || "";
 
       output += `
 <div class="player-card" data-class="${cl}">
   <div class="player-header">
-    <img src="${img}" />
+    <img src="\${img && img.startsWith('http') ? img : 'assets/img/default-player.png'}" />
     <div>
       <h2>${name}</h2>
       <p><strong>Position:</strong> ${pos}</p>
@@ -94,7 +96,19 @@ async function loadRosterFromSheets() {
   </div>
   <div class="section">
     <h3>HUDL / Film</h3>
-    <a href="${hudl}" target="_blank">HUDL Link</a>
+    <a href="${hudl && hudl.startsWith('http') ? hudl : '#'}" target="_blank">${hudl ? 'HUDL Link' : 'No HUDL Available'}</a>
+  </div>
+  <div class="section">
+    <h3>Twitter</h3>
+    ${twitter ? `<a href="https://twitter.com/${twitter.replace('@','')}" target="_blank">${twitter}</a>` : '<p>No Twitter Listed</p>'}
+  </div>
+  <div class="section">
+    <h3>Twitter</h3>
+    ${twitter ? `<a href=\"https://twitter.com/${twitter.replace('@','')}\" target=\"_blank\">${twitter}</a>` : '<p>No Twitter Listed</p>'}
+  </div>
+  <div class="section">
+    <h3>GPA</h3>
+    <p>${gpa || '—'}</p>
   </div>
   <div class="section">
     <h3>Write-Up</h3>
@@ -110,6 +124,16 @@ async function loadRosterFromSheets() {
 }
 
 window.onload = loadRosterFromSheets;
+function copyToClipboard() {
+  const text = document.getElementById('photoOutput').value;
+  if (!text) { alert('No ImageURL to copy yet.'); return; }
+  navigator.clipboard.writeText(text);
+  alert('ImageURL copied! Paste it into your Google Sheet under ImageURL.');
+}
+
+function openSheet() {
+  window.open('https://docs.google.com/spreadsheets/d/1k2YS5JkrjIJDlI4rdQT58STmnu03QPpBg2BT7dzyBpo/edit', '_blank');
+}
 </script>
 
 <!-- BEGIN AUTOMATED CAVALIERS ROSTER (2026–2029) -->
@@ -117,52 +141,7 @@ window.onload = loadRosterFromSheets;
 <!-- END AUTOMATED ROSTER -->
 
   <div id="coachArea" style="display:none; margin-top:40px;">
-    <section id="college-contacts">
-      <h2 style="color:#0A1A44; border-left:5px solid #C41230; padding-left:8px;">College Coaches Contact Directory</h2>
-      <p>Organized by level so you can quickly find schools for Serra student-athletes.</p>
-      <table>
-        <thead>
-          <tr>
-            <th>Level</th>
-            <th>School</th>
-            <th>Staff Contact</th>
-            <th>Role</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>FBS</td>
-            <td>[School Name]</td>
-            <td>[Coach Name]</td>
-            <td>Recruiting / Position Coach</td>
-            <td>[email@school.edu]</td>
-          </tr>
-          <tr>
-            <td>FCS</td>
-            <td>[School Name]</td>
-            <td>[Coach Name]</td>
-            <td>Recruiting Coordinator</td>
-            <td>[email@school.edu]</td>
-          </tr>
-          <tr>
-            <td>D2 / D3</td>
-            <td>[School Name]</td>
-            <td>[Coach Name]</td>
-            <td>Position Coach</td>
-            <td>[email@school.edu]</td>
-          </tr>
-          <tr>
-            <td>NAIA / JUCO</td>
-            <td>[School Name]</td>
-            <td>[Coach Name]</td>
-            <td>Recruiting Contact</td>
-            <td>[email@school.edu]</td>
-          </tr>
-        </tbody>
-      </table>
-      <p style="margin-top:10px; font-size:13px; opacity:0.8;">Note: Fill in real coach emails and staff names as you build out your network.</p>
-    </section>
+    
   </div>
 
 <div class="modal-backdrop" id="modalBackdrop" onclick="closeProfile(event)">
@@ -181,43 +160,282 @@ window.onload = loadRosterFromSheets;
   <div class="container">
 
   <!-- ========================= -->
+  <!-- ========================= -->
+  <!-- ADMIN DASHBOARD (COACH ACCESS ONLY) -->
+  <!-- ========================= -->
+    <!-- ========================= -->
+  <!-- ADMIN DASHBOARD (COACH ACCESS ONLY) -->
+  <!-- ========================= -->
+  <section id="adminDashboard" style="display:none; background:white; padding:25px; margin:40px auto; max-width:1100px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+    <h2 style="color:#0A1A44; border-left:5px solid #C41230; padding-left:8px;">Admin Dashboard</h2>
+    <p style="font-size:14px; opacity:0.8;">Load your live roster from Google Sheets, quickly edit player info, and generate clean rows to paste back into the sheet. This does not overwrite Google Sheets automatically, but it makes updates much faster.</p>
+
+    <button class="btn btn-primary" onclick="loadAdminRoster()" style="margin-bottom:15px;">Load Roster From Sheet</button>
+    <button class="btn btn-outline" onclick="bulkExportCSV()" style="margin-left:10px; margin-bottom:15px;">Bulk Export CSV (Copy)</button>
+
+    <table id="adminTable" style="width:100%; border-collapse:collapse; display:none;">
+      <thead>
+        <tr style="background:#0A1A44; color:white;">
+          <th style="padding:8px; border:1px solid #ddd;">Name</th>
+          <th style="padding:8px; border:1px solid #ddd;">Class</th>
+          <th style="padding:8px; border:1px solid #ddd;">Position</th>
+          <th style="padding:8px; border:1px solid #ddd;">Ht/Wt</th>
+          <th style="padding:8px; border:1px solid #ddd;">HUDL</th>
+          <th style="padding:8px; border:1px solid #ddd;">Twitter</th>
+          <th style="padding:8px; border:1px solid #ddd;">GPA</th>
+          <th style="padding:8px; border:1px solid #ddd;">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="adminBody"></tbody>
+    </table>
+
+    <hr style="margin:25px 0;">
+
+    <h3 style="color:#0A1A44;">New / Edit Player Row Builder</h3>
+    <p style="font-size:13px; opacity:0.8;">Use this editor to add new players or tweak existing ones. Then paste the generated row into Google Sheets (it will split into columns automatically).</p>
+
+    <div id="adminEditor" style="display:block; margin-top:10px;">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px;">
+        <div>
+          <label>Name</label>
+          <input id="ad_name" type="text" style="width:100%; padding:6px;">
+        </div>
+        <div>
+          <label>Class</label>
+          <input id="ad_class" type="text" placeholder="2026" style="width:100%; padding:6px;">
+        </div>
+        <div>
+          <label>Position</label>
+          <input id="ad_pos" type="text" placeholder="DB / WR" style="width:100%; padding:6px;">
+        </div>
+        <div>
+          <label>Height/Weight</label>
+          <input id="ad_hw" type="text" placeholder="6'0 / 190 lbs" style="width:100%; padding:6px;">
+        </div>
+        <div>
+          <label>HUDL Link</label>
+          <input id="ad_hudl" type="text" placeholder="https://www.hudl.com/..." style="width:100%; padding:6px;">
+        </div>
+        <div>
+          <label>ImageURL</label>
+          <input id="ad_img" type="text" placeholder="Paste from Photo Uploader or leave blank" style="width:100%; padding:6px;">
+        </div>
+        <div>
+          <label>Twitter</label>
+          <input id="ad_twitter" type="text" placeholder="@handle" style="width:100%; padding:6px;">
+        </div>
+        <div>
+          <label>GPA</label>
+          <input id="ad_gpa" type="text" placeholder="3.5" style="width:100%; padding:6px;">
+        </div>
+      </div>
+      <div style="margin-top:10px;">
+        <label>Write-Up / Evaluation</label>
+        <textarea id="ad_write" rows="4" style="width:100%; padding:6px;"></textarea>
+      </div>
+      <div style="margin-top:10px;">
+        <button class="btn btn-primary" onclick="generateAdminRow()">Generate Sheet Row (Copy)</button>
+        <button class="btn btn-outline" onclick="clearAdminEditor()" style="margin-left:10px;">Clear</button>
+      </div>
+      <div style="margin-top:10px;">
+        <label>Generated Row (tab-separated for Google Sheets):</label>
+        <textarea id="ad_output" rows="3" style="width:100%; padding:6px;"></textarea>
+      </div>
+    </div>
+
+    <p style="font-size:13px; opacity:0.7; margin-top:10px;">Tip: In Google Sheets, paste the row into the first cell, then use "Split text to columns" to auto-fill each column.</p>
+  </section>
+
+<script>
+let ADMIN_ROWS = [];
+
+function loadAdminRoster() {
+  fetch(SHEET_URL)
+    .then(res => res.text())
+    .then(text => JSON.parse(text.substr(47).slice(0,-2)))
+    .then(json => {
+      const rows = json.table.rows;
+      const tbody = document.getElementById('adminBody');
+      const table = document.getElementById('adminTable');
+      ADMIN_ROWS = [];
+      tbody.innerHTML = '';
+      table.style.display = 'table';
+
+      rows.forEach((r, i) => {
+        const name = r.c[0]?.v || '';
+        const cl = r.c[1]?.v || '';
+        const pos = r.c[2]?.v || '';
+        const hw = r.c[3]?.v || '';
+        const hudl = r.c[4]?.v || '';
+        const write = r.c[5]?.v || '';
+        const img = r.c[6]?.v || '';
+        const twitter = r.c[7]?.v || '';
+        const gpa = r.c[8]?.v || '';
+
+        ADMIN_ROWS.push({ name, cl, pos, hw, hudl, write, img, twitter, gpa });
+
+        tbody.innerHTML += `
+          <tr>
+            <td style="border:1px solid #ddd; padding:8px;">${name}</td>
+            <td style="border:1px solid #ddd; padding:8px;">${cl}</td>
+            <td style="border:1px solid #ddd; padding:8px;">${pos}</td>
+            <td style="border:1px solid #ddd; padding:8px;">${hw}</td>
+            <td style="border:1px solid #ddd; padding:8px;">${hudl}</td>
+            <td style="border:1px solid #ddd; padding:8px;">${twitter}</td>
+            <td style="border:1px solid #ddd; padding:8px;">${gpa}</td>
+            <td style="border:1px solid #ddd; padding:8px; text-align:center;">
+              <button class="btn btn-primary" onclick="editAdminRow(${i})">Edit</button>
+              <button class="btn btn-outline" onclick="copyAdminRow(${i})" style="margin-left:6px;">Copy Row</button>
+            </td>
+          </tr>`;
+      });
+    })
+    .catch(err => {
+      console.error('Admin roster load error', err);
+      alert('Could not load roster from Google Sheets.');
+    });
+}
+
+function fillAdminEditor(row) {
+  document.getElementById('ad_name').value = row.name || '';
+  document.getElementById('ad_class').value = row.cl || '';
+  document.getElementById('ad_pos').value = row.pos || '';
+  document.getElementById('ad_hw').value = row.hw || '';
+  document.getElementById('ad_hudl').value = row.hudl || '';
+  document.getElementById('ad_img').value = row.img || '';
+  document.getElementById('ad_twitter').value = row.twitter || '';
+  document.getElementById('ad_gpa').value = row.gpa || '';
+  document.getElementById('ad_write').value = row.write || '';
+}
+
+function editAdminRow(index) {
+  const row = ADMIN_ROWS[index];
+  if (!row) return;
+  fillAdminEditor(row);
+  window.location.hash = '#adminDashboard';
+}
+
+function generateAdminRow() {
+  const name = document.getElementById('ad_name').value.trim();
+  const cl = document.getElementById('ad_class').value.trim();
+  const pos = document.getElementById('ad_pos').value.trim();
+  const hw = document.getElementById('ad_hw').value.trim();
+  const hudl = document.getElementById('ad_hudl').value.trim();
+  const img = document.getElementById('ad_img').value.trim();
+  const twitter = document.getElementById('ad_twitter').value.trim();
+  const gpa = document.getElementById('ad_gpa').value.trim();
+  const write = document.getElementById('ad_write').value.trim();
+
+  const parts = [name, cl, pos, hw, hudl, write, img, twitter, gpa];
+  const rowStr = parts.join('	');
+  const output = document.getElementById('ad_output');
+  output.value = rowStr;
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(rowStr);
+    alert('Row copied! Paste into Google Sheets and use "Split text to columns".');
+  } else {
+    alert('Row generated. Manually copy it from the box below.');
+  }
+}
+
+function clearAdminEditor() {
+  ['ad_name','ad_class','ad_pos','ad_hw','ad_hudl','ad_img','ad_twitter','ad_gpa','ad_write','ad_output'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+
+function copyAdminRow(index) {
+  const row = ADMIN_ROWS[index];
+  if (!row) return;
+  const parts = [row.name, row.cl, row.pos, row.hw, row.hudl, row.write, row.img, row.twitter, row.gpa];
+  const rowStr = parts.join('	');
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(rowStr);
+    alert('Row copied! Paste into Google Sheets and use "Split text to columns".');
+  } else {
+    alert('Copy not supported – manually copy from a generated row.');
+  }
+}
+
+function bulkExportCSV() {
+  if (!ADMIN_ROWS.length) {
+    alert('Load the roster first.');
+    return;
+  }
+  const header = ['Name','Class','Position','HeightWeight','HUDL','WriteUp','ImageURL','Twitter','GPA'];
+  const lines = [header.join(',')];
+  ADMIN_ROWS.forEach(r => {
+    const parts = [r.name, r.cl, r.pos, r.hw, r.hudl, r.write, r.img, r.twitter, r.gpa];
+    const safe = parts.map(p => '"' + (p || '').replace(/"/g,'""') + '"');
+    lines.push(safe.join(','));
+  });
+  const csv = lines.join('
+');
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(csv);
+    alert('CSV copied! Paste into a sheet or save as .csv.');
+  } else {
+    console.log(csv);
+    alert('CSV generated. Check console log to copy it.');
+  }
+}
+
+// Unlock admin panel with same password as coach
+else if (pass !== null) {
+    alert('Incorrect password.');
+  }
+}
+
+function coachLogin() {
+  const pass = prompt('Enter college coach access password:');
+  if (pass === 'Serrafootball') {
+    document.getElementById('coachArea').style.display = 'block';
+    document.getElementById('adminDashboard').style.display = 'block';
+    window.location.hash = '#adminDashboard';
+  } else if (pass !== null) {
+    alert('Incorrect password.');
+  }
+}
+</script>
+
+  <!-- ========================= -->
+  <!-- PHOTO UPLOAD → BASE64 CONVERTER (ADMIN) -->
+  <section id="photoUploader" style="background:white; padding:20px; border-radius:10px; margin-bottom:30px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+    <h2 style="color:#0A1A44; border-left:5px solid #C41230; padding-left:8px;">Player Photo Upload (Auto‑Convert to URL)</h2>
+    <p style="font-size:14px; opacity:0.8;">Upload a player photo → get a link to paste into the Google Sheet under ImageURL.</p>
+
+    <input type="file" id="photoInput" accept="image/*" style="margin-bottom:15px;">
+    <button class="btn btn-primary" onclick="convertPhoto()">Convert to Player Photo URL</button>
+
+    <h3 style="margin-top:20px;">Generated ImageURL (paste into Google Sheet):
+    <br><button class="btn btn-outline" onclick="openSheet()" style="margin-top:10px; margin-bottom:10px;">Open Google Sheet</button>
+    <button class="btn btn-primary" onclick="copyToClipboard()" style="margin-left:10px;">Copy ImageURL</button></h3>
+    <textarea id="photoOutput" rows="4" style="width:100%; padding:8px;"></textarea>
+  </section>
+
+<script>
+function convertPhoto() {
+  const fileInput = document.getElementById('photoInput');
+  const output = document.getElementById('photoOutput');
+  const file = fileInput.files[0];
+  if (!file) { alert('Please select an image first.'); return; }
+
+  const reader = new FileReader();
+  reader.onloadend = function() {
+    const base64URL = reader.result;
+    output.value = base64URL;
+    alert('Photo converted! Paste this Base64 link into the Google Sheet under ImageURL.');
+  };
+  reader.readAsDataURL(file);
+}
+</script>
+
+  <!-- ========================= -->
   <!-- PLAYER INPUT FORM (ADMIN) -->
   <!-- ========================= -->
-  <section id="playerFormArea" style="background:white; padding:20px; border-radius:10px; margin-bottom:30px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
-    <h2 style="color:#0A1A44; border-left:5px solid #C41230; padding-left:8px;">Add / Edit Player</h2>
-    <p style="font-size:14px; opacity:0.8;">Fill in the player info below and click "Generate Player Card" to copy/paste into index.html.</p>
-
-    <label>Player Name:</label>
-    <input id="pf_name" type="text" style="width:100%; padding:8px; margin-bottom:10px;">
-
-    <label>Class Year:</label>
-    <select id="pf_class" style="width:100%; padding:8px; margin-bottom:10px;">
-      <option value="2026">2026</option>
-      <option value="2027">2027</option>
-      <option value="2028">2028</option>
-      <option value="2029">2029</option>
-    </select>
-
-    <label>Position(s):</label>
-    <input id="pf_position" type="text" placeholder="LB / RB" style="width:100%; padding:8px; margin-bottom:10px;">
-
-    <label>Height:</label>
-    <input id="pf_height" type="text" placeholder="6'0" style="width:100%; padding:8px; margin-bottom:10px;">
-
-    <label>Weight:</label>
-    <input id="pf_weight" type="text" placeholder="210 lbs" style="width:100%; padding:8px; margin-bottom:10px;">
-
-    <label>HUDL Link:</label>
-    <input id="pf_hudl" type="text" placeholder="https://www.hudl.com/..." style="width:100%; padding:8px; margin-bottom:10px;">
-
-    <label>Write-Up / Evaluation:</label>
-    <textarea id="pf_writeup" rows="4" style="width:100%; padding:8px; margin-bottom:10px;"></textarea>
-
-    <button class="btn btn-primary" onclick="generatePlayerCard()">Generate Player Card</button>
-
-    <h3 style="margin-top:20px;">Generated HTML (copy & paste into index.html):</h3>
-    <textarea id="pf_output" rows="10" style="width:100%; padding:8px;"></textarea>
-  </section>
+  
     <div class="class-filter" style="display:flex; gap:20px; align-items:center; flex-wrap:wrap;">
       <label><strong>Filter by Class:</strong></label>
       <select id="classFilter" onchange="filterClass()">
@@ -386,6 +604,49 @@ window.onload = loadRosterFromSheets;
     <p style="margin:5px; font-size:16px;">Coach Darrin Minor II • Recruiting Coordinator</p>
     <p style="margin:5px; font-size:16px;">Email: coachminor@serrahs.org • Phone: (555) 555-5555</p>
     <p style="margin-top:10px; font-size:14px; opacity:0.8;">Legacy Lab © Crafting Champions with Elegance</p>
+  
+  <section style="background:white; padding:25px; margin:40px auto; max-width:1100px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.15); text-align:center;">
+    <h2 style="color:#0A1A44; margin-bottom:10px;">Transcripts</h2>
+    <p style="font-size:16px;">Official Serra High School academic transcripts are available and will be issued upon request for verified college recruiters and admissions staff.</p>
+    <button class="btn btn-primary" onclick="window.location.href='mailto:coachminor@serrahs.org?subject=Transcript Request&body=Coach Minor, I would like to request an official transcript for: ';" style="margin-top:15px;">Request Transcript</button>
+
+    <h3 style="margin-top:25px; color:#0A1A44;">Transcript Request Form</h3>
+    <form style="max-width:600px; margin:20px auto; text-align:left;" onsubmit="submitTranscriptForm(event)">
+      <label>Coach Name:</label>
+      <input id="tCoach" type="text" style="width:100%; padding:8px; margin-bottom:10px;">
+      <label>College / University:</label>
+      <input id="tSchool" type="text" style="width:100%; padding:8px; margin-bottom:10px;">
+      <label>Player Name:</label>
+      <input id="tPlayer" type="text" style="width:100%; padding:8px; margin-bottom:10px;">
+      <label>Email to Receive Transcript:</label>
+      <input id="tEmail" type="email" style="width:100%; padding:8px; margin-bottom:10px;">
+      <button class="btn btn-outline" type="submit">Submit Request</button>
+    </form>
+  </section>
+    <h2 style="color:#0A1A44; margin-bottom:10px;">Transcripts</h2>
+    <p style="font-size:16px;">Official Serra High School academic transcripts are available and will be issued upon request for verified college recruiters and admissions staff.</p>
+  </section>
+
+<footer style="background:#0A1A44; color:white; padding:25px; text-align:center; margin-top:40px; border-top:6px solid #C41230;">
+    <p style="margin:5px; font-size:18px; font-weight:600;">Serra Cavaliers Football • Gardena, CA</p>
+    <p style="margin:5px; font-size:16px;">Coach Darrin Minor II • Recruiting Coordinator</p>
+    <p style="margin:5px; font-size:16px;">Email: coachminor@serrahs.org • Phone: (555) 555-5555</p>
+    <p style="margin:5px; font-size:15px; font-weight:600;">Official Recruiting Site: www.SerraFBrecruits.com</p>
+    <p style="margin-top:10px; font-size:14px; opacity:0.8;">Legacy Lab © Crafting Champions with Elegance</p>
   </footer>
+<script>
+function submitTranscriptForm(e) {
+  e.preventDefault();
+  const coach = document.getElementById('tCoach').value;
+  const school = document.getElementById('tSchool').value;
+  const player = document.getElementById('tPlayer').value;
+  const email = document.getElementById('tEmail').value;
+
+  const mailto = `mailto:coachminor@serrahs.org?subject=Transcript Request - ${player}&body=Coach Minor,%0D%0A%0D%0AI am requesting an official transcript for:%0D%0APlayer: ${player}%0D%0ACollege: ${school}%0D%0ACoach: ${coach}%0D%0AEmail to receive transcript: ${email}`;
+
+  window.location.href = mailto;
+  alert('Transcript request prepared in your email app.');
+}
+</script>
 </body>
 </html>
