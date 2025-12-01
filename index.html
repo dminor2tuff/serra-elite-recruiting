@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serra Elite Recruiting</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
+    header { background: #002b5c; color: white; padding: 20px; text-align: center; }
+    .container { max-width: 1100px; margin: auto; padding: 20px; }
+    .player-card { background: white; padding: 20px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .player-header { display: flex; align-items: center; gap: 20px; }
+    .player-header img { width: 150px; height: 180px; object-fit: cover; border-radius: 6px; background: #ddd; }
+    h2 { margin: 0; }
+    .section { margin-top: 15px; }
+    .section h3 { margin-bottom: 5px; color: #002b5c; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 10px; }
+    a { color: #0077cc; }
+    .class-filter { margin: 15px 0; }
+    select { padding: 8px; font-size: 16px; }
+      .player-card { cursor:pointer; transition:transform 0.15s ease, box-shadow 0.15s ease; }
+    .player-card:hover { transform:translateY(-3px); box-shadow:0 4px 10px rgba(0,0,0,0.18); }
+    .btn { display:inline-block; padding:8px 14px; border-radius:6px; border:none; font-size:14px; cursor:pointer; }
+    .btn-primary { background:#C41230; color:white; }
+    .btn-outline { background:transparent; color:#C41230; border:1px solid #C41230; }
+    .modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:999; }
+    .modal { background:white; max-width:800px; width:95%; max-height:90vh; overflow-y:auto; border-radius:10px; padding:20px; box-shadow:0 6px 18px rgba(0,0,0,0.3); }
+    .modal-header { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; margin-bottom:10px; }
+    .modal-actions { text-align:right; margin-top:10px; }
+    #college-contacts { margin-top:40px; }
+    #college-contacts table { width:100%; border-collapse:collapse; }
+    #college-contacts th, #college-contacts td { border:1px solid #ddd; padding:8px; font-size:14px; }
+    #college-contacts th { background:#0A1A44; color:white; }
+    @media print {
+      body * { visibility:hidden; }
+      #profileModal, #profileModal * { visibility:visible; }
+      #profileModal { position:absolute; inset:0; margin:0 auto; box-shadow:none; }
+    }
+  </style>
+</head>
+<body style="background:url('https://upload.wikimedia.org/wikipedia/commons/4/43/American_football_texture.jpg') repeat; background-size:600px;">
+  <header style="background:#0A1A44; color:white; padding:35px; text-align:center; border-bottom:6px solid #C41230; position:relative;">
+    <img src="https://upload.wikimedia.org/wikipedia/en/4/41/Serra_Cavaliers_logo.png"" style="position:absolute; left:25px; top:20px; height:75px;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Double_helix_with_dna_logo.svg/240px-Double_helix_with_dna_logo.svg.png" style="position:absolute; right:25px; top:20px; height:75px;">
+    <h1 style="margin:0; font-size:40px; font-weight:900; letter-spacing:1px; text-transform:uppercase;">Serra Cavaliers Elite Recruiting Board</h1>
+    <p style="margin-top:10px; font-size:20px;">Serra Cavaliers • Gardena, California • Powered by Legacy Lab – Crafting Champions with Elegance</p>
+  </header>
+
+  <button class="btn btn-outline" style="position:fixed; top:10px; right:10px; z-index:1000;" onclick="coachLogin()">College Coach Login</button>
+<nav style="background:#0A1A44; color:white; padding:12px 20px; display:flex; gap:25px; font-size:18px;">
+    <a href="#" onclick="showRoster('all')" style="color:white; text-decoration:none;">Home</a>
+    <a href="#" onclick="showRoster('2026')" style="color:white; text-decoration:none;">Class of 2026</a>
+    <a href="#" onclick="showRoster('2027')" style="color:white; text-decoration:none;">Class of 2027</a>
+    <a href="#" onclick="showRoster('2028')" style="color:white; text-decoration:none;">Class of 2028</a>
+    <a href="#" onclick="showRoster('2029')" style="color:white; text-decoration:none;">Class of 2029</a>
+</nav>
+<!-- BEGIN AUTOMATED CAVALIERS ROSTER (2026–2029) -->
+<div id="auto-roster">
+
+<!-- ====================== -->
+<!--      CLASS OF 2026      -->
+<!-- ====================== -->
+
+<div class="player-card" data-class="2026"><div class="player-header"><img src=""><div><h2>Edwin Elliott</h2><p><strong>Position:</strong> DB / WR</p><p><strong>Class:</strong> 2026</p><p><strong>School:</strong> Serra Cavaliers (Gardena, CA)</p></div></div><div class="section"><h3>Write-Up</h3><p>Versatile DB/WR with speed and instincts.</p></div></div>
+
+<div class="player-card" data-class="2026"><div class="player-header"><img src=""><div><h2>Devohn Moutra Jr</h2><p><strong>Position:</strong> DB / RB</p><p><strong>Class:</strong> 2026</p></div></div><div class="section"><h3>Write-Up</h3><p>Explosive two-way athlete.</p></div></div>
+
+<div class="player-card" data-class="2026"><div class="player-header"><img src=""><div><h2>Nicolas Johnson</h2><p><strong>Position:</strong> QB</p><p><strong>Class:</strong> 2026</p></div></div><div class="section"><h3>Write-Up</h3><p>Accurate passer with arm talent.</p></div></div>
+
+<div class="player-card" data-class="2026"><div class="player-header"><img src=""><div><h2>Daylawn Reed</h2><p><strong>Position:</strong> LB / RB</p><p><strong>Class:</strong> 2026</p></div></div><div class="section"><h3>Write-Up</h3><p>Physical hybrid defender.</p></div></div>
+
+<div class="player-card" data-class="2026"><div class="player-header"><img src=""><div><h2>Marcellous Ryan</h2><p><strong>Position:</strong> DB / WR</p><p><strong>Class:</strong> 2026</p></div></div><div class="section"><h3>Write-Up</h3><p>Dynamic DB with elite production.</p></div></div>
+
+<div class="player-card" data-class="2026"><div class="player-header"><img src=""><div><h2>Joe Bolder</h2><p><strong>Position:</strong> LB / TE</p><p><strong>Class:</strong> 2026</p></div></div><div class="section"><h3>Write-Up</h3><p>High-motor linebacker with strength.</p></div></div>
+
+<div class="player-card" data-class="2026"><div class="player-header"><img src=""><div><h2>Jayshawn Edwards</h2><p><strong>Position:</strong> RB</p><p><strong>Class:</strong> 2026</p></div></div><div class="section"><h3>Write-Up</h3><p>Speed back with burst.</p></div></div>
+
+<div class="player-card" data-class="2026"><div class="player-header"><img src=""><div><h2>Anthony Pignatello</h2><p><strong>Position:</strong> LB</p><p><strong>Class:</strong> 2026</p></div></div><div class="section"><h3>Write-Up</h3><p>Long, athletic linebacker.</p></div></div>
+
+<!-- ====================== -->
+<!--      CLASS OF 2027      -->
+<!-- ====================== -->
+
+<div class="player-card" data-class="2027"><div class="player-header"><img src=""><div><h2>Duvay Williams</h2><p><strong>Position:</strong> WR / DB</p><p><strong>Class:</strong> 2027</p></div></div><div class="section"><h3>Write-Up</h3><p>Reliable two-way playmaker.</p></div></div>
+
+<div class="player-card" data-class="2027"><div class="player-header"><img src=""><div><h2>Wesley Ace</h2><p><strong>Position:</strong> DB</p><p><strong>Class:</strong> 2027</p></div></div><div class="section"><h3>Write-Up</h3><p>Smart, reactive defensive back.</p></div></div>
+
+<div class="player-card" data-class="2027"><div class="player-header"><img src=""><div><h2>Treyvon Hundley</h2><p><strong>Position:</strong> LB / RB</p><p><strong>Class:</strong> 2027</p></div></div><div class="section"><h3>Write-Up</h3><p>Physical and disciplined defender.</p></div></div>
+
+<div class="player-card" data-class="2027"><div class="player-header"><img src=""><div><h2>Darlington Nzenwa</h2><p><strong>Position:</strong> DL / OL</p><p><strong>Class:</strong> 2027</p></div></div><div class="section"><h3>Write-Up</h3><p>Strong lineman with upside.</p></div></div>
+
+<!-- ====================== -->
+<!--      CLASS OF 2028      -->
+<!-- ====================== -->
+
+<div class="player-card" data-class="2028"><div class="player-header"><img src=""><div><h2>Malik Tunai</h2><p><strong>Position:</strong> QB</p><p><strong>Class:</strong> 2028</p></div></div><div class="section"><h3>Write-Up</h3><p>Young QB with poise.</p></div></div>
+
+<div class="player-card" data-class="2028"><div class="player-header"><img src=""><div><h2>Ke’maury Modkins</h2><p><strong>Position:</strong> DB / WR</p><p><strong>Class:</strong> 2028</p></div></div><div class="section"><h3>Write-Up</h3><p>Electric athlete with speed.</p></div></div>
+
+<div class="player-card" data-class="2028"><div class="player-header"><img src=""><div><h2>Derrick Coleman</h2><p><strong>Position:</strong> DB</p><p><strong>Class:</strong> 2028</p></div></div><div class="section"><h3>Write-Up</h3><p>Physical corner with instincts.</p></div></div>
+
+<div class="player-card" data-class="2028"><div class="player-header"><img src=""><div><h2>Ikeem Crawford</h2><p><strong>Position:</strong> WR / RB</p><p><strong>Class:</strong> 2028</p></div></div><div class="section"><h3>Write-Up</h3><p>Shifty and dynamic hybrid.</p></div></div>
+
+<!-- ====================== -->
+<!--      CLASS OF 2029      -->
+<!-- ====================== -->
+
+<div class="player-card" data-class="2029"><div class="player-header"><img src=""><div><h2>Chris Cole</h2><p><strong>Position:</strong> WR / DB</p><p><strong>Class:</strong> 2029</p></div></div><div class="section"><h3>Write-Up</h3><p>Promising young athlete.</p></div></div>
+
+<div class="player-card" data-class="2029"><div class="player-header"><img src=""><div><h2>Andre Ferrira</h2><p><strong>Position:</strong> LB / TE</p><p><strong>Class:</strong> 2029</p></div></div><div class="section"><h3>Write-Up</h3><p>Strong framed freshman.</p></div></div>
+
+<div class="player-card" data-class="2029"><div class="player-header"><img src=""><div><h2>Teddy Chan</h2><p><strong>Position:</strong> QB</p><p><strong>Class:</strong> 2029</p></div></div><div class="section"><h3>Write-Up</h3><p>High-upside young QB.</p></div></div>
+
+</div>
+<!-- END AUTOMATED ROSTER -->
+
+  <div id="coachArea" style="display:none; margin-top:40px;">
+    <section id="college-contacts">
+      <h2 style="color:#0A1A44; border-left:5px solid #C41230; padding-left:8px;">College Coaches Contact Directory</h2>
+      <p>Organized by level so you can quickly find schools for Serra student-athletes.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>School</th>
+            <th>Staff Contact</th>
+            <th>Role</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>FBS</td>
+            <td>[School Name]</td>
+            <td>[Coach Name]</td>
+            <td>Recruiting / Position Coach</td>
+            <td>[email@school.edu]</td>
+          </tr>
+          <tr>
+            <td>FCS</td>
+            <td>[School Name]</td>
+            <td>[Coach Name]</td>
+            <td>Recruiting Coordinator</td>
+            <td>[email@school.edu]</td>
+          </tr>
+          <tr>
+            <td>D2 / D3</td>
+            <td>[School Name]</td>
+            <td>[Coach Name]</td>
+            <td>Position Coach</td>
+            <td>[email@school.edu]</td>
+          </tr>
+          <tr>
+            <td>NAIA / JUCO</td>
+            <td>[School Name]</td>
+            <td>[Coach Name]</td>
+            <td>Recruiting Contact</td>
+            <td>[email@school.edu]</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:10px; font-size:13px; opacity:0.8;">Note: Fill in real coach emails and staff names as you build out your network.</p>
+    </section>
+  </div>
+
+<div class="modal-backdrop" id="modalBackdrop" onclick="closeProfile(event)">
+    <div class="modal" id="profileModal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2 id="modalTitle">Athlete Profile</h2>
+        <button class="btn btn-outline" onclick="closeProfile(event)">Close</button>
+      </div>
+      <div id="modalBody"></div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="window.print()">Download / Print Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="class-filter" style="display:flex; gap:20px; align-items:center; flex-wrap:wrap;">
+      <label><strong>Filter by Class:</strong></label>
+      <select id="classFilter" onchange="filterClass()">
+        <option value="all">All Classes</option>
+        <option value="2025">Class of 2025</option>
+        <option value="2026">Class of 2026</option>
+        <option value="2027">Class of 2027</option>
+        <option value="2028">Class of 2028</option>
+      </select>
+
+      <label><strong>Search Athletes:</strong></label>
+      <input id="searchBar" onkeyup="searchPlayers()" placeholder="Search by name, position, or school" style="padding:8px; width:260px; font-size:16px;">
+    </div>
+
+    <!-- PLAYER TEMPLATE (DUPLICATE THIS FORMAT FOR EACH ATHLETE) -->
+
+    <div class="player-card" data-class="2026">
+      <div class="player-header">
+        <img src="" alt="Player Photo" />
+        <div>
+          <h2>Player Name</h2>
+          <p><strong>Position:</strong> LB / RB</p>
+          <p><strong>Class:</strong> 2026</p>
+          <p><strong>Height/Weight:</strong> 6'0 · 210 lbs</p>
+          <p><strong>School:</strong> Serra High School (Gardena, CA)</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3 style="color:#0A1A44; border-left:5px solid #C41230; padding-left:8px;">HUDL / Film</h3>
+        <a href="#">HUDL Link</a><br>
+        <a href="#">Full Game</a>
+      </div>
+
+      <div class="section grid">
+        <div>
+          <h3 style="color:#0A1A44; border-left:5px solid #C41230; padding-left:8px;">Academics</h3>
+          <p>GPA: 3.7</p>
+          <p>Intended Major: —</p>
+        </div>
+        <div>
+          <h3 style="color:#0A1A44; border-left:5px solid #C41230; padding-left:8px;">Measurables</h3>
+          <p>40 time: —</p>
+          <p>Shuttle: —</p>
+          <p>Vertical: —</p>
+        </div>
+        <div>
+          <h3 style="color:#0A1A44; border-left:5px solid #C41230; padding-left:8px;">Coach Contacts</h3>
+          <p>Coach Minor · 555‑555‑5555</p>
+          <p>Email: coach@example.com</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3 style="color:#0A1A44; border-left:5px solid #C41230; padding-left:8px;">Write‑Up</h3>
+        <p>Athlete bio and scouting report goes here...</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function filterClass() {
+      const selected = document.getElementById("classFilter").value;
+      const cards = document.querySelectorAll(".player-card");
+
+      cards.forEach(card => {
+        const c = card.getAttribute("data-class");
+        card.style.display = (selected === "all" || selected === c) ? "block" : "none";
+      });
+    }
+  function searchPlayers() {
+      const term = document.getElementById('searchBar').value.toLowerCase();
+      const cards = document.querySelectorAll('.player-card');
+
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        const classMatch = document.getElementById('classFilter').value;
+        const c = card.getAttribute('data-class');
+        const matchesClass = (classMatch === 'all' || classMatch === c);
+        card.style.display = (text.includes(term) && matchesClass) ? 'block' : 'none';
+      });
+    }
+
+    function showRoster(classYear) {
+      const cards = document.querySelectorAll('.player-card');
+      const filterSelect = document.getElementById('classFilter');
+      if (filterSelect) filterSelect.value = classYear === 'all' ? 'all' : classYear;
+      document.getElementById('searchBar').value = '';
+      cards.forEach(card => {
+        const c = card.getAttribute('data-class');
+        card.style.display = (classYear === 'all' || classYear === c) ? 'block' : 'none';
+      });
+    }
+
+    document.addEventListener('click', function(e) {
+      const card = e.target.closest('.player-card');
+      if (!card) return;
+      const modalBody = document.getElementById('modalBody');
+      const modalTitle = document.getElementById('modalTitle');
+      const nameEl = card.querySelector('h2');
+      modalTitle.textContent = nameEl ? nameEl.textContent : 'Athlete Profile';
+      modalBody.innerHTML = card.innerHTML;
+      document.getElementById('modalBackdrop').style.display = 'flex';
+    });
+
+    function closeProfile(event) {
+      if (event) event.stopPropagation();
+      document.getElementById('modalBackdrop').style.display = 'none';
+    }
+
+    function coachLogin() {
+      const pass = prompt('Enter college coach access password:');
+      if (pass === 'CavsAccess') {
+        document.getElementById('coachArea').style.display = 'block';
+        window.location.hash = '#college-contacts';
+      } else if (pass !== null) {
+        alert('Incorrect password.');
+      }
+    }
+
+    function showRoster(classYear) {
+      const cards = document.querySelectorAll('.player-card');
+      cards.forEach(card => {
+        const c = card.getAttribute('data-class');
+        card.style.display = (classYear === 'all' || classYear === c) ? 'block' : 'none';
+      });
+      document.getElementById('classFilter').value = classYear === 'all' ? 'all' : classYear;
+    }
+  </script>
+<footer style="background:#0A1A44; color:white; padding:25px; text-align:center; margin-top:40px; border-top:6px solid #C41230;">
+    <p style="margin:5px; font-size:18px; font-weight:600;">Serra Cavaliers Football • Gardena, CA</p>
+    <p style="margin:5px; font-size:16px;">Coach Darrin Minor II • Recruiting Coordinator</p>
+    <p style="margin:5px; font-size:16px;">Email: coachminor@serrahs.org • Phone: (555) 555-5555</p>
+    <p style="margin-top:10px; font-size:14px; opacity:0.8;">Legacy Lab © Crafting Champions with Elegance</p>
+  </footer>
+</body>
+</html>
