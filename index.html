@@ -10,7 +10,7 @@
     .container { max-width: 1100px; margin: auto; padding: 20px; }
     .player-card { background: white; padding: 20px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .player-header { display: flex; align-items: center; gap: 20px; }
-    .player-header img { width: 150px; height: 180px; object-fit: cover; border-radius: 6px; background: #ddd; }
+    .player-header img { width:150px; height:180px; object-fit:cover; border-radius:50%; background:#ddd; border:4px solid #0A1A44; }
     h2 { margin: 0; }
     .section { margin-top: 15px; }
     .section h3 { margin-bottom: 5px; color: #002b5c; }
@@ -54,6 +54,64 @@
     <a href="#" onclick="showRoster('2028')" style="color:white; text-decoration:none;">Class of 2028</a>
     <a href="#" onclick="showRoster('2029')" style="color:white; text-decoration:none;">Class of 2029</a>
 </nav>
+<!-- GOOGLE SHEETS SYNC INTEGRATION -->
+<script>
+// ====== GOOGLE SHEETS SYNC (Option C) ======
+// Coach: replace with your Google Sheet ID once created
+const GOOGLE_SHEET_ID = "/1k2YS5JkrjIJDlI4rdQT58STmnu03QPpBg2BT7dzyBpo";
+const SHEET_NAME = "Roster";
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+
+async function loadRosterFromSheets() {
+  try {
+    const res = await fetch(SHEET_URL);
+    const text = await res.text();
+    const json = JSON.parse(text.substr(47).slice(0, -2));
+    const rows = json.table.rows;
+
+    let output = "";
+
+    rows.forEach(r => {
+      const name = r.c[0]?.v || "";
+      const cl = r.c[1]?.v || "";
+      const pos = r.c[2]?.v || "";
+      const hw = r.c[3]?.v || ""; // Height/Weight combined
+      const hudl = r.c[4]?.v || "";
+      const wu = r.c[5]?.v || "";
+      const img = r.c[6]?.v || "assets/img/default-player.png";
+
+      output += `
+<div class="player-card" data-class="${cl}">
+  <div class="player-header">
+    <img src="${img}" />
+    <div>
+      <h2>${name}</h2>
+      <p><strong>Position:</strong> ${pos}</p>
+      <p><strong>Class:</strong> ${cl}</p>
+      <p><strong>Height/Weight:</strong> ${hw}</p>
+      <p><strong>School:</strong> Serra High School (Gardena, CA)</p>
+    </div>
+  </div>
+  <div class="section">
+    <h3>HUDL / Film</h3>
+    <a href="${hudl}" target="_blank">HUDL Link</a>
+  </div>
+  <div class="section">
+    <h3>Write-Up</h3>
+    <p>${wu}</p>
+  </div>
+</div>`;
+    });
+
+    document.getElementById("auto-roster").innerHTML = output;
+  } catch (e) {
+    console.error("Google Sheets Load Error", e);
+  }
+}
+
+window.onload = loadRosterFromSheets;
+</script>
+
 <!-- BEGIN AUTOMATED CAVALIERS ROSTER (2026–2029) -->
 <div id="auto-roster">
 
