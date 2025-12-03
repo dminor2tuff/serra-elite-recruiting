@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Serra Football – All Athletes</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #f4f4f4;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+    .athlete-card {
+        background: white;
+        padding: 15px;
+        margin: 15px auto;
+        border-radius: 10px;
+        width: 90%;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .athlete-card a {
+        color: #1b52ff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<h1>Serra Football – All Athletes</h1>
+
+<div id="athleteList"></div>
+
+<script>
+async function loadAthletes() {
+    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+
+    const response = await fetch(url);
+    const data = await response.text();
+
+    const rows = data.split("\n").map(r => r.split(","));
+    const athletes = rows.slice(1); // skip headers
+
+    const container = document.getElementById("athleteList");
+
+    athletes.forEach(row => {
+        if (!row[0]) return; // skip empty rows
+
+        const name = row[0];
+        const classYear = row[1];
+        const position = row[2];
+        const school = row[3];
+        const profileLink = `serra_prospect_profile.html?name=${encodeURIComponent(name)}`;
+
+        const card = document.createElement("div");
+        card.className = "athlete-card";
+        card.innerHTML = `
+            <h2>${name}</h2>
+            <p><strong>Class:</strong> ${classYear}</p>
+            <p><strong>Position:</strong> ${position}</p>
+            <p><strong>School:</strong> ${school}</p>
+            <a href="${profileLink}">View Profile</a>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+loadAthletes();
+</script>
+
+</body>
+</html>
