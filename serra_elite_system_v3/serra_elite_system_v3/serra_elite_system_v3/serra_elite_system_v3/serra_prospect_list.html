@@ -1,37 +1,4 @@
-<script>
-async function loadAthletes() {
-    const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
-
-    const response = await fetch(url);
-    const data = await response.text();
-
-    const rows = data.split("\n").map(r => r.split(","));
-    const athletes = rows.slice(1); // Skip header row
-
-    const container = document.getElementById("athleteList");
-    container.innerHTML = "";
-
-    athletes.forEach(row => {
-        const name = row[0]?.trim();
-        if (!name) return; // skip empty rows
-
-        const classYear = row[1] || "";
-        const position = row[2] || "";
-        const heightWeight = row[3] || "";
-        const hudl = row[4] || "";
-        const writeup = row[5] || "";
-        const img = row[6] || "";
-        const twitter = row[7] || "";
-        const gpa = row[8] || "";
-
-        const card = document.createElement("div");
-        card.className = "athlete-card";
-
-        card.innerHTML = `
-            <h2>${name}</h2>
-            <p><strong>Class:</strong> ${classYear}</p>
-            <p><strong>Position:</strong> ${position}</p>
-            <p><strong>Height/Weight:</strong> ${heightWeight}</p>
-            <p><strong>GPA:</strong> ${gpa}</p>
-            <p><strong>HUDL:</strong> <a href="${hudl}" target="_blank">View Film</a></p>
-            <p><s
+<a href="/serra_elite_system_v3/serra_elite_system_v3/serra_prospect_list.html" 
+   class="btn btn-primary">
+    View All Athletes
+</a>
