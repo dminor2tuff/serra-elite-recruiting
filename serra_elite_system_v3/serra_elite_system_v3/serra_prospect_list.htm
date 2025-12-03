@@ -1,31 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Serra Football – All Athletes</title>
+
 <style>
     body {
         font-family: Arial, sans-serif;
+        background: #f5f5f5;
         padding: 20px;
-        background: #f4f4f4;
+        margin: 0;
     }
+
     h1 {
-    <div style="text-align:center; margin-bottom: 25px;">
-    <img src="/serra_elite_system_v3/serra_elite_system_v3/serra_qr.png" 
-         alt="Serra QR Code" 
-         style="width:180px;">
-    <p style="font-weight:bold; margin-top:10px;">Scan to Visit the Serra Recruiting Homepage</p>
-</div>    text-align: center;
-        margin-bottom: 25px;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #1c1c1c;
     }
+
     .athlete-card {
         background: white;
+        border-radius: 10px;
         padding: 15px;
         margin: 15px auto;
-        border-radius: 10px;
         width: 90%;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
+
+    .athlete-card h2 {
+        margin: 0 0 8px;
+    }
+
     .athlete-card a {
         color: #1b52ff;
         text-decoration: none;
@@ -33,10 +39,20 @@
     }
 </style>
 </head>
+
 <body>
 
 <h1>Serra Football – All Athletes</h1>
 
+<!-- QR CODE SECTION -->
+<div style="text-align:center; margin-bottom: 25px;">
+    <img src="/serra_elite_system_v3/serra_elite_system_v3/serra_qr.png" 
+         alt="Serra QR Code" 
+         style="width:180px;">
+    <p style="font-weight:bold; margin-top:10px;">Scan to Visit the Serra Recruiting Homepage</p>
+</div>
+
+<!-- ATHLETE LIST -->
 <div id="athleteList"></div>
 
 <script>
@@ -47,27 +63,36 @@ async function loadAthletes() {
     const data = await response.text();
 
     const rows = data.split("\n").map(r => r.split(","));
-    const athletes = rows.slice(1); // skip headers
+    const athletes = rows.slice(1); // Skip header row
 
     const container = document.getElementById("athleteList");
+    container.innerHTML = "";
 
     athletes.forEach(row => {
-        if (!row[0]) return; // skip empty rows
+        const name = row[0]?.trim();
+        if (!name) return; // skip empty rows
 
-        const name = row[0];
-        const classYear = row[1];
-        const position = row[2];
-        const school = row[3];
-        const profileLink = `serra_prospect_profile.html?name=${encodeURIComponent(name)}`;
+        const classYear = row[1] || "";
+        const position = row[2] || "";
+        const heightWeight = row[3] || "";
+        const hudl = row[4] || "";
+        const writeup = row[5] || "";
+        const img = row[6] || "";
+        const twitter = row[7] || "";
+        const gpa = row[8] || "";
 
         const card = document.createElement("div");
         card.className = "athlete-card";
+
         card.innerHTML = `
             <h2>${name}</h2>
             <p><strong>Class:</strong> ${classYear}</p>
             <p><strong>Position:</strong> ${position}</p>
-            <p><strong>School:</strong> ${school}</p>
-            <a href="${profileLink}">View Profile</a>
+            <p><strong>Height/Weight:</strong> ${heightWeight}</p>
+            <p><strong>GPA:</strong> ${gpa}</p>
+            <p><strong>HUDL:</strong> <a href="${hudl}" target="_blank">View Film</a></p>
+            <p><strong>Twitter:</strong> <a href="${twitter}" target="_blank">${twitter}</a></p>
+            <p><strong>Writeup:</strong> ${writeup}</p>
         `;
 
         container.appendChild(card);
