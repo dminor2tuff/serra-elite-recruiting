@@ -44,6 +44,7 @@
       gap: 16px;
       justify-content: space-between;
       margin-bottom: 20px;
+      align-items: center;
     }
 
     .qr-block {
@@ -55,8 +56,9 @@
     }
 
     .qr-block img {
-      width: 150px;
+      width: 160px;
       border-radius: 12px;
+      cursor: pointer;
     }
 
     .btn-primary {
@@ -141,6 +143,8 @@
       padding: 4px 8px;
       border-radius: 999px;
       font-size: 0.8rem;
+      margin-top: 6px;
+      display: inline-block;
     }
 
     .athlete-links .link-pill {
@@ -153,6 +157,7 @@
       font-weight: 600;
       text-decoration: none;
       margin-right: 6px;
+      margin-top: 6px;
     }
 
     .coach-only {
@@ -195,15 +200,15 @@
   <!-- QR Code + Buttons -->
   <div class="top-row">
     <div class="qr-block">
-  <a href="https://dminor2tuff.github.io/serra-elite-recruiting/" target="_blank">
-    <img 
-      src="serra_custom_qr.png" 
-      alt="Serra Recruiting QR Code"
-      style="width:160px; border-radius:12px; cursor:pointer;">
-  </a>
-  <p style="font-weight:600; margin-top:8px;">Scan or Tap to Visit Main Recruiting Page</p>
-</div>
-
+      <a href="https://dminor2tuff.github.io/serra-elite-recruiting/" target="_blank">
+        <img 
+          src="serra_custom_qr.png" 
+          alt="Serra Recruiting QR Code">
+      </a>
+      <p style="font-weight:600; margin-top:8px;">
+        Scan or Tap to Visit Main Recruiting Page
+      </p>
+    </div>
 
     <button class="btn-primary" onclick="window.print()">Print / Save as PDF</button>
   </div>
