@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Serra Football – Prospect Profile</title>
+  <title>Serra Football – All Athletes</title>
 
   <style>
     :root {
@@ -14,12 +14,8 @@
       --text-main: #1c1c1c;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      font-family: system-ui, Arial, sans-serif;
       background: var(--serra-light);
       margin: 0;
       color: var(--text-main);
@@ -28,448 +24,386 @@
     header {
       background: linear-gradient(135deg, var(--serra-blue), var(--serra-red));
       color: white;
-      padding: 20px 16px 16px;
+      padding: 20px;
       text-align: center;
     }
 
     header h1 {
-      margin: 0 0 6px;
-      font-size: 1.6rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    header p {
-      margin: 0;
-      font-size: 0.9rem;
-      opacity: 0.9;
+      margin: 0 0 5px;
     }
 
     .page-wrap {
-      max-width: 900px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 16px;
     }
 
-    .top-bar {
+    .top-row {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 14px;
+      gap: 16px;
+      justify-content: space-between;
+      margin-bottom: 20px;
     }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 14px;
+    .qr-block {
+      text-align: center;
+      background: white;
+      padding: 12px;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    .qr-block img {
+      width: 150px;
+      border-radius: 12px;
+    }
+
+    .btn-primary {
+      background: var(--serra-blue);
+      color: white;
+      padding: 10px 16px;
       border-radius: 999px;
       border: none;
       cursor: pointer;
       font-weight: 600;
       font-size: 0.9rem;
-      text-decoration: none;
-      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
     }
 
-    .btn-primary {
-      background: var(--serra-blue);
-      color: #ffffff;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+    .filters-card {
+      background: white;
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 5px 14px rgba(0,0,0,0.24);
-      background: #0047af;
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--serra-blue);
-      border: 1px solid var(--serra-blue);
-    }
-
-    .btn-outline:hover {
-      background: rgba(0,59,142,0.06);
-    }
-
-    .small-text {
-      font-size: 0.8rem;
-      opacity: 0.8;
-    }
-
-    .profile-card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    .filter-group {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-bottom: 16px;
+      gap: 5px;
+      flex: 1;
+      min-width: 140px;
     }
 
-    .profile-header {
+    .filter-group select,
+    .filter-group input {
+      padding: 7px 9px;
+      border-radius: 9px;
+      border: 1px solid #cfd3df;
+    }
+
+    .athlete-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .athlete-card {
+      background: white;
+      padding: 14px;
+      border-radius: 14px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+    }
+
+    .athlete-header {
       display: flex;
-      gap: 14px;
+      gap: 10px;
       align-items: center;
-      flex-wrap: wrap;
     }
 
-    .profile-photo {
-      width: 90px;
-      height: 90px;
+    .athlete-photo {
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
       overflow: hidden;
-      background: #e0e4ee;
-      flex-shrink: 0;
+      background: #e3e6ee;
     }
 
-    .profile-photo img {
+    .athlete-photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
-    .profile-main {
-      flex: 1;
-      min-width: 200px;
-    }
-
-    .profile-name {
-      margin: 0;
-      font-size: 1.4rem;
-      font-weight: 800;
+    .athlete-name a {
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-decoration: none;
       color: var(--serra-blue);
-    }
-
-    .profile-sub {
-      font-size: 0.9rem;
-      color: #555;
-      margin-top: 4px;
-    }
-
-    .profile-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px 10px;
-      font-size: 0.85rem;
     }
 
     .meta-pill {
+      background: #f1f3fa;
       padding: 4px 8px;
       border-radius: 999px;
-      background: #f1f3fa;
+      font-size: 0.8rem;
     }
 
-    .profile-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .link-pill {
-      font-size: 0.85rem;
-      padding: 6px 10px;
-      border-radius: 999px;
+    .athlete-links .link-pill {
+      display: inline-block;
+      padding: 5px 9px;
       background: rgba(0,59,142,0.06);
       color: var(--serra-blue);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .link-pill:hover {
-      background: rgba(0,59,142,0.11);
-    }
-
-    .writeup-card {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 14px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-      margin-bottom: 12px;
-      font-size: 0.9rem;
-      line-height: 1.45;
-    }
-
-    .writeup-card h2 {
-      margin-top: 0;
-      font-size: 1rem;
-      color: var(--serra-blue);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .coach-card {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 12px 14px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-      margin-bottom: 16px;
-      font-size: 0.85rem;
-    }
-
-    .coach-card h3 {
-      margin: 0 0 6px;
-      font-size: 0.95rem;
-      color: var(--serra-blue);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .coach-login-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      margin-top: 6px;
-    }
-
-    .coach-login-row input {
-      padding: 7px 9px;
       border-radius: 999px;
-      border: 1px solid #d0d4e0;
-      font-size: 0.85rem;
-      min-width: 160px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      margin-right: 6px;
     }
 
     .coach-only {
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px dashed #e1e3ee;
       display: none;
+      font-size: 0.8rem;
+      margin-top: 10px;
+      border-top: 1px dashed #ccc;
+      padding-top: 6px;
     }
 
     .coach-only.visible {
       display: block;
     }
 
-    .coach-tag {
-      font-size: 0.8rem;
-      color: #0a8f3c;
-      font-weight: 600;
-      display: none;
-    }
-
-    .coach-tag.active {
-      display: inline-block;
-      margin-left: 6px;
-    }
-
-    .not-found {
-      background: #fff3cd;
-      border-radius: 10px;
-      padding: 12px;
-      font-size: 0.9rem;
-      border: 1px solid #ffeeba;
-      margin-top: 16px;
+    .coach-login-card {
+      background: white;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
     }
 
     footer {
       text-align: center;
+      padding: 20px 0;
       font-size: 0.75rem;
       color: #777;
-      padding: 12px 0 20px;
-    }
-
-    @media (max-width: 640px) {
-      .profile-header {
-        align-items: flex-start;
-      }
-      .top-bar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
-    @media print {
-      header, .top-bar, .coach-login-row, footer {
-        display: none !important;
-      }
-      body {
-        background: #ffffff;
-      }
-      .page-wrap {
-        padding: 0;
-        max-width: 100%;
-      }
-      .profile-card,
-      .writeup-card,
-      .coach-card {
-        box-shadow: none;
-        border: 1px solid #dddddd;
-      }
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <h1>Serra Football Prospect Profile</h1>
-    <p>Detailed view for college recruiters • Synced from Serra Recruiting Sheet</p>
-  </header>
+<header>
+  <h1>Serra Football – All Athletes</h1>
+  <p>Live Prospect Board • Synced from Google Sheets</p>
+</header>
 
-  <div class="page-wrap">
-    <div class="top-bar">
-      <button class="btn btn-outline" type="button" onclick="goBackToList()">
-        ⬅ Back to All Athletes
-      </button>
-      <span class="small-text" id="profileNameLabel"></span>
+<div class="page-wrap">
+
+  <!-- QR Code + Buttons -->
+  <div class="top-row">
+    <div class="qr-block">
+      <img src="https://raw.githubusercontent.com/dminor2tuff/serra-elite-recruiting/main/serra_elite_system_v3/serra_elite_system_v3/serra_qr.png">
+      <p>Scan to Visit Main Recruiting Page</p>
     </div>
 
-    <div id="profileContainer"></div>
-
-    <footer>
-      Serra Football • Junípero Serra High School • Prospect profile auto-generated from Serra Elite Recruiting data.
-    </footer>
+    <button class="btn-primary" onclick="window.print()">Print / Save as PDF</button>
   </div>
 
-  <script>
-    // Same access code as list page
-    const COACH_ACCESS_CODE = "serra2025";
+  <!-- Coach Login -->
+  <div class="coach-login-card">
+    <strong>Coach / Staff Login:</strong><br>
+    <input type="password" id="coachPass" placeholder="Access Code">
+    <button class="btn-primary" onclick="unlockCoach()">Unlock</button>
+    <span id="coachBadge" style="display:none; color:green; font-weight:700;">✔ Coach Mode Active</span>
+  </div>
 
-    function getQueryName() {
-      const params = new URLSearchParams(window.location.search);
-      const raw = params.get("name") || "";
-      return raw.replace(/\+/g, " ").trim();
+  <!-- Filters -->
+  <div class="filters-card">
+    <div class="filter-group">
+      <label>Search Name</label>
+      <input id="searchName" placeholder="Type a name...">
+    </div>
+    <div class="filter-group">
+      <label>Class</label>
+      <select id="filterClass"><option value="">All</option></select>
+    </div>
+    <div class="filter-group">
+      <label>Position</label>
+      <select id="filterPosition"><option value="">All</option></select>
+    </div>
+    <div class="filter-group">
+      <label>Sort By</label>
+      <select id="sortBy">
+        <option value="classDesc">Class: Newest → Oldest</option>
+        <option value="classAsc">Class: Oldest → Newest</option>
+        <option value="nameAsc">Name: A → Z</option>
+        <option value="posAsc">Position: A → Z</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Athlete List -->
+  <div id="athleteList" class="athlete-grid"></div>
+  <div id="emptyMessage" style="text-align:center; display:none;">No athletes found.</div>
+
+  <footer>
+    Serra Football • Junípero Serra High School • Built for College Recruiting
+  </footer>
+
+</div>
+
+<script>
+const COACH_ACCESS_CODE = "serra2025";
+let coachMode = false;
+let allAthletes = [];
+
+async function loadAthletes() {
+  const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+  const response = await fetch(url);
+  const data = await response.text();
+
+  const rows = data.split("\n").map(r => r.split(","));
+  const raw = rows.slice(1);
+
+  allAthletes = raw
+    .map(row => {
+      const name = (row[0] || "").trim();
+      if (!name) return null;
+
+      return {
+        name,
+        classYear: row[1] || "",
+        position: row[2] || "",
+        heightWeight: row[3] || "",
+        hudl: row[4] || "",
+        writeup: row[5] || "",
+        img: row[6] || "",
+        twitter: row[7] || "",
+        gpa: row[8] || ""
+      };
+    })
+    .filter(a => a !== null);
+
+  populateFilters();
+  renderAthletes();
+}
+
+function populateFilters() {
+  const classSelect = document.getElementById("filterClass");
+  const posSelect = document.getElementById("filterPosition");
+
+  const classes = new Set();
+  const positions = new Set();
+
+  allAthletes.forEach(a => {
+    if (a.classYear) classes.add(a.classYear);
+    if (a.position) positions.add(a.position);
+  });
+
+  [...classes].sort((a,b)=>b.localeCompare(a)).forEach(cls => {
+    const opt = document.createElement("option");
+    opt.value = cls;
+    opt.textContent = cls;
+    classSelect.appendChild(opt);
+  });
+
+  [...positions].sort().forEach(pos => {
+    const opt = document.createElement("option");
+    opt.value = pos;
+    opt.textContent = pos;
+    posSelect.appendChild(opt);
+  });
+}
+
+function unlockCoach() {
+  const code = document.getElementById("coachPass").value;
+  if (code === COACH_ACCESS_CODE) {
+    coachMode = true;
+    document.getElementById("coachBadge").style.display = "inline";
+    renderAthletes();
+  } else {
+    alert("Incorrect access code.");
+  }
+}
+
+function applyFilters() {
+  let list = [...allAthletes];
+
+  const search = document.getElementById("searchName").value.toLowerCase();
+  const cls = document.getElementById("filterClass").value;
+  const pos = document.getElementById("filterPosition").value;
+  const sortBy = document.getElementById("sortBy").value;
+
+  if (search) list = list.filter(a => a.name.toLowerCase().includes(search));
+  if (cls) list = list.filter(a => a.classYear === cls);
+  if (pos) list = list.filter(a => a.position.toLowerCase().includes(pos.toLowerCase()));
+
+  list.sort((a,b) => {
+    switch (sortBy) {
+      case "classAsc": return (a.classYear||0) - (b.classYear||0);
+      case "classDesc": return (b.classYear||0) - (a.classYear||0);
+      case "nameAsc": return a.name.localeCompare(b.name);
+      case "posAsc": return a.position.localeCompare(b.position);
+      default: return 0;
     }
+  });
 
-    function goBackToList() {
-      window.location.href = "serra_prospect_list.html";
-    }
+  return list;
+}
 
-    async function loadProfile() {
-      const targetName = getQueryName();
-      const label = document.getElementById("profileNameLabel");
-      if (targetName) {
-        label.textContent = "Profile: " + targetName;
-      }
+function renderAthletes() {
+  const container = document.getElementById("athleteList");
+  const empty = document.getElementById("emptyMessage");
+  container.innerHTML = "";
 
-      const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+  const list = applyFilters();
 
-      const res = await fetch(url);
-      const data = await res.text();
+  if (list.length === 0) {
+    empty.style.display = "block";
+    return;
+  }
+  empty.style.display = "none";
 
-      const rows = data.split("\n").map(r => r.split(","));
-      const athletes = rows.slice(1); // skip header
+  list.forEach(a => {
+    const card = document.createElement("div");
+    card.className = "athlete-card";
 
-      let athlete = null;
-      athletes.forEach(row => {
-        const name = (row[0] || "").trim();
-        if (!name) return;
-        if (name.toLowerCase() === targetName.toLowerCase()) {
-          athlete = {
-            name,
-            classYear: (row[1] || "").trim(),
-            position: (row[2] || "").trim(),
-            heightWeight: (row[3] || "").trim(),
-            hudl: (row[4] || "").trim(),
-            writeup: (row[5] || "").trim(),
-            img: (row[6] || "").trim(),
-            twitter: (row[7] || "").trim(),
-            gpa: (row[8] || "").trim()
-          };
-        }
-      });
+    const profileLink =
+      "serra_elite_system_v3/serra_elite_system_v3/serra_prospect_profile.html?name=" +
+      encodeURIComponent(a.name);
 
-      renderProfile(athlete, targetName);
-    }
+    const imgHtml = a.img
+      ? `<div class="athlete-photo"><img src="${a.img}"></div>`
+      : `<div class="athlete-photo"></div>`;
 
-    function renderProfile(a, targetName) {
-      const container = document.getElementById("profileContainer");
-      container.innerHTML = "";
-
-      if (!a) {
-        container.innerHTML = `
-          <div class="not-found">
-            <strong>Profile not found.</strong><br>
-            We couldn't find a prospect named "<em>${targetName || "Unknown"}</em>" in the current Serra recruiting sheet.
-            Please confirm the spelling in the URL or the Google Sheet.
+    card.innerHTML = `
+      <div class="athlete-header">
+        ${imgHtml}
+        <div>
+          <div class="athlete-name">
+            <a href="${profileLink}">${a.name}</a>
           </div>
-        `;
-        return;
-      }
-
-      const wrapper = document.createElement("div");
-
-      // MAIN PROFILE CARD
-      const imgHtml = a.img
-        ? `<div class="profile-photo"><img src="${a.img}" alt="${a.name} photo"></div>`
-        : `<div class="profile-photo"></div>`;
-
-      const gpaText = a.gpa ? ` • GPA: ${a.gpa}` : "";
-
-      wrapper.innerHTML = `
-        <div class="profile-card">
-          <div class="profile-header">
-            ${imgHtml}
-            <div class="profile-main">
-              <h2 class="profile-name">${a.name}</h2>
-              <div class="profile-sub">
-                Class of ${a.classYear || "N/A"} • ${a.position || "Position N/A"}${gpaText}
-              </div>
-              <div class="profile-meta">
-                ${a.heightWeight ? `<span class="meta-pill">Ht / Wt: ${a.heightWeight}</span>` : ""}
-              </div>
-              <div class="profile-links">
-                ${a.hudl ? `<a class="link-pill" href="${a.hudl}" target="_blank">HUDL / Film</a>` : ""}
-                ${a.twitter ? `<a class="link-pill" href="${a.twitter}" target="_blank">Twitter</a>` : ""}
-              </div>
-            </div>
-          </div>
+          <div>${a.position} • Class of ${a.classYear}</div>
         </div>
+      </div>
 
-        <div class="writeup-card">
-          <h2>Evaluation & Notes</h2>
-          <div>
-            ${a.writeup || "No public writeup added yet. Contact Serra staff for full evaluation details."}
-          </div>
-        </div>
+      <div class="meta-pill">Ht/Wt: ${a.heightWeight}</div>
+      <div class="meta-pill">GPA: ${a.gpa}</div>
 
-        <div class="coach-card">
-          <h3>Coach / Staff Notes & Contact</h3>
-          <div class="small-text">
-            College coaches can use the access code provided by Serra staff to unlock internal notes on this prospect.
-          </div>
-          <div class="coach-login-row">
-            <input type="password" id="coachPass" placeholder="Coach access code" />
-            <button class="btn btn-primary" type="button" onclick="handleCoachLogin()">
-              Unlock Coach Notes
-            </button>
-            <span id="coachTag" class="coach-tag">✅ Coach view</span>
-          </div>
-          <div id="coachOnlyBlock" class="coach-only">
-            <strong>Coach-Only Notes:</strong>
-            <div style="margin-top:4px;">
-              • Contact Serra staff for updated eval, verified measurables, and transcript info.<br>
-              • This space can be expanded later to pull closed notes from a secure back-end.
-            </div>
-          </div>
-        </div>
-      `;
+      <div class="athlete-links">
+        ${a.hudl ? `<a class="link-pill" href="${a.hudl}" target="_blank">HUDL</a>` : ""}
+        ${a.twitter ? `<a class="link-pill" href="${a.twitter}" target="_blank">Twitter</a>` : ""}
+      </div>
 
-      container.appendChild(wrapper);
-    }
+      <div class="coach-only ${coachMode ? "visible" : ""}">
+        Coach Notes: Contact Serra staff for evaluation & transcript info.
+      </div>
+    `;
 
-    function handleCoachLogin() {
-      const input = document.getElementById("coachPass");
-      const code = (input.value || "").trim();
-      const tag = document.getElementById("coachTag");
-      const coachBlock = document.getElementById("coachOnlyBlock");
+    container.appendChild(card);
+  });
+}
 
-      if (code === COACH_ACCESS_CODE) {
-        tag.classList.add("active");
-        coachBlock.classList.add("visible");
-      } else {
-        alert("Access code incorrect. Please contact Serra staff for the current coach access code.");
-      }
-    }
+document.getElementById("searchName").addEventListener("input", renderAthletes);
+document.getElementById("filterClass").addEventListener("change", renderAthletes);
+document.getElementById("filterPosition").addEventListener("change", renderAthletes);
+document.getElementById("sortBy").addEventListener("change", renderAthletes);
 
-    document.addEventListener("DOMContentLoaded", loadProfile);
-  </script>
+loadAthletes();
+</script>
+
 </body>
 </html>
