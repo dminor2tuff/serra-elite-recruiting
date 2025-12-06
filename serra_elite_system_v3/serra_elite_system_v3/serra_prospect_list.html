@@ -1,57 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Serra Football – All Athletes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     :root {
       --serra-red: #b00020;
       --serra-blue: #003b8e;
       --serra-light: #f5f7fb;
-      --card-bg: #ffffff;
-      --text-main: #1c1c1c;
     }
 
     body {
-      font-family: system-ui, Arial, sans-serif;
-      background: var(--serra-light);
       margin: 0;
-      color: var(--text-main);
+      font-family: Arial, sans-serif;
+      background: var(--serra-light);
     }
 
     header {
       background: linear-gradient(135deg, var(--serra-blue), var(--serra-red));
       color: white;
-      padding: 20px;
       text-align: center;
-    }
-
-    header h1 {
-      margin: 0 0 5px;
+      padding: 20px;
     }
 
     .page-wrap {
       max-width: 1100px;
-      margin: 0 auto;
+      margin: auto;
       padding: 16px;
     }
 
     .top-row {
       display: flex;
+      justify-content: space-between;
       flex-wrap: wrap;
       gap: 16px;
-      justify-content: space-between;
       margin-bottom: 20px;
       align-items: center;
     }
 
     .qr-block {
-      text-align: center;
       background: white;
       padding: 12px;
       border-radius: 12px;
+      text-align: center;
       box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
 
@@ -64,38 +57,32 @@
     .btn-primary {
       background: var(--serra-blue);
       color: white;
-      padding: 10px 16px;
+      padding: 10px 18px;
       border-radius: 999px;
       border: none;
       cursor: pointer;
-      font-weight: 600;
-      font-size: 0.9rem;
+      font-weight: bold;
     }
 
+    .coach-login-card,
     .filters-card {
       background: white;
       border-radius: 12px;
       padding: 14px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
       margin-bottom: 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
     }
 
     .filter-group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      flex: 1;
-      min-width: 140px;
+      display: inline-block;
+      margin-right: 10px;
     }
 
-    .filter-group select,
-    .filter-group input {
-      padding: 7px 9px;
-      border-radius: 9px;
-      border: 1px solid #cfd3df;
+    .filter-group input,
+    .filter-group select {
+      padding: 7px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
 
     .athlete-grid {
@@ -121,8 +108,8 @@
       width: 64px;
       height: 64px;
       border-radius: 50%;
+      background: #ddd;
       overflow: hidden;
-      background: #e3e6ee;
     }
 
     .athlete-photo img {
@@ -132,286 +119,185 @@
     }
 
     .athlete-name a {
-      font-size: 1.05rem;
-      font-weight: 700;
-      text-decoration: none;
+      font-weight: bold;
       color: var(--serra-blue);
+      text-decoration: none;
     }
 
     .meta-pill {
-      background: #f1f3fa;
+      background: #eef1f8;
       padding: 4px 8px;
-      border-radius: 999px;
       font-size: 0.8rem;
-      margin-top: 6px;
+      border-radius: 999px;
       display: inline-block;
+      margin-top: 6px;
     }
 
-    .athlete-links .link-pill {
+    .athlete-links a {
       display: inline-block;
-      padding: 5px 9px;
-      background: rgba(0,59,142,0.06);
-      color: var(--serra-blue);
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-decoration: none;
+      margin-top: 6px;
       margin-right: 6px;
-      margin-top: 6px;
-    }
-
-    .coach-only {
-      display: none;
       font-size: 0.8rem;
-      margin-top: 10px;
-      border-top: 1px dashed #ccc;
-      padding-top: 6px;
-    }
-
-    .coach-only.visible {
-      display: block;
-    }
-
-    .coach-login-card {
-      background: white;
-      padding: 14px;
-      border-radius: 12px;
-      margin-bottom: 16px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      color: var(--serra-blue);
+      text-decoration: none;
     }
 
     footer {
       text-align: center;
-      padding: 20px 0;
+      padding: 20px;
       font-size: 0.75rem;
-      color: #777;
+      color: #666;
     }
   </style>
 </head>
 
 <body>
+
 <header>
   <h1>Serra Football – All Athletes</h1>
-  <p>Live Prospect Board • Synced from Google Sheets</p>
+  <p>Live Recruiting Board</p>
 </header>
 
 <div class="page-wrap">
 
-  <!-- QR Code + Buttons -->
+  <!-- ✅ QR ALWAYS VISIBLE -->
   <div class="top-row">
     <div class="qr-block">
       <a href="https://dminor2tuff.github.io/serra-elite-recruiting/" target="_blank">
-        <img 
-          src="serra_custom_qr.png" 
-          alt="Serra Recruiting QR Code">
+        <img src="serra_custom_qr.png" alt="Serra Recruiting QR">
       </a>
-      <p style="font-weight:600; margin-top:8px;">
-        Scan or Tap to Visit Main Recruiting Page
-      </p>
+      <p><b>Scan or Tap for Main Recruiting Site</b></p>
     </div>
 
-    <button class="btn-primary" onclick="window.print()">Print / Save as PDF</button>
+    <button class="btn-primary" onclick="window.print()">Print / Save PDF</button>
   </div>
 
-  <!-- Coach Login -->
+  <!-- ✅ Coach Login -->
   <div class="coach-login-card">
-    <strong>Coach / Staff Login:</strong><br>
-    <input type="password" id="coachPass" placeholder="Access Code">
+    <b>Coach Login</b><br><br>
+    <input type="password" id="coachPass" placeholder="Enter Access Code">
     <button class="btn-primary" onclick="unlockCoach()">Unlock</button>
-    <span id="coachBadge" style="display:none; color:green; font-weight:700;">✔ Coach Mode Active</span>
+    <span id="coachBadge" style="display:none; color:green;"><b>✔ Coach Mode Active</b></span>
   </div>
 
-  <!-- Filters -->
+  <!-- ✅ Filters -->
   <div class="filters-card">
     <div class="filter-group">
-      <label>Search Name</label>
-      <input id="searchName" placeholder="Type a name...">
+      <input id="searchName" placeholder="Search Name">
     </div>
     <div class="filter-group">
-      <label>Class</label>
-      <select id="filterClass"><option value="">All</option></select>
+      <select id="filterClass"><option value="">All Classes</option></select>
     </div>
     <div class="filter-group">
-      <label>Position</label>
-      <select id="filterPosition"><option value="">All</option></select>
-    </div>
-    <div class="filter-group">
-      <label>Sort By</label>
-      <select id="sortBy">
-        <option value="classDesc">Class: Newest → Oldest</option>
-        <option value="classAsc">Class: Oldest → Newest</option>
-        <option value="nameAsc">Name: A → Z</option>
-        <option value="posAsc">Position: A → Z</option>
-      </select>
+      <select id="filterPosition"><option value="">All Positions</option></select>
     </div>
   </div>
 
-  <!-- Athlete List -->
+  <!-- ✅ Athlete Grid -->
   <div id="athleteList" class="athlete-grid"></div>
-  <div id="emptyMessage" style="text-align:center; display:none;">No athletes found.</div>
-
-  <footer>
-    Serra Football • Junípero Serra High School • Built for College Recruiting
-  </footer>
+  <div id="emptyMessage" style="display:none;text-align:center;">No Athletes Found</div>
 
 </div>
 
+<footer>
+  Serra Football • Junípero Serra HS
+</footer>
+
 <script>
-const COACH_ACCESS_CODE = "serra2025";
-let coachMode = false;
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const COACH_CODE = "serra2025";
+
 let allAthletes = [];
 
 async function loadAthletes() {
-  const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
-  const response = await fetch(url);
-  const data = await response.text();
+  const res = await fetch(SHEET_URL);
+  const text = await res.text();
+  const rows = text.split("\n").map(r => r.split(","));
+  const data = rows.slice(1);
 
-  const rows = data.split("\n").map(r => r.split(","));
-  const raw = rows.slice(1);
-
-  allAthletes = raw
-    .map(row => {
-      const name = (row[0] || "").trim();
-      if (!name) return null;
-
-      return {
-        name,
-        classYear: row[1] || "",
-        position: row[2] || "",
-        heightWeight: row[3] || "",
-        hudl: row[4] || "",
-        writeup: row[5] || "",
-        img: row[6] || "",
-        twitter: row[7] || "",
-        gpa: row[8] || ""
-      };
-    })
-    .filter(a => a !== null);
+  allAthletes = data.map(r => ({
+    name: r[0],
+    classYear: r[1],
+    position: r[2],
+    heightWeight: r[3],
+    hudl: r[4],
+    writeup: r[5],
+    img: r[6],
+    twitter: r[7],
+    gpa: r[8]
+  }));
 
   populateFilters();
   renderAthletes();
 }
 
 function populateFilters() {
-  const classSelect = document.getElementById("filterClass");
-  const posSelect = document.getElementById("filterPosition");
-
-  const classes = new Set();
-  const positions = new Set();
+  const classSet = new Set();
+  const posSet = new Set();
 
   allAthletes.forEach(a => {
-    if (a.classYear) classes.add(a.classYear);
-    if (a.position) positions.add(a.position);
+    if (a.classYear) classSet.add(a.classYear);
+    if (a.position) posSet.add(a.position);
   });
 
-  [...classes].sort((a,b)=>b.localeCompare(a)).forEach(cls => {
-    const opt = document.createElement("option");
-    opt.value = cls;
-    opt.textContent = cls;
-    classSelect.appendChild(opt);
-  });
-
-  [...positions].sort().forEach(pos => {
-    const opt = document.createElement("option");
-    opt.value = pos;
-    opt.textContent = pos;
-    posSelect.appendChild(opt);
-  });
+  classSet.forEach(c => filterClass.innerHTML += `<option>${c}</option>`);
+  posSet.forEach(p => filterPosition.innerHTML += `<option>${p}</option>`);
 }
 
 function unlockCoach() {
-  const code = document.getElementById("coachPass").value;
-  if (code === COACH_ACCESS_CODE) {
-    coachMode = true;
-    document.getElementById("coachBadge").style.display = "inline";
-    renderAthletes();
+  if (coachPass.value === COACH_CODE) {
+    coachBadge.style.display = "inline";
   } else {
-    alert("Incorrect access code.");
+    alert("Wrong code");
   }
-}
-
-function applyFilters() {
-  let list = [...allAthletes];
-
-  const search = document.getElementById("searchName").value.toLowerCase();
-  const cls = document.getElementById("filterClass").value;
-  const pos = document.getElementById("filterPosition").value;
-  const sortBy = document.getElementById("sortBy").value;
-
-  if (search) list = list.filter(a => a.name.toLowerCase().includes(search));
-  if (cls) list = list.filter(a => a.classYear === cls);
-  if (pos) list = list.filter(a => a.position.toLowerCase().includes(pos.toLowerCase()));
-
-  list.sort((a,b) => {
-    switch (sortBy) {
-      case "classAsc": return (a.classYear||0) - (b.classYear||0);
-      case "classDesc": return (b.classYear||0) - (a.classYear||0);
-      case "nameAsc": return a.name.localeCompare(b.name);
-      case "posAsc": return a.position.localeCompare(b.position);
-      default: return 0;
-    }
-  });
-
-  return list;
 }
 
 function renderAthletes() {
-  const container = document.getElementById("athleteList");
-  const empty = document.getElementById("emptyMessage");
-  container.innerHTML = "";
+  athleteList.innerHTML = "";
+  let list = [...allAthletes];
 
-  const list = applyFilters();
+  const search = searchName.value.toLowerCase();
+  if (search) list = list.filter(a => a.name.toLowerCase().includes(search));
+  if (filterClass.value) list = list.filter(a => a.classYear === filterClass.value);
+  if (filterPosition.value) list = list.filter(a => a.position.includes(filterPosition.value));
 
-  if (list.length === 0) {
-    empty.style.display = "block";
+  if (!list.length) {
+    emptyMessage.style.display = "block";
     return;
+  } else {
+    emptyMessage.style.display = "none";
   }
-  empty.style.display = "none";
 
   list.forEach(a => {
-    const card = document.createElement("div");
-    card.className = "athlete-card";
-
-    const profileLink =
+    const profile =
       "serra_elite_system_v3/serra_elite_system_v3/serra_prospect_profile.html?name=" +
       encodeURIComponent(a.name);
 
-    const imgHtml = a.img
-      ? `<div class="athlete-photo"><img src="${a.img}"></div>`
-      : `<div class="athlete-photo"></div>`;
-
-    card.innerHTML = `
-      <div class="athlete-header">
-        ${imgHtml}
-        <div>
-          <div class="athlete-name">
-            <a href="${profileLink}">${a.name}</a>
+    athleteList.innerHTML += `
+      <div class="athlete-card">
+        <div class="athlete-header">
+          <div class="athlete-photo">${a.img ? `<img src="${a.img}">` : ""}</div>
+          <div>
+            <div class="athlete-name"><a href="${profile}">${a.name}</a></div>
+            <div>${a.position} • Class ${a.classYear}</div>
           </div>
-          <div>${a.position} • Class of ${a.classYear}</div>
+        </div>
+
+        <div class="meta-pill">Ht/Wt: ${a.heightWeight}</div>
+        <div class="meta-pill">GPA: ${a.gpa}</div>
+
+        <div class="athlete-links">
+          ${a.hudl ? `<a href="${a.hudl}" target="_blank">HUDL</a>` : ""}
+          ${a.twitter ? `<a href="${a.twitter}" target="_blank">Twitter</a>` : ""}
         </div>
       </div>
-
-      <div class="meta-pill">Ht/Wt: ${a.heightWeight}</div>
-      <div class="meta-pill">GPA: ${a.gpa}</div>
-
-      <div class="athlete-links">
-        ${a.hudl ? `<a class="link-pill" href="${a.hudl}" target="_blank">HUDL</a>` : ""}
-        ${a.twitter ? `<a class="link-pill" href="${a.twitter}" target="_blank">Twitter</a>` : ""}
-      </div>
-
-      <div class="coach-only ${coachMode ? "visible" : ""}">
-        Coach Notes: Contact Serra staff for evaluation & transcript info.
-      </div>
     `;
-
-    container.appendChild(card);
   });
 }
 
-document.getElementById("searchName").addEventListener("input", renderAthletes);
-document.getElementById("filterClass").addEventListener("change", renderAthletes);
-document.getElementById("filterPosition").addEventListener("change", renderAthletes);
-document.getElementById("sortBy").addEventListener("change", renderAthletes);
+searchName.oninput = renderAthletes;
+filterClass.onchange = renderAthletes;
+filterPosition.onchange = renderAthletes;
 
 loadAthletes();
 </script>
