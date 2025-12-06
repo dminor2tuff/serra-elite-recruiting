@@ -1,629 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Serra Elite Recruiting</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
-    header { background:#0A1A44; color:white; padding:35px; text-align:center; border-bottom:6px solid #C41230; position:relative; }
-    header img { height:75px; }
-    .container { max-width: 1100px; margin: auto; padding: 20px; }
+<!-- ========================= -->
+<!--  SERRA MAIN PAGE QR AREA -->
+<!-- ========================= -->
 
-    nav { background:#0A1A44; color:white; padding:12px 20px; display:flex; gap:25px; font-size:18px; }
-    nav a { color:white; text-decoration:none; }
+<section style="
+  background: linear-gradient(135deg, #002b5c, #b00020);
+  padding: 70px 20px;
+  text-align: center;
+  color: white;
+">
 
-    .player-card { background:white; padding:20px; margin:15px 0; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); cursor:pointer; transition:transform 0.15s ease, box-shadow 0.15s ease; }
-    .player-card:hover { transform:translateY(-3px); box-shadow:0 4px 10px rgba(0,0,0,0.18); }
-    .player-header { display:flex; align-items:center; gap:20px; }
-    .player-header img { width:150px; height:180px; object-fit:cover; border-radius:10px; background:#ddd; border:4px solid #0A1A44; }
+  <h2 style="
+    font-size: 2.3rem;
+    margin-bottom: 12px;
+    font-weight: 800;
+  ">
+    Quick Access for College Coaches
+  </h2>
 
-    h1 { margin:0; }
-    h2 { margin:0; }
-    .section { margin-top:15px; }
-    .section h3 { margin-bottom:5px; color:#0A1A44; border-left:5px solid #C41230; padding-left:8px; }
-    a { color:#0077cc; }
+  <p style="
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto 35px;
+    line-height: 1.6;
+  ">
+    Scan the QR code below to instantly access Serra’s full recruiting board,
+    athlete profiles, transcripts, and coach contact information.
+  </p>
 
-    .class-filter { margin:15px 0; display:flex; gap:20px; align-items:center; flex-wrap:wrap; }
-    select, input { padding:8px; font-size:16px; }
+  <!-- ✅ REAL SCANNABLE QR -->
+  <a 
+    href="https://serrafbrecruits.com" 
+    target="_blank"
+    style="display:inline-block;"
+  >
+    <img 
+      src="serra_main_qr.png" 
+      alt="Scan for Serra Elite Recruiting"
+      style="
+        max-width: 260px;
+        width: 100%;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        transition: transform 0.2s ease;
+      "
+      onmouseover="this.style.transform='scale(1.05)'"
+      onmouseout="this.style.transform='scale(1)'"
+    >
+  </a>
 
-    .btn { display:inline-block; padding:8px 14px; border-radius:6px; border:none; font-size:14px; cursor:pointer; }
-    .btn-primary { background:#C41230; color:white; }
-    .btn-outline { background:transparent; color:#C41230; border:1px solid #C41230; }
-
-    .modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:999; }
-    .modal { background:white; max-width:800px; width:95%; max-height:90vh; overflow-y:auto; border-radius:10px; padding:20px; box-shadow:0 6px 18px rgba(0,0,0,0.3); }
-    .modal-header { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; margin-bottom:10px; }
-    .modal-actions { text-align:right; margin-top:10px; }
-
-    footer { background:#0A1A44; color:white; padding:25px; text-align:center; margin-top:40px; border-top:6px solid #C41230; }
-
-    @media print {
-      body * { visibility:hidden; }
-      #profileModal, #profileModal * { visibility:visible; }
-      #profileModal { position:absolute; inset:0; margin:0 auto; box-shadow:none; }
-    }
-  </style>
-</head>
-<body style="background:url('https://upload.wikimedia.org/wikipedia/commons/4/43/American_football_texture.jpg') repeat; background-size:600px;">
-
-  <header class="serra-header" style="color:white; padding:55px 20px 40px 20px; text-align:center; border-bottom:6px solid #C41230; position:relative; animation:fadeIn 1.2s ease-in-out;">
-  <div style="background:linear-gradient(to bottom, rgba(10,26,68,0.85), rgba(10,26,68,0.60)); position:absolute; inset:0; z-index:0;"></div>
-  <div style="position:relative; z-index:2;">
-    <img src="assets/img/serra-logo.png" alt="Serra Logo" style="height:70px; display:block; margin:0 auto 15px auto; filter:drop-shadow(0 3px 4px rgba(0,0,0,0.45));">
-    <div style="width:90px; height:4px; background:white; margin:0 auto 18px auto; border-radius:3px; opacity:0.85;"></div>
-    <h1 style="font-size:40px; font-weight:900; margin:0; letter-spacing:1px;">Serra Cavaliers Elite Recruiting Board</h1>
-    <p style="font-size:20px; margin-top:10px; opacity:0.95;">Serra Cavaliers • Gardena, California • Powered by Legacy Lab</p>
+  <div style="margin-top: 18px;">
+    <a 
+      href="https://serrafbrecruits.com" 
+      target="_blank"
+      style="
+        background: white;
+        color: #002b5c;
+        padding: 14px 28px;
+        border-radius: 999px;
+        font-weight: 800;
+        text-decoration: none;
+        display: inline-block;
+      "
+    >
+      📲 Scan Me — SerraFBRecruits.com
+    </a>
   </div>
-</header>
-<style>
-@keyframes fadeIn {
-  0% { opacity:0; transform:translateY(-12px);} 
-  100% { opacity:1; transform:translateY(0);} 
-}
-@media (max-width: 600px) {
-  header img { height:60px !important; margin-bottom:14px !important; }
-  header h1 { font-size:30px !important; }
-  header p { font-size:16px !important; }
-}
-</style>
-<style>
-@media (max-width: 600px) {
-  header img { height:60px !important; margin-bottom:14px !important; }
-  header h1 { font-size:30px !important; }
-  header p { font-size:16px !important; }
-}
-</style>
 
-  <button class="btn btn-outline" style="position:fixed; top:10px; right:10px; z-index:1000;" onclick="coachLogin()">Coach Login</button>
-
-  <nav>
-    <a href="#" onclick="showRoster('all')">Home</a>
-    <a href="#" onclick="showRoster('2026')">Class of 2026</a>
-    <a href="#" onclick="showRoster('2027')">Class of 2027</a>
-    <a href="#" onclick="showRoster('2028')">Class of 2028</a>
-    <a href="#" onclick="showRoster('2029')">Class of 2029</a>
-</nav>
-
-<!-- HERO SECTION -->
-<section style="background:url('assets/img/action-photo.jpg') center/cover no-repeat; padding:90px 20px; text-align:center; color:white; border-bottom:6px solid #C41230; position:relative;">
-  <div style="background:rgba(0,0,0,0.45); position:absolute; inset:0; z-index:0;"></div>
-  <div style="position:relative; z-index:2;">
-    <h1 style="font-size:48px; font-weight:900; text-shadow:0 3px 8px rgba(0,0,0,0.6); margin-bottom:12px;">Serra Cavaliers Football Recruiting</h1>
-    <p style="font-size:22px; max-width:800px; margin:auto; text-shadow:0 2px 5px rgba(0,0,0,0.5);">
-      Showcasing elite student-athletes from Gardena, California — built on tradition, speed, discipline, and championship standards.
-    </p>
-    <button onclick="showRoster('all')" class="btn btn-primary" style="margin-top:28px; font-size:20px; padding:14px 26px; font-weight:700;">View All Athletes</button>
-  </div>
 </section>
-
-  <!-- WHY SERRA SECTION -->
-<section style="background:white; padding:50px 20px; border-bottom:6px solid #C41230;">
-  <h2 style="text-align:center; font-size:36px; color:#0A1A44;">Why Serra Football?</h2>
-  <div style="max-width:900px; margin:auto; font-size:18px; line-height:1.6; color:#333;">
-    <p><strong>Developing High School Athletes the Right Way:</strong> Serra Football focuses on building disciplined, high‑character young men who compete with pride and represent their community with excellence.</p>
-    <p><strong>Fundamentals First:</strong> Our coaching staff teaches proper technique, football IQ, and attention to detail — preparing athletes to thrive at the high school level and beyond.</p>
-    <p><strong>Strength, Speed & Growth:</strong> We provide structure, accountability, and opportunities for athletes to improve every day — on the field, in the classroom, and as leaders.</p>
-    <p><strong>A Brotherhood:</strong> Serra is more than a program — it’s a family. Our athletes grow together, push each other, and build lifelong relationships through the demands of high school football.</p>
-  </div>
-</section>
-
-<!-- EXPECTATIONS SECTION -->
-<section style="background:white; padding:45px 20px; border-bottom:6px solid #0A1A44;">
-  <h2 style="text-align:center; font-size:34px; color:#0A1A44; margin-bottom:20px;">What We Expect From Our Athletes</h2>
-  <div style="max-width:900px; margin:auto; font-size:18px; line-height:1.7; color:#333;">
-    <p><strong>✔ Commitment:</strong> Show up every day ready to work, improve, and represent Serra with pride.</p>
-    <p><strong>✔ Discipline:</strong> Do the small things right — in the classroom, on the field, and in the community.</p>
-    <p><strong>✔ Effort:</strong> Give maximum energy in practice, meetings, workouts, and games. Effort separates average from elite.</p>
-    <p><strong>✔ Accountability:</strong> Take ownership of schoolwork, attendance, communication, and your role on the team.</p>
-    <p><strong>✔ Toughness:</strong> Physical and mental toughness — fight through adversity, respond the right way, and compete.</p>
-    <p><strong>✔ Team First:</strong> Put the brotherhood above individual goals. Lift each other up and support your teammates.</p>
-    <p><strong>✔ Coachability:</strong> Listen, learn, apply corrections, and trust the process.</p>
-  </div>
-</section>
-
-<!-- QR CODE SECTION -->
-<section style="background:#0A1A44; padding:50px 20px; text-align:center; color:white; border-bottom:6px solid #C41230;">
-  <h2 style="font-size:34px; margin-bottom:15px;">Quick Access for College Coaches</h2>
-  <p style="font-size:18px; max-width:700px; margin:auto; opacity:0.9;">Scan the QR code below to instantly access Serra’s full recruiting board, athlete profiles, transcript requests, and coach contact information.</p>
-  <div style="display:flex; flex-direction:column; align-items:center;">
-    <img src="assets/img/qr-serra.png" alt="QR Code" style="width:220px; height:220px; border:4px solid white; border-radius:10px; margin-top:15px; box-shadow:0 4px 12px rgba(0,0,0,0.3);">
-    <div style="margin-top:15px; background:white; color:#0A1A44; padding:8px 18px; border-radius:20px; font-weight:700; font-size:18px; box-shadow:0 2px 6px rgba(0,0,0,0.25);">
-      📱 Scan Me — Serra Recruits
-    </div>
-  </div>
-</section>
-
-<div class="container">
-    <!-- FILTERS -->
-    <div class="class-filter">
-      <label><strong>Filter by Class:</strong></label>
-      <select id="classFilter" onchange="filterClass()">
-        <option value="all">All Classes</option>
-        <option value="2026">Class of 2026</option>
-        <option value="2027">Class of 2027</option>
-        <option value="2028">Class of 2028</option>
-        <option value="2029">Class of 2029</option>
-      </select>
-
-      <label><strong>Search Athletes:</strong></label>
-      <input id="searchBar" onkeyup="searchPlayers()" placeholder="Search by name, position, etc." style="width:260px;">
-    </div>
-
-    <!-- AUTO ROSTER FROM GOOGLE SHEETS -->
-    <div id="auto-roster"></div>
-
-    <!-- ADMIN DASHBOARD (COACH ONLY) -->
-    <section id="adminDashboard" style="display:none; background:white; padding:25px; margin:40px auto; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.2);">
-      <h2 style="color:#0A1A44; border-left:5px solid #C41230; padding-left:8px;">Admin Dashboard</h2>
-      <p style="font-size:14px; opacity:0.8;">Load your live roster from Google Sheets, quickly edit player info, and generate clean rows to paste back into the sheet. (No automatic write yet—this is a helper tool.)</p>
-
-      <button class="btn btn-primary" onclick="loadAdminRoster()" style="margin-bottom:15px;">Load Roster From Sheet</button>
-      <button class="btn btn-outline" onclick="bulkExportCSV()" style="margin-left:10px; margin-bottom:15px;">Bulk Export CSV (Copy)</button>
-
-      <table id="adminTable" style="width:100%; border-collapse:collapse; display:none;">
-        <thead>
-          <tr style="background:#0A1A44; color:white;">
-            <th style="padding:8px; border:1px solid #ddd;">Name</th>
-            <th style="padding:8px; border:1px solid #ddd;">Class</th>
-            <th style="padding:8px; border:1px solid #ddd;">Position</th>
-            <th style="padding:8px; border:1px solid #ddd;">Ht/Wt</th>
-            <th style="padding:8px; border:1px solid #ddd;">HUDL</th>
-            <th style="padding:8px; border:1px solid #ddd;">Twitter</th>
-            <th style="padding:8px; border:1px solid #ddd;">GPA</th>
-            <th style="padding:8px; border:1px solid #ddd;">Actions</th>
-          </tr>
-        </thead>
-        <tbody id="adminBody"></tbody>
-      </table>
-
-      <hr style="margin:25px 0;">
-
-      <h3 style="color:#0A1A44;">New / Edit Player Row Builder</h3>
-      <p style="font-size:13px; opacity:0.8;">Use this editor to add new players or tweak existing ones. Then paste the generated row into Google Sheets and use “Split text to columns.”</p>
-
-      <div id="adminEditor" style="margin-top:10px;">
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px;">
-          <div>
-            <label>Name</label>
-            <input id="ad_name" type="text" style="width:100%; padding:6px;">
-          </div>
-          <div>
-            <label>Class</label>
-            <input id="ad_class" type="text" placeholder="2026" style="width:100%; padding:6px;">
-          </div>
-          <div>
-            <label>Position</label>
-            <input id="ad_pos" type="text" placeholder="DB / WR" style="width:100%; padding:6px;">
-          </div>
-          <div>
-            <label>Height/Weight</label>
-            <input id="ad_hw" type="text" placeholder="6'0 / 190 lbs" style="width:100%; padding:6px;">
-          </div>
-          <div>
-            <label>HUDL Link</label>
-            <input id="ad_hudl" type="text" placeholder="https://www.hudl.com/..." style="width:100%; padding:6px;">
-          </div>
-          <div>
-            <label>ImageURL</label>
-            <input id="ad_img" type="text" placeholder="Paste image link or leave blank" style="width:100%; padding:6px;">
-          </div>
-          <div>
-            <label>Twitter</label>
-            <input id="ad_twitter" type="text" placeholder="@handle" style="width:100%; padding:6px;">
-          </div>
-          <div>
-            <label>GPA</label>
-            <input id="ad_gpa" type="text" placeholder="3.5" style="width:100%; padding:6px;">
-          </div>
-        </div>
-        <div style="margin-top:10px;">
-          <label>Write-Up / Evaluation</label>
-          <textarea id="ad_write" rows="4" style="width:100%; padding:6px;"></textarea>
-        </div>
-        <div style="margin-top:10px;">
-          <button class="btn btn-primary" onclick="generateAdminRow()">Generate Sheet Row (Copy)</button>
-          <button class="btn btn-outline" onclick="clearAdminEditor()" style="margin-left:10px;">Clear</button>
-        </div>
-        <div style="margin-top:10px;">
-          <label>Generated Row (tab-separated for Google Sheets):</label>
-          <textarea id="ad_output" rows="3" style="width:100%; padding:6px;"></textarea>
-        </div>
-      </div>
-
-      <p style="font-size:13px; opacity:0.7; margin-top:10px;">In Google Sheets, paste the row into column A, then use “Split text to columns.”</p>
-    </section>
-
-    <!-- PHOTO UPLOAD (BASE64 HELPER) -->
-    
-
-    <!-- TRANSCRIPTS SECTION -->
-    <section style="background:white; padding:25px; margin:40px auto; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.15); text-align:center;">
-      <h2 style="color:#0A1A44; margin-bottom:10px;">Transcripts</h2>
-      <p style="font-size:16px;">Official Serra High School academic transcripts are available and will be issued upon request for verified college recruiters and admissions staff.</p>
-      <button class="btn btn-primary" onclick="window.location.href='mailto:serracavsfb@gmail.com?subject=Transcript Request&body=Coach Minor, I would like to request an official transcript for: ';" style="margin-top:15px;">Request Transcript</button>
-
-      <h3 style="margin-top:25px; color:#0A1A44;">Transcript Request Form</h3>
-      <form style="max-width:600px; margin:20px auto; text-align:left;" onsubmit="submitTranscriptForm(event)">
-        <label>Coach Name:</label>
-        <input id="tCoach" type="text" style="width:100%; padding:8px; margin-bottom:10px;">
-        <label>College / University:</label>
-        <input id="tSchool" type="text" style="width:100%; padding:8px; margin-bottom:10px;">
-        <label>Player Name:</label>
-        <input id="tPlayer" type="text" style="width:100%; padding:8px; margin-bottom:10px;">
-        <label>Email to Receive Transcript:</label>
-        <input id="tEmail" type="email" style="width:100%; padding:8px; margin-bottom:10px;">
-        <button class="btn btn-outline" type="submit">Submit Request</button>
-      </form>
-    </section>
-
-  </div><!-- /container -->
-
-  <!-- MODAL -->
-  <div class="modal-backdrop" id="modalBackdrop" onclick="closeProfile(event)">
-    <div class="modal" id="profileModal" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <h2 id="modalTitle">Athlete Profile</h2>
-        <button class="btn btn-outline" onclick="closeProfile(event)">Close</button>
-      </div>
-      <div id="modalBody"></div>
-      <div class="modal-actions">
-        <button class="btn btn-primary" onclick="window.print()">Download / Print Profile</button>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <p style="margin:5px; font-size:18px; font-weight:600;">Serra Cavaliers Football • Gardena, CA</p>
-    <p style="margin:5px; font-size:16px;">Coach Darrin Minor II • Recruiting Coordinator</p>
-    <p style="margin:5px; font-size:16px;">Email: serracavsfb@gmail.com • Phone: (555) 555-5555</p>
-    <p style="margin:5px; font-size:15px; font-weight:600;">Official Recruiting Site: www.SerraFBrecruits.com</p>
-    <p style="margin-top:10px; font-size:14px; opacity:0.8;">Legacy Lab © Crafting Champions with Elegance</p>
-  </footer>
-
-  <!-- SCRIPTS -->
-  <script>
-    // ===== GOOGLE SHEETS CONFIG =====
-    const GOOGLE_SHEET_ID = "1k2YS5JkrjIJDlI4rdQT58STmnu03QPpBg2BT7dzyBpo";
-    const SHEET_NAME = "Roster";
-    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
-
-    // Normalize header names
-    function normalize(h) {
-      return h ? h.toString().replace(/\s+/g, '').replace(/[_-]/g,'').toLowerCase() : "";
-    }
-    function safe(v) {
-      return v ? v.toString().trim() : "";
-    }
-
-    async function loadRosterFromSheets() {
-      try {
-        const res = await fetch(SHEET_URL);
-        const text = await res.text();
-        const json = JSON.parse(text.substr(47).slice(0, -2));
-        const cols = json.table.cols;
-        const rows = json.table.rows;
-
-        const map = {};
-        cols.forEach((c,i) => { map[normalize(c.label)] = i; });
-
-        const COL = {
-          name:   map["name"],
-          class:  map["class"],
-          pos:    map["position"],
-          hw:     map["heightweight"],
-          hudl:   map["hudl"],
-          write:  map["writeup"] ?? map["write"],
-          img:    map["imageurl"],
-          twitter:map["twitter"],
-          gpa:    map["gpa"]
-        };
-
-        let out = "";
-        rows.forEach(r => {
-          const name = safe(r.c[COL.name]?.v);
-          if (!name) return;
-
-          const cl = safe(r.c[COL.class]?.v);
-          const pos = safe(r.c[COL.pos]?.v);
-          const hw = safe(r.c[COL.hw]?.v);
-          const hudl = safe(r.c[COL.hudl]?.v);
-          const write = safe(r.c[COL.write]?.v);
-          const twitter = safe(r.c[COL.twitter]?.v);
-          const gpa = safe(r.c[COL.gpa]?.v);
-
-          let img = safe(r.c[COL.img]?.v);
-          if (!img || !img.startsWith("http")) img = "assets/img/default-player.png";
-
-          let hudlSection = "No HUDL Available";
-          if (hudl && hudl.startsWith("http")) {
-            hudlSection = '<a href="' + hudl + '" target="_blank">HUDL Link</a>';
-          }
-
-          let twitterSection = "No Twitter Listed";
-          if (twitter) {
-            const handle = twitter.replace('@','');
-            twitterSection = '<a href="https://twitter.com/' + handle + '" target="_blank">@' + handle + '</a>';
-          }
-
-          out += `
-<div class="player-card" data-class="${cl}">
-  <div class="player-header">
-    <img src="${img}" alt="Player Photo" />
-    <div>
-      <h2>${name}</h2>
-      <p><strong>Position:</strong> ${pos}</p>
-      <p><strong>Class:</strong> ${cl}</p>
-      <p><strong>Height/Weight:</strong> ${hw}</p>
-      <p><strong>School:</strong> Serra High School (Gardena, CA)</p>
-    </div>
-  </div>
-  <div class="section">
-    <h3>HUDL / Film</h3>
-    ${hudlSection}
-  </div>
-  <div class="section">
-    <h3>Twitter</h3>
-    ${twitterSection}
-  </div>
-  <div class="section">
-    <h3>GPA</h3>
-    <p>${gpa || '—'}</p>
-  </div>
-  <div class="section">
-    <h3>Write-Up</h3>
-    <p>${write}</p>
-  </div>
-</div>`;
-        });
-
-        document.getElementById("auto-roster").innerHTML = out;
-      } catch (err) {
-        console.error("LOAD ERROR", err);
-      }
-    }
-
-    // FILTERS + SEARCH
-    function filterClass() {
-      const selected = document.getElementById("classFilter").value;
-      const cards = document.querySelectorAll(".player-card");
-      cards.forEach(card => {
-        const c = card.getAttribute("data-class");
-        card.style.display = (selected === "all" || selected === c) ? "block" : "none";
-      });
-    }
-
-    function searchPlayers() {
-      const term = document.getElementById('searchBar').value.toLowerCase();
-      const classFilter = document.getElementById('classFilter').value;
-      const cards = document.querySelectorAll('.player-card');
-
-      cards.forEach(card => {
-        const text = card.innerText.toLowerCase();
-        const c = card.getAttribute('data-class');
-        const matchesClass = (classFilter === 'all' || classFilter === c);
-        card.style.display = (matchesClass && text.includes(term)) ? 'block' : 'none';
-      });
-    }
-
-    function showRoster(classYear) {
-      const cards = document.querySelectorAll('.player-card');
-      const filterSelect = document.getElementById('classFilter');
-      if (filterSelect) filterSelect.value = (classYear === 'all' ? 'all' : classYear);
-      document.getElementById('searchBar').value = '';
-      cards.forEach(card => {
-        const c = card.getAttribute('data-class');
-        card.style.display = (classYear === 'all' || classYear === c) ? 'block' : 'none';
-      });
-    }
-
-    // MODAL
-    document.addEventListener('click', function(e) {
-      const card = e.target.closest('.player-card');
-      if (!card) return;
-      const modalBody = document.getElementById('modalBody');
-      const modalTitle = document.getElementById('modalTitle');
-      const nameEl = card.querySelector('h2');
-      modalTitle.textContent = nameEl ? nameEl.textContent : 'Athlete Profile';
-      modalBody.innerHTML = card.innerHTML;
-      document.getElementById('modalBackdrop').style.display = 'flex';
-    });
-
-    function closeProfile(event) {
-      if (event) event.stopPropagation();
-      document.getElementById('modalBackdrop').style.display = 'none';
-    }
-
-    // COACH LOGIN
-    function coachLogin() {
-      const pass = prompt('Enter college coach access password:');
-      if (pass === 'Serrafootball') {
-        const adminDash = document.getElementById('adminDashboard');
-        if (adminDash) adminDash.style.display = 'block';
-        window.location.hash = '#adminDashboard';
-      } else if (pass !== null) {
-        alert('Incorrect password.');
-      }
-    }
-
-    // ADMIN TOOLS
-    let ADMIN_ROWS = [];
-
-    function loadAdminRoster() {
-      fetch(SHEET_URL)
-        .then(res => res.text())
-        .then(text => JSON.parse(text.substr(47).slice(0,-2)))
-        .then(json => {
-          const rows = json.table.rows;
-          const tbody = document.getElementById('adminBody');
-          const table = document.getElementById('adminTable');
-          ADMIN_ROWS = [];
-          tbody.innerHTML = '';
-          table.style.display = 'table';
-
-          rows.forEach((r, i) => {
-            const name = safe(r.c[0]?.v);
-            const cl   = safe(r.c[1]?.v);
-            const pos  = safe(r.c[2]?.v);
-            const hw   = safe(r.c[3]?.v);
-            const hudl = safe(r.c[4]?.v);
-            const write= safe(r.c[5]?.v);
-            const img  = safe(r.c[6]?.v);
-            const tw   = safe(r.c[7]?.v);
-            const gpa  = safe(r.c[8]?.v);
-
-            ADMIN_ROWS.push({ name, cl, pos, hw, hudl, write, img, twitter:tw, gpa });
-
-            tbody.innerHTML += `
-<tr>
-  <td style="border:1px solid #ddd; padding:8px;">${name}</td>
-  <td style="border:1px solid #ddd; padding:8px;">${cl}</td>
-  <td style="border:1px solid #ddd; padding:8px;">${pos}</td>
-  <td style="border:1px solid #ddd; padding:8px;">${hw}</td>
-  <td style="border:1px solid #ddd; padding:8px;">${hudl}</td>
-  <td style="border:1px solid #ddd; padding:8px;">${tw}</td>
-  <td style="border:1px solid #ddd; padding:8px;">${gpa}</td>
-  <td style="border:1px solid #ddd; padding:8px; text-align:center;">
-    <button class="btn btn-primary" onclick="editAdminRow(${i})">Edit</button>
-    <button class="btn btn-outline" onclick="copyAdminRow(${i})" style="margin-left:6px;">Copy Row</button>
-  </td>
-</tr>`;
-          });
-        })
-        .catch(err => {
-          console.error('Admin roster load error', err);
-          alert('Could not load roster from Google Sheets.');
-        });
-    }
-
-    function fillAdminEditor(row) {
-      document.getElementById('ad_name').value    = row.name    || '';
-      document.getElementById('ad_class').value   = row.cl      || '';
-      document.getElementById('ad_pos').value     = row.pos     || '';
-      document.getElementById('ad_hw').value      = row.hw      || '';
-      document.getElementById('ad_hudl').value    = row.hudl    || '';
-      document.getElementById('ad_img').value     = row.img     || '';
-      document.getElementById('ad_twitter').value = row.twitter || '';
-      document.getElementById('ad_gpa').value     = row.gpa     || '';
-      document.getElementById('ad_write').value   = row.write   || '';
-    }
-
-    function editAdminRow(index) {
-      const row = ADMIN_ROWS[index];
-      if (!row) return;
-      fillAdminEditor(row);
-      window.location.hash = '#adminDashboard';
-    }
-
-    function generateAdminRow() {
-      const name    = document.getElementById('ad_name').value.trim();
-      const cl      = document.getElementById('ad_class').value.trim();
-      const pos     = document.getElementById('ad_pos').value.trim();
-      const hw      = document.getElementById('ad_hw').value.trim();
-      const hudl    = document.getElementById('ad_hudl').value.trim();
-      const img     = document.getElementById('ad_img').value.trim();
-      const twitter = document.getElementById('ad_twitter').value.trim();
-      const gpa     = document.getElementById('ad_gpa').value.trim();
-      const write   = document.getElementById('ad_write').value.trim();
-
-      const parts = [name, cl, pos, hw, hudl, write, img, twitter, gpa];
-      const rowStr = parts.join('\t');
-      const output = document.getElementById('ad_output');
-      output.value = rowStr;
-
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(rowStr);
-        alert('Row copied! Paste into Google Sheets and use "Split text to columns".');
-      } else {
-        alert('Row generated. Manually copy it from the box.');
-      }
-    }
-
-    function clearAdminEditor() {
-      ['ad_name','ad_class','ad_pos','ad_hw','ad_hudl','ad_img','ad_twitter','ad_gpa','ad_write','ad_output'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = '';
-      });
-    }
-
-    function copyAdminRow(index) {
-      const row = ADMIN_ROWS[index];
-      if (!row) return;
-      const parts = [row.name, row.cl, row.pos, row.hw, row.hudl, row.write, row.img, row.twitter, row.gpa];
-      const rowStr = parts.join('\t');
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(rowStr);
-        alert('Row copied! Paste into Google Sheets and use "Split text to columns".');
-      } else {
-        alert('Copy not supported – manually copy from a generated row.');
-      }
-    }
-
-    function bulkExportCSV() {
-      if (!ADMIN_ROWS.length) {
-        alert('Load the roster first.');
-        return;
-      }
-      const header = ['Name','Class','Position','HeightWeight','HUDL','WriteUp','ImageURL','Twitter','GPA'];
-      const lines = [header.join(',')];
-      ADMIN_ROWS.forEach(r => {
-        const parts = [r.name, r.cl, r.pos, r.hw, r.hudl, r.write, r.img, r.twitter, r.gpa];
-        const safeCsv = parts.map(p => '"' + (p || '').replace(/"/g,'""') + '"');
-        lines.push(safeCsv.join(','));
-      });
-      const csv = lines.join('\n');
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(csv);
-        alert('CSV copied! Paste into a sheet or save as .csv.');
-      } else {
-        console.log(csv);
-        alert('CSV generated. Check console log to copy it.');
-      }
-    }
-
-    // PHOTO UPLOAD HELPER (Base64)
-    function convertPhoto() {
-      const fileInput = document.getElementById('photoInput');
-      const output = document.getElementById('photoOutput');
-      const file = fileInput.files[0];
-      if (!file) { alert('Please select an image first.'); return; }
-
-      const reader = new FileReader();
-      reader.onloadend = function() {
-        const base64URL = reader.result;
-        output.value = base64URL;
-        alert('Photo converted! Paste this string into ImageURL (or host on GitHub and use that URL).');
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function copyToClipboard() {
-      const text = document.getElementById('photoOutput').value;
-      if (!text) { alert('No ImageURL to copy yet.'); return; }
-      navigator.clipboard.writeText(text);
-      alert('ImageURL copied! Paste it into your Google Sheet under ImageURL.');
-    }
-
-    function openSheet() {
-      window.open('https://docs.google.com/spreadsheets/d/1k2YS5JkrjIJDlI4rdQT58STmnu03QPpBg2BT7dzyBpo/edit', '_blank');
-    }
-
-    // TRANSCRIPT FORM
-    function submitTranscriptForm(e) {
-      e.preventDefault();
-      const coach = document.getElementById('tCoach').value;
-      const school = document.getElementById('tSchool').value;
-      const player = document.getElementById('tPlayer').value;
-      const email = document.getElementById('tEmail').value;
-
-      const mailto = `mailto:serracavsfb@gmail.com?subject=Transcript Request - ${player}&body=Coach Minor,%0D%0A%0D%0AI am requesting an official transcript for:%0D%0APlayer: ${player}%0D%0ACollege: ${school}%0D%0ACoach: ${coach}%0D%0AEmail to receive transcript: ${email}`;
-      window.location.href = mailto;
-      alert('Transcript request prepared in your email app.');
-    }
-
-    // LOAD ROSTER ON PAGE LOAD
-    window.addEventListener('load', loadRosterFromSheets);
-  </script>
-
-</body>
-</html>
