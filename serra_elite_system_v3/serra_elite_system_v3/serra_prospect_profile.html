@@ -1,9 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Player Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial; background:#f5f7fb; padding:20px }
+    img { max-width:220px; border-radius:14px }
+    h1 { color:#002b5c }
+  </style>
+</head>
 
-<!doctype html><html><body>
-<h1>Profile</h1>
-<img id="playerPhoto" style="width:200px;">
+<body>
+
+<a href="serra_prospect_list.html">← Back to Recruits</a>
+<h1 id="name"></h1>
+<p id="meta"></p>
+<img id="photo" style="display:none"><br><br>
+<p id="bio"></p>
+<a id="hudl" target="_blank"></a>
+
 <script>
-var p = localStorage.getItem('uploadedPhoto');
-if(p){ document.getElementById('playerPhoto').src = p; }
+const p = new URLSearchParams(location.search).get("name");
+
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv")
+.then(r=>r.text())
+.then(csv=>{
+  const rows = csv.split("\n").map(r=>r.split(","));
+  rows.slice(1).forEach(r=>{
+    if(r[0]===p){
+      document.getElementById("name").innerText = r[0];
+      document.getElementById("meta").innerText = `${r[1]} | ${r[2]} | ${r[3]}`;
+      document.getElementById("bio").innerText = r[5];
+      if(r[6]){
+        document.getElementById("photo").src = r[6];
+        document.getElementById("photo").style.display="block";
+      }
+      if(r[4]){
+        document.getElementById("hudl").href = r[4];
+        document.getElementById("hudl").innerText = "View Hudl";
+      }
+    }
+  })
+});
 </script>
-</body></html>
+
+</body>
+</html>
