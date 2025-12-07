@@ -13,85 +13,99 @@
       color: #111;
     }
 
-    /* HEADER */
+    /* ================= HEADER ================= */
     header {
       background:
         linear-gradient(
-          rgba(0,43,92,0.65),
-          rgba(128,0,0,0.75)
+          rgba(0, 43, 92, 0.65),
+          rgba(128, 0, 0, 0.75)
         ),
         url('serra_action.png') center/cover no-repeat;
-      text-align: center;
       color: white;
-      padding: 110px 20px;
+      padding: 120px 20px;
+      text-align: center;
     }
 
     header img {
       width: 150px;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,.6));
+      margin-bottom: 22px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
     }
 
     header h1 {
       margin: 0;
       font-size: 3rem;
       font-weight: 900;
+      letter-spacing: 1px;
       text-transform: uppercase;
     }
 
     header p {
-      margin-top: 12px;
-      font-size: 1.2rem;
-      max-width: 900px;
+      margin-top: 14px;
+      font-size: 1.25rem;
+      max-width: 920px;
       margin-left: auto;
       margin-right: auto;
+      line-height: 1.5;
     }
 
+    /* ================= CONTENT SECTIONS ================= */
     section {
       max-width: 1000px;
-      margin: 60px auto;
+      margin: 70px auto;
       padding: 0 16px;
       text-align: center;
     }
 
     section h2 {
-      color: #002b5c;
       font-size: 2.2rem;
-      margin-bottom: 16px;
+      color: #002b5c;
+      margin-bottom: 14px;
+      font-weight: 800;
     }
 
     section p {
       font-size: 1.1rem;
-      line-height: 1.6;
+      line-height: 1.65;
+      color: #333;
     }
 
+    /* ================= CTA / QR SECTION ================= */
     .cta {
-      background: linear-gradient(135deg,#002b5c,#800000);
-      color: white;
+      background: linear-gradient(135deg, #002b5c, #800000);
       padding: 80px 20px;
       text-align: center;
+      color: white;
     }
 
     .cta img {
-      width: 220px;
-      margin-bottom: 20px;
+      width: 240px;
+      margin-bottom: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
 
     .btn {
       display: inline-block;
-      margin: 12px;
+      margin: 10px;
       padding: 16px 34px;
       border-radius: 999px;
+      background: white;
+      color: #002b5c;
       text-decoration: none;
       font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .btn.dark {
       background: #002b5c;
       color: white;
     }
 
     footer {
       text-align: center;
-      padding: 28px;
-      font-size: .85rem;
+      padding: 30px;
+      font-size: 0.85rem;
       color: #666;
     }
   </style>
@@ -99,50 +113,63 @@
 
 <body>
 
+<!-- ================= HEADER ================= -->
 <header>
-  <img src="serra_logo.png" alt="Serra Football">
+  <img src="serra_logo.png" alt="Serra Football Logo">
   <h1>Serra Elite Recruiting</h1>
   <p>Official Recruiting Hub for Junípero Serra High School Football</p>
 </header>
 
+<!-- ================= WHY SERRA ================= -->
 <section>
   <h2>Why Serra Football</h2>
   <p>
-    Serra Football is built on discipline, toughness, accountability, and academics.
-    Our student-athletes are developed for success at the next level — on the field,
-    in the classroom, and in life.
+    Junípero Serra High School is nationally recognized for developing elite football
+    talent within a culture of discipline, toughness, accountability, and academic excellence.
+    Our student-athletes are prepared for success at the collegiate level and beyond.
   </p>
 </section>
 
+<!-- ================= WHAT WE EXPECT ================= -->
 <section>
   <h2>What We Expect From Our Athletes</h2>
   <p>
-    Serra athletes must represent the program with pride, compete relentlessly,
-    stay academically eligible, and be coachable leaders.
-    We build men first — football players second.
+    Serra Football athletes are expected to lead in the classroom, compete relentlessly,
+    respect the game, and represent the program with pride.
+    Accountability, coachability, work ethic, and character are non-negotiables.
   </p>
 </section>
 
+<!-- ================= QR + LINKS ================= -->
 <section class="cta">
-  <img src="serra_main_qr.png" alt="Scan Serra Recruits">
+
+  <img src="serra_main_qr.png" alt="Scan Serra Recruiting">
 
   <div>
-    <a class="btn" href="https://dminor2tuff.github.io/serra-elite-recruiting/serra_elite_system_v3/serra_elite_system_v3/serra_prospect_list.html" target="_blank">
+    <a class="btn dark"
+       href="https://dminor2tuff.github.io/serra-elite-recruiting/serra_elite_system_v3/serra_elite_system_v3/serra_prospect_list.html"
+       target="_blank">
       View All Recruits
     </a>
 
-    <a class="btn" href="https://dminor2tuff.github.io/serra-elite-recruiting/serra_elite_system_v3/serra_elite_system_v3/coach_login.html" target="_blank">
+    <a class="btn dark"
+       href="https://dminor2tuff.github.io/serra-elite-recruiting/serra_elite_system_v3/serra_elite_system_v3/coach_login.html"
+       target="_blank">
       Coach Login
     </a>
 
-    <a class="btn" href="https://dminor2tuff.github.io/serra-elite-recruiting/transcript_request.html" target="_blank">
+    <a class="btn dark"
+       href="https://dminor2tuff.github.io/serra-elite-recruiting/transcript_request.html"
+       target="_blank">
       Transcript Request
     </a>
   </div>
+
 </section>
 
+<!-- ================= FOOTER ================= -->
 <footer>
-  © Serra Football Recruiting • Junípero Serra HS • Gardena, CA
+  © Serra Football Recruiting • Junípero Serra High School • Gardena, CA
 </footer>
 
 </body>
