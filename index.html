@@ -3,61 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <title>Serra Elite Recruiting</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: #ffffff;
+      background: #f5f7fb;
       color: #111;
     }
 
+    /* HEADER */
     header {
-      background: linear-gradient(#002b5c, #800000);
+      background:
+        linear-gradient(
+          rgba(0,43,92,0.65),
+          rgba(128,0,0,0.75)
+        ),
+        url('serra_action.png') center/cover no-repeat;
+      text-align: center;
+      color: white;
+      padding: 110px 20px;
+    }
+
+    header img {
+      width: 150px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,.6));
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 3rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    header p {
+      margin-top: 12px;
+      font-size: 1.2rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    section {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 0 16px;
+      text-align: center;
+    }
+
+    section h2 {
+      color: #002b5c;
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+    }
+
+    section p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .cta {
+      background: linear-gradient(135deg,#002b5c,#800000);
       color: white;
       padding: 80px 20px;
       text-align: center;
     }
 
-    header img {
-      width: 140px;
+    .cta img {
+      width: 220px;
       margin-bottom: 20px;
     }
 
-    h1 {
-      margin: 0;
-      font-size: 2.5rem;
-      font-weight: 900;
-    }
-
-    p {
-      font-size: 1.1rem;
-      max-width: 800px;
-      margin: 14px auto;
-      line-height: 1.5;
-    }
-
-    section {
-      padding: 60px 20px;
-      text-align: center;
-    }
-
     .btn {
-      background: #002b5c;
-      color: white;
-      padding: 16px 30px;
+      display: inline-block;
+      margin: 12px;
+      padding: 16px 34px;
       border-radius: 999px;
       text-decoration: none;
       font-weight: 800;
-      display: inline-block;
-      margin-top: 20px;
+      background: #002b5c;
+      color: white;
     }
 
     footer {
       text-align: center;
-      padding: 24px;
-      font-size: 0.85rem;
+      padding: 28px;
+      font-size: .85rem;
       color: #666;
     }
   </style>
@@ -74,43 +108,37 @@
 <section>
   <h2>Why Serra Football</h2>
   <p>
-    Serra Football develops disciplined, competitive, high-character student-athletes.
-    Our program emphasizes academics, accountability, toughness, and preparation
-    for the next level.
-  </p>
-</section>
-
-<section style="background:#f5f7fb;">
-  <h2>What We Expect From Our Athletes</h2>
-  <p>
-    Serra athletes are expected to lead in the classroom, compete relentlessly,
-    respect the game, and represent the program with integrity.
+    Serra Football is built on discipline, toughness, accountability, and academics.
+    Our student-athletes are developed for success at the next level — on the field,
+    in the classroom, and in life.
   </p>
 </section>
 
 <section>
-  <h2>College Coaches</h2>
-  <p>Scan or click below to access Serra’s recruiting hub.</p>
-
-  <img src="serra_main_qr.png" alt="Scan Serra Recruits" style="width:220px;">
-
-  <br>
-
-  <a class="btn" href="https://serrafbrecruits.com" target="_blank">
-    View Serra Recruiting Portal
-  </a>
+  <h2>What We Expect From Our Athletes</h2>
+  <p>
+    Serra athletes must represent the program with pride, compete relentlessly,
+    stay academically eligible, and be coachable leaders.
+    We build men first — football players second.
+  </p>
 </section>
 
-<section style="background:#002b5c; color:white;">
-  <h2>Recruiting Board</h2>
-  <p>
-    Access the full recruiting board, athlete profiles,
-    transcripts, and coach login below.
-  </p>
+<section class="cta">
+  <img src="serra_main_qr.png" alt="Scan Serra Recruits">
 
-  <a class="btn" href="https://dminor2tuff.github.io/serra-elite-recruiting/serra_elite_system_v3/serra_elite_system_v3/serra_prospect_list.html" target="_blank">
-    View All Serra Recruits
-  </a>
+  <div>
+    <a class="btn" href="https://dminor2tuff.github.io/serra-elite-recruiting/serra_elite_system_v3/serra_elite_system_v3/serra_prospect_list.html" target="_blank">
+      View All Recruits
+    </a>
+
+    <a class="btn" href="https://dminor2tuff.github.io/serra-elite-recruiting/serra_elite_system_v3/serra_elite_system_v3/coach_login.html" target="_blank">
+      Coach Login
+    </a>
+
+    <a class="btn" href="https://dminor2tuff.github.io/serra-elite-recruiting/transcript_request.html" target="_blank">
+      Transcript Request
+    </a>
+  </div>
 </section>
 
 <footer>
