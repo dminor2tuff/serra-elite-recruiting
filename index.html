@@ -8,136 +8,113 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7fb;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
       color: #111;
     }
 
-    /* ================= HEADER ================= */
-   <header style="
-  background:
-    linear-gradient(
-      rgba(0, 43, 92, 0.65),   /* Serra BLUE (lighter) */
-      rgba(128, 0, 0, 0.65)    /* Serra RED (lighter) */
-    ),
-    url('serra_action.png') center center / cover no-repeat;
-  color: white;
-  padding: 120px 20px;
-  text-align: center;
+    header {
+      background: linear-gradient(#002b5c, #800000);
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
 
-  /* 👇 makes the image POP */
-  filter: saturate(1.15) contrast(1.1);
-">
+    header img {
+      width: 140px;
+      margin-bottom: 20px;
+    }
 
-  <img
-    src="serra_logo.png"
-    alt="Serra Football Logo"
-    style="
-      width:160px;
-      margin-bottom:24px;
-      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
-    "
-  >
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 900;
+    }
 
-  <h1 style="
-    margin: 0;
-    font-size: 3rem;
-    font-weight: 900;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-  ">
-    Serra Elite Recruiting
-  </h1>
+    p {
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 14px auto;
+      line-height: 1.5;
+    }
 
-  <p style="
-    margin-top: 14px;
-    font-size: 1.3rem;
-    max-width: 920px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.55;
-    text-shadow: 0 3px 8px rgba(0,0,0,0.6);
-  ">
-    Official Recruiting Hub for Junípero Serra High School Football
-  </p>
+    section {
+      padding: 60px 20px;
+      text-align: center;
+    }
 
+    .btn {
+      background: #002b5c;
+      color: white;
+      padding: 16px 30px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 800;
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 0.85rem;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <img src="serra_logo.png" alt="Serra Football">
+  <h1>Serra Elite Recruiting</h1>
+  <p>Official Recruiting Hub for Junípero Serra High School Football</p>
 </header>
 
-
-<!-- ================= WHY SERRA ================= -->
-<section class="info-section">
+<section>
   <h2>Why Serra Football</h2>
   <p>
-    Junípero Serra High School is nationally recognized for developing elite football
-    talent within a culture of discipline, toughness, and accountability. Our program
-    emphasizes academics, leadership, and competitive excellence — preparing
-    student-athletes for success at the collegiate level and beyond.
+    Serra Football develops disciplined, competitive, high-character student-athletes.
+    Our program emphasizes academics, accountability, toughness, and preparation
+    for the next level.
   </p>
 </section>
 
-<!-- ================= WHAT WE EXPECT ================= -->
-<section class="info-section">
+<section style="background:#f5f7fb;">
   <h2>What We Expect From Our Athletes</h2>
   <p>
-    Serra Football athletes are expected to lead in the classroom, compete relentlessly,
-    respect the game, and represent the program with pride. Accountability,
-    coachability, work ethic, and character are non-negotiables.
-    We build men first — football players second.
+    Serra athletes are expected to lead in the classroom, compete relentlessly,
+    respect the game, and represent the program with integrity.
   </p>
 </section>
 
-<!-- ================= QR SECTION ================= -->
-<section class="qr-section">
-  <h2>Quick Access for College Coaches</h2>
-  <p>
-    Scan the QR code below to instantly access Serra’s full recruiting board,
-    athlete profiles, transcripts, and coach contact information.
-  </p>
+<section>
+  <h2>College Coaches</h2>
+  <p>Scan or click below to access Serra’s recruiting hub.</p>
 
-  <a href="https://serrafbrecruits.com" target="_blank">
-    <img src="serra_main_qr.png" alt="Scan Serra Recruiting">
-  </a>
+  <img src="serra_main_qr.png" alt="Scan Serra Recruits" style="width:220px;">
+
   <br>
-  <a class="qr-btn" href="https://serrafbrecruits.com" target="_blank">
-    📲 Scan Me — SerraFBRecruits.com
+
+  <a class="btn" href="https://serrafbrecruits.com" target="_blank">
+    View Serra Recruiting Portal
   </a>
 </section>
 
-<!-- ================= RECRUITING BOARD + LOGIN ================= -->
-<section class="recruiting-wrap" style="text-align:center; padding:80px 20px;">
-
-  <h2 style="color:#002b5c; font-size:2.2rem;">
-    View Serra Football Recruits
-  </h2>
-
-  <p style="max-width:800px; margin:20px auto; font-size:1.1rem;">
-    Our live recruiting board includes rosters, athlete profiles, transcripts,
-    and coach login access.
+<section style="background:#002b5c; color:white;">
+  <h2>Recruiting Board</h2>
+  <p>
+    Access the full recruiting board, athlete profiles,
+    transcripts, and coach login below.
   </p>
 
-  <a 
-    href="https://dminor2tuff.github.io/serra-elite-recruiting/serra_elite_system_v3/serra_elite_system_v3/serra_prospect_list.html"
-    target="_blank"
-    style="
-      background:#002b5c;
-      color:white;
-      padding:16px 34px;
-      border-radius:999px;
-      text-decoration:none;
-      font-weight:800;
-      font-size:1.1rem;
-      display:inline-block;
-    "
-  >
-    🔎 View All Serra Recruits
+  <a class="btn" href="https://dminor2tuff.github.io/serra-elite-recruiting/serra_elite_system_v3/serra_elite_system_v3/serra_prospect_list.html" target="_blank">
+    View All Serra Recruits
   </a>
-
 </section>
 
-
-<!-- ================= FOOTER ================= -->
 <footer>
-  © Serra Football Recruiting • Junípero Serra High School • Gardena, CA
+  © Serra Football Recruiting • Junípero Serra HS • Gardena, CA
 </footer>
 
 </body>
