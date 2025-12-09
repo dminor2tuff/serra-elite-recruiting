@@ -1,28 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Serra Recruits</title>
+<title>Serra Football Recruits</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{margin:0;font-family:Arial;background:#f5f7fb}
+header{
+  background:#002b5c;
+  color:white;
+  padding:20px;
+  text-align:center;
+}
+.grid{
+  max-width:1100px;
+  margin:30px auto;
+  padding:0 16px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:18px;
+}
+.card{
+  background:white;
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+  display:flex;
+  gap:14px;
+}
+.photo{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  overflow:hidden;
+  background:#ddd;
+  flex-shrink:0;
+}
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.name a{
+  color:#002b5c;
+  font-weight:800;
+  text-decoration:none;
+}
+.meta{
+  font-size:.9rem;
+  margin-top:4px;
+  color:#444;
+}
+.links a{
+  font-size:.85rem;
+  margin-right:10px;
+  color:#002b5c;
+  text-decoration:none;
+}
+</style>
 </head>
 
-<body style="font-family:Arial;background:#f5f7fb">
+<body>
 
-<h1>Serra Football Recruits</h1>
+<header>
+  <h1>Serra Football Recruiting</h1>
+</header>
 
-<div id="list">Loading…</div>
+<div id="grid" class="grid">Loading…</div>
 
 <script>
-const SHEET="https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const SHEET =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-fetch(SHEET).then(r=>r.text()).then(csv=>{
-  const rows=csv.split("\n");
+const PLACEHOLDER="images/placeholder_player.png";
+
+fetch(SHEET)
+.then(r=>r.text())
+.then(csv=>{
+  const rows=csv.split("\n").map(r=>r.split(","));
+  const h=rows[0];
   let html="";
   rows.slice(1).forEach(r=>{
-    const c=r.split(",");
-    if(c[0]) html+=`<p><strong>${c[0]}</strong> – ${c[2]}</p>`;
+    if(!r[0]) return;
+    const Name=r[0],
+          Class=r[1],
+          Position=r[2],
+          HeightWeight=r[3],
+          HUDL=r[4],
+          ImageURL=r[6] || PLACEHOLDER;
+
+    html+=`
+    <div class="card">
+      <div class="photo">
+        <img src="${ImageURL}">
+      </div>
+      <div>
+        <div class="name">
+          <a href="profile.html?name=${encodeURIComponent(Name)}">${Name}</a>
+        </div>
+        <div class="meta">
+          Class ${Class} • ${Position} • ${HeightWeight || ""}
+        </div>
+        <div class="links">
+          ${HUDL ? `<a href="${HUDL}" target="_blank">HUDL</a>` : ""}
+        </div>
+      </div>
+    </div>`;
   });
-  document.getElementById("list").innerHTML=html;
+  document.getElementById("grid").innerHTML=html;
 });
 </script>
 
