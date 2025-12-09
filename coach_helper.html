@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Coach Helper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:Arial;background:#f5f7fb}
+.wrap{max-width:800px;margin:40px auto;background:white;padding:24px;border-radius:16px}
+.hidden{display:none}
+h1{color:#002b5c}
+input,textarea{width:100%;padding:10px;margin-bottom:10px}
+button{background:#002b5c;color:white;padding:10px 16px;border:none;border-radius:999px;font-weight:700}
+.code{background:#eee;padding:10px;border-radius:8px;font-family:monospace}
+</style>
+</head>
+
+<body>
+
+<div id="lock" class="wrap">
+<h1>Coach Access</h1>
+<input type="password" id="pw" placeholder="Enter coach password">
+<button onclick="unlock()">Enter</button>
+</div>
+
+<div id="content" class="wrap hidden">
+<h1>Coach Edit Helper</h1>
+
+<p><strong>Google Sheet Headers (DO NOT CHANGE):</strong></p>
+<div class="code">Name | Class | Position | HeightWeight | HUDL | Writeup | ImageURL | Twitter | GPA</div>
+
+<p><strong>Image URL format:</strong></p>
+<div class="code">https://dminor2tuff.github.io/serra-elite-recruiting/images/player_name.png</div>
+
+<p><strong>Generate Player Profile Link:</strong></p>
+<input id="playerName" placeholder="Player Name">
+<button onclick="makeLink()">Generate</button>
+<p id="link"></p>
+
+</div>
+
+<script>
+const CODE="SerraFB";
+function unlock(){
+  if(pw.value===CODE){
+    lock.style.display="none";
+    content.classList.remove("hidden");
+  }
+}
+function makeLink(){
+  const n=encodeURIComponent(playerName.value);
+  link.innerHTML=`profile.html?name=${n}`;
+}
+</script>
+
+</body>
+</html>
