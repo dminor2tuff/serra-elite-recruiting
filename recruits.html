@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Serra Football Recruits</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{font-family:Arial;margin:0;background:#f5f7fb;}
+header{background:#002b5c;color:white;padding:20px;text-align:center;}
+.wrap{max-width:1100px;margin:20px auto;padding:0 16px;}
+
+.filters{
+display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px;
+}
+.filters input,.filters select{
+padding:8px;border-radius:8px;border:1px solid #ccc;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:16px;
+}
+
+.card{
+background:white;padding:14px;border-radius:12px;
+box-shadow:0 3px 10px rgba(0,0,0,.08);
+display:flex;gap:12px;
+}
+
+.photo{
+width:70px;height:70px;border-radius:50%;overflow:hidden;background:#ddd;
+}
+.photo img{width:100%;height:100%;object-fit:cover;}
+
+.name a{font-weight:800;color:#002b5c;text-decoration:none;}
+.meta{font-size:.85rem;color:#444;margin-top:4px;}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Serra Football Player Dashboard</h1>
+</header>
+
+<div class="wrap">
+
+<div class="filters">
+<input id="searchName" placeholder="Search name">
+<select id="filterClass"><option value="">All Classes</option></select>
+</div>
+
+<div id="grid" class="grid"></div>
+
+</div>
+
+<script>
+const SHEET_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const PLACEHOLDER="images/placeholder_player.png";
+let players=[];
+
+fetch(SHEET_URL).then(r=>r.text()).then(csv=>{
+let rows=csv.split("\n").map(r=>r.split(","));
+let headers=rows[0];
+players=rows.slice(1).map(r=>{
+let o={};
+headers.forEach((h,i)=>o[h]=r[i]);
+return o;
+});
+populateFilters();
+render();
+});
+
+function populateFilters(){
+const s=document.getElementById("filterClass");
+[...new Set(players.map(p=>p.Class))].forEach(c=>{
+if(c){let o=document.createElement("option");o.value=c;o.textContent=c;s.appendChild(o);}
+});
+}
+
+function render(){
+const g=document.getElementById("grid");
+g.innerHTML="";
+let n=searchName.value.toLowerCase();
+let c=filterClass.value;
+players.filter(p=>{
+if(n&&!p.Name.toLowerCase().includes(n))return false;
+if(c&&p.Class!==c)return false;
+return true;
+}).forEach(p=>{
+g.innerHTML+=`
+<div class="card">
+<div class="photo"><img src="${p.ImageURL||PLACEHOLDER}"></div>
+<div>
+<div class="name"><a href="profile.html?name=${encodeURIComponent(p.Name)}">${p.Name}</a></div>
+<div class="meta">Class ${p.Class} • ${p.Position}</div>
+</div>
+</div>`;
+});
+}
+
+searchName.oninput=render;
+filterClass.onchange=render;
+</script>
+
+</body>
+</html>
