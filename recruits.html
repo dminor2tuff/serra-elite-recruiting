@@ -1,109 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Serra Football Recruits</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <title>Serra Football – Player Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<style>
-body{font-family:Arial;margin:0;background:#f5f7fb;}
-header{background:#002b5c;color:white;padding:20px;text-align:center;}
-.wrap{max-width:1100px;margin:20px auto;padding:0 16px;}
+  <style>
+    :root {
+      --serra-blue: #002b5c;
+      --serra-red: #800000;
+      --serra-light: #f5f7fb;
+    }
 
-.filters{
-display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px;
-}
-.filters input,.filters select{
-padding:8px;border-radius:8px;border:1px solid #ccc;
-}
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--serra-light);
+      color: #111;
+    }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:16px;
-}
+    header {
+      background: linear-gradient(135deg, var(--serra-blue), var(--serra-red));
+      color: white;
+      text-align: center;
+      padding: 22px 16px;
+    }
 
-.card{
-background:white;padding:14px;border-radius:12px;
-box-shadow:0 3px 10px rgba(0,0,0,.08);
-display:flex;gap:12px;
-}
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 900;
+    }
 
-.photo{
-width:70px;height:70px;border-radius:50%;overflow:hidden;background:#ddd;
-}
-.photo img{width:100%;height:100%;object-fit:cover;}
+    .wrap {
+      max-width: 1100px;
+      margin: 20px auto 40px;
+      padding: 0 16px;
+    }
 
-.name a{font-weight:800;color:#002b5c;text-decoration:none;}
-.meta{font-size:.85rem;color:#444;margin-top:4px;}
-</style>
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+    }
+
+    .top-row a {
+      text-decoration: none;
+      color: var(--serra-blue);
+      font-weight: 700;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .filters input,
+    .filters select {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 0.9rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .photo {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #ddd;
+      flex-shrink: 0;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .name a {
+      text-decoration: none;
+      color: var(--serra-blue);
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .meta {
+      font-size: 0.85rem;
+      color: #444;
+      margin-top: 4px;
+    }
+
+    .links a {
+      font-size: 0.8rem;
+      margin-right: 8px;
+      text-decoration: none;
+      color: var(--serra-blue);
+    }
+
+    .empty {
+      text-align: center;
+      margin-top: 30px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 
 <body>
+  <header>
+    <h1>Serra Football – Player Dashboard</h1>
+  </header>
 
-<header>
-<h1>Serra Football Player Dashboard</h1>
-</header>
+  <div class="wrap">
+    <div class="top-row">
+      <a href="index.html">← Back to Serra Elite Recruiting</a>
+      <a href="admin.html" target="_blank">Coach Admin Tools</a>
+    </div>
 
-<div class="wrap">
+    <div class="filters">
+      <input id="searchName" placeholder="Search name…" />
+      <select id="filterClass">
+        <option value="">All Classes</option>
+      </select>
+      <select id="filterPosition">
+        <option value="">All Positions</option>
+      </select>
+    </div>
 
-<div class="filters">
-<input id="searchName" placeholder="Search name">
-<select id="filterClass"><option value="">All Classes</option></select>
-</div>
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty" style="display: none;">
+      No recruits match your filters.
+    </div>
+  </div>
 
-<div id="grid" class="grid"></div>
+  <script>
+    const SHEET_URL =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-</div>
+    const PLACEHOLDER_IMG = "images/placeholder_player.png";
 
-<script>
-const SHEET_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
-const PLACEHOLDER="images/placeholder_player.png";
-let players=[];
+    let players = [];
 
-fetch(SHEET_URL).then(r=>r.text()).then(csv=>{
-let rows=csv.split("\n").map(r=>r.split(","));
-let headers=rows[0];
-players=rows.slice(1).map(r=>{
-let o={};
-headers.forEach((h,i)=>o[h]=r[i]);
-return o;
-});
-populateFilters();
-render();
-});
+    async function loadPlayers() {
+      const res = await fetch(SHEET_URL);
+      const text = await res.text();
+      const rows = text.split("\n").map((r) => r.split(","));
+      const headers = rows[0];
 
-function populateFilters(){
-const s=document.getElementById("filterClass");
-[...new Set(players.map(p=>p.Class))].forEach(c=>{
-if(c){let o=document.createElement("option");o.value=c;o.textContent=c;s.appendChild(o);}
-});
-}
+      players = rows
+        .slice(1)
+        .map((r) => {
+          if (!r[0]) return null;
+          const obj = {};
+          headers.forEach((h, i) => (obj[h.trim()] = (r[i] || "").trim()));
+          return obj;
+        })
+        .filter(Boolean);
 
-function render(){
-const g=document.getElementById("grid");
-g.innerHTML="";
-let n=searchName.value.toLowerCase();
-let c=filterClass.value;
-players.filter(p=>{
-if(n&&!p.Name.toLowerCase().includes(n))return false;
-if(c&&p.Class!==c)return false;
-return true;
-}).forEach(p=>{
-g.innerHTML+=`
-<div class="card">
-<div class="photo"><img src="${p.ImageURL||PLACEHOLDER}"></div>
-<div>
-<div class="name"><a href="profile.html?name=${encodeURIComponent(p.Name)}">${p.Name}</a></div>
-<div class="meta">Class ${p.Class} • ${p.Position}</div>
-</div>
-</div>`;
-});
-}
+      populateFilters();
+      render();
+    }
 
-searchName.oninput=render;
-filterClass.onchange=render;
-</script>
+    function populateFilters() {
+      const classSet = new Set();
+      const posSet = new Set();
 
+      players.forEach((p) => {
+        if (p.Class) classSet.add(p.Class);
+        if (p.Position) posSet.add(p.Position);
+      });
+
+      const fc = document.getElementById("filterClass");
+      const fp = document.getElementById("filterPosition");
+
+      classSet.forEach((c) => {
+        const opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = c;
+        fc.appendChild(opt);
+      });
+
+      posSet.forEach((pos) => {
+        const opt = document.createElement("option");
+        opt.value = pos;
+        opt.textContent = pos;
+        fp.appendChild(opt);
+      });
+    }
+
+    function render() {
+      const grid = document.getElementById("grid");
+      const empty = document.getElementById("empty");
+      grid.innerHTML = "";
+
+      const nameFilter = document
+        .getElementById("searchName")
+        .value.toLowerCase();
+      const classFilter = document.getElementById("filterClass").value;
+      const posFilter = document.getElementById("filterPosition").value;
+
+      let list = players.filter((p) => {
+        if (nameFilter && !p.Name.toLowerCase().includes(nameFilter))
+          return false;
+        if (classFilter && p.Class !== classFilter) return false;
+        if (posFilter && (!p.Position || !p.Position.includes(posFilter)))
+          return false;
+        return true;
+      });
+
+      if (!list.length) {
+        empty.style.display = "block";
+        return;
+      } else {
+        empty.style.display = "none";
+      }
+
+      list.forEach((p) => {
+        const imgSrc = p.ImageURL || PLACEHOLDER_IMG;
+        const profileUrl = "profile.html?name=" + encodeURIComponent(p.Name);
+
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="photo">
+            <img src="${imgSrc}" alt="${p.Name}">
+          </div>
+          <div>
+            <div class="name">
+              <a href="${profileUrl}">${p.Name}</a>
+            </div>
+            <div class="meta">
+              Class ${p.Class || "—"} • ${p.Position || "—"}${
+          p.HeightWeight ? " • " + p.HeightWeight : ""
+        }${p.GPA ? " • GPA " + p.GPA : ""}
+            </div>
+            <div class="links">
+              ${p.HUDL ? `<a href="${p.HUDL}" target="_blank">HUDL</a>` : ""}
+              ${p.Twitter ? `<a href="${p.Twitter}" target="_blank">Twitter</a>` : ""}
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    document.getElementById("searchName").oninput = render;
+    document.getElementById("filterClass").onchange = render;
+    document.getElementById("filterPosition").onchange = render;
+
+    loadPlayers();
+  </script>
 </body>
 </html>
