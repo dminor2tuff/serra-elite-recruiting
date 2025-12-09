@@ -1,257 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Serra Football Recruits</title>
+<title>Serra Recruits</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-:root{
-  --blue:#002b5c;
-  --red:#800000;
-  --light:#f5f7fb;
-  --pill-bg:#eef1f8;
-}
-body{margin:0;font-family:Arial;background:var(--light)}<nav style="background:#002b5c;color:white;display:flex;justify-content:space-between;align-items:center;padding:12px 18px;">
-  <div>
-    <img src="images/serra_logo.png" style="height:36px">
-  </div>
-  <div>
-    <a href="index.html" style="color:white;margin-left:16px;font-weight:700;text-decoration:none;">Home</a>
-    <a href="recruits.html" style="color:white;margin-left:16px;font-weight:700;text-decoration:none;">Recruits</a>
-    <a href="transcript_request.html" style="color:white;margin-left:16px;font-weight:700;text-decoration:none;">Transcript</a>
-    <a href="admin.html" style="color:white;margin-left:16px;font-weight:700;text-decoration:none;">Coach Tools</a>
-  </div>
-</nav>
-header{
-  background:linear-gradient(135deg,var(--blue),var(--red));
-  color:white;
-  text-align:center;
-  padding:22px;
-}
-.wrap{max-width:1100px;margin:30px auto;padding:0 16px}
-.filters{
-  display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;
-}
-.filters input,.filters select{
-  padding:8px 10px;border-radius:8px;border:1px solid #ccc;font-size:.9rem;
-}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:18px;
-}
-.card{
-  background:white;border-radius:16px;padding:16px;
-  display:flex;gap:14px;box-shadow:0 4px 12px rgba(0,0,0,.1);
-}
-.photo{
-  width:70px;height:70px;border-radius:50%;overflow:hidden;background:#ddd;flex-shrink:0;
-}
-.photo img{width:100%;height:100%;object-fit:cover}
-.name a{
-  color:var(--blue);font-weight:800;text-decoration:none;
-}
-.meta{font-size:.9rem;color:#444;margin-top:4px}
-.links a{
-  font-size:.8rem;margin-right:10px;color:var(--blue);text-decoration:none;
-}
-.badges{margin-top:6px;font-size:.8rem}
-.badge{
-  display:inline-flex;align-items:center;
-  background:var(--pill-bg);
-  padding:3px 8px;
-  border-radius:999px;
-  margin-right:6px;
-}
-.badge.commit{
-  background:#e8f5e9;color:#1b5e20;font-weight:700;
-}
-.badge.offered{
-  background:#fff3e0;color:#e65100;font-weight:700;
-}
-.badge img{
-  width:18px;height:18px;border-radius:50%;margin-right:5px;object-fit:cover;
-}
-.hidden{display:none}
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<header>
-  <h1>Serra Football – Recruiting Board</h1>
-  <p>Authorized College Coach Access</p>
-</header>
+<nav>
+  <img src="images/serra_logo.png">
+  <div>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
 
-<!-- Password gate -->
-<div id="lock" class="wrap">
-  <h2>Password Required</h2>
-  <p>Enter the Serra recruiting access code to view all players.</p>
-  <input type="password" id="pw" placeholder="Access code">
-  <br><br>
-  <button onclick="unlock()" style="padding:8px 20px;border:none;border-radius:999px;background:var(--blue);color:white;font-weight:700;">
-    Enter
-  </button>
-  <p id="err" style="color:#b00020;display:none;margin-top:8px;">Incorrect password</p>
+<div class="section" id="lock">
+  <h2>Restricted Access</h2>
+  <input type="password" id="pw" placeholder="Enter password">
+  <button onclick="unlock()">Enter</button>
 </div>
 
-<div id="content" class="wrap hidden">
-
-  <div class="filters">
-    <input id="search" placeholder="Search name">
-    <select id="classFilter"><option value="">All Classes</option></select>
-    <select id="posFilter"><option value="">All Positions</option></select>
-    <select id="collegeFilter"><option value="">All Colleges</option></select>
-    <select id="statusFilter">
-      <option value="">All Status</option>
-      <option value="Committed">Committed</option>
-      <option value="Offered">Offered</option>
-      <option value="Target">Target</option>
-    </select>
-  </div>
-
-  <div id="grid" class="grid"></div>
+<div class="section" id="content" style="display:none">
+  <h2>Recruiting Board</h2>
+  <div id="list"></div>
 </div>
 
 <script>
-/* -------- Password Gate -------- */
-const ACCESS_CODE = "SerraFB"; // change if needed
+const CODE="SerraFB";
+const SHEET="https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
 function unlock(){
-  const val=document.getElementById("pw").value.trim();
-  if(val===ACCESS_CODE){
-    document.getElementById("lock").style.display="none";
-    document.getElementById("content").classList.remove("hidden");
-    loadPlayers();
-  }else{
-    document.getElementById("err").style.display="block";
+  if(pw.value===CODE){
+    lock.style.display="none";
+    content.style.display="block";
+    load();
   }
 }
 
-/* -------- Data & Rendering -------- */
-const SHEET =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
-
-const PLACEHOLDER="images/placeholder_player.png";
-let players=[];
-
-async function loadPlayers(){
-  const res=await fetch(SHEET);
-  const text=await res.text();
-  const rows=text.split("\\n").map(r=>r.split(","));
-  const headers=rows[0];
-
-  players=rows.slice(1).map(r=>{
-    if(!r[0]) return null;
-    const p={};
-    headers.forEach((h,i)=>p[h.trim()]= (r[i]||"").trim());
-    return p;
-  }).filter(Boolean);
-
-  populateFilters();
-  render();
+function load(){
+fetch(SHEET).then(r=>r.text()).then(csv=>{
+  const rows=csv.split("\n");
+  let html="";
+  rows.slice(1).forEach(r=>{
+    const c=r.split(",");
+    if(c[0])
+      html+=`<div class="card"><a href="profile.html?name=${encodeURIComponent(c[0])}">${c[0]}</a></div>`;
+  });
+  list.innerHTML=html;
+});
 }
-
-function populateFilters(){
-  const cSet=new Set(), pSet=new Set(), colSet=new Set();
-  players.forEach(p=>{
-    if(p.Class) cSet.add(p.Class);
-    if(p.Position) pSet.add(p.Position);
-    if(p.College) colSet.add(p.College);
-  });
-
-  cSet.forEach(v=>{
-    const o=document.createElement("option");
-    o.value=v;o.textContent=v;
-    classFilter.appendChild(o);
-  });
-  pSet.forEach(v=>{
-    const o=document.createElement("option");
-    o.value=v;o.textContent=v;
-    posFilter.appendChild(o);
-  });
-  colSet.forEach(v=>{
-    const o=document.createElement("option");
-    o.value=v;o.textContent=v;
-    collegeFilter.appendChild(o);
-  });
-}
-
-function render(){
-  const g=document.getElementById("grid");
-  g.innerHTML="";
-
-  const s=search.value.toLowerCase();
-  const c=classFilter.value;
-  const pos=posFilter.value;
-  const col=collegeFilter.value;
-  const status=statusFilter.value;
-
-  players.filter(p=>{
-    if(s && !p.Name.toLowerCase().includes(s)) return false;
-    if(c && p.Class!==c) return false;
-    if(pos && (!p.Position || !p.Position.includes(pos))) return false;
-    if(col && p.College!==col) return false;
-    if(status && p.Status!==status) return false;
-    return true;
-  }).forEach(p=>{
-    const img=p.ImageURL || PLACEHOLDER;
-    const profileUrl="profile.html?name="+encodeURIComponent(p.Name);
-
-    const offers=p.Offers || "";
-    const statusTxt=p.Status || "";
-    const college=p.College || "";
-    const logo=p.CollegeLogoURL || "";
-
-    let badgeHtml="";
-    if(statusTxt){
-      const cls = statusTxt==="Committed" ? "badge commit"
-                : statusTxt==="Offered" ? "badge offered"
-                : "badge";
-      badgeHtml += `<span class="${cls}">${statusTxt}</span>`;
-    }
-    if(college){
-      if(logo){
-        badgeHtml += `
-          <span class="badge">
-            <img src="${logo}" alt="${college}">${college}
-          </span>`;
-      }else{
-        badgeHtml += `<span class="badge">${college}</span>`;
-      }
-    }
-    if(offers){
-      badgeHtml += `<span class="badge">${offers}</span>`;
-    }
-
-    g.innerHTML += `
-      <div class="card">
-        <div class="photo">
-          <img src="${img}" alt="${p.Name}">
-        </div>
-        <div>
-          <div class="name">
-            <a href="${profileUrl}">${p.Name}</a>
-          </div>
-          <div class="meta">
-            Class ${p.Class || "—"} • ${p.Position || "—"}${p.HeightWeight? " • "+p.HeightWeight:""}${p.GPA? " • GPA "+p.GPA:""}
-          </div>
-          <div class="badges">${badgeHtml}</div>
-          <div class="links">
-            ${p.HUDL ? `<a href="${p.HUDL}" target="_blank">HUDL</a>` : ""}
-            ${p.Twitter ? `<a href="${p.Twitter}" target="_blank">Twitter</a>` : ""}
-          </div>
-        </div>
-      </div>`;
-  });
-}
-
-search.oninput=render;
-classFilter.onchange=render;
-posFilter.onchange=render;
-collegeFilter.onchange=render;
-statusFilter.onchange=render;
 </script>
 
 </body>
