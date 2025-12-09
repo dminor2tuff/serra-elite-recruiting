@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Player Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{font-family:Arial;margin:0;background:#f5f7fb;}
+.wrap{max-width:900px;margin:20px auto;padding:0 16px;}
+.card{background:#fff;padding:20px;border-radius:16px;
+box-shadow:0 4px 14px rgba(0,0,0,.08);
+display:flex;flex-wrap:wrap;gap:20px;}
+.photo img{width:220px;border-radius:16px;}
+h1{color:#002b5c;}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+<a href="recruits.html">← Back</a>
+
+<div class="card">
+<div class="photo"><img id="photo"></div>
+<div>
+<h1 id="name"></h1>
+<p id="meta"></p>
+<p id="bio"></p>
+<a id="hudl" target="_blank"></a>
+</div>
+</div>
+</div>
+
+<script>
+const SHEET_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const params=new URLSearchParams(location.search);
+const player=params.get("name");
+
+fetch(SHEET_URL).then(r=>r.text()).then(csv=>{
+let rows=csv.split("\n").map(r=>r.split(","));
+let h=rows[0];
+rows.slice(1).forEach(r=>{
+if(r[0]===player){
+name.innerText=r[0];
+meta.innerText=`${r[1]} • ${r[2]} • ${r[3]}`;
+bio.innerText=r[5];
+photo.src=r[6]||"images/placeholder_player.png";
+hudl.href=r[4];hudl.innerText="View HUDL";
+}
+});
+});
+</script>
+
+</body>
+</html>
