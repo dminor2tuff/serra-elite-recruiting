@@ -6,17 +6,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body{margin:0;font-family:Arial;background:#f5f7fb}
+:root{
+  --blue:#002b5c;
+  --red:#800000;
+  --light:#f5f7fb;
+}
+body{margin:0;font-family:Arial;background:var(--light)}
 header{
-  background:#002b5c;
+  background:linear-gradient(135deg,var(--blue),var(--red));
   color:white;
-  padding:20px;
+  padding:22px;
   text-align:center;
 }
-.grid{
+.wrap{
   max-width:1100px;
   margin:30px auto;
   padding:0 16px;
+}
+.filters{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+.filters input,.filters select{
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+.grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:18px;
@@ -30,86 +48,146 @@ header{
   gap:14px;
 }
 .photo{
-  width:70px;
-  height:70px;
+  width:70px;height:70px;
   border-radius:50%;
   overflow:hidden;
   background:#ddd;
-  flex-shrink:0;
 }
-.photo img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+.photo img{width:100%;height:100%;object-fit:cover}
 .name a{
-  color:#002b5c;
   font-weight:800;
+  color:var(--blue);
   text-decoration:none;
 }
-.meta{
-  font-size:.9rem;
-  margin-top:4px;
-  color:#444;
-}
+.meta{font-size:.9rem;color:#444;margin-top:4px}
 .links a{
-  font-size:.85rem;
+  font-size:.8rem;
   margin-right:10px;
-  color:#002b5c;
+  color:var(--blue);
   text-decoration:none;
 }
+.hidden{display:none}
 </style>
 </head>
 
 <body>
 
 <header>
-  <h1>Serra Football Recruiting</h1>
+  <h1>Serra Football Recruiting Board</h1>
+  <p>Authorized Access Only</p>
 </header>
 
-<div id="grid" class="grid">Loading…</div>
+<div id="lock" class="wrap">
+  <h2>Password Required</h2>
+  <p>Please enter the access code to view all players.</p>
+  <input type="password" id="pw" placeholder="Enter password">
+  <br><br>
+  <button onclick="unlock()" style="padding:10px 24px;border-radius:999px;border:none;background:var(--blue);color:white;font-weight:700;">
+    Enter
+  </button>
+  <p id="error" style="color:#b00020;display:none;">Incorrect password</p>
+</div>
+
+<div id="content" class="wrap hidden">
+
+  <div class="filters">
+    <input id="search" placeholder="Search name">
+    <select id="classFilter"><option value="">All Classes</option></select>
+    <select id="posFilter"><option value="">All Positions</option></select>
+  </div>
+
+  <div id="grid" class="grid"></div>
+</div>
 
 <script>
+/* ========= PASSWORD GATE ========= */
+const ACCESS_CODE = "SerraFB";
+
+function unlock(){
+  if(document.getElementById("pw").value === ACCESS_CODE){
+    document.getElementById("lock").style.display="none";
+    document.getElementById("content").classList.remove("hidden");
+    loadPlayers();
+  } else {
+    document.getElementById("error").style.display="block";
+  }
+}
+
+/* ========= PLAYER DATA ========= */
 const SHEET =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
-
 const PLACEHOLDER="images/placeholder_player.png";
+let players=[];
 
-fetch(SHEET)
-.then(r=>r.text())
-.then(csv=>{
+function loadPlayers(){
+fetch(SHEET).then(r=>r.text()).then(csv=>{
   const rows=csv.split("\n").map(r=>r.split(","));
-  const h=rows[0];
-  let html="";
-  rows.slice(1).forEach(r=>{
-    if(!r[0]) return;
-    const Name=r[0],
-          Class=r[1],
-          Position=r[2],
-          HeightWeight=r[3],
-          HUDL=r[4],
-          ImageURL=r[6] || PLACEHOLDER;
+  const headers=rows[0];
+  players=rows.slice(1).map(r=>{
+    if(!r[0])return null;
+    const o={};
+    headers.forEach((h,i)=>o[h]=r[i]||"");
+    return o;
+  }).filter(Boolean);
 
-    html+=`
+  populateFilters();
+  render();
+});
+}
+
+function populateFilters(){
+  const classes=new Set(), pos=new Set();
+  players.forEach(p=>{
+    if(p.Class) classes.add(p.Class);
+    if(p.Position) pos.add(p.Position);
+  });
+  classes.forEach(c=>{
+    const o=document.createElement("option");
+    o.value=c;o.textContent=c;
+    classFilter.appendChild(o);
+  });
+  pos.forEach(p=>{
+    const o=document.createElement("option");
+    o.value=p;o.textContent=p;
+    posFilter.appendChild(o);
+  });
+}
+
+function render(){
+  const g=document.getElementById("grid");
+  g.innerHTML="";
+  const s=search.value.toLowerCase();
+  const c=classFilter.value;
+  const p=posFilter.value;
+
+  players.filter(pl=>{
+    if(s && !pl.Name.toLowerCase().includes(s)) return false;
+    if(c && pl.Class!==c) return false;
+    if(p && !pl.Position.includes(p)) return false;
+    return true;
+  }).forEach(pl=>{
+    g.innerHTML+=`
     <div class="card">
-      <div class="photo">
-        <img src="${ImageURL}">
-      </div>
+      <div class="photo"><img src="${pl.ImageURL||PLACEHOLDER}"></div>
       <div>
         <div class="name">
-          <a href="profile.html?name=${encodeURIComponent(Name)}">${Name}</a>
+          <a href="profile.html?name=${encodeURIComponent(pl.Name)}">${pl.Name}</a>
         </div>
         <div class="meta">
-          Class ${Class} • ${Position} • ${HeightWeight || ""}
+          Class ${pl.Class} • ${pl.Position} • ${pl.HeightWeight||""}
         </div>
         <div class="links">
-          ${HUDL ? `<a href="${HUDL}" target="_blank">HUDL</a>` : ""}
+          ${pl.HUDL?`<a href="${pl.HUDL}" target="_blank">HUDL</a>`:""}
+          ${pl.Twitter?`<a href="${pl.Twitter}" target="_blank">Twitter</a>`:""}
         </div>
       </div>
     </div>`;
   });
-  document.getElementById("grid").innerHTML=html;
-});
+}
+
+search.oninput=render;
+classFilter.onchange=render;
+posFilter.onchange=render;
 </script>
 
 </body>
