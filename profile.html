@@ -1,39 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Player Profile</title>
+<title>Serra Player Profile</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
+<!-- NAV -->
 <nav>
-  <img src="images/serra_logo.png">
+  <img src="images/serra_logo.png" alt="Serra Football Logo">
+  <div>
+    <a href="index.html">Home</a>
+    <a href="recruits.html">Recruits</a>
+  </div>
 </nav>
 
-<div class="section card">
-  <h2 id="name"></h2>
-  <p id="meta"></p>
-  <p id="bio"></p>
-  <button onclick="window.print()">Download PDF</button>
-</div>
+<!-- PROFILE SECTION -->
+<section class="section">
+  <h2 id="playerName">Player Profile</h2>
+
+  <div class="card" style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;">
+    <!-- Photo -->
+    <div style="flex:0 0 260px;max-width:260px;">
+      <img id="playerPhoto" src="images/placeholder_player.png"
+           alt="Player photo"
+           style="width:100%;border-radius:16px;object-fit:cover;">
+    </div>
+
+    <!-- Info -->
+    <div style="flex:1 1 260px;min-width:0;">
+      <p id="playerMeta" style="margin-top:0;font-weight:600;"></p>
+      <p id="playerBio"></p>
+
+      <p>
+        <a id="hudlLink" href="#" target="_blank" style="display:none;">
+          View HUDL Profile
+        </a>
+      </p>
+
+      <button onclick="window.print()" style="margin-top:10px;">
+        Download PDF
+      </button>
+    </div>
+  </div>
+</section>
 
 <script>
-const SHEET="https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
-const n=new URLSearchParams(location.search).get("name");
+// SAME SHEET USED BY RECRUITS PAGE
+const SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-fetch(SHEET).then(r=>r.text()).then(csv=>{
-  csv.split("\n").slice(1).forEach(r=>{
-    const c=r.split(",");
-    if(c[0]===n){
-      name.innerText=c[0];
-      meta.innerText=`${c[1]} • ${c[2]} • ${c[3]}`;
-      bio.innerText=c[5];
-    }
-  });
-});
+const params = new URLSearchParams(location.search);
+const targetName = params.get("name");
+
+if (!targetName) {
+  document.getElementById("playerName").innerText = "Player not found";
+} else {
+  fetch(SHEET_URL)
+    .then(r => r.text())
+    .then(csv => {
+      const rows = csv.split("\n").slice(1); // skip header
+
+      for (const row of rows) {
+        if (!row.trim()) continue;
+        const cols = row.split(",");
+
+        const name   = cols[0] || "";
+        const pClass = cols[1] || "";
+        const pos    = cols[2] || "";
+        const size   = cols[3] || "";
+        const hudl   = cols[4] || "";
+        const bio    = cols[5] || "";
+        const img    = cols[6] || "images/placeholder_player.png";
+
+        if (name === targetName) {
+          document.getElementById("playerName").innerText = name;
+          document.getElementById("playerMeta").innerText =
+            `Class of ${pClass} • ${pos}${size ? " • " + size : ""}`;
+
+          document.getElementById("playerBio").innerText = bio;
+          document.getElementById("playerPhoto").src = img;
+
+          if (hudl) {
+            const link = document.getElementById("hudlLink");
+            link.href = hudl;
+            link.style.display = "inline-block";
+          }
+          break;
+        }
+      }
+    });
+}
 </script>
 
 </body>
