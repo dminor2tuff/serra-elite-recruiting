@@ -1,229 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Serra Football Prospects</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serra Football Prospects</title>
 
-<style>
-  body {
-    margin: 0;
-    font-family: Montserrat, sans-serif;
-    background: radial-gradient(circle at top, #7b0f0f 0, #3a0407 60%, #120104 100%);
-    color: #fff;
-  }
-  nav {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:14px 26px;
-  }
-  nav img {height:60px;}
-  nav a {
-    color:#fff;
-    text-decoration:none;
-    margin-left:18px;
-    font-weight:600;
-  }
-  h1 {
-    padding:20px 26px 10px;
-    margin:0;
-    font-size:30px;
-    font-weight:800;
-  }
-  .top-bar {
-    display:flex;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:12px;
-    padding:0 26px 6px;
-  }
-  .search {
-    padding:10px 12px;
-    border-radius:10px;
-    border:none;
-    min-width:260px;
-  }
-  .filters {
-    display:flex;
-    gap:10px;
-    padding:0 26px 20px;
-    flex-wrap:wrap;
-  }
-  .filter-btn {
-    padding:8px 16px;
-    border-radius:20px;
-    background:#b30000;
-    border:none;
-    color:#fff;
-    cursor:pointer;
-    font-weight:600;
-  }
-  .filter-btn.active {
-    background:#fff;
-    color:#b30000;
-  }
-  .grid {
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-    gap:20px;
-    padding:0 26px 40px;
-  }
-  .card {
-    background:rgba(0,0,0,0.35);
-    border-radius:18px;
-    border:1px solid rgba(255,255,255,0.18);
-    padding:16px;
-    text-align:center;
-  }
-  .card img {
-    width:100%;
-    height:240px;
-    object-fit:cover;
-    border-radius:14px;
-    background:#190205;
-  }
-  .card h3 {margin:10px 0 4px;font-size:18px;}
-  .card p {margin:3px 0;font-size:14px;}
-  .badge-row {margin-top:6px;font-size:12px;opacity:.9;}
-  .btn {
-    display:inline-block;
-    margin-top:10px;
-    padding:8px 14px;
-    background:#fff;
-    color:#b30000;
-    border-radius:10px;
-    text-decoration:none;
-    font-weight:600;
-  }
-  footer {
-    text-align:center;
-    padding:20px;
-    font-size:13px;
-    opacity:.8;
-  }
-</style>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #6A0F0F, #300000);
+      color: white;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      background: #400000;
+    }
+
+    nav img {
+      height: 36px;
+      margin-right: 20px;
+    }
+
+    nav a {
+      margin-right: 20px;
+      color: #ffdede;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 32px;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: center;
+      margin: 20px;
+      gap: 10px;
+    }
+
+    .toolbar input {
+      width: 280px;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 14px;
+    }
+
+    .filters button {
+      padding: 8px 18px;
+      border-radius: 20px;
+      border: none;
+      background: #5A0E0E;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .filters button.active {
+      background: #ffffff;
+      color: #5A0E0E;
+      font-weight: bold;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      background: #5A0E0E;
+      padding: 16px;
+      border-radius: 16px;
+      text-align: center;
+      border: 2px solid #7A1C1C;
+    }
+
+    .card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid #fff;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 20px;
+      background: white;
+      color: #5A0E0E;
+      font-weight: bold;
+      border-radius: 20px;
+      text-decoration: none;
+    }
+  </style>
+
 </head>
-
 <body>
 
 <nav>
-  <img src="images/serra_logo.png" alt="Serra Logo">
-  <div>
-    <a href="index.html">Home</a>
-    <a href="recruits.html">Recruits</a>
-    <a href="transcript.html">Transcript Request</a>
-    <a href="coach-tools.html">Coach Tools</a>
-  </div>
+  <img src="images/serra_logo.png">
+  <a href="index.html">Home</a>
+  <a href="recruits.html">Recruits</a>
 </nav>
 
 <h1>Serra Football Prospects</h1>
 
-<div class="top-bar">
-  <input id="searchBox" class="search" placeholder="Search by name, position, or attribute…">
+<div class="toolbar">
+  <input type="text" id="searchBox" placeholder="Search by name or position…">
 </div>
 
-<div class="filters">
-  <button class="filter-btn active" data-class="All">All</button>
-  <button class="filter-btn" data-class="2026">2026</button>
-  <button class="filter-btn" data-class="2027">2027</button>
-  <button class="filter-btn" data-class="2028">2028</button>
-  <button class="filter-btn" data-class="2029">2029</button>
+<div class="filters" style="text-align:center;">
+  <button onclick="filterClass('All')" class="active">All</button>
+  <button onclick="filterClass('2026')">2026</button>
+  <button onclick="filterClass('2027')">2027</button>
+  <button onclick="filterClass('2028')">2028</button>
+  <button onclick="filterClass('2029')">2029</button>
 </div>
 
-<div id="playerGrid" class="grid"></div>
-
-<footer>
-  Follow Serra Football — 🐦 @serra_football &nbsp;|&nbsp; 📸 @serrafootball
-</footer>
+<div class="grid" id="playerGrid"></div>
 
 <script>
-const CSV_URL =
- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-let players = [];
-let activeClass = "All";
+  let players = [];
+  let currentClass = "All";
 
-function parseCSV(text) {
-  const rows = text.trim().split("\n").slice(1);
-  return rows.map(row => {
-    const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-    if (!cols || cols.length < 13) return null;
-    const clean = c => c ? c.replace(/"/g,"").trim() : "";
-    return {
-      Name: clean(cols[0]),
-      Class: clean(cols[1]),
-      Position: clean(cols[2]),
-      HeightWeight: clean(cols[3]),
-      Hudl: clean(cols[4]),
-      Bio: clean(cols[5]),
-      Image: clean(cols[6]),
-      Twitter: clean(cols[7]),
-      GPA: clean(cols[8]),
-      Offers: clean(cols[9]),
-      Status: clean(cols[10]),
-      College: clean(cols[11]),
-      CollegeLogo: clean(cols[12])
-    };
-  }).filter(Boolean);
-}
+  async function loadCSV() {
+    const response = await fetch(CSV_URL);
+    const text = await response.text();
+    const rows = text.trim().split("\n").map(r => r.split(","));
 
-fetch(CSV_URL)
-  .then(r => r.text())
-  .then(text => {
-    if (text.includes("<html")) {
-      alert("CSV LINK IS WRONG — must end in /pub?output=csv");
-      return;
-    }
-    players = parseCSV(text);
-    render();
-  });
+    const headers = rows.shift();
 
-function render() {
-  const grid = document.getElementById("playerGrid");
-  const search = document.getElementById("searchBox").value.toLowerCase();
-  grid.innerHTML = "";
+    players = rows.map(row => {
+      let obj = {};
+      headers.forEach((h, i) => {
+        obj[h.trim()] = row[i] ? row[i].trim() : "";
+      });
+      return obj;
+    });
 
-  players
-    .filter(p =>
-      (activeClass === "All" || p.Class === activeClass) &&
-      (p.Name.toLowerCase().includes(search) ||
-       p.Position.toLowerCase().includes(search) ||
-       p.Bio.toLowerCase().includes(search))
-    )
-    .forEach(p => {
-      const img = p.Image && p.Image.startsWith("http")
-        ? p.Image
+    renderPlayers(players);
+  }
+
+  function renderPlayers(list) {
+    const grid = document.getElementById("playerGrid");
+    grid.innerHTML = "";
+
+    list.forEach(p => {
+      const img = p.ImageURL && p.ImageURL.startsWith("http")
+        ? p.ImageURL
         : "images/placeholder_player.png";
 
       grid.innerHTML += `
         <div class="card">
-          <img src="${img}" alt="${p.Name}">
+          <img src="${img}" onerror="this.src='images/placeholder_player.png'">
           <h3>${p.Name}</h3>
           <p>${p.Position} • Class of ${p.Class}</p>
-          <p>${p.HeightWeight}</p>
-          <p>GPA: ${p.GPA || "N/A"}</p>
-          <div class="badge-row">
-            ${p.Status ? `<span><strong>Status:</strong> ${p.Status}</span><br>` : ""}
-            ${p.Offers ? `<span><strong>Offers:</strong> ${p.Offers}</span>` : ""}
-          </div>
-          ${p.Twitter ? `<p><a href="${p.Twitter}" target="_blank">🐦 Twitter / X</a></p>` : ""}
           <a class="btn" href="profile.html?name=${encodeURIComponent(p.Name)}">View Profile</a>
-        </div>
-      `;
+        </div>`;
     });
-}
+  }
 
-document.getElementById("searchBox").addEventListener("input", render);
+  function filterClass(cls) {
+    currentClass = cls;
+    document.querySelectorAll(".filters button").forEach(btn => btn.classList.remove("active"));
+    event.target.classList.add("active");
 
-document.querySelectorAll(".filter-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    activeClass = btn.dataset.class;
-    render();
+    if (cls === "All") {
+      renderPlayers(players);
+    } else {
+      renderPlayers(players.filter(p => p.Class === cls));
+    }
+  }
+
+  document.getElementById("searchBox").addEventListener("input", (e) => {
+    const term = e.target.value.toLowerCase();
+    const filtered = players.filter(p =>
+      p.Name.toLowerCase().includes(term) ||
+      p.Position.toLowerCase().includes(term)
+    );
+    renderPlayers(filtered);
   });
-});
+
+  loadCSV();
 </script>
 
 </body>
