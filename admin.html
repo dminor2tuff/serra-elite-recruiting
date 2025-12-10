@@ -1,24 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Coach Tools</title>
+<title>Serra Coach Tools</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
+<!-- NAV -->
 <nav>
-  <img src="images/serra_logo.png">
+  <img src="images/serra_logo.png" alt="Serra Football Logo">
+  <div>
+    <a href="index.html">Home</a>
+    <a href="recruits.html">Recruits</a>
+  </div>
 </nav>
 
-<div class="section card">
-  <h2>Coach Admin</h2>
-  <p>Password protected helper page.</p>
-  <p><strong>Sheet Headers:</strong></p>
-  <pre>Name | Class | Position | HeightWeight | HUDL | Writeup | ImageURL | GPA | Offers | Status</pre>
-</div>
+<!-- LOGIN -->
+<section class="section" id="loginSection">
+  <h2>Coach Admin Access</h2>
+  <p>Restricted to Serra Football staff.</p>
+
+  <input type="password" id="adminPw" placeholder="Enter coach password">
+  <button onclick="adminLogin()">Enter</button>
+</section>
+
+<!-- ADMIN CONTENT -->
+<section class="section" id="adminSection" style="display:none;">
+  <h2>Serra Coach Tools</h2>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h3 style="margin-top:0;">Google Sheet Header Format</h3>
+    <p>Make sure your first row in the Google Sheet matches exactly:</p>
+    <pre style="white-space:pre-wrap;font-size:.9rem;">
+Name | Class | Position | HeightWeight | HUDL | Writeup | ImageURL | Twitter | GPA
+    </pre>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h3 style="margin-top:0;">Player Profile Link Generator</h3>
+    <p>Enter the player name exactly as it appears in the sheet:</p>
+    <input id="playerNameInput" placeholder="Player Name (e.g. Devohn Moutra Jr)">
+    <button onclick="makeProfileLink()">Generate Profile Link</button>
+    <p style="margin-top:10px;font-size:.9rem;">
+      Profile URL:<br>
+      <span id="profileLinkOutput" style="word-break:break-all;"></span>
+    </p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0;">Image URL Helper</h3>
+    <p>Upload the player photo into your <code>images/</code> folder and use the filename here:</p>
+    <input id="imageFileInput" placeholder="Filename (e.g. devohn_moutra.png)">
+    <button onclick="makeImageUrl()">Generate ImageURL</button>
+    <p style="margin-top:10px;font-size:.9rem;">
+      ImageURL value for the sheet:<br>
+      <span id="imageUrlOutput" style="word-break:break-all;"></span>
+    </p>
+  </div>
+</section>
+
+<script>
+const ADMIN_PASSWORD = "SerraFB";
+
+function adminLogin(){
+  const val = document.getElementById("adminPw").value.trim();
+  if (val === ADMIN_PASSWORD){
+    document.getElementById("loginSection").style.display = "none";
+    document.getElementById("adminSection").style.display = "block";
+  } else {
+    alert("Incorrect password");
+  }
+}
+
+function makeProfileLink(){
+  const name = document.getElementById("playerNameInput").value.trim();
+  if (!name){
+    document.getElementById("profileLinkOutput").innerText =
+      "Enter a player name first.";
+    return;
+  }
+  const encoded = encodeURIComponent(name);
+  const url = `https://serrafbrecruits.com/profile.html?name=${encoded}`;
+  document.getElementById("profileLinkOutput").innerText = url;
+}
+
+function makeImageUrl(){
+  const file = document.getElementById("imageFileInput").value.trim();
+  if (!file){
+    document.getElementById("imageUrlOutput").innerText =
+      "Enter a filename like devohn_moutra.png";
+    return;
+  }
+  const url =
+    `https://dminor2tuff.github.io/serra-elite-recruiting/images/${file}`;
+  document.getElementById("imageUrlOutput").innerText = url;
+}
+</script>
 
 </body>
 </html>
