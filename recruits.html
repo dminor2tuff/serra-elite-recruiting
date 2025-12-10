@@ -35,7 +35,7 @@
 <!-- LOGIN -->
 <section class="section" id="login">
   <h2>Coach Access</h2>
-  <p>This recruiting board is restricted to verified coaches.</p>
+  <p>This recruiting board is restricted to verified college coaches.</p>
 
   <input type="password" id="pw" placeholder="Enter access password">
   <button onclick="unlock()">Enter</button>
@@ -45,6 +45,21 @@
 <section class="section" id="board" style="display:none">
   <h2>Prospects</h2>
 
+  <!-- CLASS FILTERS -->
+  <div style="
+    margin-bottom:26px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  ">
+    <button onclick="setFilter('All')" class="btn">All</button>
+    <button onclick="setFilter('2026')" class="btn">2026</button>
+    <button onclick="setFilter('2027')" class="btn">2027</button>
+    <button onclick="setFilter('2028')" class="btn">2028</button>
+    <button onclick="setFilter('2029')" class="btn">2029</button>
+  </div>
+
+  <!-- PLAYERS GRID -->
   <div id="players" style="
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
@@ -58,6 +73,9 @@ const ACCESS_PASSWORD = "SerraFB";
 const SHEET_URL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
+let allPlayers = [];
+let currentFilter = "All";
+
 function unlock() {
   if (document.getElementById("pw").value === ACCESS_PASSWORD) {
     document.getElementById("login").style.display = "none";
@@ -68,61 +86,78 @@ function unlock() {
   }
 }
 
+function setFilter(cls) {
+  currentFilter = cls;
+  renderPlayers();
+}
+
 function loadPlayers() {
   fetch(SHEET_URL)
     .then(res => res.text())
     .then(csv => {
       const rows = csv.split("\n").slice(1);
-      let html = "";
+      allPlayers = [];
 
       rows.forEach(r => {
         if (!r.trim()) return;
         const c = r.split(",");
 
         const name = c[0] || "";
-        const playerClass = c[1] || "";
-        const position = c[2] || "";
-        const size = c[3] || "";
-        const hudl = c[4] || "";
-        const bio = c[5] || "";
-        const image = c[6] || "images/placeholder_player.png";
-        const twitterRaw = c[7] || "";
-
         if (!name) return;
 
-        let twitterLink = "";
-        if (twitterRaw) {
-          twitterLink = twitterRaw.startsWith("http")
-            ? twitterRaw
-            : `https://twitter.com/${twitterRaw.replace("@","")}`;
-        }
-
-        html += `
-          <div class="card">
-            <img src="${image}" style="width:100%;border-radius:12px;margin-bottom:12px;">
-
-            <strong>${name}</strong><br>
-            <small>${position} • Class of ${playerClass}</small><br>
-            <small>${size}</small><br><br>
-
-            ${twitterLink ? `
-              <a href="${twitterLink}" target="_blank"
-                style="display:inline-block;margin-bottom:10px;font-weight:600;">
-                🐦 Twitter / X
-              </a><br>
-            ` : ``}
-
-            <a href="profile.html?name=${encodeURIComponent(name)}"
-               class="btn"
-               style="padding:10px 22px;font-size:.85rem;">
-              View Profile
-            </a>
-          </div>
-        `;
+        allPlayers.push({
+          name: name,
+          classYear: c[1] || "",
+          position: c[2] || "",
+          size: c[3] || "",
+          image: c[6] || "images/placeholder_player.png",
+          twitterRaw: c[7] || ""
+        });
       });
 
-      document.getElementById("players").innerHTML = html;
+      renderPlayers();
     });
+}
+
+function renderPlayers() {
+  let html = "";
+
+  allPlayers.forEach(p => {
+    if (currentFilter !== "All" && p.classYear !== currentFilter) return;
+
+    let twitterLink = "";
+    if (p.twitterRaw) {
+      twitterLink = p.twitterRaw.startsWith("http")
+        ? p.twitterRaw
+        : `https://twitter.com/${p.twitterRaw.replace("@","")}`;
+    }
+
+    html += `
+      <div class="card">
+        <img src="${p.image}" style="width:100%;border-radius:12px;margin-bottom:12px;">
+
+        <strong>${p.name}</strong><br>
+        <small>${p.position} • Class of ${p.classYear}</small><br>
+        <small>${p.size}</small><br><br>
+
+        ${twitterLink ? `
+          <a href="${twitterLink}" target="_blank"
+             style="display:inline-block;margin-bottom:10px;font-weight:600;">
+             🐦 Twitter / X
+          </a><br>
+        ` : ``}
+
+        <a href="profile.html?name=${encodeURIComponent(p.name)}"
+           class="btn"
+           style="padding:10px 22px;font-size:.85rem;">
+           View Profile
+        </a>
+      </div>
+    `;
+  });
+
+  document.getElementById("players").innerHTML =
+    html || "<p>No prospects available for this class.</p>";
 }
 </script>
 
