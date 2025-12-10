@@ -1,148 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Serra Elite Recruiting | Recruits</title>
+<meta charset="UTF-8">
+<title>Serra Football Prospects</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --serra-red: #7b1e24;
-      --serra-dark: #4f1115;
-      --serra-blue: #0b2a4a;
-      --card-bg: #8c232a;
-    }
+<style>
+:root {
+  --serra-red:#7b1e24;
+  --serra-dark:#4f1115;
+  --serra-bg:#3a0c10;
+}
 
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(180deg, #3e0d10, #7b1e24);
-      color: #fff;
-    }
+* { box-sizing:border-box; }
 
-    header {
-      padding: 20px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+body {
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:linear-gradient(180deg,#2a070a,#7b1e24);
+  color:#fff;
+}
 
-    header img {
-      height: 50px;
-    }
+header {
+  padding:20px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    header a {
-      color: #fff;
-      text-decoration: none;
-      margin-left: 20px;
-      font-weight: 600;
-    }
+header img { height:48px; }
 
-    main {
-      padding: 40px;
-    }
+header a {
+  color:#fff;
+  text-decoration:none;
+  margin-left:20px;
+  font-weight:600;
+}
 
-    h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
+main { padding:40px; }
 
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 30px;
-    }
+h1 { font-size:32px;margin-bottom:20px; }
 
-    .controls input {
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      min-width: 260px;
-    }
+.controls {
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:30px;
+}
 
-    .filter-btn {
-      background: var(--serra-dark);
-      border: none;
-      color: #fff;
-      padding: 10px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-    }
+.controls input {
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  width:260px;
+}
 
-    .filter-btn.active {
-      background: #fff;
-      color: var(--serra-dark);
-    }
+.filter-btn {
+  background:var(--serra-dark);
+  color:#fff;
+  border:none;
+  padding:10px 18px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 22px;
-    }
+.filter-btn.active {
+  background:#fff;
+  color:#4f1115;
+}
 
-    .card {
-      background: linear-gradient(180deg, #8c232a, #6d1a1f);
-      border-radius: 18px;
-      padding: 18px;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.35);
-    }
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:22px;
+}
 
-    .player-photo {
-      width: 100%;
-      height: 260px;
-      object-fit: cover;
-      border-radius: 14px;
-      margin-bottom: 14px;
-      background: #320508;
-    }
+.card {
+  background:linear-gradient(180deg,#8c232a,#66181d);
+  padding:18px;
+  border-radius:18px;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,.35);
+}
 
-    .card h3 {
-      margin: 10px 0 6px;
-      font-size: 20px;
-    }
+.card img {
+  width:100%;
+  height:260px;
+  object-fit:cover;
+  border-radius:14px;
+  background:#2a070a;
+  margin-bottom:12px;
+}
 
-    .card p {
-      margin: 4px 0;
-      font-size: 14px;
-      opacity: .95;
-    }
+.card h3 { margin:8px 0;font-size:20px; }
 
-    .card a {
-      display: inline-block;
-      margin-top: 8px;
-      color: #9dd6ff;
-      font-weight: 600;
-      text-decoration: none;
-    }
+.card p { margin:4px 0;font-size:14px;opacity:.95; }
 
-    .card button {
-      margin-top: 14px;
-      background: #fff;
-      color: var(--serra-dark);
-      border: none;
-      padding: 10px 18px;
-      border-radius: 10px;
-      font-weight: 700;
-      cursor: pointer;
-    }
+.card a {
+  display:inline-block;
+  margin-top:6px;
+  color:#9ad6ff;
+  font-weight:600;
+  text-decoration:none;
+}
 
-    footer {
-      padding: 30px;
-      text-align: center;
-      opacity: .8;
-    }
-  </style>
+.card button {
+  margin-top:14px;
+  border:none;
+  padding:10px 18px;
+  border-radius:10px;
+  background:#fff;
+  color:#4f1115;
+  font-weight:700;
+  cursor:pointer;
+}
+
+footer {
+  padding:30px;
+  text-align:center;
+  opacity:.85;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <img src="images/serra_logo.png" alt="Serra Logo">
+  <img src="images/serra_logo.png">
   <nav>
     <a href="index.html">Home</a>
     <a href="recruits.html">Recruits</a>
@@ -151,18 +137,18 @@
 </header>
 
 <main>
-  <h1>Serra Football Prospects</h1>
+<h1>Serra Football Prospects</h1>
 
-  <div class="controls">
-    <input type="text" id="searchInput" placeholder="Search by name or position">
-    <button class="filter-btn active" data-class="All">All</button>
-    <button class="filter-btn" data-class="2026">2026</button>
-    <button class="filter-btn" data-class="2027">2027</button>
-    <button class="filter-btn" data-class="2028">2028</button>
-    <button class="filter-btn" data-class="2029">2029</button>
-  </div>
+<div class="controls">
+  <input id="searchInput" placeholder="Search by name or position">
+  <button class="filter-btn active" data-class="All">All</button>
+  <button class="filter-btn" data-class="2026">2026</button>
+  <button class="filter-btn" data-class="2027">2027</button>
+  <button class="filter-btn" data-class="2028">2028</button>
+  <button class="filter-btn" data-class="2029">2029</button>
+</div>
 
-  <div class="grid" id="playerGrid"></div>
+<div id="playerGrid" class="grid"></div>
 </main>
 
 <footer>
@@ -170,72 +156,81 @@
 </footer>
 
 <script>
-const CSV_URL = "PASTE_YOUR_PUBLISHED_GOOGLE_SHEET_CSV_URL_HERE";
+const CSV_URL = "PASTE_YOUR_CSV_URL_HERE";
 
-let allPlayers = [];
+let players = [];
 let activeClass = "All";
 
+function parseCSV(text) {
+  const rows = text.trim().split("\n").slice(1);
+  return rows.map(row => {
+    const cols = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
+    if (!cols || cols.length < 8) return null;
+    return {
+      name: cols[0].replaceAll('"','').trim(),
+      class: cols[1].replaceAll('"','').trim(),
+      position: cols[2].replaceAll('"','').trim(),
+      heightWeight: cols[3].replaceAll('"','').trim(),
+      hudl: cols[4].replaceAll('"','').trim(),
+      bio: cols[5].replaceAll('"','').trim(),
+      image: cols[6].replaceAll('"','').trim(),
+      twitter: cols[7].replaceAll('"','').trim()
+    };
+  }).filter(Boolean);
+}
+
 fetch(CSV_URL)
-  .then(res => res.text())
+  .then(r => r.text())
   .then(text => {
-    const rows = text.split("\n").slice(1);
-    allPlayers = rows.map(row => {
-      const cols = row.split(",");
-      return {
-        name: cols[0]?.trim(),
-        class: cols[1]?.trim(),
-        position: cols[2]?.trim(),
-        heightWeight: cols[3]?.trim(),
-        hudl: cols[4]?.trim(),
-        bio: cols[5]?.trim(),
-        image: cols[6]?.trim(),
-        twitter: cols[7]?.trim()
-      };
-    });
-    renderPlayers();
+    if (text.includes("<html")) {
+      alert("CSV LINK IS WRONG — must end in /pub?output=csv");
+      return;
+    }
+    players = parseCSV(text);
+    render();
   });
 
-function renderPlayers() {
+function render() {
   const grid = document.getElementById("playerGrid");
   const search = document.getElementById("searchInput").value.toLowerCase();
   grid.innerHTML = "";
 
-  allPlayers
-    .filter(p =>
-      (activeClass === "All" || p.class === activeClass) &&
-      (p.name.toLowerCase().includes(search) || p.position.toLowerCase().includes(search))
-    )
-    .forEach(player => {
-      const imgSrc = player.image?.startsWith("http")
-        ? player.image
-        : "images/placeholder_player.png";
+  players.filter(p =>
+    (activeClass==="All" || p.class===activeClass) &&
+    (p.name.toLowerCase().includes(search) ||
+     p.position.toLowerCase().includes(search))
+  ).forEach(p => {
+    const img = p.image.startsWith("http")
+      ? p.image
+      : "images/placeholder_player.png";
 
-      grid.innerHTML += `
-        <div class="card">
-          <img class="player-photo" src="${imgSrc}" alt="${player.name}">
-          <h3>${player.name}</h3>
-          <p>${player.position} • Class of ${player.class}</p>
-          <p>${player.heightWeight}</p>
-          ${player.twitter ? `<a href="${player.twitter}" target="_blank">🐦 Twitter / X</a>` : ""}
-          <button onclick="goProfile('${player.name}')">View Profile</button>
-        </div>
-      `;
-    });
+    grid.innerHTML += `
+    <div class="card">
+      <img src="${img}">
+      <h3>${p.name}</h3>
+      <p>${p.position} • Class of ${p.class}</p>
+      <p>${p.heightWeight}</p>
+      ${p.twitter ? `<a href="${p.twitter}" target="_blank">🐦 Twitter / X</a>` : ""}
+      <button onclick="profile('${p.name}')">View Profile</button>
+    </div>`;
+  });
 }
 
-function goProfile(name) {
+function profile(name) {
   window.location.href = "profile.html?player=" + encodeURIComponent(name);
 }
 
-document.getElementById("searchInput").addEventListener("input", renderPlayers);
+document.getElementById("searchInput")
+  .addEventListener("input", render);
 
 document.querySelectorAll(".filter-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  btn.onclick = () => {
+    document.querySelectorAll(".filter-btn")
+      .forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     activeClass = btn.dataset.class;
-    renderPlayers();
-  });
+    render();
+  };
 });
 </script>
 
