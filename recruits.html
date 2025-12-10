@@ -1,55 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Serra Recruits</title>
+<title>Serra Recruiting Board</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
+<!-- NAV -->
 <nav>
-  <img src="images/serra_logo.png">
+  <img src="images/serra_logo.png" alt="Serra Football Logo">
   <div>
     <a href="index.html">Home</a>
+    <a href="transcript_request.html">Transcript Request</a>
+    <a href="admin.html">Coach Tools</a>
   </div>
 </nav>
 
-<div class="section" id="lock">
-  <h2>Restricted Access</h2>
-  <input type="password" id="pw" placeholder="Enter password">
-  <button onclick="unlock()">Enter</button>
-</div>
+<!-- HEADER -->
+<header style="
+  padding:90px 20px;
+  background:
+    linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.85)),
+    url('images/serra_action.png') center/cover no-repeat;
+">
+  <h1>Serra Recruiting Board</h1>
+  <p>Verified Serra Football Prospects</p>
+</header>
 
-<div class="section" id="content" style="display:none">
-  <h2>Recruiting Board</h2>
-  <div id="list"></div>
-</div>
+<!-- PASSWORD GATE -->
+<section class="section" id="login">
+  <h2>Coach Access</h2>
+  <p>This recruiting board is restricted to verified coaches.</p>
+
+  <input type="password" id="pw" placeholder="Enter access password">
+  <button onclick="unlock()">Enter</button>
+</section>
+
+<!-- BOARD -->
+<section class="section" id="board" style="display:none">
+  <h2>Prospects</h2>
+
+  <div id="players" style="
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:24px;
+  ">
+  </div>
+</section>
 
 <script>
-const CODE="SerraFB";
-const SHEET="https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+/* ======================
+   CONFIG
+====================== */
+const ACCESS_PASSWORD = "SerraFB";
 
-function unlock(){
-  if(pw.value===CODE){
-    lock.style.display="none";
-    content.style.display="block";
-    load();
+/* ✅ YOUR LIVE GOOGLE SHEET CSV */
+const SHEET_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+
+/* ======================
+   LOGIN
+====================== */
+function unlock() {
+  if (document.getElementById("pw").value === ACCESS_PASSWORD) {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("board").style.display = "block";
+    loadPlayers();
+  } else {
+    alert("Invalid password");
   }
 }
 
-function load(){
-fetch(SHEET).then(r=>r.text()).then(csv=>{
-  const rows=csv.split("\n");
-  let html="";
-  rows.slice(1).forEach(r=>{
-    const c=r.split(",");
-    if(c[0])
-      html+=`<div class="card"><a href="profile.html?name=${encodeURIComponent(c[0])}">${c[0]}</a></div>`;
-  });
-  list.innerHTML=html;
-});
+/* ======================
+   LOAD PLAYERS
+====================== */
+function loadPlayers() {
+  fetch(SHEET_URL)
+    .then(res => res.text())
+    .then(csv => {
+      const rows = csv.split("\n").slice(1);
+      let html = "";
+
+      rows.forEach(r => {
+        const c = r.split(",");
+
+        if (!c[0]) return;
+
+        const name = c[0];
+        const playerClass = c[1];
+        const position = c[2];
+        const size = c[3];
+        const image = c[6] || "images/placeholder_player.png";
+
+        html += `
+          <div class="card">
+            <img src="${image}"
+                 style="width:100%;border-radius:12px;margin-bottom:12px;">
+            <strong>${name}</strong><br>
+            <small>${position} • Class of ${playerClass}</small><br>
+            <small>${size}</small><br><br>
+
+            <a href="profile.html?name=${encodeURIComponent(name)}"
+               class="btn"
+               style="padding:10px 22px;font-size:.85rem;">
+              View Profile
+            </a>
+          </div>
+        `;
+      });
+
+      document.getElementById("players").innerHTML = html;
+    });
 }
 </script>
 
