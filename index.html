@@ -6,136 +6,154 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-/* ---------- BASE ---------- */
+/* ---------- GLOBAL ---------- */
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-               Roboto, Helvetica, Arial, sans-serif;
-  background: linear-gradient(180deg,#0b1f3a 0%, #111827 100%);
-  color: #e5e7eb;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #5a0f1a;
+  color: #ffffff;
   line-height: 1.7;
 }
 
 /* ---------- NAV ---------- */
 nav {
-  background: #020617;
-  padding: 16px 30px;
+  background: #4a0c15;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255,255,255,.08);
+  padding: 18px 32px;
+  border-bottom: 2px solid rgba(255,255,255,.15);
 }
 
-nav img { height: 56px; }
+nav img {
+  height: 56px;
+}
 
 nav a {
-  margin-left: 20px;
-  color: #e5e7eb;
-  font-weight: 600;
+  margin-left: 22px;
+  color: #ffffff;
+  font-weight: 700;
   text-decoration: none;
+  letter-spacing: .5px;
 }
 
 /* ---------- HERO ---------- */
 header {
-  padding: 150px 20px;
+  padding: 160px 20px;
   text-align: center;
   background:
-    linear-gradient(rgba(0,0,0,.65),rgba(122,15,43,.85)),
+    linear-gradient(rgba(0,0,0,.45), rgba(90,15,26,.85)),
     url("images/serra_action.png") center/cover no-repeat;
 }
 
 header h1 {
-  font-size: 3.4rem;
-  margin-bottom: 14px;
-  color: #ffffff;
+  font-size: 3.6rem;
+  font-weight: 900;
+  margin-bottom: 18px;
+  letter-spacing: 1px;
 }
 
 header p {
-  max-width: 760px;
+  max-width: 780px;
   margin: auto;
-  font-size: 1.15rem;
-  color: #f1f5f9;
+  font-size: 1.2rem;
+  color: #f5e9ec;
 }
 
-/* ---------- PANELS ---------- */
-.panel {
+/* ---------- SECTIONS ---------- */
+.section {
   max-width: 1100px;
-  margin: 90px auto;
-  padding: 70px 50px;
-  background: #020617;
-  border-radius: 18px;
-  box-shadow: 0 20px 40px rgba(0,0,0,.4);
+  margin: 100px auto;
+  padding: 80px 50px;
+  background: #720f1e;
+  border-radius: 16px;
+  box-shadow: 0 30px 60px rgba(0,0,0,.35);
 }
 
-h2 {
-  font-size: 2.3rem;
-  color: #f8fafc;
-  margin-bottom: 16px;
+.section h2 {
+  font-size: 2.6rem;
+  font-weight: 900;
+  margin-bottom: 18px;
+  letter-spacing: 1px;
 }
 
-.divider {
-  width: 70px;
-  height: 4px;
-  background: #7a0f2b;
-  margin-bottom: 28px;
+.accent {
+  width: 90px;
+  height: 5px;
+  background: #e5c77c;
+  margin-bottom: 32px;
 }
 
-p {
-  color: #d1d5db;
-  font-size: 1.05rem;
+/* ---------- BODY COPY ---------- */
+.section p {
+  font-size: 1.15rem;
+  color: #f5e9ec;
+  margin-bottom: 18px;
 }
 
-/* ---------- EXPECTATIONS ---------- */
-.expect-list li {
+/* ---------- LIST ---------- */
+.section ul li {
+  font-size: 1.1rem;
+  font-weight: 600;
   margin-bottom: 14px;
-  font-weight: 500;
-  color: #e5e7eb;
 }
 
 /* ---------- LEGACY ---------- */
 .legacy {
-  background: linear-gradient(135deg,#020617,#7a0f2b);
-  padding: 100px 20px;
+  background: #4a0c15;
   text-align: center;
+  padding: 120px 20px;
 }
 
-.legacy h2 { color: #ffffff; }
+.legacy h2 {
+  font-size: 3rem;
+  font-weight: 900;
+}
 
 .legacy p {
   max-width: 820px;
-  margin: auto;
-  color: #f8fafc;
+  margin: 24px auto;
+  font-size: 1.15rem;
+  color: #f5e9ec;
 }
 
 .legacy-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+  gap: 30px;
   max-width: 1100px;
   margin: 60px auto 0;
 }
 
 .legacy-card {
-  background: rgba(255,255,255,.06);
+  background: #720f1e;
   border-radius: 18px;
-  padding: 46px 24px;
+  padding: 50px 20px;
 }
 
 .legacy-number {
-  font-size: 3rem;
+  font-size: 3.2rem;
   font-weight: 900;
-  margin-bottom: 8px;
   color: #ffffff;
+  margin-bottom: 8px;
 }
 
 /* ---------- QR ---------- */
-.qr-section {
-  background: #020617;
-  padding: 90px 20px;
+.qr {
   text-align: center;
+  padding: 100px 20px;
+  background: #720f1e;
 }
 
-.qr-section h2 { color: #ffffff; }
+.qr h2 {
+  font-size: 2.8rem;
+  font-weight: 900;
+}
+
+.qr p {
+  color: #f5e9ec;
+  font-size: 1.1rem;
+}
 
 .qr-box {
   background: #ffffff;
@@ -147,23 +165,21 @@ p {
 
 /* ---------- FOOTER ---------- */
 footer {
-  background: #020617;
-  padding: 50px 20px;
   text-align: center;
-  color: #e5e7eb;
+  padding: 60px 20px;
+  background: #4a0c15;
 }
 
 footer a {
   color: #ffffff;
-  text-decoration: none;
   font-weight: 700;
+  text-decoration: none;
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
 <nav>
   <img src="images/serra_logo.png" alt="Serra Football">
   <div>
@@ -174,52 +190,46 @@ footer a {
   </div>
 </nav>
 
-<!-- HERO -->
 <header>
   <h1>Serra Elite Recruiting</h1>
   <p>
-    A program built on discipline, accountability, and preparing
-    young men to compete at the highest level — on and off the field.
+    A program built on standards, discipline, and the relentless pursuit
+    of excellence — preparing young men for the next level.
   </p>
 </header>
 
-<!-- WHY SERRA -->
-<section class="panel">
+<section class="section">
   <h2>Why Serra Football</h2>
-  <div class="divider"></div>
+  <div class="accent"></div>
   <p>
-    Serra Football is built on standards, not shortcuts.
-    We develop student-athletes who understand structure,
-    embrace accountability, and arrive at the college level
-    physically prepared, mentally tough, and academically responsible.
+    Serra Football is defined by accountability, toughness, and structure.
+    Our athletes are developed in a demanding environment that mirrors
+    collegiate expectations.
   </p>
   <p>
-    College programs trust Serra prospects because they are coached,
-    evaluated, and developed in an environment that mirrors
-    the expectations of the next level.
+    College programs trust Serra prospects because they arrive prepared —
+    mentally, physically, and academically — to compete immediately.
   </p>
 </section>
 
-<!-- EXPECTATIONS -->
-<section class="panel">
+<section class="section">
   <h2>What We Expect From Our Players</h2>
-  <div class="divider"></div>
-  <ul class="expect-list">
-    <li>✔ Ownership of academics and eligibility</li>
-    <li>✔ Daily discipline, effort, and accountability</li>
-    <li>✔ Coachability and commitment to development</li>
-    <li>✔ Pride in representing Serra Football</li>
-    <li>✔ Willingness to compete and lead</li>
+  <div class="accent"></div>
+  <ul>
+    <li>Ownership of academics and eligibility</li>
+    <li>Discipline, effort, and coachability</li>
+    <li>Accountability on and off the field</li>
+    <li>Pride in representing Serra Football</li>
+    <li>Commitment to development and competition</li>
   </ul>
 </section>
 
-<!-- LEGACY -->
 <section class="legacy">
   <h2>Serra Football Legacy</h2>
   <p>
-    A tradition defined by results.
-    Serra Football has produced elite competitors who have
-    gone on to succeed at the collegiate and professional levels.
+    Decades of excellence. A proven pipeline.
+    Serra Football produces competitors who succeed
+    at the highest levels.
   </p>
 
   <div class="legacy-grid">
@@ -238,21 +248,17 @@ footer a {
   </div>
 </section>
 
-<!-- QR -->
-<section class="qr-section">
+<section class="qr">
   <h2>College Coach Access</h2>
   <p>Scan for direct access to Serra player profiles and academic information.</p>
-
   <div class="qr-box">
-    <img src="images/serra_main_qr.png" alt="Scan for Serra Recruiting" style="width:140px;">
+    <img src="images/serra_main_qr.png" style="width:140px;">
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  Follow Serra Football<br><br>
-  🐦 <a href="https://twitter.com/serra_football" target="_blank">@serra_football</a><br>
-  📸 <a href="https://instagram.com/serrafootball" target="_blank">@serrafootball</a>
+  🐦 <a href="https://twitter.com/serra_football">@serra_football</a><br>
+  📸 <a href="https://instagram.com/serrafootball">@serrafootball</a>
 </footer>
 
 </body>
