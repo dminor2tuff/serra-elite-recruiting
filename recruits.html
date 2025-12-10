@@ -4,7 +4,109 @@
 <meta charset="UTF-8">
 <title>Serra Recruiting Board</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="styles.css">
+<style>
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, Oxygen, Ubuntu, Cantarell, Arial, sans-serif;
+    background: #5a0f1a;
+    color: #ffffff;
+    line-height: 1.6;
+  }
+
+  nav {
+    background: #4a0c15;
+    padding: 16px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgba(255,255,255,.12);
+  }
+  nav img { height: 56px; }
+  nav a {
+    margin-left: 22px;
+    color: #ffffff;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  header {
+    padding: 90px 20px;
+    text-align: center;
+    background:
+      linear-gradient(rgba(0,0,0,.55),rgba(90,15,26,.85)),
+      url('images/serra_action.png') center/cover no-repeat;
+    color: #fff;
+  }
+  header h1 { font-size: 3rem; margin-bottom: 12px; }
+
+  .section {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 20px;
+  }
+
+  /* FILTER BUTTONS */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .filters button {
+    background: #720f1e;
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .filters button:hover {
+    background: #a1142a;
+  }
+
+  /* SEARCH BAR */
+  #searchBar {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 28px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+  }
+
+  /* PLAYER GRID */
+  #players {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
+    gap: 24px;
+  }
+
+  .card {
+    background: #720f1e;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 12px 24px rgba(0,0,0,.25);
+  }
+  .card img {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+
+  .btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: #a1142a;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+</style>
 </head>
 
 <body>
@@ -20,14 +122,7 @@
 </nav>
 
 <!-- HEADER -->
-<header style="
-  padding:90px 20px;
-  background:
-    linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.85)),
-    url('images/serra_action.png') center/cover no-repeat;
-  color:#fff;
-  text-align:center;
-">
+<header>
   <h1>Serra Recruiting Board</h1>
   <p>Verified Serra Football Prospects</p>
 </header>
@@ -35,36 +130,34 @@
 <!-- LOGIN -->
 <section class="section" id="login">
   <h2>Coach Access</h2>
-  <p>This recruiting board is restricted to verified college coaches.</p>
-
-  <input type="password" id="pw" placeholder="Enter access password">
+  <p>This section is restricted to verified college coaches.</p>
+  <input type="password" id="pw" placeholder="Enter password">
   <button onclick="unlock()">Enter</button>
 </section>
 
 <!-- BOARD -->
 <section class="section" id="board" style="display:none">
-  <h2>Prospects</h2>
 
-  <!-- CLASS FILTERS -->
-  <div style="
-    margin-bottom:26px;
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-  ">
-    <button onclick="setFilter('All')" class="btn">All</button>
-    <button onclick="setFilter('2026')" class="btn">2026</button>
-    <button onclick="setFilter('2027')" class="btn">2027</button>
-    <button onclick="setFilter('2028')" class="btn">2028</button>
-    <button onclick="setFilter('2029')" class="btn">2029</button>
+  <!-- SEARCH BAR -->
+  <input
+    type="text"
+    id="searchBar"
+    placeholder="Search players by name, position, or attribute..."
+    onkeyup="renderPlayers()"
+  >
+
+  <!-- FILTER BUTTONS -->
+  <div class="filters">
+    <button onclick="setFilter('All')">All</button>
+    <button onclick="setFilter('2026')">2026</button>
+    <button onclick="setFilter('2027')">2027</button>
+    <button onclick="setFilter('2028')">2028</button>
+    <button onclick="setFilter('2029')">2029</button>
   </div>
 
-  <!-- PLAYERS GRID -->
-  <div id="players" style="
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-    gap:24px;
-  "></div>
+  <!-- PLAYER GRID -->
+  <div id="players"></div>
+
 </section>
 
 <script>
@@ -76,21 +169,18 @@ const SHEET_URL =
 let allPlayers = [];
 let currentFilter = "All";
 
+/* LOGIN */
 function unlock() {
   if (document.getElementById("pw").value === ACCESS_PASSWORD) {
     document.getElementById("login").style.display = "none";
     document.getElementById("board").style.display = "block";
     loadPlayers();
   } else {
-    alert("Invalid password");
+    alert("Incorrect password");
   }
 }
 
-function setFilter(cls) {
-  currentFilter = cls;
-  renderPlayers();
-}
-
+/* LOAD PLAYERS */
 function loadPlayers() {
   fetch(SHEET_URL)
     .then(res => res.text())
@@ -102,14 +192,13 @@ function loadPlayers() {
         if (!r.trim()) return;
         const c = r.split(",");
 
-        const name = c[0] || "";
-        if (!name) return;
-
         allPlayers.push({
-          name: name,
+          name: c[0] || "",
           classYear: c[1] || "",
           position: c[2] || "",
           size: c[3] || "",
+          hudl: c[4] || "",
+          bio: c[5] || "",
           image: c[6] || "images/placeholder_player.png",
           twitterRaw: c[7] || ""
         });
@@ -119,45 +208,51 @@ function loadPlayers() {
     });
 }
 
+/* SET CLASS FILTER */
+function setFilter(cls) {
+  currentFilter = cls;
+  renderPlayers();
+}
+
+/* RENDER PLAYERS */
 function renderPlayers() {
+  const searchTerm = document.getElementById("searchBar").value.toLowerCase();
   let html = "";
 
   allPlayers.forEach(p => {
     if (currentFilter !== "All" && p.classYear !== currentFilter) return;
 
+    const fullString = `
+      ${p.name} ${p.position} ${p.classYear} ${p.bio}
+    `.toLowerCase();
+
+    if (!fullString.includes(searchTerm)) return;
+
     let twitterLink = "";
     if (p.twitterRaw) {
       twitterLink = p.twitterRaw.startsWith("http")
         ? p.twitterRaw
-        : `https://twitter.com/${p.twitterRaw.replace("@","")}`;
+        : "https://twitter.com/" + p.twitterRaw.replace("@","");
     }
 
     html += `
       <div class="card">
-        <img src="${p.image}" style="width:100%;border-radius:12px;margin-bottom:12px;">
-
+        <img src="${p.image}">
         <strong>${p.name}</strong><br>
         <small>${p.position} • Class of ${p.classYear}</small><br>
         <small>${p.size}</small><br><br>
 
-        ${twitterLink ? `
-          <a href="${twitterLink}" target="_blank"
-             style="display:inline-block;margin-bottom:10px;font-weight:600;">
-             🐦 Twitter / X
-          </a><br>
-        ` : ``}
+        ${twitterLink ? `<a href="${twitterLink}" target="_blank" style="color:#fff;font-weight:600;">🐦 Twitter / X</a><br><br>` : ""}
 
-        <a href="profile.html?name=${encodeURIComponent(p.name)}"
-           class="btn"
-           style="padding:10px 22px;font-size:.85rem;">
-           View Profile
+        <a href="profile.html?name=${encodeURIComponent(p.name)}" class="btn">
+          View Profile
         </a>
       </div>
     `;
   });
 
   document.getElementById("players").innerHTML =
-    html || "<p>No prospects available for this class.</p>";
+    html || "<p>No athletes match this search.</p>";
 }
 </script>
 
