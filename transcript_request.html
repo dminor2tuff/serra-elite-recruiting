@@ -13,7 +13,6 @@
     color: white;
   }
 
-  /* NAVBAR */
   nav {
     background: #4a0c15;
     padding: 16px 30px;
@@ -22,7 +21,9 @@
     align-items: center;
     border-bottom: 2px solid rgba(255,255,255,.12);
   }
+
   nav img { height: 52px; }
+
   nav a {
     color: white;
     text-decoration: none;
@@ -30,16 +31,17 @@
     margin-left: 20px;
   }
 
-  /* HEADER */
   header {
     padding: 80px 20px 30px;
     text-align: center;
   }
+
   header h1 {
     font-size: 2.7rem;
     font-weight: 900;
     margin-bottom: 10px;
   }
+
   header p {
     max-width: 700px;
     margin: 0 auto;
@@ -47,52 +49,38 @@
     font-size: 1.05rem;
   }
 
-  /* FORM WRAPPER */
   .form-wrap {
     background: white;
     color: #111827;
-    padding: 30px 24px 36px;
+    padding: 32px;
     border-radius: 16px;
     max-width: 900px;
-    margin: 40px auto 70px;
+    margin: 40px auto 80px;
     box-shadow: 0 20px 40px rgba(0,0,0,.3);
-  }
-
-  .form-wrap h2 {
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-
-  .form-wrap p {
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-size: .95rem;
-    color: #374151;
   }
 
   label {
     display: block;
     font-weight: 600;
-    margin: 12px 0 6px;
+    margin: 14px 0 6px;
   }
 
-  input, textarea, select {
+  input, textarea {
     width: 100%;
     padding: 10px 12px;
     border-radius: 8px;
     border: 1px solid #d1d5db;
     font-size: .95rem;
-    box-sizing: border-box;
   }
 
   textarea {
-    min-height: 90px;
     resize: vertical;
+    min-height: 90px;
   }
 
   button {
-    margin-top: 18px;
-    padding: 12px 26px;
+    margin-top: 20px;
+    padding: 12px 28px;
     border-radius: 999px;
     border: none;
     background: #5a0f1a;
@@ -106,6 +94,8 @@
   }
 
   small {
+    display: block;
+    margin-top: 12px;
     color: #6b7280;
   }
 </style>
@@ -113,67 +103,79 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav>
   <img src="images/serra_logo.png" alt="Serra Football Logo">
   <div>
     <a href="index.html">Home</a>
     <a href="recruits.html">Recruits</a>
-    <a href="admin.html">Coach Tools</a>
   </div>
 </nav>
 
-<!-- HEADER -->
 <header>
   <h1>Transcript Request</h1>
   <p>
-    College coaches and admissions staff may use this form to generate an email
-    request for official transcripts for Serra Football student-athletes.
+    College coaches and admissions staff may use this form to generate
+    an official transcript request email for Serra Football student-athletes.
   </p>
 </header>
 
-<!-- FORM -->
 <div class="form-wrap">
-  <h2>Request Details</h2>
-  <p>
-    When you submit this form, your email client will open a message addressed to
-    <strong>serracavsfb@gmail.com</strong> with the information below pre-filled.
-  </p>
+  <form onsubmit="sendEmail(); return false;">
+    <label>College / University</label>
+    <input id="college" required>
 
-  <form action="mailto:serracavsfb@gmail.com"
-        method="post"
-        enctype="text/plain">
+    <label>Coach / Admissions Contact Name</label>
+    <input id="coach" required>
 
-    <label for="college">College / University</label>
-    <input id="college" name="College / University" required>
+    <label>Contact Email</label>
+    <input id="email" type="email" required>
 
-    <label for="coach">Coach / Admissions Contact Name</label>
-    <input id="coach" name="Coach / Contact Name" required>
+    <label>Student-Athlete Name</label>
+    <input id="athlete" required>
 
-    <label for="email">Contact Email</label>
-    <input id="email" name="Contact Email" type="email" required>
+    <label>Graduation Class</label>
+    <input id="gradyear" placeholder="2026, 2027, etc." required>
 
-    <label for="athlete">Student-Athlete Name</label>
-    <input id="athlete" name="Student-Athlete Name" required>
+    <label>Reason for Request</label>
+    <textarea id="reason" required></textarea>
 
-    <label for="gradyear">Graduation Class (Year)</label>
-    <input id="gradyear" name="Graduation Class" placeholder="2026, 2027, etc." required>
+    <label>Additional Notes</label>
+    <textarea id="notes"></textarea>
 
-    <label for="reason">Reason for Transcript Request</label>
-    <textarea id="reason" name="Reason for Request" placeholder="Official visit, admissions review, academic evaluation, etc." required></textarea>
-
-    <label for="notes">Additional Notes / Instructions</label>
-    <textarea id="notes" name="Additional Notes"></textarea>
-
-    <button type="submit">Open Email to Submit Request</button>
-    <br>
+    <button type="submit">Generate Email Request</button>
     <small>
-      Note: This button opens your default email program with the request
-      ready to send to <strong>serracavsfb@gmail.com</strong>. Please review
-      and click “Send” in your email client to complete the request.
+      Your email app will open with this request pre-filled and addressed to
+      <strong>serracavsfb@gmail.com</strong>.
     </small>
   </form>
 </div>
+
+<script>
+function sendEmail() {
+  const body = `
+College / University: ${college.value}
+Coach / Contact: ${coach.value}
+Contact Email: ${email.value}
+
+Student-Athlete: ${athlete.value}
+Graduation Class: ${gradyear.value}
+
+Reason:
+${reason.value}
+
+Additional Notes:
+${notes.value}
+`;
+
+  const subject = "Serra Football Transcript Request";
+  const mailto =
+    "mailto:serracavsfb@gmail.com" +
+    "?subject=" + encodeURIComponent(subject) +
+    "&body=" + encodeURIComponent(body);
+
+  window.location.href = mailto;
+}
+</script>
 
 </body>
 </html>
