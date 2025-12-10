@@ -4,14 +4,134 @@
 <meta charset="UTF-8">
 <title>Serra Elite Recruiting</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="styles.css">
+
+<style>
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+    color: #1c1c1c;
+    background: #f6f7f9;
+    line-height: 1.6;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 30px;
+    background: #ffffff;
+    border-bottom: 1px solid #ddd;
+  }
+
+  nav img {
+    height: 58px;
+  }
+
+  nav a {
+    margin-left: 18px;
+    text-decoration: none;
+    font-weight: 600;
+    color: #002b5c;
+  }
+
+  header {
+    padding: 120px 20px;
+    text-align: center;
+    color: #fff;
+    background:
+      linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.75)),
+      url("images/serra_action.png") center/cover no-repeat;
+  }
+
+  header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+
+  header p {
+    font-size: 1.15rem;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  section {
+    padding: 80px 20px;
+    max-width: 1100px;
+    margin: auto;
+  }
+
+  h2 {
+    font-size: 2.2rem;
+    margin-bottom: 16px;
+    color: #002b5c;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    margin-top: 30px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 26px;
+    box-shadow: 0 10px 28px rgba(0,0,0,.08);
+    text-align: center;
+  }
+
+  .stat {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #7a0f2b;
+  }
+
+  ul {
+    padding-left: 20px;
+  }
+
+  ul li {
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .qr-section {
+    background: linear-gradient(135deg,#7a0f2b,#002b5c);
+    color: #fff;
+    text-align: center;
+  }
+
+  .qr-box {
+    background: #fff;
+    display: inline-block;
+    padding: 18px;
+    border-radius: 18px;
+    margin-top: 26px;
+    box-shadow: 0 20px 40px rgba(0,0,0,.35);
+  }
+
+  footer {
+    background: #f0f0f0;
+    padding: 40px 20px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  footer a {
+    color: #002b5c;
+    text-decoration: none;
+    font-weight: 700;
+  }
+</style>
 </head>
 
 <body>
 
 <!-- NAV -->
 <nav>
-  <img src="images/serra_logo.png" alt="Serra Football Logo">
+  <img src="images/serra_logo.png" alt="Serra Football">
   <div>
     <a href="index.html">Home</a>
     <a href="recruits.html">Recruits</a>
@@ -20,71 +140,76 @@
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- HEADER -->
 <header>
   <h1>Serra Elite Recruiting</h1>
-  <p>
-    Developing disciplined, high-character student-athletes prepared
-    for collegiate football and life beyond the game.
-  </p>
-  <a href="recruits.html" class="btn">View All Recruits</a>
+  <p>Developing Champions On and Off the Field</p>
 </header>
 
 <!-- WHY SERRA -->
-<section class="section">
+<section>
   <h2>Why Serra Football</h2>
   <p>
     Serra Football is built on discipline, brotherhood, and accountability.
-    Our program emphasizes academic excellence, elite development, and preparing
-    young men to compete at the highest collegiate levels.
+    Our program emphasizes academic excellence, elite athletic development,
+    and preparing young men for success at the collegiate level and beyond.
   </p>
 </section>
 
 <!-- EXPECTATIONS -->
-<section class="section">
+<section>
   <h2>What We Expect From Our Players</h2>
   <ul>
-    <li>Academic commitment and eligibility responsibility</li>
-    <li>Toughness, effort, and coachability</li>
-    <li>Accountability on and off the field</li>
-    <li>Respect for teammates, coaches, and the Serra tradition</li>
+    <li>✅ Academic commitment and eligibility awareness</li>
+    <li>✅ Toughness, effort, and coachability</li>
+    <li>✅ Accountability on and off the field</li>
+    <li>✅ Respect for teammates, coaches, and Serra tradition</li>
   </ul>
 </section>
 
 <!-- LEGACY -->
-<section class="section">
+<section>
   <h2>Serra Football Legacy</h2>
-  <div class="stats">
-    <div class="stat">
-      <h3>14</h3>
-      <p>NFL Draft Picks</p>
+  <div class="cards">
+    <div class="card">
+      <div class="stat">14</div>
+      NFL Draft Picks
     </div>
-    <div class="stat">
-      <h3>28</h3>
-      <p>All-Americans</p>
+    <div class="card">
+      <div class="stat">28</div>
+      All-Americans
     </div>
-    <div class="stat">
-      <h3>Elite</h3>
-      <p>College Pipeline</p>
+    <div class="card">
+      <div class="stat">Elite</div>
+      College Pipeline
     </div>
   </div>
 </section>
 
-<!-- QR -->
+<!-- COLLEGE COACH ACCESS -->
 <section class="qr-section">
   <h2>College Coach Access</h2>
-  <p style="max-width:520px;margin:0 auto;font-size:.95rem;opacity:.95;">
+  <p style="max-width:720px;margin:auto;">
     For college coaching staffs. Scan for direct access to Serra player profiles,
-    academic information, and staff contact details.
+    academic information, and verified staff contact details.
   </p>
-  <img src="images/serra_main_qr.png" alt="Serra Recruiting QR Code">
+
+  <div class="qr-box">
+    <img
+      src="images/serra_main_qr.png"
+      alt="Scan for Serra Elite Recruiting"
+      style="width:140px;height:auto;display:block;"
+    >
+  </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  Follow Serra Football<br><br>
-  🐦 <a href="https://twitter.com/serra_football" target="_blank">@serra_football</a><br>
-  📸 <a href="https://instagram.com/serrafootball" target="_blank">@serrafootball</a>
+  <p>Follow Serra Football</p>
+  <p>
+    🐦 <a href="https://twitter.com/serra_football" target="_blank">@serra_football</a><br>
+    📸 <a href="https://instagram.com/serrafootball" target="_blank">@serrafootball</a>
+  </p>
 </footer>
 
 </body>
