@@ -13,7 +13,7 @@
     color: white;
   }
 
-  /* NAVBAR --------------------------------------------------- */
+  /* NAVBAR */
   nav {
     background: #4a0c15;
     padding: 16px 30px;
@@ -22,9 +22,7 @@
     align-items: center;
     border-bottom: 2px solid rgba(255,255,255,.12);
   }
-
   nav img { height: 52px; }
-
   nav a {
     color: white;
     text-decoration: none;
@@ -32,39 +30,83 @@
     margin-left: 20px;
   }
 
-  /* HEADER --------------------------------------------------- */
+  /* HEADER */
   header {
-    padding: 80px 20px;
+    padding: 80px 20px 30px;
     text-align: center;
   }
-
   header h1 {
     font-size: 2.7rem;
     font-weight: 900;
     margin-bottom: 10px;
   }
-
   header p {
     max-width: 700px;
     margin: 0 auto;
     color: #f5e9ec;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
   }
 
-  /* FORM WRAPPER --------------------------------------------- */
+  /* FORM WRAPPER */
   .form-wrap {
     background: white;
-    padding: 30px;
+    color: #111827;
+    padding: 30px 24px 36px;
     border-radius: 16px;
     max-width: 900px;
-    margin: 60px auto;
+    margin: 40px auto 70px;
     box-shadow: 0 20px 40px rgba(0,0,0,.3);
   }
 
-  iframe {
+  .form-wrap h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  .form-wrap p {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: .95rem;
+    color: #374151;
+  }
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin: 12px 0 6px;
+  }
+
+  input, textarea, select {
     width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: .95rem;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    min-height: 90px;
+    resize: vertical;
+  }
+
+  button {
+    margin-top: 18px;
+    padding: 12px 26px;
+    border-radius: 999px;
     border: none;
-    border-radius: 10px;
+    background: #5a0f1a;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #7a1425;
+  }
+
+  small {
+    color: #6b7280;
   }
 </style>
 </head>
@@ -85,17 +127,52 @@
 <header>
   <h1>Transcript Request</h1>
   <p>
-    College coaches and admissions staff may use this form to request official transcripts 
-    for Serra Football student-athletes.
+    College coaches and admissions staff may use this form to generate an email
+    request for official transcripts for Serra Football student-athletes.
   </p>
 </header>
 
-<!-- FORM SECTION -->
+<!-- FORM -->
 <div class="form-wrap">
-  <iframe 
-    src="https://docs.google.com/forms/d/e/1FAIpQLSdZ9-FCn93uEhVsFSIJLDJtIIwr18OGsaZBDSNwhiT1WsyzLg/viewform?embedded=true" 
-    height="950">
-  </iframe>
+  <h2>Request Details</h2>
+  <p>
+    When you submit this form, your email client will open a message addressed to
+    <strong>serracavsfb@gmail.com</strong> with the information below pre-filled.
+  </p>
+
+  <form action="mailto:serracavsfb@gmail.com"
+        method="post"
+        enctype="text/plain">
+
+    <label for="college">College / University</label>
+    <input id="college" name="College / University" required>
+
+    <label for="coach">Coach / Admissions Contact Name</label>
+    <input id="coach" name="Coach / Contact Name" required>
+
+    <label for="email">Contact Email</label>
+    <input id="email" name="Contact Email" type="email" required>
+
+    <label for="athlete">Student-Athlete Name</label>
+    <input id="athlete" name="Student-Athlete Name" required>
+
+    <label for="gradyear">Graduation Class (Year)</label>
+    <input id="gradyear" name="Graduation Class" placeholder="2026, 2027, etc." required>
+
+    <label for="reason">Reason for Transcript Request</label>
+    <textarea id="reason" name="Reason for Request" placeholder="Official visit, admissions review, academic evaluation, etc." required></textarea>
+
+    <label for="notes">Additional Notes / Instructions</label>
+    <textarea id="notes" name="Additional Notes"></textarea>
+
+    <button type="submit">Open Email to Submit Request</button>
+    <br>
+    <small>
+      Note: This button opens your default email program with the request
+      ready to send to <strong>serracavsfb@gmail.com</strong>. Please review
+      and click “Send” in your email client to complete the request.
+    </small>
+  </form>
 </div>
 
 </body>
