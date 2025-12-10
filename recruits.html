@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Serra Football Prospects</title>
+  <title>Serra Football Recruits</title>
 
   <style>
     body {
@@ -64,7 +64,7 @@
     }
 
     .filters button.active {
-      background: #ffffff;
+      background: white;
       color: #5A0E0E;
       font-weight: bold;
     }
@@ -105,8 +105,8 @@
       text-decoration: none;
     }
   </style>
-
 </head>
+
 <body>
 
 <nav>
@@ -132,70 +132,80 @@
 <div class="grid" id="playerGrid"></div>
 
 <script>
-  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-  let players = [];
-  let currentClass = "All";
+function displayFirstLast(name) {
+  if (!name) return "";
+  if (!name.includes(",")) return name;
+  const parts = name.split(",");
+  return parts[1].trim() + " " + parts[0].trim();
+}
 
-  async function loadCSV() {
-    const response = await fetch(CSV_URL);
-    const text = await response.text();
-    const rows = text.trim().split("\n").map(r => r.split(","));
+const CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-    const headers = rows.shift();
+let players = [];
+let currentClass = "All";
 
-    players = rows.map(row => {
-      let obj = {};
-      headers.forEach((h, i) => {
-        obj[h.trim()] = row[i] ? row[i].trim() : "";
-      });
-      return obj;
+async function loadCSV() {
+  const response = await fetch(CSV_URL);
+  const text = await response.text();
+  const rows = text.trim().split("\n").map(r => r.split(","));
+
+  const headers = rows.shift();
+
+  players = rows.map(row => {
+    let obj = {};
+    headers.forEach((h, i) => {
+      obj[h.trim()] = row[i] ? row[i].trim() : "";
     });
-
-    renderPlayers(players);
-  }
-
-  function renderPlayers(list) {
-    const grid = document.getElementById("playerGrid");
-    grid.innerHTML = "";
-
-    list.forEach(p => {
-      const img = p.ImageURL && p.ImageURL.startsWith("http")
-        ? p.ImageURL
-        : "images/placeholder_player.png";
-
-      grid.innerHTML += `
-        <div class="card">
-          <img src="${img}" onerror="this.src='images/placeholder_player.png'">
-          <h3>${p.Name}</h3>
-          <p>${p.Position} • Class of ${p.Class}</p>
-          <a class="btn" href="profile.html?name=${encodeURIComponent(p.Name)}">View Profile</a>
-        </div>`;
-    });
-  }
-
-  function filterClass(cls) {
-    currentClass = cls;
-    document.querySelectorAll(".filters button").forEach(btn => btn.classList.remove("active"));
-    event.target.classList.add("active");
-
-    if (cls === "All") {
-      renderPlayers(players);
-    } else {
-      renderPlayers(players.filter(p => p.Class === cls));
-    }
-  }
-
-  document.getElementById("searchBox").addEventListener("input", (e) => {
-    const term = e.target.value.toLowerCase();
-    const filtered = players.filter(p =>
-      p.Name.toLowerCase().includes(term) ||
-      p.Position.toLowerCase().includes(term)
-    );
-    renderPlayers(filtered);
+    return obj;
   });
 
-  loadCSV();
+  renderPlayers(players);
+}
+
+function renderPlayers(list) {
+  const grid = document.getElementById("playerGrid");
+  grid.innerHTML = "";
+
+  list.forEach(p => {
+    const img = p.ImageURL && p.ImageURL.startsWith("http")
+      ? p.ImageURL
+      : "images/placeholder_player.png";
+
+    grid.innerHTML += `
+      <div class="card">
+        <img src="${img}" onerror="this.src='images/placeholder_player.png'">
+        <h3>${displayFirstLast(p.Name)}</h3>
+        <p>${p.Position} • Class of ${p.Class}</p>
+        <a class="btn" href="profile.html?name=${encodeURIComponent(p.Name)}">View Profile</a>
+      </div>`;
+  });
+}
+
+function filterClass(cls) {
+  currentClass = cls;
+  document.querySelectorAll(".filters button").forEach(btn => btn.classList.remove("active"));
+  event.target.classList.add("active");
+
+  if (cls === "All") {
+    renderPlayers(players);
+  } else {
+    renderPlayers(players.filter(p => p.Class === cls));
+  }
+}
+
+document.getElementById("searchBox").addEventListener("input", (e) => {
+  const term = e.target.value.toLowerCase();
+  const filtered = players.filter(p =>
+    displayFirstLast(p.Name).toLowerCase().includes(term) ||
+    p.Position.toLowerCase().includes(term)
+  );
+  renderPlayers(filtered);
+});
+
+loadCSV();
+
 </script>
 
 </body>
