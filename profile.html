@@ -1,38 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Serra Player Profile</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8" />
+<title>Player Profile | Serra Elite Recruiting</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+  body {
+    margin: 0;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    background: #f5f6f7;
+    color: #222;
+  }
+
+  /* NAV */
+  nav {
+    background: #4a0c15;
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  nav img {
+    height: 55px;
+  }
+
+  nav a {
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 22px;
+    font-size: 1rem;
+  }
+
+  /* MAIN SECTION */
+  .section {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #4a0c15;
+    font-weight: 900;
+  }
+
+  .card {
+    background: white;
+    border-radius: 18px;
+    padding: 28px;
+    display: flex;
+    gap: 26px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  #playerPhoto {
+    width: 100%;
+    max-width: 260px;
+    height: 260px;
+    border-radius: 16px;
+    object-fit: cover;
+    background: #ddd;
+  }
+
+  #playerMeta {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  #playerBio {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+
+  #hudlLink {
+    background: #4a0c15;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 10px;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 700;
+  }
+
+</style>
 </head>
 
 <body>
 
 <!-- NAV -->
 <nav>
-  <img src="images/serra_logo.png" alt="Serra Football Logo">
+  <img src="images/serra_logo.png" alt="Serra Football Logo" />
   <div>
     <a href="index.html">Home</a>
     <a href="recruits.html">Recruits</a>
   </div>
 </nav>
 
-<!-- PROFILE SECTION -->
+<!-- PLAYER PROFILE -->
 <section class="section">
   <h2 id="playerName">Player Profile</h2>
 
-  <div class="card" style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;">
+  <div class="card">
+    
     <!-- Photo -->
-    <div style="flex:0 0 260px;max-width:260px;">
-      <img id="playerPhoto" src="images/placeholder_player.png"
-           alt="Player photo"
-           style="width:100%;border-radius:16px;object-fit:cover;">
+    <div style="flex: 0 0 260px">
+      <img
+        id="playerPhoto"
+        src="images/placeholder_player.png"
+        alt="Player Photo"
+      />
     </div>
 
     <!-- Info -->
-    <div style="flex:1 1 260px;min-width:0;">
-      <p id="playerMeta" style="margin-top:0;font-weight:600;"></p>
+    <div style="flex: 1 1 260px; min-width: 0">
+      <p id="playerMeta"></p>
       <p id="playerBio"></p>
 
       <p>
@@ -40,60 +127,69 @@
           View HUDL Profile
         </a>
       </p>
-
-      <button onclick="window.print()" style="margin-top:10px;">
-        Download PDF
-      </button>
     </div>
   </div>
 </section>
 
 <script>
-// SAME SHEET USED BY RECRUITS PAGE
+// Google Sheet CSV export link
 const SHEET_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-const params = new URLSearchParams(location.search);
-const targetName = params.get("name");
+// Grab "name" from URL
+const params = new URLSearchParams(window.location.search);
+const playerNameFromURL = params.get("name");
 
-if (!targetName) {
-  document.getElementById("playerName").innerText = "Player not found";
-} else {
-  fetch(SHEET_URL)
-    .then(r => r.text())
-    .then(csv => {
-      const rows = csv.split("\n").slice(1); // skip header
+// Page elements
+const nameEl = document.getElementById("playerName");
+const metaEl = document.getElementById("playerMeta");
+const bioEl = document.getElementById("playerBio");
+const photoEl = document.getElementById("playerPhoto");
+const hudlEl = document.getElementById("hudlLink");
 
-      for (const row of rows) {
-        if (!row.trim()) continue;
-        const cols = row.split(",");
+fetch(SHEET_URL)
+  .then((res) => res.text())
+  .then((csv) => {
+    const rows = csv.split("\n").slice(1);
 
-        const name   = cols[0] || "";
-        const pClass = cols[1] || "";
-        const pos    = cols[2] || "";
-        const size   = cols[3] || "";
-        const hudl   = cols[4] || "";
-        const bio    = cols[5] || "";
-        const img    = cols[6] || "images/placeholder_player.png";
+    rows.forEach((row) => {
+      if (!row.trim()) return;
 
-        if (name === targetName) {
-          document.getElementById("playerName").innerText = name;
-          document.getElementById("playerMeta").innerText =
-            `Class of ${pClass} • ${pos}${size ? " • " + size : ""}`;
+      const cols = row.split(",");
 
-          document.getElementById("playerBio").innerText = bio;
-          document.getElementById("playerPhoto").src = img;
+      const name = cols[0]?.trim();
+      const classYear = cols[1]?.trim();
+      const position = cols[2]?.trim();
+      const size = cols[3]?.trim();
+      const hudl = cols[4]?.trim();
+      const bio = cols[5]?.trim();
+      const imageURL = cols[6]?.trim();
 
-          if (hudl) {
-            const link = document.getElementById("hudlLink");
-            link.href = hudl;
-            link.style.display = "inline-block";
-          }
-          break;
+      if (name === playerNameFromURL) {
+        // Name
+        nameEl.textContent = name;
+
+        // Meta info
+        metaEl.textContent = `${position} • Class of ${classYear} • ${size}`;
+
+        // Bio / Writeup
+        bioEl.textContent = bio;
+
+        // Image load
+        if (imageURL && imageURL.length > 5) {
+          photoEl.src = imageURL;
+        } else {
+          photoEl.src = "images/placeholder_player.png";
+        }
+
+        // HUDL link
+        if (hudl && hudl !== "") {
+          hudlEl.href = hudl;
+          hudlEl.style.display = "inline-block";
         }
       }
     });
-}
+  });
 </script>
 
 </body>
