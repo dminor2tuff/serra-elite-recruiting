@@ -1,98 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Player Profile – Serra Football</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-  body {
-    margin:0;
-    font-family:Montserrat,sans-serif;
-    background:linear-gradient(#4a0505,#7b0f0f,#5a0a0a);
-    color:#fff;
-  }
-  nav {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:14px 26px;
-  }
-  nav img {height:60px;}
-  nav a {color:#fff;text-decoration:none;margin-left:18px;font-weight:600;}
-  .wrap {
-    max-width:900px;
-    margin:20px auto 40px;
-    padding:0 20px;
-  }
-  .card {
-    background:rgba(0,0,0,0.35);
-    border-radius:18px;
-    border:1px solid rgba(255,255,255,0.18);
-    padding:20px;
-  }
-  .top {
-    display:flex;
-    flex-wrap:wrap;
-    gap:22px;
-  }
-  .photo {
-    flex:0 0 260px;
-  }
-  .photo img {
-    width:100%;
-    height:300px;
-    object-fit:cover;
-    border-radius:16px;
-    background:#190205;
-  }
-  h1 {margin:0 0 8px;font-size:30px;}
-  p {margin:4px 0;font-size:15px;}
-  .label {font-weight:700;color:#ffd6d6;}
-  .btn {
-    display:inline-block;
-    padding:8px 14px;
-    border-radius:10px;
-    background:#fff;
-    color:#b30000;
-    text-decoration:none;
-    font-weight:600;
-    margin-top:8px;
-    margin-right:8px;
-  }
-  .college-logo {
-    height:60px;
-    margin-top:10px;
-    border-radius:8px;
-    background:#fff;
-  }
-  h2 {margin-top:18px;margin-bottom:6px;font-size:20px;}
-</style>
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Profile – Serra Football</title>
 
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #6A0F0F, #300000);
+      color: white;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      background: #400000;
+    }
+
+    nav img {
+      height: 36px;
+      margin-right: 20px;
+    }
+
+    nav a {
+      margin-right: 20px;
+      color: #ffdede;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .wrap {
+      max-width: 1000px;
+      margin: 24px auto 40px;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: #5A0E0E;
+      border-radius: 18px;
+      border: 2px solid #7A1C1C;
+      padding: 20px;
+    }
+
+    .top {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .photo {
+      flex: 0 0 260px;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid #fff;
+      background: #200000;
+    }
+
+    .info {
+      flex: 1 1 260px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    h2 {
+      margin-top: 20px;
+      margin-bottom: 6px;
+      font-size: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 4px;
+    }
+
+    p {
+      margin: 4px 0;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #ffe0e0;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      margin-right: 10px;
+      padding: 8px 16px;
+      background: white;
+      color: #5A0E0E;
+      font-weight: bold;
+      border-radius: 18px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .college-logo {
+      margin-top: 10px;
+      max-height: 64px;
+      max-width: 180px;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    @media (max-width: 700px) {
+      .top {
+        flex-direction: column;
+      }
+      .photo {
+        flex: 1 1 auto;
+      }
+    }
+  </style>
+</head>
 <body>
 
 <nav>
   <img src="images/serra_logo.png" alt="Serra Logo">
-  <div>
-    <a href="index.html">Home</a>
-    <a href="recruits.html">Recruits</a>
-  </div>
+  <a href="index.html">Home</a>
+  <a href="recruits.html">Recruits</a>
 </nav>
 
 <div class="wrap">
-  <div class="card">
+  <div class="card" id="profileCard">
     <div class="top">
       <div class="photo">
-        <img id="playerPhoto" src="images/placeholder_player.png" alt="Player photo">
+        <img id="playerPhoto" src="images/placeholder_player.png" alt="Player Photo">
       </div>
-      <div>
+
+      <div class="info">
         <h1 id="playerName">Player Name</h1>
         <p><span class="label">Position:</span> <span id="playerPosition"></span></p>
         <p><span class="label">Class:</span> <span id="playerClass"></span></p>
         <p><span class="label">Height / Weight:</span> <span id="playerHW"></span></p>
         <p><span class="label">GPA:</span> <span id="playerGPA"></span></p>
 
-        <a id="hudlLink" class="btn" href="#" target="_blank" style="display:none;">View HUDL</a>
+        <a id="hudlLink" class="btn" href="#" target="_blank" style="display:none;">HUDL Profile</a>
         <a id="twitterLink" class="btn" href="#" target="_blank" style="display:none;">Twitter / X</a>
       </div>
     </div>
@@ -104,69 +157,94 @@
     <p><span class="label">Offers:</span> <span id="playerOffers"></span></p>
     <p><span class="label">Status:</span> <span id="playerStatus"></span></p>
     <p><span class="label">College:</span> <span id="playerCollege"></span></p>
-    <img id="collegeLogo" class="college-logo" src="" style="display:none;">
+    <img id="collegeLogo" class="college-logo" src="" alt="College Logo" style="display:none;">
   </div>
 </div>
 
 <script>
-const CSV_URL =
- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-const params = new URLSearchParams(window.location.search);
-const targetName = params.get("name");
+  // Get player name from URL (?name=Devohn%20Moutra%20Jr)
+  const params = new URLSearchParams(window.location.search);
+  const targetName = params.get("name");
 
-function parseCSV(text){
-  const rows = text.trim().split("\n").slice(1);
-  return rows.map(row=>{
-    const cols=row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-    if(!cols||cols.length<13) return null;
-    const c = x => x?x.replace(/"/g,"").trim():"";
-    return {
-      Name:c(cols[0]), Class:c(cols[1]), Position:c(cols[2]),
-      HeightWeight:c(cols[3]), Hudl:c(cols[4]), Bio:c(cols[5]),
-      Image:c(cols[6]), Twitter:c(cols[7]), GPA:c(cols[8]),
-      Offers:c(cols[9]), Status:c(cols[10]), College:c(cols[11]),
-      CollegeLogo:c(cols[12])
-    };
-  }).filter(Boolean);
-}
+  if (!targetName) {
+    document.getElementById("profileCard").innerHTML =
+      "<p>No player selected. Go back to the <a href='recruits.html'>recruits page</a>.</p>";
+  } else {
+    loadPlayer(decodeURIComponent(targetName));
+  }
 
-fetch(CSV_URL)
-  .then(r=>r.text())
-  .then(text=>{
-    const players=parseCSV(text);
-    const p=players.find(pl=>pl.Name===targetName);
-    if(!p) return;
+  async function loadPlayer(name) {
+    try {
+      const response = await fetch(CSV_URL);
+      const text = await response.text();
+      const rows = text.trim().split("\n").map(r => r.split(","));
 
-    document.getElementById("playerName").textContent=p.Name;
-    document.getElementById("playerPosition").textContent=p.Position;
-    document.getElementById("playerClass").textContent=p.Class;
-    document.getElementById("playerHW").textContent=p.HeightWeight;
-    document.getElementById("playerGPA").textContent=p.GPA || "N/A";
-    document.getElementById("playerBio").textContent=p.Bio || "";
-    document.getElementById("playerOffers").textContent=p.Offers || "N/A";
-    document.getElementById("playerStatus").textContent=p.Status || "Available";
-    document.getElementById("playerCollege").textContent=p.College || "TBD";
+      const headers = rows.shift();
+      const players = rows.map(row => {
+        let obj = {};
+        headers.forEach((h, i) => {
+          obj[h.trim()] = row[i] ? row[i].trim() : "";
+        });
+        return obj;
+      });
 
-    const photo = p.Image && p.Image.startsWith("http") ? p.Image : "images/placeholder_player.png";
-    document.getElementById("playerPhoto").src = photo;
+      const player = players.find(p => p.Name === name);
 
-    if (p.Hudl) {
-      const h = document.getElementById("hudlLink");
-      h.href = p.Hudl;
-      h.style.display = "inline-block";
+      if (!player) {
+        document.getElementById("profileCard").innerHTML =
+          "<p>Player not found. Go back to the <a href='recruits.html'>recruits page</a>.</p>";
+        return;
+      }
+
+      // Fill in fields
+      document.getElementById("playerName").textContent = player.Name;
+      document.getElementById("playerPosition").textContent = player.Position;
+      document.getElementById("playerClass").textContent = player.Class;
+      document.getElementById("playerHW").textContent = player.HeightWeight;
+      document.getElementById("playerGPA").textContent = player.GPA || "N/A";
+      document.getElementById("playerBio").textContent = player.Writeup || "";
+
+      document.getElementById("playerOffers").textContent = player.Offers || "N/A";
+      document.getElementById("playerStatus").textContent = player.Status || "Available";
+      document.getElementById("playerCollege").textContent = player.College || "TBD";
+
+      // Photo
+      const imgUrl = player.ImageURL && player.ImageURL.startsWith("http")
+        ? player.ImageURL
+        : "images/placeholder_player.png";
+      const photoEl = document.getElementById("playerPhoto");
+      photoEl.src = imgUrl;
+      photoEl.onerror = () => { photoEl.src = "images/placeholder_player.png"; };
+
+      // HUDL
+      if (player.HUDL && player.HUDL.startsWith("http")) {
+        const hudlBtn = document.getElementById("hudlLink");
+        hudlBtn.href = player.HUDL;
+        hudlBtn.style.display = "inline-block";
+      }
+
+      // Twitter
+      if (player.Twitter && player.Twitter.startsWith("http")) {
+        const twBtn = document.getElementById("twitterLink");
+        twBtn.href = player.Twitter;
+        twBtn.style.display = "inline-block";
+      }
+
+      // College logo
+      if (player.CollegeLogoURL && player.CollegeLogoURL.startsWith("http")) {
+        const logo = document.getElementById("collegeLogo");
+        logo.src = player.CollegeLogoURL;
+        logo.style.display = "block";
+      }
+
+    } catch (e) {
+      document.getElementById("profileCard").innerHTML =
+        "<p>Error loading player data. Please try again later.</p>";
+      console.error(e);
     }
-    if (p.Twitter) {
-      const t = document.getElementById("twitterLink");
-      t.href = p.Twitter;
-      t.style.display = "inline-block";
-    }
-    if (p.CollegeLogo && p.CollegeLogo.startsWith("http")) {
-      const cl = document.getElementById("collegeLogo");
-      cl.src = p.CollegeLogo;
-      cl.style.display = "block";
-    }
-  });
+  }
 </script>
 
 </body>
