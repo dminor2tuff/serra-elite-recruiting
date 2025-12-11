@@ -3,49 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Serra Football Recruits Board</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Serra Football Prospects Board</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/shared.css">
 </head>
 <body>
+<div class="page">
 
-<nav>
-  <div class="left">
-    <img src="images/serra_logo.png" class="logo" alt="Serra Logo">
-    <span class="brand">Serra Elite Football Recruiting</span>
-  </div>
-  <div class="links">
-    <a href="index.html">Home</a>
-    <a href="coach-login.html">Coach Login</a>
-    <a href="#" id="logoutBtn">Logout</a>
-  </div>
-</nav>
-
-<div class="container">
-  <h1 style="font-size:20px; color:#111827; margin-bottom:4px;">Serra Football Prospects</h1>
-  <p style="font-size:12px; color:#6b7280; margin-bottom:12px;">
-    Filter by class, search by name or position, and open individual profiles for full academic and athletic details.
-  </p>
-
-  <div class="toolbar">
-    <div class="toolbar-left">
-      Serra Classes 2026–2029 • Live recruiting board
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-left">
+        <img src="images/serra_logo.png" class="nav-logo" alt="Serra Logo">
+        <span class="nav-brand">Serra Elite Football Recruiting</span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="recruits.html">Recruits</a>
+        <a href="#" id="logoutBtn">Logout</a>
+      </div>
     </div>
-    <div class="toolbar-right">
-      <input type="text" id="searchBox" placeholder="Search by name or position…">
+  </nav>
+
+  <main class="container">
+    <h1 class="page-title">Serra Football Prospects</h1>
+    <p class="page-subtitle">
+      Filter by class, search by name or position, and open individual profiles for full academic and athletic details.
+    </p>
+
+    <div class="toolbar">
+      <input id="searchBox" class="search-input" placeholder="Search by name or position…">
+      <div class="filters">
+        <button class="filter-btn active" data-class="All">All</button>
+        <button class="filter-btn" data-class="2026">2026</button>
+        <button class="filter-btn" data-class="2027">2027</button>
+        <button class="filter-btn" data-class="2028">2028</button>
+        <button class="filter-btn" data-class="2029">2029</button>
+      </div>
     </div>
-  </div>
 
-  <div class="filters">
-    <button class="active" data-class="All">All</button>
-    <button data-class="2026">2026</button>
-    <button data-class="2027">2027</button>
-    <button data-class="2028">2028</button>
-    <button data-class="2029">2029</button>
-  </div>
+    <section id="recruitsGrid" class="recruits-grid"></section>
+  </main>
 
-  <div class="recruits-grid" id="recruitsGrid"></div>
+  <footer>
+    Serra Elite Recruiting • Serra Football Prospect Board
+  </footer>
 </div>
 
-<script src="script.js"></script>
+<script src="scripts/app.js"></script>
 </body>
 </html>
