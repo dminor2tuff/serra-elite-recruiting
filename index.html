@@ -1,182 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serra Elite Football Recruiting</title>
-
-    <!-- Professional Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        /* GLOBAL */
-        body {
-            margin: 0;
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(180deg, #7d0a0a, #300000);
-            color: #fff;
-        }
-
-        a { color: #cbe3ff; }
-        a:hover { color: #ffffff; }
-
-        /* NAV BAR */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 20px;
-            background: rgba(0,0,0,0.25);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            backdrop-filter: blur(6px);
-        }
-
-        nav img {
-            height: 48px;
-        }
-
-        nav a {
-            margin-left: 16px;
-            text-decoration: none;
-            font-weight: 600;
-            color: #fff;
-        }
-
-        /* HERO SECTION */
-        .hero {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .hero img {
-            max-width: 260px;
-            width: 70%;
-            height: auto;
-        }
-
-        .hero h1 {
-            margin-top: 15px;
-            font-size: 1.9rem;
-            font-weight: 700;
-        }
-
-        /* CONTENT BLOCKS */
-        .content {
-            padding: 20px;
-            max-width: 850px;
-            margin: auto;
-            line-height: 1.55;
-        }
-
-        .content h2 {
-            margin-top: 40px;
-            font-size: 1.6rem;
-            border-left: 5px solid #fff;
-            padding-left: 10px;
-        }
-
-        /* ACTION LINKS */
-        .quick-links {
-            margin-top: 22px;
-            padding: 15px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .quick-links a {
-            display: block;
-            padding: 10px 0;
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        /* HEADER IMAGE */
-        .header-img {
-            width: 100%;
-            border-radius: 12px;
-            margin: 25px 0;
-        }
-
-        /* FOOTER */
-        footer {
-            text-align: center;
-            padding: 25px;
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        /* MOBILE TUNING */
-        @media (max-width: 480px) {
-            .hero h1 { font-size: 1.6rem; }
-            nav img { height: 42px; }
-        }
-    </style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serra Elite Football Recruiting</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/shared.css">
 </head>
 <body>
+<div class="page">
 
-<!-- NAV -->
-<nav>
-    <img src="images/serra_logo.png" alt="Serra Logo">
-    <div>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-left">
+        <img src="images/serra_logo.png" class="nav-logo" alt="Serra Logo">
+        <span class="nav-brand">Serra Elite Football Recruiting</span>
+      </div>
+      <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="coach-login.html">Coach Login</a>
-        <a href="transcript.html">Transcript</a>
-        <a href="recruits.html">Recruits</a>
+        <a href="transcript.html">Transcript / Transfer</a>
+        <a href="recruits.html">Recruits Board</a>
+      </div>
     </div>
-</nav>
+  </nav>
 
-<!-- HERO -->
-<section class="hero">
-    <img src="images/serra_logo.png" alt="Serra Elite">
-    <h1>Serra Elite Football Recruiting</h1>
-</section>
+  <!-- CONTENT -->
+  <main class="container">
+    <section class="hero">
+      <div>
+        <div class="hero-main-title">
+          Serra Elite <span>Football Recruiting</span>
+        </div>
+        <p class="hero-subtitle">
+          A college-coach friendly hub for Serra Football prospects — organized, verified, and ready for evaluation. Our student-athletes are developed in the classroom, the weight room, and on Friday nights.
+        </p>
 
-<!-- CONTENT -->
-<div class="content">
+        <div class="hero-badges">
+          <span class="badge">Championship Culture</span>
+          <span class="badge">High Academic Standards</span>
+          <span class="badge">College-Ready Profiles</span>
+        </div>
 
-    <p>
-        A college-coach-friendly hub for Serra Football prospects — organized, verified, and ready for evaluation. Our student-athletes embody excellence in the classroom, weight room, and on Friday nights.
-    </p>
+        <div class="hero-cta">
+          <a class="btn-primary" href="coach-login.html">College Coach Login</a>
+          <span class="hero-note">Password-protected access to Serra's full prospect board.</span>
+        </div>
+      </div>
 
-    <div class="quick-links">
-        <a href="coach-login.html">🔐 College Coach Login (Password Protected)</a>
-        <a href="transcript.html">📄 Transcript / Transfer Request</a>
-        <a href="recruits.html">📈 View All Prospects</a>
-    </div>
+      <aside class="hero-card">
+        <img src="images/serra_action.png" class="action" alt="Serra Action">
+        <div class="hero-card-footer">
+          <div>
+            <strong>Serra Football Recruiting Hub</strong>
+            <span style="font-size:12px;color:#e5e7eb;">Scan or visit SerraFBrecruits.com</span>
+          </div>
+          <div class="hero-qr">
+            <img src="images/serra_main_qr.png" alt="Serra QR">
+            <div>Quick Access</div>
+          </div>
+        </div>
+      </aside>
+    </section>
 
-    <h2>Why Serra Football?</h2>
-    <p>
-        Serra Football is built on a championship culture forged by discipline, accountability, and family. We prepare young men to excel at the next level with:
-    </p>
-    <ul>
-        <li>📚 High Academic Standards</li>
-        <li>💪 Elite Strength & Conditioning</li>
-        <li>🏆 Proven History of College Placement</li>
-        <li>🔒 Verified, College-Ready Profiles</li>
-    </ul>
+    <section class="section">
+      <h2 class="section-heading">Why Serra Football</h2>
+      <p class="section-sub">
+        Serra Football is built on discipline, brotherhood, and accountability. We prepare young men to compete at the highest levels of high school and college football.
+      </p>
+      <div class="columns">
+        <article class="card">
+          <h3>Big-Time Competition</h3>
+          <p>We compete against the best in California, giving our players weekly reps against college-caliber talent.</p>
+        </article>
+        <article class="card">
+          <h3>Structure & Detail</h3>
+          <p>Film study, professional practice habits, and real accountability — we coach our players the way colleges do.</p>
+        </article>
+        <article class="card">
+          <h3>College Coach Ready</h3>
+          <p>Organized profiles, verified transcripts, and context from the coaching staff make evaluation efficient.</p>
+        </article>
+      </div>
+    </section>
 
-    <h2>What We Expect From Our Athletes</h2>
-    <p>
-        We ask every Serra athlete to:
-    </p>
-    <ul>
-        <li>Maintain excellent grades and classroom discipline</li>
-        <li>Train with purpose and consistency</li>
-        <li>Lead by example in the community</li>
-        <li>Bring full effort — every rep, every practice, every game</li>
-    </ul>
+    <section class="section">
+      <h2 class="section-heading">What We Expect From Our Players</h2>
+      <div class="columns">
+        <article class="card">
+          <h3>Academic Commitment</h3>
+          <p>Consistent attendance, strong grades, and proactive communication with teachers and counselors.</p>
+        </article>
+        <article class="card">
+          <h3>Character & Accountability</h3>
+          <p>Be coachable, be on time, and be trusted. How you carry yourself represents your family and Serra Football.</p>
+        </article>
+        <article class="card">
+          <h3>Work Behind the Scenes</h3>
+          <p>Weight room, speed work, recovery, and film — our players embrace the work that nobody sees.</p>
+        </article>
+      </div>
+    </section>
 
-    <img class="header-img" src="images/header_action.jpg" alt="Serra Football Action">
+    <section class="section">
+      <h2 class="section-heading">Serra Football Legacy</h2>
+      <p class="section-sub">
+        Serra Football has produced multiple NFL Draft picks, All-Americans, and scholarship athletes across Power 5, Group of 5, FCS, Division II, Division III, NAIA, and JUCO programs.
+      </p>
+    </section>
+  </main>
 
+  <footer>
+    Follow Serra Football:
+    <a href="https://twitter.com/serra_football" target="_blank">@serra_football</a> •
+    <a href="https://instagram.com/serrafootball" target="_blank">@serrafootball</a>
+  </footer>
 </div>
-
-<footer>
-    © 2025 Serra Elite Recruiting • All Rights Reserved
-</footer>
-
 </body>
 </html>
