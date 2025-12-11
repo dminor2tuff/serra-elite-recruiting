@@ -66,6 +66,7 @@
 
     .info {
       flex: 1 1 260px;
+      min-width: 260px;
     }
 
     h1 {
@@ -111,6 +112,17 @@
       max-width: 180px;
       border-radius: 8px;
       background: #fff;
+    }
+
+    #playerBio {
+      white-space: normal;
+      overflow: visible;
+      max-height: none;
+      display: block;
+      line-height: 1.4;
+      font-size: 15px;
+      color: #eee;
+      margin-top: 8px;
     }
 
     @media (max-width: 700px) {
@@ -162,89 +174,123 @@
 </div>
 
 <script>
-  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+  const CSV_URL =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-  // Get player name from URL (?name=Devohn%20Moutra%20Jr)
+  // Same robust CSV parser as recruits.html
+  function parseCSV(text) {
+    const rows = [];
+    let current = [];
+    let value = "";
+    let inQuotes = false;
+
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+
+      if (c === '"') {
+        if (inQuotes && text[i + 1] === '"') {
+          value += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (c === ',' && !inQuotes) {
+        current.push(value);
+        value = "";
+      } else if ((c === '\n' || c === '\r') && !inQuotes) {
+        if (value !== "" || current.length) {
+          current.push(value);
+          rows.push(current);
+          current = [];
+          value = "";
+        }
+      } else {
+        value += c;
+      }
+    }
+    if (value !== "" || current.length) {
+      current.push(value);
+      rows.push(current);
+    }
+    return rows;
+  }
+
   const params = new URLSearchParams(window.location.search);
   const targetName = params.get("name");
 
-  if (!targetName) {
-    document.getElementById("profileCard").innerHTML =
-      "<p>No player selected. Go back to the <a href='recruits.html'>recruits page</a>.</p>";
-  } else {
-    loadPlayer(decodeURIComponent(targetName));
-  }
+  async function loadPlayer() {
+    if (!targetName) {
+      document.getElementById("profileCard").innerHTML =
+        "<p>No player selected. Go back to the <a href='recruits.html'>recruits page</a>.</p>";
+      return;
+    }
 
-  async function loadPlayer(name) {
-    try {
-      const response = await fetch(CSV_URL);
-      const text = await response.text();
-      const rows = text.trim().split("\n").map(r => r.split(","));
+    const response = await fetch(CSV_URL);
+    const text = await response.text();
+    const rows = parseCSV(text.trim());
+    if (!rows.length) return;
 
-      const headers = rows.shift();
-      const players = rows.map(row => {
-        let obj = {};
+    const headers = rows.shift().map(h => h.trim());
+    const players = rows
+      .filter(row => row.length && row[0].trim() !== "")
+      .map(row => {
+        const obj = {};
         headers.forEach((h, i) => {
-          obj[h.trim()] = row[i] ? row[i].trim() : "";
+          obj[h] = row[i] ? row[i].trim() : "";
         });
         return obj;
       });
 
-      const player = players.find(p => p.Name === name);
-
-      if (!player) {
-        document.getElementById("profileCard").innerHTML =
-          "<p>Player not found. Go back to the <a href='recruits.html'>recruits page</a>.</p>";
-        return;
-      }
-
-      // Fill in fields
-      document.getElementById("playerName").textContent = player.Name;
-      document.getElementById("playerPosition").textContent = player.Position;
-      document.getElementById("playerClass").textContent = player.Class;
-      document.getElementById("playerHW").textContent = player.HeightWeight;
-      document.getElementById("playerGPA").textContent = player.GPA || "N/A";
-      document.getElementById("playerBio").textContent = player.Writeup || "";
-
-      document.getElementById("playerOffers").textContent = player.Offers || "N/A";
-      document.getElementById("playerStatus").textContent = player.Status || "Available";
-      document.getElementById("playerCollege").textContent = player.College || "TBD";
-
-      // Photo
-      const imgUrl = player.ImageURL && player.ImageURL.startsWith("http")
-        ? player.ImageURL
-        : "images/placeholder_player.png";
-      const photoEl = document.getElementById("playerPhoto");
-      photoEl.src = imgUrl;
-      photoEl.onerror = () => { photoEl.src = "images/placeholder_player.png"; };
-
-      // HUDL
-      if (player.HUDL && player.HUDL.startsWith("http")) {
-        const hudlBtn = document.getElementById("hudlLink");
-        hudlBtn.href = player.HUDL;
-        hudlBtn.style.display = "inline-block";
-      }
-
-      // Twitter
-      if (player.Twitter && player.Twitter.startsWith("http")) {
-        const twBtn = document.getElementById("twitterLink");
-        twBtn.href = player.Twitter;
-        twBtn.style.display = "inline-block";
-      }
-
-      // College logo
-      if (player.CollegeLogoURL && player.CollegeLogoURL.startsWith("http")) {
-        const logo = document.getElementById("collegeLogo");
-        logo.src = player.CollegeLogoURL;
-        logo.style.display = "block";
-      }
-
-    } catch (e) {
+    const player = players.find(p => p.Name === targetName);
+    if (!player) {
       document.getElementById("profileCard").innerHTML =
-        "<p>Error loading player data. Please try again later.</p>";
-      console.error(e);
+        "<p>Player not found. Go back to the <a href='recruits.html'>recruits page</a>.</p>";
+      return;
+    }
+
+    // Fill in fields
+    document.getElementById("playerName").textContent = player.Name;
+    document.getElementById("playerPosition").textContent = player.Position || "";
+    document.getElementById("playerClass").textContent = player.Class || "";
+    document.getElementById("playerHW").textContent = player.HeightWeight || "";
+    document.getElementById("playerGPA").textContent = player.GPA || "N/A";
+    document.getElementById("playerBio").textContent = player.Writeup || "";
+
+    document.getElementById("playerOffers").textContent = player.Offers || "N/A";
+    document.getElementById("playerStatus").textContent = player.Status || "Available";
+    document.getElementById("playerCollege").textContent = player.College || "TBD";
+
+    // Photo
+    const imgUrl = player.ImageURL && player.ImageURL.startsWith("http")
+      ? player.ImageURL
+      : "images/placeholder_player.png";
+    const photoEl = document.getElementById("playerPhoto");
+    photoEl.src = imgUrl;
+    photoEl.onerror = () => { photoEl.src = "images/placeholder_player.png"; };
+
+    // HUDL
+    if (player.HUDL && player.HUDL.startsWith("http")) {
+      const hudlBtn = document.getElementById("hudlLink");
+      hudlBtn.href = player.HUDL;
+      hudlBtn.style.display = "inline-block";
+    }
+
+    // Twitter
+    if (player.Twitter && player.Twitter.startsWith("http")) {
+      const twBtn = document.getElementById("twitterLink");
+      twBtn.href = player.Twitter;
+      twBtn.style.display = "inline-block";
+    }
+
+    // College logo
+    if (player.CollegeLogo && player.CollegeLogo.startsWith("http")) {
+      const logo = document.getElementById("collegeLogo");
+      logo.src = player.CollegeLogo;
+      logo.style.display = "block";
     }
   }
+
+  loadPlayer();
 </script>
 
 </body>
