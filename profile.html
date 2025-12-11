@@ -4,161 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Player Profile – Serra Football</title>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #6A0F0F, #300000);
-      color: white;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      padding: 16px;
-      background: #400000;
-    }
-
-    nav img {
-      height: 36px;
-      margin-right: 20px;
-    }
-
-    nav a {
-      margin-right: 20px;
-      color: #ffdede;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    .wrap {
-      max-width: 1000px;
-      margin: 24px auto 40px;
-      padding: 0 16px;
-    }
-
-    .card {
-      background: #5A0E0E;
-      border-radius: 18px;
-      border: 2px solid #7A1C1C;
-      padding: 20px;
-    }
-
-    .top {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .photo {
-      flex: 0 0 260px;
-    }
-
-    .photo img {
-      width: 100%;
-      height: 320px;
-      object-fit: cover;
-      border-radius: 14px;
-      border: 1px solid #fff;
-      background: #200000;
-    }
-
-    .info {
-      flex: 1 1 260px;
-      min-width: 260px;
-    }
-
-    h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
-    }
-
-    h2 {
-      margin-top: 20px;
-      margin-bottom: 6px;
-      font-size: 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.3);
-      padding-bottom: 4px;
-    }
-
-    p {
-      margin: 4px 0;
-      font-size: 15px;
-      line-height: 1.5;
-    }
-
-    .label {
-      font-weight: bold;
-      color: #ffe0e0;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 10px;
-      margin-right: 10px;
-      padding: 8px 16px;
-      background: white;
-      color: #5A0E0E;
-      font-weight: bold;
-      border-radius: 18px;
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    .college-logo {
-      margin-top: 10px;
-      max-height: 64px;
-      max-width: 180px;
-      border-radius: 8px;
-      background: #fff;
-    }
-
-    #playerBio {
-      white-space: normal;
-      overflow: visible;
-      max-height: none;
-      display: block;
-      line-height: 1.4;
-      font-size: 15px;
-      color: #eee;
-      margin-top: 8px;
-    }
-
-    @media (max-width: 700px) {
-      .top {
-        flex-direction: column;
-      }
-      .photo {
-        flex: 1 1 auto;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <nav>
-  <img src="images/serra_logo.png" alt="Serra Logo">
-  <a href="index.html">Home</a>
-  <a href="recruits.html">Recruits</a>
+  <div class="left">
+    <img src="images/serra_logo.png" class="logo" alt="Serra Logo">
+    <strong>Serra Elite Football Recruiting</strong>
+  </div>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="recruits.html">Recruits</a>
+    <a href="#" id="logoutBtn">Logout</a>
+  </div>
 </nav>
 
-<div class="wrap">
-  <div class="card" id="profileCard">
-    <div class="top">
-      <div class="photo">
+<div class="container">
+  <div class="profile-card" id="profileCard">
+    <div class="profile-top">
+      <div class="profile-photo">
         <img id="playerPhoto" src="images/placeholder_player.png" alt="Player Photo">
       </div>
 
-      <div class="info">
+      <div class="profile-info">
         <h1 id="playerName">Player Name</h1>
         <p><span class="label">Position:</span> <span id="playerPosition"></span></p>
         <p><span class="label">Class:</span> <span id="playerClass"></span></p>
         <p><span class="label">Height / Weight:</span> <span id="playerHW"></span></p>
         <p><span class="label">GPA:</span> <span id="playerGPA"></span></p>
 
-        <a id="hudlLink" class="btn" href="#" target="_blank" style="display:none;">HUDL Profile</a>
-        <a id="twitterLink" class="btn" href="#" target="_blank" style="display:none;">Twitter / X</a>
+        <a id="hudlLink" class="btn-inline" href="#" target="_blank" style="display:none;">HUDL Profile</a>
+        <a id="twitterLink" class="btn-inline" href="#" target="_blank" style="display:none;">Twitter / X</a>
       </div>
     </div>
 
@@ -173,125 +50,6 @@
   </div>
 </div>
 
-<script>
-  const CSV_URL =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
-
-  // Same robust CSV parser as recruits.html
-  function parseCSV(text) {
-    const rows = [];
-    let current = [];
-    let value = "";
-    let inQuotes = false;
-
-    for (let i = 0; i < text.length; i++) {
-      const c = text[i];
-
-      if (c === '"') {
-        if (inQuotes && text[i + 1] === '"') {
-          value += '"';
-          i++;
-        } else {
-          inQuotes = !inQuotes;
-        }
-      } else if (c === ',' && !inQuotes) {
-        current.push(value);
-        value = "";
-      } else if ((c === '\n' || c === '\r') && !inQuotes) {
-        if (value !== "" || current.length) {
-          current.push(value);
-          rows.push(current);
-          current = [];
-          value = "";
-        }
-      } else {
-        value += c;
-      }
-    }
-    if (value !== "" || current.length) {
-      current.push(value);
-      rows.push(current);
-    }
-    return rows;
-  }
-
-  const params = new URLSearchParams(window.location.search);
-  const targetName = params.get("name");
-
-  async function loadPlayer() {
-    if (!targetName) {
-      document.getElementById("profileCard").innerHTML =
-        "<p>No player selected. Go back to the <a href='recruits.html'>recruits page</a>.</p>";
-      return;
-    }
-
-    const response = await fetch(CSV_URL);
-    const text = await response.text();
-    const rows = parseCSV(text.trim());
-    if (!rows.length) return;
-
-    const headers = rows.shift().map(h => h.trim());
-    const players = rows
-      .filter(row => row.length && row[0].trim() !== "")
-      .map(row => {
-        const obj = {};
-        headers.forEach((h, i) => {
-          obj[h] = row[i] ? row[i].trim() : "";
-        });
-        return obj;
-      });
-
-    const player = players.find(p => p.Name === targetName);
-    if (!player) {
-      document.getElementById("profileCard").innerHTML =
-        "<p>Player not found. Go back to the <a href='recruits.html'>recruits page</a>.</p>";
-      return;
-    }
-
-    // Fill in fields
-    document.getElementById("playerName").textContent = player.Name;
-    document.getElementById("playerPosition").textContent = player.Position || "";
-    document.getElementById("playerClass").textContent = player.Class || "";
-    document.getElementById("playerHW").textContent = player.HeightWeight || "";
-    document.getElementById("playerGPA").textContent = player.GPA || "N/A";
-    document.getElementById("playerBio").textContent = player.Writeup || "";
-
-    document.getElementById("playerOffers").textContent = player.Offers || "N/A";
-    document.getElementById("playerStatus").textContent = player.Status || "Available";
-    document.getElementById("playerCollege").textContent = player.College || "TBD";
-
-    // Photo
-    const imgUrl = player.ImageURL && player.ImageURL.startsWith("http")
-      ? player.ImageURL
-      : "images/placeholder_player.png";
-    const photoEl = document.getElementById("playerPhoto");
-    photoEl.src = imgUrl;
-    photoEl.onerror = () => { photoEl.src = "images/placeholder_player.png"; };
-
-    // HUDL
-    if (player.HUDL && player.HUDL.startsWith("http")) {
-      const hudlBtn = document.getElementById("hudlLink");
-      hudlBtn.href = player.HUDL;
-      hudlBtn.style.display = "inline-block";
-    }
-
-    // Twitter
-    if (player.Twitter && player.Twitter.startsWith("http")) {
-      const twBtn = document.getElementById("twitterLink");
-      twBtn.href = player.Twitter;
-      twBtn.style.display = "inline-block";
-    }
-
-    // College logo
-    if (player.CollegeLogo && player.CollegeLogo.startsWith("http")) {
-      const logo = document.getElementById("collegeLogo");
-      logo.src = player.CollegeLogo;
-      logo.style.display = "block";
-    }
-  }
-
-  loadPlayer();
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
