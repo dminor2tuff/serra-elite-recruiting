@@ -1,1 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coach Login – Serra Football Recruits</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<nav>
+  <div class="left">
+    <img src="images/serra_logo.png" class="logo" alt="Serra Logo">
+    <strong>Serra Elite Football Recruiting</strong>
+  </div>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="coach-login.html">Coach Login</a>
+  </div>
+</nav>
+
+<div class="container login-wrapper">
+  <div class="login-box">
+    <h2>College Coach Login</h2>
+    <p style="font-size:14px;">
+      Enter the Serra Football password to access the full recruits board.
+    </p>
+
+    <form id="coachLoginForm">
+      <input type="password" id="coachPassword" placeholder="Enter Password">
+      <button type="submit">Login</button>
+      <div id="coachLoginError" class="login-error"></div>
+    </form>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
