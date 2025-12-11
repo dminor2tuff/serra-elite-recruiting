@@ -29,7 +29,6 @@ function initCoachLoginPage() {
   });
 }
 
-// Optional logout helper if you ever add a button with id="logoutBtn"
 function initLogoutButton() {
   const btn = document.getElementById("logoutBtn");
   if (!btn) return;
@@ -39,7 +38,7 @@ function initLogoutButton() {
   });
 }
 
-// ===== CSV PARSER (ROBUST, HANDLES COMMAS & QUOTES) =====
+// ===== CSV PARSER =====
 function parseCSV(text) {
   const rows = [];
   let current = [];
@@ -77,10 +76,7 @@ function parseCSV(text) {
   return rows;
 }
 
-// ===== RECRUITS PAGE =====
-let allPlayers = [];
-let currentClassFilter = "All";
-
+// ===== LOAD PLAYERS =====
 async function loadPlayers() {
   const response = await fetch(CSV_URL);
   const text = await response.text();
@@ -101,6 +97,10 @@ async function loadPlayers() {
   return players;
 }
 
+// ===== RECRUITS PAGE =====
+let allPlayers = [];
+let currentClassFilter = "All";
+
 function renderRecruits(list) {
   const grid = document.getElementById("recruitsGrid");
   if (!grid) return;
@@ -112,18 +112,25 @@ function renderRecruits(list) {
         ? p.ImageURL
         : "images/placeholder_player.png";
 
-    const gpaLine = p.GPA ? `<p>GPA: ${p.GPA}</p>` : "";
-    const statusLine = p.Status ? `<p>Status: ${p.Status}</p>` : "";
+    const metaLine = `${p.Position || ""}${
+      p.Class ? " • Class of " + p.Class : ""
+    }`;
+
+    const gpaText = p.GPA ? `GPA: ${p.GPA}` : "";
+    const statusText = p.Status ? `Status: ${p.Status}` : "";
+
+    const details = [gpaText, statusText].filter(Boolean).join(" • ");
 
     grid.innerHTML += `
       <div class="player-card">
         <img src="${img}" alt="${p.Name}" onerror="this.src='images/placeholder_player.png'">
         <h3>${p.Name}</h3>
-        <p>${p.Position || ""} ${
-      p.Class ? "• Class of " + p.Class : ""
-    }</p>
-        ${gpaLine}
-        ${statusLine}
+        <p class="meta">${metaLine}</p>
+        ${
+          details
+            ? `<p class="small"><span class="tag">${details}</span></p>`
+            : ""
+        }
         <a class="btn-card" href="profile.html?name=${encodeURIComponent(
           p.Name
         )}">View Profile</a>
@@ -249,7 +256,7 @@ function initProfilePage() {
   });
 }
 
-// ===== INIT ON PAGE LOAD =====
+// ===== INIT =====
 document.addEventListener("DOMContentLoaded", () => {
   initCoachLoginPage();
   initLogoutButton();
