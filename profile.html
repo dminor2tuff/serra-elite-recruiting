@@ -4,55 +4,71 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Player Profile – Serra Football</title>
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/shared.css">
 </head>
 <body>
+<div class="page">
 
-<nav>
-  <div class="left">
-    <img src="images/serra_logo.png" class="logo" alt="Serra Logo">
-    <span class="brand">Serra Elite Football Recruiting</span>
-  </div>
-  <div class="links">
-    <a href="index.html">Home</a>
-    <a href="recruits.html">Recruits</a>
-    <a href="#" id="logoutBtn">Logout</a>
-  </div>
-</nav>
-
-<div class="container">
-  <div class="profile-card" id="profileCard">
-    <div class="profile-top">
-      <div class="profile-photo">
-        <img id="playerPhoto" src="images/placeholder_player.png" alt="Player Photo">
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-left">
+        <img src="images/serra_logo.png" class="nav-logo" alt="Serra Logo">
+        <span class="nav-brand">Serra Elite Football Recruiting</span>
       </div>
-      <div class="profile-info">
-        <h1 id="playerName">Player Name</h1>
-        <p><span class="label">Position:</span> <span id="playerPosition"></span></p>
-        <p><span class="label">Class:</span> <span id="playerClass"></span></p>
-        <p><span class="label">Height / Weight:</span> <span id="playerHW"></span></p>
-        <p><span class="label">GPA:</span> <span id="playerGPA"></span></p>
-
-        <a id="hudlLink" class="btn-inline" href="#" target="_blank" style="display:none;">HUDL Profile</a>
-        <a id="twitterLink" class="btn-inline" href="#" target="_blank" style="display:none;">Twitter / X</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="recruits.html">Recruits</a>
+        <a href="#" id="logoutBtn">Logout</a>
       </div>
     </div>
+  </nav>
 
-    <div style="margin-top:14px;">
-      <h2 style="font-size:16px; margin-bottom:4px; color:#111827;">Player Bio</h2>
-      <p id="playerBio"></p>
-    </div>
+  <main class="container profile-wrapper">
+    <article class="profile-card" id="profileCard">
+      <div class="profile-top">
+        <div class="profile-photo-wrapper">
+          <img id="playerPhoto" src="images/placeholder_player.png" alt="Player Photo">
+        </div>
+        <div class="profile-info">
+          <h1 id="playerName">Player Name</h1>
+          <p><span class="label">Position:</span> <span id="playerPosition"></span></p>
+          <p><span class="label">Class:</span> <span id="playerClass"></span></p>
+          <p><span class="label">Height / Weight:</span> <span id="playerHW"></span></p>
+          <p><span class="label">GPA:</span> <span id="playerGPA"></span></p>
 
-    <div class="profile-status">
-      <h2 style="font-size:16px; margin-bottom:4px; color:#111827;">Recruiting Status</h2>
-      <p><span class="label">Offers:</span> <span id="playerOffers"></span></p>
-      <p><span class="label">Status:</span> <span id="playerStatus"></span></p>
-      <p><span class="label">College:</span> <span id="playerCollege"></span></p>
-      <img id="collegeLogo" class="college-logo" src="" alt="College Logo" style="display:none;">
-    </div>
-  </div>
+          <div class="chip-row">
+            <span class="chip" id="playerOffers">Offers: N/A</span>
+            <span class="chip" id="playerStatus">Status: Available</span>
+          </div>
+
+          <div class="action-buttons">
+            <a id="hudlLink" class="btn-inline" href="#" target="_blank" style="display:none;">HUDL Profile</a>
+            <a id="twitterLink" class="btn-inline" href="#" target="_blank" style="display:none;">Twitter / X</a>
+          </div>
+        </div>
+      </div>
+
+      <section class="profile-section">
+        <h2>Player Bio</h2>
+        <p id="playerBio"></p>
+      </section>
+
+      <section class="profile-section">
+        <h2>College Projection</h2>
+        <p>
+          <span class="label">College:</span> <span id="playerCollege"></span>
+        </p>
+        <img id="collegeLogo" class="college-logo" alt="College Logo" style="display:none;">
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    Serra Elite Recruiting • Detailed Player Profile
+  </footer>
 </div>
 
-<script src="script.js"></script>
+<script src="scripts/app.js"></script>
 </body>
 </html>
