@@ -43,6 +43,7 @@
       justify-content: center;
       margin: 20px;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
     .toolbar input {
@@ -53,6 +54,11 @@
       font-size: 14px;
     }
 
+    .filters {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
     .filters button {
       padding: 8px 18px;
       border-radius: 20px;
@@ -61,6 +67,7 @@
       color: white;
       cursor: pointer;
       font-size: 14px;
+      margin: 0 4px;
     }
 
     .filters button.active {
@@ -92,6 +99,16 @@
       object-fit: cover;
       border-radius: 12px;
       border: 1px solid #fff;
+      background: #200000;
+    }
+
+    .card h3 {
+      margin: 10px 0 4px;
+    }
+
+    .card p {
+      margin: 2px 0;
+      font-size: 14px;
     }
 
     .btn {
@@ -103,14 +120,14 @@
       font-weight: bold;
       border-radius: 20px;
       text-decoration: none;
+      font-size: 14px;
     }
   </style>
 </head>
-
 <body>
 
 <nav>
-  <img src="images/serra_logo.png">
+  <img src="images/serra_logo.png" alt="Serra Logo">
   <a href="index.html">Home</a>
   <a href="recruits.html">Recruits</a>
 </nav>
@@ -121,7 +138,7 @@
   <input type="text" id="searchBox" placeholder="Search by name or position…">
 </div>
 
-<div class="filters" style="text-align:center;">
+<div class="filters">
   <button onclick="filterClass('All')" class="active">All</button>
   <button onclick="filterClass('2026')">2026</button>
   <button onclick="filterClass('2027')">2027</button>
@@ -132,80 +149,116 @@
 <div class="grid" id="playerGrid"></div>
 
 <script>
+  // === CONFIG: your published CSV ===
+  const CSV_URL =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-function displayFirstLast(name) {
-  if (!name) return "";
-  if (!name.includes(",")) return name;
-  const parts = name.split(",");
-  return parts[1].trim() + " " + parts[0].trim();
-}
+  let players = [];
+  let currentClass = "All";
 
-const CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+  // Robust CSV parser that handles commas and quotes
+  function parseCSV(text) {
+    const rows = [];
+    let current = [];
+    let value = "";
+    let inQuotes = false;
 
-let players = [];
-let currentClass = "All";
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
 
-async function loadCSV() {
-  const response = await fetch(CSV_URL);
-  const text = await response.text();
-  const rows = text.trim().split("\n").map(r => r.split(","));
-
-  const headers = rows.shift();
-
-  players = rows.map(row => {
-    let obj = {};
-    headers.forEach((h, i) => {
-      obj[h.trim()] = row[i] ? row[i].trim() : "";
-    });
-    return obj;
-  });
-
-  renderPlayers(players);
-}
-
-function renderPlayers(list) {
-  const grid = document.getElementById("playerGrid");
-  grid.innerHTML = "";
-
-  list.forEach(p => {
-    const img = p.ImageURL && p.ImageURL.startsWith("http")
-      ? p.ImageURL
-      : "images/placeholder_player.png";
-
-    grid.innerHTML += `
-      <div class="card">
-        <img src="${img}" onerror="this.src='images/placeholder_player.png'">
-        <h3>${displayFirstLast(p.Name)}</h3>
-        <p>${p.Position} • Class of ${p.Class}</p>
-        <a class="btn" href="profile.html?name=${encodeURIComponent(p.Name)}">View Profile</a>
-      </div>`;
-  });
-}
-
-function filterClass(cls) {
-  currentClass = cls;
-  document.querySelectorAll(".filters button").forEach(btn => btn.classList.remove("active"));
-  event.target.classList.add("active");
-
-  if (cls === "All") {
-    renderPlayers(players);
-  } else {
-    renderPlayers(players.filter(p => p.Class === cls));
+      if (c === '"') {
+        if (inQuotes && text[i + 1] === '"') {
+          // Escaped quote
+          value += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (c === ',' && !inQuotes) {
+        current.push(value);
+        value = "";
+      } else if ((c === '\n' || c === '\r') && !inQuotes) {
+        if (value !== "" || current.length) {
+          current.push(value);
+          rows.push(current);
+          current = [];
+          value = "";
+        }
+      } else {
+        value += c;
+      }
+    }
+    if (value !== "" || current.length) {
+      current.push(value);
+      rows.push(current);
+    }
+    return rows;
   }
-}
 
-document.getElementById("searchBox").addEventListener("input", (e) => {
-  const term = e.target.value.toLowerCase();
-  const filtered = players.filter(p =>
-    displayFirstLast(p.Name).toLowerCase().includes(term) ||
-    p.Position.toLowerCase().includes(term)
-  );
-  renderPlayers(filtered);
-});
+  async function loadCSV() {
+    const response = await fetch(CSV_URL);
+    const text = await response.text();
 
-loadCSV();
+    const rows = parseCSV(text.trim());
+    if (!rows.length) return;
 
+    const headers = rows.shift().map(h => h.trim());
+    players = rows
+      .filter(row => row.length && row[0].trim() !== "")
+      .map(row => {
+        const obj = {};
+        headers.forEach((h, i) => {
+          obj[h] = row[i] ? row[i].trim() : "";
+        });
+        return obj;
+      });
+
+    renderPlayers(players);
+  }
+
+  function renderPlayers(list) {
+    const grid = document.getElementById("playerGrid");
+    grid.innerHTML = "";
+
+    list.forEach(p => {
+      const img = p.ImageURL && p.ImageURL.startsWith("http")
+        ? p.ImageURL
+        : "images/placeholder_player.png";
+
+      grid.innerHTML += `
+        <div class="card">
+          <img src="${img}" alt="${p.Name}" onerror="this.src='images/placeholder_player.png'">
+          <h3>${p.Name}</h3>
+          <p>${p.Position || ""} ${p.Class ? "• Class of " + p.Class : ""}</p>
+          ${p.GPA ? `<p>GPA: ${p.GPA}</p>` : ""}
+          <a class="btn" href="profile.html?name=${encodeURIComponent(p.Name)}">View Profile</a>
+        </div>
+      `;
+    });
+  }
+
+  function filterClass(cls) {
+    currentClass = cls;
+    document.querySelectorAll(".filters button").forEach(btn => btn.classList.remove("active"));
+    event.target.classList.add("active");
+
+    if (cls === "All") {
+      renderPlayers(players);
+    } else {
+      renderPlayers(players.filter(p => p.Class === cls));
+    }
+  }
+
+  document.getElementById("searchBox").addEventListener("input", (e) => {
+    const term = e.target.value.toLowerCase();
+    const filtered = players.filter(p =>
+      (p.Name || "").toLowerCase().includes(term) ||
+      (p.Position || "").toLowerCase().includes(term)
+    );
+    renderPlayers(filtered);
+  });
+
+  loadCSV();
 </script>
 
 </body>
