@@ -12,7 +12,6 @@ if (sessionStorage.getItem("serraCoachAccess") !== "true") {
 }
 </script>
 
-<!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
@@ -114,13 +113,13 @@ body {
   text-align: center;
 }
 
-/* ✅ HEAD → WAIST IMAGE CROP (FINAL) */
+/* ✅ FINAL HEAD → WAIST CROP (TOP CROPPED) */
 .card img {
   width: 100%;
-  aspect-ratio: 3 / 4;        /* portrait framing */
+  aspect-ratio: 3 / 4;
   object-fit: cover;
-  object-position: 50% 15%;   /* helmet → chest → number */
-  transform: scale(1.03);     /* subtle pro zoom */
+  object-position: 50% 30%;  /* crop out helmet/top */
+  transform: scale(1.06);    /* subtle zoom for waist */
   border-radius: 14px;
   margin-bottom: 10px;
 }
@@ -206,11 +205,9 @@ function logout() {
   window.location.href = "coach-login.html";
 }
 
-/* SAFE CSV PARSER */
 function parseCSV(text) {
   const rows = [];
   let row = [], field = "", inQuotes = false;
-
   for (let i = 0; i < text.length; i++) {
     const c = text[i];
     if (inQuotes) {
