@@ -1,476 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Serra Football Prospects</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --serra-red: #7b0d0d;
-      --serra-red-dark: #5e0a0a;
-      --serra-red-card: #8a0f0f;
-      --serra-accent: #ffffff;
-      --serra-shadow: rgba(0,0,0,0.35);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serra Recruits</title>
 
-    * {
-      box-sizing: border-box;
-    }
+<script>
+if (sessionStorage.getItem("serraCoachAccess") !== "true") {
+  window.location.href = "coach-login.html";
+}
+</script>
 
-    body {
-      margin: 0;
-      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-      background: radial-gradient(circle at top, #aa2222 0, var(--serra-red) 45%, #3b0505 100%);
-      color: var(--serra-accent);
-    }
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-    a {
-      color: var(--serra-accent);
-      text-decoration: none;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(180deg, #4a0000, #7a0000);
+  color: white;
+}
 
-    h1 {
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      margin: 0 0 0.4em;
-    }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  gap: 18px;
+  padding: 24px;
+}
 
-    p {
-      margin: 0 0 0.5em;
-      line-height: 1.5;
-      font-size: 1.02rem;
-    }
+.card {
+  background: rgba(0,0,0,.35);
+  border-radius: 20px;
+  padding: 14px;
+  text-align: center;
+}
 
-    /* NAV */
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      background: linear-gradient(90deg, var(--serra-red-dark), #12040b);
-      border-bottom: 2px solid rgba(255,255,255,0.15);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-logo {
-      height: 38px;
-      width: auto;
-    }
-
-    .nav-brand-text {
-      font-weight: 800;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      opacity: 0.9;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 16px;
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-
-    /* MAIN LAYOUT */
-    main {
-      max-width: 1120px;
-      margin: 24px auto 60px;
-      padding: 0 16px 40px;
-    }
-
-    .header-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .header-row p {
-      opacity: 0.92;
-      max-width: 580px;
-    }
-
-    /* SEARCH + FILTERS */
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-
-    .search-input {
-      flex: 1 1 210px;
-      padding: 9px 11px;
-      border-radius: 999px;
-      border: none;
-      font-size: 0.98rem;
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
-      outline: none;
-    }
-
-    .filter-buttons {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      background: rgba(255,255,255,0.12);
-      border-radius: 999px;
-      padding: 7px 14px;
-      border: none;
-      color: white;
-      font-weight: 700;
-      font-size: 0.88rem;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-
-    .filter-btn.active {
-      background: #ffffff;
-      color: #7b0d0d;
-    }
-
-    /* GRID */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 18px;
-    }
-
-    .player-card {
-      background: var(--serra-red-card);
-      border-radius: 18px;
-      padding: 14px 14px 16px;
-      text-align: center;
-      box-shadow: 0 10px 24px var(--serra-shadow);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    /* IMAGE CROP – OPTION B */
-    .player-card img {
-      width: 100%;
-      height: 280px;
-      object-fit: cover;
-      object-position: center 22%;
-      border-radius: 14px;
-      background: #4a0000;
-    }
-
-    .player-name {
-      margin-top: 8px;
-      font-size: 1.15rem;
-      font-weight: 900;
-    }
-
-    .player-meta {
-      font-size: 0.95rem;
-      opacity: 0.92;
-    }
-
-    .player-meta strong {
-      font-weight: 700;
-    }
-
-    .btn {
-      margin-top: 8px;
-      background: #ffffff;
-      color: #7b0d0d;
-      font-weight: 800;
-      padding: 9px 16px;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      font-size: 0.95rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
-    }
-
-    .twitter-link {
-      font-size: 0.9rem;
-      margin-top: 4px;
-    }
-
-    .twitter-link a {
-      text-decoration: underline;
-    }
-
-    .status-line {
-      font-size: 0.9rem;
-      margin-top: 4px;
-      opacity: 0.9;
-    }
-
-    .empty-state {
-      margin-top: 20px;
-      opacity: 0.88;
-    }
-
-    @media (max-width: 720px) {
-      main {
-        margin-top: 18px;
-      }
-
-      .nav-brand-text {
-        display: none;
-      }
-
-      .nav-logo {
-        height: 34px;
-      }
-    }
-  </style>
+.card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  object-position: center 22%;
+  border-radius: 16px;
+}
+</style>
 </head>
+
 <body>
-  <nav>
-    <div class="nav-left">
-      <img src="images/serra_logo.png" class="nav-logo" alt="Serra Football Logo" />
-      <div class="nav-brand-text">Serra Elite Recruits</div>
-    </div>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="recruits.html">Recruits</a>
-    </div>
-  </nav>
 
-  <main>
-    <div class="header-row">
-      <div>
-        <h1>Serra Football Prospects</h1>
-        <p>
-          Filter by class or search by name / position. Each profile includes verified measurables, academics,
-          footage, and recruiting status.
-        </p>
+<div class="grid" id="grid"></div>
+
+<script>
+const CSV =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+
+fetch(CSV).then(r=>r.text()).then(t=>{
+  const data = Papa.parse(t,{header:true}).data;
+  document.getElementById("grid").innerHTML =
+    data.map(p=>`
+      <div class="card">
+        <img src="${p.ImageURL || 'images/placeholder_player.png'}">
+        <h3>${p.Name}</h3>
+        <p>${p.Position} • Class of ${p.Class}</p>
+        <a href="profile.html?name=${encodeURIComponent(p.Name)}"
+           style="color:white;font-weight:700">View Profile</a>
       </div>
-      <div style="font-size:0.9rem;opacity:0.85;">
-        College coach access • Password protected (<strong>Serrafb</strong>)
-      </div>
-    </div>
+    `).join("");
+});
+</script>
 
-    <div class="controls">
-      <input id="searchInput" class="search-input" type="text" placeholder="Search by name or position..." />
-      <div class="filter-buttons">
-        <button class="filter-btn active" data-class="all">All</button>
-        <button class="filter-btn" data-class="2026">2026</button>
-        <button class="filter-btn" data-class="2027">2027</button>
-        <button class="filter-btn" data-class="2028">2028</button>
-        <button class="filter-btn" data-class="2029">2029</button>
-      </div>
-    </div>
-
-    <div id="grid" class="grid"></div>
-    <p id="emptyState" class="empty-state" style="display:none;">No prospects match that search.</p>
-  </main>
-
-  <script>
-    // --------- SIMPLE ACCESS GATE ----------
-    (function checkAuth() {
-      const ok = localStorage.getItem("serraCoachAuthorized") === "yes";
-      if (!ok) {
-        const pwd = prompt("College Coach Access — Enter Password:");
-        if (!pwd) {
-          window.location.href = "index.html";
-          return;
-        }
-        if (pwd.trim().toLowerCase() !== "serrafb".toLowerCase()) {
-          alert("Incorrect password. Returning to home page.");
-          window.location.href = "index.html";
-          return;
-        }
-        localStorage.setItem("serraCoachAuthorized", "yes");
-      }
-    })();
-
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
-
-    const gridEl = document.getElementById("grid");
-    const emptyStateEl = document.getElementById("emptyState");
-    const searchInput = document.getElementById("searchInput");
-    const filterButtons = document.querySelectorAll(".filter-btn");
-
-    let prospects = [];
-    let activeClassFilter = "all";
-    let searchQuery = "";
-
-    // Basic CSV parser that respects quotes
-    function parseCSV(text) {
-      const rows = [];
-      let current = [];
-      let field = "";
-      let inQuotes = false;
-
-      for (let i = 0; i < text.length; i++) {
-        const c = text[i];
-        if (inQuotes) {
-          if (c === '"') {
-            if (text[i + 1] === '"') {
-              field += '"';
-              i++;
-            } else {
-              inQuotes = false;
-            }
-          } else {
-            field += c;
-          }
-        } else {
-          if (c === '"') {
-            inQuotes = true;
-          } else if (c === ",") {
-            current.push(field.trim());
-            field = "";
-          } else if (c === "\n" || c === "\r") {
-            if (field !== "" || current.length > 0) {
-              current.push(field.trim());
-              rows.push(current);
-              current = [];
-              field = "";
-            }
-          } else {
-            field += c;
-          }
-        }
-      }
-      if (field !== "" || current.length > 0) {
-        current.push(field.trim());
-        rows.push(current);
-      }
-      return rows;
-    }
-
-    async function loadProspects() {
-      try {
-        const res = await fetch(CSV_URL);
-        const text = await res.text();
-        const rows = parseCSV(text);
-        const header = rows[0].map(h => h.trim());
-        const dataRows = rows.slice(1).filter(r => r.length && r[0]);
-
-        prospects = dataRows.map(row => {
-          const obj = {};
-          header.forEach((key, idx) => {
-            obj[key] = row[idx] || "";
-          });
-          return {
-            name: obj.Name || "",
-            classYear: obj.Class || "",
-            position: obj.Position || "",
-            heightWeight: obj.HeightWeight || "",
-            hudl: obj.HUDL || "",
-            writeup: obj.Writeup || "",
-            imageUrl: obj.ImageURL || "",
-            twitter: obj.Twitter || "",
-            gpa: obj.GPA || "",
-            offers: obj.Offers || "",
-            status: obj.Status || "",
-            college: obj.College || "",
-            collegeLogo: obj.CollegeLogo || ""
-          };
-        });
-
-        renderGrid();
-      } catch (err) {
-        console.error(err);
-        gridEl.innerHTML = "<p>Unable to load prospects. Please try again later.</p>";
-      }
-    }
-
-    function renderGrid() {
-      gridEl.innerHTML = "";
-      let count = 0;
-
-      const q = searchQuery.toLowerCase();
-
-      prospects.forEach(p => {
-        const matchesClass = activeClassFilter === "all" || (p.classYear || "").toString() === activeClassFilter;
-        const searchable = `${p.name} ${p.position}`.toLowerCase();
-        const matchesSearch = !q || searchable.includes(q);
-
-        if (!matchesClass || !matchesSearch) return;
-
-        count++;
-
-        const card = document.createElement("div");
-        card.className = "player-card";
-
-        const img = document.createElement("img");
-        img.src = p.imageUrl || "images/placeholder_player.png";
-        img.alt = p.name || "Player photo";
-        card.appendChild(img);
-
-        const nameEl = document.createElement("div");
-        nameEl.className = "player-name";
-        nameEl.textContent = p.name || "Unnamed Prospect";
-        card.appendChild(nameEl);
-
-        const meta = document.createElement("div");
-        meta.className = "player-meta";
-        meta.innerHTML = `
-          <strong>${p.position || ""}</strong><br>
-          Class of ${p.classYear || "—"}<br>
-          ${p.heightWeight || ""}
-        `;
-        card.appendChild(meta);
-
-        if (p.status || p.offers) {
-          const statusLine = document.createElement("div");
-          statusLine.className = "status-line";
-          statusLine.textContent = p.status
-            ? p.status
-            : p.offers ? `Offers: ${p.offers}` : "";
-          card.appendChild(statusLine);
-        }
-
-        if (p.twitter) {
-          const tw = document.createElement("div");
-          tw.className = "twitter-link";
-          tw.innerHTML = `🐦 <a href="${p.twitter}" target="_blank">Twitter / X</a>`;
-          card.appendChild(tw);
-        }
-
-        const btn = document.createElement("button");
-        btn.className = "btn";
-        btn.textContent = "View Profile";
-        btn.onclick = () => {
-          const encodedName = encodeURIComponent(p.name);
-          window.location.href = `profile.html?name=${encodedName}`;
-        };
-        card.appendChild(btn);
-
-        gridEl.appendChild(card);
-      });
-
-      emptyStateEl.style.display = count === 0 ? "block" : "none";
-    }
-
-    // SEARCH + FILTER EVENTS
-    searchInput.addEventListener("input", e => {
-      searchQuery = e.target.value;
-      renderGrid();
-    });
-
-    filterButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        filterButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        activeClassFilter = btn.dataset.class;
-        renderGrid();
-      });
-    });
-
-    loadProspects();
-  </script>
 </body>
 </html>
