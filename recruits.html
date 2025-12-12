@@ -29,7 +29,7 @@ body {
 
 /* TOP BAR */
 .topbar {
-  background: rgba(0,0,0,.35);
+  background: rgba(0,0,0,.45);
   backdrop-filter: blur(6px);
   padding: 12px 18px;
   display: flex;
@@ -53,6 +53,48 @@ body {
   text-decoration: none;
   font-weight: 800;
   margin-left: 16px;
+}
+
+/* 🔥 ACTION HEADER */
+.hero {
+  position: relative;
+  height: 300px;
+  background: url("images/serra_action.png") center/cover no-repeat;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(74,13,16,.35),
+    rgba(74,13,16,.85)
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: auto;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding: 28px;
+}
+
+.hero h1 {
+  font-size: 2.4rem;
+  font-weight: 900;
+  margin: 0;
+}
+
+.hero p {
+  margin-top: 6px;
+  font-size: 1.05rem;
+  max-width: 600px;
+  opacity: .95;
 }
 
 /* LAYOUT */
@@ -113,13 +155,13 @@ body {
   text-align: center;
 }
 
-/* ✅ FINAL HEAD → WAIST CROP (TOP CROPPED) */
+/* ✅ HEAD → WAIST CROP (FINAL) */
 .card img {
   width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
-  object-position: 50% 30%;  /* crop out helmet/top */
-  transform: scale(1.06);    /* subtle zoom for waist */
+  object-position: 50% 30%;
+  transform: scale(1.06);
   border-radius: 14px;
   margin-bottom: 10px;
 }
@@ -160,6 +202,16 @@ body {
   background: #1da1f2;
   color: #fff;
 }
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .hero {
+    height: 220px;
+  }
+  .hero h1 {
+    font-size: 1.9rem;
+  }
+}
 </style>
 </head>
 
@@ -175,6 +227,19 @@ body {
     <a href="#" onclick="logout()">Logout</a>
   </div>
 </div>
+
+<!-- 🔥 ACTION HEADER -->
+<section class="hero">
+  <div class="hero-content">
+    <div>
+      <h1>Serra Football Recruiting</h1>
+      <p>
+        A tradition of excellence. College-ready student-athletes developed
+        through discipline, academics, and elite competition.
+      </p>
+    </div>
+  </div>
+</section>
 
 <div class="container">
 
