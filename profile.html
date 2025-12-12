@@ -1,216 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <title>Serra Player Profile</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <script>
-  if (sessionStorage.getItem("serraCoachAccess") !== "true") {
-    window.location.href = "coach-login.html";
-  }
+if (sessionStorage.getItem("serraCoachAccess") !== "true") {
+  window.location.href = "coach-login.html";
+}
 </script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-  :root{--serra-red:#7a1419;--serra-dark:#4a0d10;--card:#6e1419;}
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
-    background:linear-gradient(180deg,var(--serra-dark),var(--serra-red));color:#fff;}
-  .topbar{
-    position:sticky;top:0;z-index:50;
-    background:rgba(0,0,0,.35);backdrop-filter:blur(6px);
-    display:flex;align-items:center;justify-content:space-between;gap:12px;
-    padding:12px 16px;
-  }
-  .brand{display:flex;align-items:center;gap:10px;font-weight:900}
-  .brand img{height:38px}
-  .navlinks{display:flex;gap:12px;flex-wrap:wrap}
-  .navlinks a{color:#fff;text-decoration:none;font-weight:900;opacity:.95}
-  .navlinks a:hover{opacity:1;text-decoration:underline}
-  .container{max-width:1000px;margin:auto;padding:18px 14px 60px;}
-  .card{
-    background:rgba(0,0,0,.35);
-    border-radius:22px;padding:18px;box-shadow:0 12px 30px rgba(0,0,0,.35);
-  }
-  .header{
-    display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);
-    gap:18px;align-items:start;
-  }
-  .photo{
-    width:100%;aspect-ratio:3/4;object-fit:cover;object-position:50% 12%;
-    border-radius:18px;
-  }
-  h1{margin:0 0 6px;font-size:2rem;font-weight:950}
-  .meta{opacity:.95;margin:3px 0}
-  .badges{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-  .badge{background:rgba(255,255,255,.16);padding:7px 12px;border-radius:999px;font-weight:900;font-size:.86rem}
-  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-  .btn{
-    border:none;border-radius:999px;padding:10px 14px;font-weight:950;
-    text-decoration:none;display:inline-flex;align-items:center;gap:8px;cursor:pointer;
-  }
-  .btn.primary{background:#fff;color:var(--serra-red)}
-  .btn.ghost{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.55);color:#fff}
-  .writeup{margin-top:16px;line-height:1.65;font-size:1.02rem;white-space:pre-wrap}
-  @media (max-width:820px){ .header{grid-template-columns:1fr;} }
-
-  /* PRINT (PDF) STYLES */
-  @media print{
-    body{background:#fff;color:#000}
-    .topbar{display:none}
-    .container{padding:0;margin:0;max-width:none}
-    .card{box-shadow:none;background:#fff;border-radius:0;padding:0}
-    .btn{display:none}
-    .badge{border:1px solid #bbb;background:#fff;color:#000}
-  }
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
+  background:linear-gradient(180deg,#4a0d10,#7a1419);
+  color:white;
+}
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:24px;
+}
+.card{
+  background:rgba(0,0,0,.35);
+  border-radius:22px;
+  padding:20px;
+}
+.header{
+  display:grid;
+  grid-template-columns:320px 1fr;
+  gap:20px;
+}
+img{
+  width:100%;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  object-position:50% 12%;
+  border-radius:18px;
+}
+h1{margin:0;font-size:2rem;font-weight:900}
+.meta{margin-top:6px}
+.actions{
+  margin-top:14px;
+  display:flex;
+  gap:12px;
+}
+.btn{
+  padding:10px 16px;
+  border-radius:999px;
+  font-weight:900;
+  border:none;
+  cursor:pointer;
+}
+.primary{background:white;color:#7a1419}
+.ghost{background:rgba(255,255,255,.2);color:white}
+.writeup{
+  margin-top:20px;
+  line-height:1.6;
+}
+@media(max-width:800px){
+  .header{grid-template-columns:1fr;text-align:center}
+}
+@media print{
+  body{background:white;color:black}
+  .actions{display:none}
+}
 </style>
 </head>
 
 <body>
-  <div class="topbar">
-    <div class="brand">
-      <img src="images/serra_logo.png" alt="Serra Logo" />
-      <div>Player Profile</div>
-    </div>
-    <div class="navlinks">
-      <a href="recruits.html">Recruits</a>
-      <a href="#" onclick="logout();return false;">Logout</a>
-    </div>
-  </div>
 
-  <div class="container">
-    <div id="wrap" class="card">Loading...</div>
-  </div>
+<div class="container">
+  <div id="profile" class="card">Loading…</div>
+</div>
 
 <script>
-  function logout(){
-    sessionStorage.removeItem("serraCoachAccess");
-    sessionStorage.removeItem("serraAdminAccess");
-    window.location.href = "coach-login.html";
-  }
+const CSV_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-  const CSV_URL = "PASTE_YOUR_CSV_LINK_HERE"; // same CSV
-  const name = new URLSearchParams(window.location.search).get("name") || "";
-  const wrap = document.getElementById("wrap");
+const name=new URLSearchParams(location.search).get("name");
 
-  function parseCSV(text){
-    const rows=[]; let row=[]; let field=""; let inQuotes=false;
-    for (let i=0;i<text.length;i++){
-      const c=text[i];
-      if(inQuotes){
-        if(c === '"'){
-          if(text[i+1] === '"'){ field+='"'; i++; }
-          else inQuotes=false;
-        } else field+=c;
-      } else {
-        if(c === '"') inQuotes=true;
-        else if(c === ','){ row.push(field); field=""; }
-        else if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=""; }
-        else if(c !== '\r'){ field+=c; }
-      }
+function parseCSV(t){
+  const r=[];let row=[],f="",q=false;
+  for(let i=0;i<t.length;i++){
+    let c=t[i];
+    if(q){
+      if(c=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}
+      else f+=c;
+    } else {
+      if(c=='"') q=true;
+      else if(c==','){row.push(f);f=""}
+      else if(c=='\n'){row.push(f);r.push(row);row=[];f=""}
+      else if(c!='\r') f+=c;
     }
-    if(field.length || row.length){ row.push(field); rows.push(row); }
-    return rows;
   }
+  if(f||row.length){row.push(f);r.push(row)}
+  return r;
+}
 
-  function normalizeTwitter(url){
-    if (!url) return "";
-    url = String(url).trim();
-    if (!url) return "";
-    if (url.startsWith("@")) return "https://twitter.com/" + url.slice(1);
-    if (url.startsWith("twitter.com/")) return "https://" + url;
-    if (url.startsWith("x.com/")) return "https://" + url;
-    return url;
-  }
-
-  function getLocalRoster(){
-    try{ return JSON.parse(localStorage.getItem("serraLocalRoster") || "[]"); }
-    catch(e){ return []; }
-  }
-
-  async function load(){
-    const res = await fetch(CSV_URL);
-    const text = await res.text();
-    const rows = parseCSV(text);
-    const headers = rows[0].map(h => (h||"").trim());
-    const data = rows.slice(1).filter(r => r.some(x => String(x||"").trim() !== ""));
-
-    const fromSheet = data.map(r => {
-      const obj={}; headers.forEach((h,i)=>obj[h]= (r[i]||"").trim());
-      return {
-        Name: obj.Name||"",
-        Class: obj.Class||"",
-        Position: obj.Position||"",
-        HeightWeight: obj.HeightWeight||"",
-        HUDL: obj.HUDL||"",
-        Writeup: obj.Writeup||"",
-        ImageURL: obj.ImageURL||"",
-        Twitter: normalizeTwitter(obj.Twitter||""),
-        GPA: obj.GPA||"",
-        Offers: obj.Offers||"",
-        Status: obj.Status||"",
-        College: obj.College||"",
-        CollegeLogo: obj.CollegeLogo||""
-      };
-    }).filter(p=>p.Name);
-
-    const byName = new Map(fromSheet.map(p=>[p.Name,p]));
-    getLocalRoster().forEach(p=>{ if(p && p.Name) byName.set(p.Name,p); });
-
-    const player = byName.get(name);
-    if(!player){
-      wrap.innerHTML = `<div style="opacity:.9">Player not found. Go back to <a href="recruits.html" style="color:#fff;font-weight:900">Recruits</a>.</div>`;
-      return;
-    }
-
-    const img = player.ImageURL || "images/placeholder_player.png";
-    const tw = player.Twitter;
-
-    wrap.innerHTML = `
-      <div class="header">
-        <div>
-          <img class="photo" src="${img}" alt="${player.Name}"
-            onerror="this.onerror=null;this.src='images/placeholder_player.png';">
-        </div>
-        <div>
-          <h1>${player.Name}</h1>
-          <div class="meta"><strong>${player.Position || ""}</strong> · Class of ${player.Class || ""}</div>
-          <div class="meta">${player.HeightWeight || ""} · GPA ${player.GPA || ""}</div>
-
-          <div class="badges">
-            ${player.Offers ? `<div class="badge">Offers: ${player.Offers}</div>` : ``}
-            ${player.Status ? `<div class="badge">Status: ${player.Status}</div>` : ``}
-            ${player.College ? `<div class="badge">College: ${player.College}</div>` : ``}
-          </div>
-
-          <div class="actions">
-            <button class="btn primary" onclick="window.print()">
-              <i class="fa-solid fa-file-arrow-down"></i> Download PDF
-            </button>
-
-            ${player.HUDL ? `<a class="btn ghost" href="${player.HUDL}" target="_blank" rel="noopener">
-              <i class="fa-solid fa-film"></i> HUDL
-            </a>` : ""}
-
-            ${tw ? `<a class="btn ghost" href="${tw}" target="_blank" rel="noopener" aria-label="Twitter/X">
-              <i class="fa-brands fa-x-twitter"></i> Twitter
-            </a>` : ""}
-          </div>
-        </div>
-      </div>
-
-      <div class="writeup" style="margin-top:18px;">
-        <strong style="display:block;margin-bottom:8px;">Evaluation</strong>
-        ${player.Writeup ? player.Writeup.replace(/</g,"&lt;").replace(/>/g,"&gt;") : ""}
-      </div>
-    `;
-  }
-
-  load().catch(err=>{
-    console.error(err);
-    wrap.textContent = "Error loading profile. Check your CSV link.";
+fetch(CSV_URL).then(r=>r.text()).then(text=>{
+  const rows=parseCSV(text);
+  const h=rows[0];
+  const data=rows.slice(1).map(r=>{
+    let o={};h.forEach((x,i)=>o[x]=r[i]||"");return o;
   });
+  const p=data.find(x=>x.Name===name);
+  if(!p){document.getElementById("profile").innerHTML="Player not found";return;}
+  document.getElementById("profile").innerHTML=`
+    <div class="header">
+      <img src="${p.ImageURL||'images/placeholder_player.png'}"
+           onerror="this.src='images/placeholder_player.png'">
+      <div>
+        <h1>${p.Name}</h1>
+        <div class="meta">${p.Position} · Class of ${p.Class}</div>
+        <div class="meta">${p.HeightWeight} · GPA ${p.GPA}</div>
+        <div class="actions">
+          <button class="btn primary" onclick="window.print()">Download PDF</button>
+          ${p.Twitter?`<a class="btn ghost" href="${p.Twitter}" target="_blank">
+            <i class="fa-brands fa-x-twitter"></i></a>`:""}
+        </div>
+      </div>
+    </div>
+    <div class="writeup">${p.Writeup}</div>
+  `;
+});
 </script>
+
 </body>
 </html>
