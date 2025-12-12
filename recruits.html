@@ -114,13 +114,13 @@ body {
   text-align: center;
 }
 
-/* 🔥 HEADSHOT CROP FIX */
+/* ✅ HEAD → WAIST IMAGE CROP (FINAL) */
 .card img {
   width: 100%;
-  aspect-ratio: 1 / 1;              /* true headshot */
+  aspect-ratio: 3 / 4;        /* portrait framing */
   object-fit: cover;
-  object-position: center top;      /* helmet + eyes */
-  transform: scale(1.1);            /* pro zoom */
+  object-position: 50% 15%;   /* helmet → chest → number */
+  transform: scale(1.03);     /* subtle pro zoom */
   border-radius: 14px;
   margin-bottom: 10px;
 }
@@ -215,9 +215,8 @@ function parseCSV(text) {
     const c = text[i];
     if (inQuotes) {
       if (c === '"') {
-        if (text[i + 1] === '"') {
-          field += '"'; i++;
-        } else inQuotes = false;
+        if (text[i + 1] === '"') { field += '"'; i++; }
+        else inQuotes = false;
       } else field += c;
     } else {
       if (c === '"') inQuotes = true;
