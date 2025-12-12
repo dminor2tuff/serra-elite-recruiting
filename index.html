@@ -3,251 +3,231 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Serra Elite Football Recruiting</title>
+<title>Serra Football Recruiting</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-/* ===== RESET ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+:root{
+  --serra-red:#7a1419;
+  --serra-dark:#4a0d10;
+  --serra-gold:#d4af37;
+  --white:#ffffff;
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
-  background: linear-gradient(180deg, #4a0000, #7a0000);
-  color: white;
-  padding-bottom: 80px;
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+
+body{
+  background:linear-gradient(180deg,var(--serra-dark),var(--serra-red));
+  color:var(--white);
 }
 
-/* ===== NAVBAR ===== */
-nav {
-  display: flex;
-  align-items: center;
-  padding: 14px 20px;
-  background: rgba(0,0,0,.35);
-  backdrop-filter: blur(6px);
-  position: sticky;
-  top: 0;
-  z-index: 99;
+/* NAV */
+header{
+  background:rgba(0,0,0,.55);
+  padding:14px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+header img{height:40px}
+nav a{
+  color:white;
+  margin-left:18px;
+  text-decoration:none;
+  font-weight:700;
 }
 
-nav img {
-  height: 42px;
-  margin-right: 18px;
+/* HERO */
+.hero{
+  position:relative;
+  height:320px;
+  background:url("images/serra_action.png") center/cover no-repeat;
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(74,13,16,.35),rgba(74,13,16,.9));
+}
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:1100px;
+  margin:auto;
+  height:100%;
+  display:flex;
+  align-items:flex-end;
+  padding:28px 28px 48px;
+}
+.hero h1{
+  font-size:2.6rem;
+  font-weight:800;
+}
+.hero p{
+  margin-top:6px;
+  font-size:1.05rem;
+  max-width:650px;
+  line-height:1.45;
+  opacity:.95;
 }
 
-nav a {
-  color: white;
-  font-weight: 600;
-  margin-right: 22px;
-  font-size: 1.05rem;
-  text-decoration: none;
+/* STATS */
+.stats{
+  background:#3e0c0f;
+  border-top:3px solid var(--serra-gold);
+  border-bottom:3px solid var(--serra-gold);
+}
+.stats-inner{
+  max-width:1100px;
+  margin:auto;
+  padding:22px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+  text-align:center;
+}
+.stat h2{
+  margin:0;
+  font-size:2.2rem;
+  font-weight:900;
+  color:var(--serra-gold);
+}
+.stat p{
+  margin-top:4px;
+  font-weight:700;
+  letter-spacing:.4px;
 }
 
-nav a:hover {
-  color: #ffcccc;
+/* ON3 POLISH */
+.alumni-block{
+  max-width:900px;
+  margin:28px auto 14px;
+  padding:24px;
+  background:rgba(0,0,0,.38);
+  border-left:4px solid var(--serra-gold);
+  border-radius:18px;
+  display:flex;
+  gap:18px;
+  align-items:flex-start;
+}
+.alumni-icon{
+  font-size:2.2rem;
+  color:var(--serra-gold);
+}
+.alumni-block h3{
+  font-size:1.3rem;
+  font-weight:900;
+}
+.alumni-block p{
+  margin-top:6px;
+  font-size:.95rem;
+  opacity:.95;
+}
+.alumni-block a{
+  display:inline-block;
+  margin-top:10px;
+  font-weight:800;
+  color:var(--serra-gold);
+  text-decoration:none;
+}
+.alumni-block a:hover{text-decoration:underline}
+
+/* QR */
+.qr-block{
+  max-width:900px;
+  margin:26px auto 10px;
+  padding:22px;
+  background:rgba(0,0,0,.35);
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+.qr-block img{
+  width:110px;
+  height:110px;
+  background:white;
+  padding:6px;
+  border-radius:10px;
+}
+.qr-block h4{
+  font-size:1.25rem;
+  font-weight:800;
+}
+.qr-block p{
+  margin-top:4px;
+  font-size:.95rem;
+  opacity:.95;
 }
 
-/* ===== SECTIONS ===== */
-.section {
-  max-width: 900px;
-  margin: 26px auto;
-  padding: 24px;
-  background: rgba(0,0,0,.35);
-  border-radius: 22px;
-}
-
-h1 {
-  font-size: 2.2rem;
-  font-weight: 800;
-  margin-bottom: 12px;
-}
-
-h2 {
-  font-size: 1.6rem;
-  font-weight: 800;
-  margin-bottom: 10px;
-}
-
-p {
-  font-size: 1.1rem;
-  line-height: 1.55;
-  margin-bottom: 12px;
-}
-
-/* ===== BUTTONS ===== */
-.btn {
-  display: block;
-  text-align: center;
-  margin-top: 16px;
-  padding: 14px;
-  background: white;
-  color: #7a0000;
-  font-weight: 800;
-  border-radius: 999px;
-  text-decoration: none;
-  font-size: 1.1rem;
-}
-
-.btn.alt {
-  background: transparent;
-  border: 2px solid white;
-  color: white;
-}
-
-/* ===== TAGS ===== */
-.tag-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.tag {
-  background: rgba(255,255,255,0.18);
-  padding: 10px 16px;
-  border-radius: 18px;
-  font-size: 0.95rem;
-  font-weight: 700;
-}
-
-/* ===== STATS ===== */
-.stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 14px;
-}
-
-.stat {
-  flex: 1;
-  min-width: 140px;
-  background: rgba(255,255,255,0.14);
-  padding: 18px;
-  text-align: center;
-  border-radius: 18px;
-  font-weight: 800;
-  font-size: 1.4rem;
-}
-
-.stat span {
-  display: block;
-  font-size: 1rem;
-  font-weight: 500;
-  margin-top: 6px;
-  opacity: .85;
-}
-
-/* ===== QR BLOCK ===== */
-.qr-img {
-  width: 120px;
-  max-width: 35vw;
-  background: white;
-  padding: 8px;
-  border-radius: 12px;
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 600px) {
-  h1 { font-size: 1.9rem; }
-  h2 { font-size: 1.4rem; }
-  p { font-size: 1rem; }
+/* MOBILE */
+@media(max-width:768px){
+  .hero{height:240px}
+  .hero h1{font-size:2rem}
+  .alumni-block,.qr-block{
+    flex-direction:column;
+    text-align:center;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
-<nav>
+<header>
   <img src="images/serra_logo.png" alt="Serra Logo">
-  <a href="index.html">Home</a>
-  <a href="coach-login.html">Coach Login</a>
-</nav>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="recruits.html">Recruits</a>
+    <a href="coach-login.html">Coach Login</a>
+  </nav>
+</header>
 
-<!-- INTRO -->
-<div class="section">
-  <h1>Serra Elite Football Recruiting</h1>
-  <p>
-    A college coach friendly recruiting hub for Serra Football prospects.
-    All information is verified and maintained by the Serra coaching staff.
-  </p>
-
-  <div class="tag-row">
-    <div class="tag">CHAMPIONSHIP CULTURE</div>
-    <div class="tag">ACADEMIC ACCOUNTABILITY</div>
-    <div class="tag">COLLEGE READY PROFILES</div>
+<section class="hero">
+  <div class="hero-content">
+    <div>
+      <h1>Serra Football Recruiting</h1>
+      <p>
+        Developing college-ready student-athletes through discipline,
+        academics, and elite competition.
+      </p>
+    </div>
   </div>
+</section>
 
-  <a class="btn" href="coach-login.html">View All Recruits (Coach Login)</a>
-</div>
-
-<!-- QR BLOCK -->
-<div class="section" style="text-align:center;">
-  <h2>Quick Access</h2>
-
-  <a href="https://serrafbrecruits.com" target="_blank">
-    <img
-      src="images/serra_main_qr.png"
-      alt="Scan to visit Serra Football Recruiting"
-      class="qr-img"
-    >
-  </a>
-
-  <p style="margin-top:10px; font-size:.95rem; opacity:.85;">
-    Scan to visit serrafbrecruits.com
-  </p>
-</div>
-
-<!-- LEGACY -->
-<div class="section">
-  <h2>Serra Football Legacy</h2>
-  <p>
-    Serra has a long history of producing impact college players and professionals.
-  </p>
-
-  <div class="stats">
-    <div class="stat">14 <span>NFL Draft Picks</span></div>
-    <div class="stat">28 <span>All Americans</span></div>
+<section class="stats">
+  <div class="stats-inner">
+    <div class="stat"><h2>21</h2><p>NFL Draft Picks</p></div>
+    <div class="stat"><h2>30+</h2><p>All-Americans</p></div>
+    <div class="stat"><h2>5</h2><p>CIF Championships</p></div>
+    <div class="stat"><h2>4</h2><p>State Titles</p></div>
   </div>
+</section>
 
-  <p style="margin-top:12px;">
-    Serra alumni compete across Power 5, FCS, Division II, Division III,
-    NAIA, and junior college football.
-  </p>
+<div class="alumni-block">
+  <div class="alumni-icon">✔</div>
+  <div>
+    <h3>Verified Serra Football Alumni (ON3)</h3>
+    <p>
+      Serra Football alumni who have competed at the collegiate and professional
+      levels, independently verified by ON3 Sports.
+    </p>
+    <a href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/"
+       target="_blank" rel="noopener">
+      View Serra Football Alumni on ON3 →
+    </a>
+  </div>
 </div>
 
-<!-- WHY SERRA -->
-<div class="section">
-  <h2>Why Serra Football</h2>
-  <p>
-    Serra Football is built on discipline, brotherhood, and accountability.
-    Our athletes are developed to succeed in the classroom, the weight room,
-    and on the field.
-  </p>
-</div>
-
-<!-- EXPECTATIONS -->
-<div class="section">
-  <h2>What We Expect From Our Players</h2>
-  <p>• Academic commitment and eligibility awareness</p>
-  <p>• Consistent effort and coachability</p>
-  <p>• Leadership and accountability</p>
-  <p>• Respect for the program and community</p>
-</div>
-
-<!-- TRANSCRIPTS -->
-<div class="section">
-  <h2>Transcript and Transfer Requests</h2>
-  <p>
-    College coaches and academic offices may request transcripts
-    or transfer documentation directly from Serra Football.
-  </p>
-
-  <a class="btn alt" href="mailto:serracavsfb@gmail.com">
-    Email Serra Football Office
-  </a>
+<div class="qr-block">
+  <img src="images/serra_main_qr.png" alt="Recruiting QR Code">
+  <div>
+    <h4>Recruiting Portal Access</h4>
+    <p>
+      Scan to view verified Serra Football recruiting profiles and prospect information.
+    </p>
+  </div>
 </div>
 
 </body>
