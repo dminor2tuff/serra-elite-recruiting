@@ -1,53 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coach Login – Serra Football</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles/shared.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach Login</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(180deg, #4a0000, #7a0000);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.box {
+  background: rgba(0,0,0,.4);
+  padding: 28px;
+  border-radius: 22px;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 999px;
+  border: none;
+  margin-top: 10px;
+  text-align: center;
+}
+
+button {
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 999px;
+  border: none;
+  background: white;
+  color: #7a0000;
+  font-weight: 800;
+}
+</style>
 </head>
+
 <body>
-<div class="page">
 
-  <nav>
-    <div class="nav-inner">
-      <div class="nav-left">
-        <img src="images/serra_logo.png" class="nav-logo" alt="Serra Logo">
-        <span class="nav-brand">Serra Elite Football Recruiting</span>
-      </div>
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="coach-login.html">Coach Login</a>
-      </div>
-    </div>
-  </nav>
-
-  <main class="container">
-    <div class="login-wrapper">
-      <div class="login-box">
-        <h1>College Coach Login</h1>
-        <p>Enter the Serra Football password to access the full prospects board.</p>
-
-        <form id="coachLoginForm">
-          <input
-            type="password"
-            id="coachPassword"
-            class="login-input"
-            placeholder="Enter Password"
-          >
-          <button type="submit" class="login-button">Login</button>
-          <div id="coachLoginError" class="login-error"></div>
-        </form>
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    Serra Elite Recruiting • College Coach Access Only
-  </footer>
+<div class="box">
+  <img src="images/serra_logo.png" style="height:70px"><br><br>
+  <h2>College Coach Login</h2>
+  <input id="pw" type="password" placeholder="Enter password">
+  <button onclick="login()">Enter</button>
 </div>
 
-<script src="scripts/app.js"></script>
+<script>
+function login() {
+  if (document.getElementById("pw").value === "SerraFB") {
+    sessionStorage.setItem("serraCoachAccess","true");
+    window.location.href = "recruits.html";
+  } else {
+    alert("Incorrect password");
+  }
+}
+</script>
+
 </body>
 </html>
