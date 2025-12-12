@@ -1,450 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Serra Player Profile</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --serra-red: #7b0d0d;
-      --serra-red-dark: #5e0a0a;
-      --serra-red-card: #8a0f0f;
-      --serra-accent: #ffffff;
-      --serra-shadow: rgba(0,0,0,0.35);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serra Football Recruit Profile</title>
 
-    * {
-      box-sizing: border-box;
-    }
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-    body {
-      margin: 0;
-      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-      background: radial-gradient(circle at top, #aa2222 0, var(--serra-red) 45%, #3b0505 100%);
-      color: var(--serra-accent);
-    }
+<style>
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+    background: linear-gradient(180deg, #4a0000, #7a0000);
+    color: white;
+}
 
-    a {
-      color: var(--serra-accent);
-      text-decoration: none;
-    }
+/* NAV */
+nav {
+    background: rgba(0,0,0,.35);
+    backdrop-filter: blur(6px);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+}
+nav img {
+    height: 42px;
+    margin-right: 18px;
+}
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    margin-right: 22px;
+}
 
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      background: linear-gradient(90deg, var(--serra-red-dark), #12040b);
-      border-bottom: 2px solid rgba(255,255,255,0.15);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
+/* LAYOUT */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+}
 
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+/* IMAGE */
+.photo-box {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto 18px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.3);
+}
+.photo-box img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    object-position: 50% 12%;
+}
 
-    .nav-logo {
-      height: 36px;
-      width: auto;
-    }
+/* NAME */
+h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 6px;
+}
+.sub {
+    text-align: center;
+    opacity: .9;
+    margin-bottom: 16px;
+}
 
-    .nav-brand-text {
-      font-weight: 800;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      opacity: 0.9;
-    }
+/* STATS */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
+    gap: 12px;
+    margin-bottom: 22px;
+}
+.stat {
+    background: rgba(0,0,0,.35);
+    border-radius: 16px;
+    padding: 14px;
+    text-align: center;
+}
+.stat strong {
+    display: block;
+    font-size: .8rem;
+    opacity: .8;
+}
+.stat span {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
 
-    .nav-links {
-      display: flex;
-      gap: 16px;
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
+/* WRITEUP */
+.section {
+    background: rgba(0,0,0,.35);
+    border-radius: 20px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
+.section h2 {
+    margin: 0 0 10px;
+    font-size: 1.3rem;
+}
+.section p {
+    line-height: 1.6;
+    font-size: 1rem;
+}
 
-    main {
-      max-width: 960px;
-      margin: 24px auto 60px;
-      padding: 0 16px 40px;
-    }
+/* LINKS */
+.links a {
+    display: inline-block;
+    margin-right: 14px;
+    margin-top: 10px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid white;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+}
+.links a:hover {
+    background: white;
+    color: #7a0000;
+}
 
-    .player-profile {
-      background: var(--serra-red-card);
-      border-radius: 22px;
-      padding: 20px 20px 24px;
-      box-shadow: 0 14px 38px var(--serra-shadow);
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.1fr);
-      gap: 22px;
-      align-items: flex-start;
-    }
-
-    /* HEADSHOT CROP OPTION B */
-    .player-profile img {
-      width: 100%;
-      height: 340px;
-      object-fit: cover;
-      object-position: center 18%;
-      border-radius: 18px;
-      background: #4a0000;
-    }
-
-    h2 {
-      font-size: 2rem;
-      font-weight: 900;
-      margin: 0 0 0.35em;
-      letter-spacing: 0.04em;
-    }
-
-    .meta-line {
-      font-size: 1rem;
-      margin-bottom: 0.4em;
-    }
-
-    .meta-line strong {
-      font-weight: 800;
-    }
-
-    .badges {
-      margin: 10px 0 14px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .badge {
-      background: rgba(255,255,255,0.12);
-      padding: 6px 11px;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .writeup {
-      margin-top: 8px;
-      font-size: 1.05rem;
-      line-height: 1.7;
-    }
-
-    .info-grid {
-      margin-top: 14px;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 10px;
-      font-size: 0.98rem;
-    }
-
-    .info-label {
-      font-weight: 700;
-      opacity: 0.95;
-    }
-
-    .info-value {
-      opacity: 0.96;
-    }
-
-    .hudl-link {
-      margin-top: 14px;
-    }
-
-    .hudl-link a {
-      display: inline-block;
-      background: #ffffff;
-      color: #7b0d0d;
-      padding: 9px 16px;
-      border-radius: 999px;
-      font-weight: 800;
-      font-size: 0.96rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
-    }
-
-    .twitter-link {
-      margin-top: 10px;
-      font-size: 0.96rem;
-    }
-
-    .twitter-link a {
-      text-decoration: underline;
-    }
-
-    .college-row {
-      margin-top: 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      font-size: 0.98rem;
-    }
-
-    .college-logo {
-      height: 40px;
-      width: auto;
-      border-radius: 6px;
-      background: #ffffff;
-      padding: 4px 6px;
-    }
-
-    .back-link {
-      margin-top: 18px;
-      font-size: 0.95rem;
-    }
-
-    @media (max-width: 780px) {
-      .player-profile {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      main {
-        margin-top: 18px;
-      }
-
-      .nav-brand-text {
-        display: none;
-      }
-
-      .nav-logo {
-        height: 32px;
-      }
-    }
-  </style>
+@media(min-width:768px){
+    h1 { font-size: 2.3rem; }
+}
+</style>
 </head>
+
 <body>
-  <nav>
-    <div class="nav-left">
-      <img src="images/serra_logo.png" class="nav-logo" alt="Serra Football Logo" />
-      <div class="nav-brand-text">Serra Player Profile</div>
-    </div>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="recruits.html">Recruits</a>
-    </div>
-  </nav>
 
-  <main>
-    <div id="profile" class="player-profile" style="display:none;">
-      <div>
-        <img id="playerPhoto" src="images/placeholder_player.png" alt="Player photo" />
-      </div>
-      <div>
-        <h2 id="playerName">Player Name</h2>
-        <div class="meta-line" id="playerMeta"></div>
+<nav>
+    <img src="images/serra_logo.png">
+    <a href="index.html">Home</a>
+    <a href="recruits.html">Recruits</a>
+    <a href="transcript.html">Transcript / Transfer</a>
+</nav>
 
-        <div class="badges" id="playerBadges"></div>
+<div class="container" id="profile"></div>
 
-        <div class="writeup" id="playerWriteup"></div>
+<script>
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const params = new URLSearchParams(window.location.search);
+const playerName = params.get("name");
 
-        <div class="info-grid">
-          <div>
-            <div class="info-label">GPA</div>
-            <div class="info-value" id="playerGpa">—</div>
-          </div>
-          <div>
-            <div class="info-label">Offers / Interest</div>
-            <div class="info-value" id="playerOffers">—</div>
-          </div>
-          <div>
-            <div class="info-label">Status</div>
-            <div class="info-value" id="playerStatus">—</div>
-          </div>
-          <div>
-            <div class="info-label">College Projection</div>
-            <div class="info-value" id="playerCollege">—</div>
-          </div>
+fetch(CSV_URL)
+.then(res => res.text())
+.then(csv => {
+    const data = Papa.parse(csv, { header: true }).data;
+    const p = data.find(r => r.Name?.toLowerCase() === playerName?.toLowerCase());
+    if (!p) return;
+
+    document.getElementById("profile").innerHTML = `
+        <div class="photo-box">
+            <img src="${p.ImageURL || 'images/placeholder_player.png'}">
         </div>
 
-        <div class="hudl-link" id="hudlContainer" style="display:none;">
-          <a id="hudlLink" href="#" target="_blank">View HUDL Profile</a>
+        <h1>${p.Name}</h1>
+        <div class="sub">${p.Position} • Class of ${p.Class}</div>
+
+        <div class="stats">
+            <div class="stat"><strong>Height / Weight</strong><span>${p.HeightWeight}</span></div>
+            <div class="stat"><strong>GPA</strong><span>${p.GPA}</span></div>
+            <div class="stat"><strong>Status</strong><span>${p.Status || 'Uncommitted'}</span></div>
         </div>
 
-        <div class="twitter-link" id="twitterContainer" style="display:none;">
-          🐦 <a id="twitterLink" href="#" target="_blank">Twitter / X</a>
+        <div class="section">
+            <h2>Player Evaluation</h2>
+            <p>${p.Writeup}</p>
         </div>
 
-        <div class="college-row" id="collegeLogoRow" style="display:none;">
-          <img id="collegeLogo" class="college-logo" alt="College logo" />
-          <span id="collegeLogoText"></span>
+        <div class="links">
+            ${p.HUDL ? `<a href="${p.HUDL}" target="_blank">HUDL Film</a>` : ''}
+            ${p.Twitter ? `<a href="${p.Twitter}" target="_blank">Twitter / X</a>` : ''}
         </div>
+    `;
+});
+</script>
 
-        <div class="back-link">
-          ← <a href="recruits.html">Back to Serra Football Prospects</a>
-        </div>
-      </div>
-    </div>
-
-    <p id="notFound" style="margin-top:20px;display:none;">
-      Player not found. Please return to the <a href="recruits.html">Serra Football Prospects</a> page.
-    </p>
-  </main>
-
-  <script>
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
-
-    function getQueryParam(name) {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(name);
-    }
-
-    function parseCSV(text) {
-      const rows = [];
-      let current = [];
-      let field = "";
-      let inQuotes = false;
-
-      for (let i = 0; i < text.length; i++) {
-        const c = text[i];
-        if (inQuotes) {
-          if (c === '"') {
-            if (text[i + 1] === '"') {
-              field += '"';
-              i++;
-            } else {
-              inQuotes = false;
-            }
-          } else {
-            field += c;
-          }
-        } else {
-          if (c === '"') {
-            inQuotes = true;
-          } else if (c === ",") {
-            current.push(field.trim());
-            field = "";
-          } else if (c === "\n" || c === "\r") {
-            if (field !== "" || current.length > 0) {
-              current.push(field.trim());
-              rows.push(current);
-              current = [];
-              field = "";
-            }
-          } else {
-            field += c;
-          }
-        }
-      }
-      if (field !== "" || current.length > 0) {
-        current.push(field.trim());
-        rows.push(current);
-      }
-      return rows;
-    }
-
-    async function loadPlayer() {
-      const targetName = (getQueryParam("name") || "").trim().toLowerCase();
-      if (!targetName) {
-        document.getElementById("notFound").style.display = "block";
-        return;
-      }
-
-      try {
-        const res = await fetch(CSV_URL);
-        const text = await res.text();
-        const rows = parseCSV(text);
-        const header = rows[0].map(h => h.trim());
-        const dataRows = rows.slice(1).filter(r => r.length && r[0]);
-
-        let player = null;
-
-        dataRows.forEach(row => {
-          const obj = {};
-          header.forEach((key, idx) => {
-            obj[key] = row[idx] || "";
-          });
-
-          const name = (obj.Name || "").trim();
-          if (!name) return;
-          if (name.toLowerCase() === targetName) {
-            player = {
-              name,
-              classYear: obj.Class || "",
-              position: obj.Position || "",
-              heightWeight: obj.HeightWeight || "",
-              hudl: obj.HUDL || "",
-              writeup: obj.Writeup || "",
-              imageUrl: obj.ImageURL || "",
-              twitter: obj.Twitter || "",
-              gpa: obj.GPA || "",
-              offers: obj.Offers || "",
-              status: obj.Status || "",
-              college: obj.College || "",
-              collegeLogo: obj.CollegeLogo || ""
-            };
-          }
-        });
-
-        if (!player) {
-          document.getElementById("notFound").style.display = "block";
-          return;
-        }
-
-        // Fill profile
-        document.getElementById("playerPhoto").src =
-          player.imageUrl || "images/placeholder_player.png";
-        document.getElementById("playerPhoto").alt = player.name;
-
-        document.getElementById("playerName").textContent = player.name;
-        document.getElementById("playerMeta").textContent =
-          `${player.position || ""} • Class of ${player.classYear || "—"} • ${player.heightWeight || ""}`;
-
-        const badgesEl = document.getElementById("playerBadges");
-        badgesEl.innerHTML = "";
-        if (player.classYear) {
-          const b = document.createElement("div");
-          b.className = "badge";
-          b.textContent = `Class of ${player.classYear}`;
-          badgesEl.appendChild(b);
-        }
-        if (player.position) {
-          const b = document.createElement("div");
-          b.className = "badge";
-          b.textContent = player.position;
-          badgesEl.appendChild(b);
-        }
-        if (player.status) {
-          const b = document.createElement("div");
-          b.className = "badge";
-          b.textContent = player.status;
-          badgesEl.appendChild(b);
-        }
-
-        document.getElementById("playerWriteup").textContent = player.writeup || "";
-
-        document.getElementById("playerGpa").textContent = player.gpa || "—";
-        document.getElementById("playerOffers").textContent = player.offers || "—";
-        document.getElementById("playerStatus").textContent = player.status || "—";
-        document.getElementById("playerCollege").textContent = player.college || "—";
-
-        if (player.hudl) {
-          document.getElementById("hudlLink").href = player.hudl;
-          document.getElementById("hudlContainer").style.display = "block";
-        }
-
-        if (player.twitter) {
-          document.getElementById("twitterLink").href = player.twitter;
-          document.getElementById("twitterContainer").style.display = "block";
-        }
-
-        if (player.collegeLogo) {
-          document.getElementById("collegeLogo").src = player.collegeLogo;
-          document.getElementById("collegeLogoText").textContent =
-            player.college || "College Commitment";
-          document.getElementById("collegeLogoRow").style.display = "flex";
-        }
-
-        document.getElementById("profile").style.display = "grid";
-      } catch (err) {
-        console.error(err);
-        document.getElementById("notFound").style.display = "block";
-      }
-    }
-
-    loadPlayer();
-  </script>
 </body>
 </html>
