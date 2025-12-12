@@ -1,72 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coach Login</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coach Login | Serra Football</title>
 <style>
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(180deg, #4a0000, #7a0000);
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.box {
-  background: rgba(0,0,0,.4);
-  padding: 28px;
-  border-radius: 22px;
-  width: 100%;
-  max-width: 360px;
-  text-align: center;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 999px;
-  border: none;
-  margin-top: 10px;
-  text-align: center;
-}
-
-button {
-  width: 100%;
-  margin-top: 14px;
-  padding: 12px;
-  border-radius: 999px;
-  border: none;
-  background: white;
-  color: #7a0000;
-  font-weight: 800;
-}
+  body{
+    margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background:linear-gradient(180deg,#4a0d10,#7a1419);color:#fff;
+    display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;
+  }
+  .box{
+    width:100%;max-width:420px;background:rgba(0,0,0,.35);
+    border-radius:22px;padding:26px;box-shadow:0 12px 30px rgba(0,0,0,.4);text-align:center;
+  }
+  .box img{height:70px;margin-bottom:10px}
+  h1{margin:6px 0 6px;font-size:1.6rem;font-weight:900}
+  p{margin:0 0 16px;opacity:.9}
+  .row{display:flex;gap:10px;justify-content:center;margin:10px 0 14px;flex-wrap:wrap}
+  .pill{
+    border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;
+    padding:8px 14px;border-radius:999px;font-weight:800;cursor:pointer
+  }
+  .pill.active{background:#fff;color:#7a1419;border-color:#fff}
+  input{
+    width:100%;padding:12px 14px;border-radius:999px;border:none;outline:none;
+    font-size:1rem;text-align:center;
+  }
+  button{
+    width:100%;margin-top:12px;padding:12px 14px;border-radius:999px;border:none;
+    background:#fff;color:#7a1419;font-weight:900;font-size:1.05rem;cursor:pointer;
+  }
+  .err{margin-top:10px;color:#ffd6d6;display:none;font-weight:700}
+  .small{font-size:.9rem;opacity:.85;margin-top:10px}
 </style>
 </head>
-
 <body>
+  <div class="box">
+    <img src="images/serra_logo.png" alt="Serra Logo" />
+    <h1>Serra Recruiting Access</h1>
+    <p>College Coach and Admin Login</p>
 
-<div class="box">
-  <img src="images/serra_logo.png" style="height:70px"><br><br>
-  <h2>College Coach Login</h2>
-  <input id="pw" type="password" placeholder="Enter password">
-  <button onclick="login()">Enter</button>
-</div>
+    <div class="row">
+      <button class="pill active" id="modeCoach" onclick="setMode('coach')">Coach</button>
+      <button class="pill" id="modeAdmin" onclick="setMode('admin')">Admin</button>
+    </div>
+
+    <input id="pw" type="password" placeholder="Enter password" />
+    <button onclick="login()">Enter</button>
+
+    <div id="err" class="err">Incorrect password</div>
+    <div class="small">Access is session-based and resets when the browser tab closes.</div>
+  </div>
 
 <script>
-function login() {
-  if (document.getElementById("pw").value === "SerraFB") {
-    sessionStorage.setItem("serraCoachAccess","true");
-    window.location.href = "recruits.html";
-  } else {
-    alert("Incorrect password");
-  }
-}
-</script>
+  const COACH_PASSWORD = "SerraFB";
+  const ADMIN_PASSWORD = "SerraFBAdmin";
+  let mode = "coach";
 
+  function setMode(m){
+    mode = m;
+    document.getElementById("modeCoach").classList.toggle("active", m==="coach");
+    document.getElementById("modeAdmin").classList.toggle("active", m==="admin");
+    document.getElementById("err").style.display = "none";
+    document.getElementById("pw").value = "";
+    document.getElementById("pw").focus();
+  }
+
+  function login(){
+    const val = document.getElementById("pw").value || "";
+    const err = document.getElementById("err");
+    err.style.display = "none";
+
+    if (mode === "coach" && val === COACH_PASSWORD){
+      sessionStorage.setItem("serraCoachAccess","true");
+      sessionStorage.removeItem("serraAdminAccess");
+      window.location.href = "recruits.html";
+      return;
+    }
+    if (mode === "admin" && val === ADMIN_PASSWORD){
+      sessionStorage.setItem("serraCoachAccess","true");
+      sessionStorage.setItem("serraAdminAccess","true");
+      window.location.href = "admin.html";
+      return;
+    }
+    err.style.display = "block";
+  }
+</script>
 </body>
 </html>
