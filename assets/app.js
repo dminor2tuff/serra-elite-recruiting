@@ -1,416 +1,269 @@
-:root{
-  --bg1:#2a0b0e;
-  --bg2:#5b0f16;
-  --panel:rgba(255,255,255,.08);
-  --panel2:rgba(0,0,0,.28);
-  --text:#f6f3f3;
-  --muted:rgba(255,255,255,.78);
-  --gold:#d7b35a;
-  --accent:#ffffff;
-  --radius:22px;
-  --shadow: 0 18px 50px rgba(0,0,0,.45);
-  --shadow2: 0 10px 30px rgba(0,0,0,.35);
-  --max: 1180px;
+// ✅ CSV link (your published CSV)
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+
+// 🔐 Coach password (change if you want)
+const COACH_PASSWORD = "SerraCavs2026!";
+
+function isAuthed(){
+  return localStorage.getItem("serra_coach_auth") === "yes";
+}
+function requireAuth(){
+  if(!isAuthed()){
+    window.location.href = "coach-login.html?next=" + encodeURIComponent(window.location.pathname.split("/").pop() || "recruits.html");
+  }
+}
+function logout(){
+  localStorage.removeItem("serra_coach_auth");
+  window.location.href = "index.html";
 }
 
-*{box-sizing:border-box}
-html,body{margin:0;padding:0}
-body{
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color:var(--text);
-  background: radial-gradient(1200px 700px at 20% 10%, rgba(255,255,255,.08), transparent 55%),
-              radial-gradient(900px 600px at 90% 0%, rgba(215,179,90,.16), transparent 50%),
-              linear-gradient(160deg, var(--bg1), var(--bg2));
-  min-height:100vh;
+// --- CSV parsing helpers ---
+function csvToRows(csvText){
+  // Basic CSV parser that handles commas in quotes
+  const rows = [];
+  let row = [];
+  let cur = "";
+  let inQuotes = false;
+
+  for(let i=0;i<csvText.length;i++){
+    const ch = csvText[i];
+    const next = csvText[i+1];
+
+    if(ch === '"' && inQuotes && next === '"'){
+      cur += '"'; i++;
+      continue;
+    }
+    if(ch === '"'){
+      inQuotes = !inQuotes;
+      continue;
+    }
+    if(ch === "," && !inQuotes){
+      row.push(cur); cur = "";
+      continue;
+    }
+    if((ch === "\n" || ch === "\r") && !inQuotes){
+      if(ch === "\r" && next === "\n"){ i++; }
+      row.push(cur); cur = "";
+      // ignore empty last line
+      if(row.some(cell => cell.trim() !== "")) rows.push(row);
+      row = [];
+      continue;
+    }
+    cur += ch;
+  }
+  row.push(cur);
+  if(row.some(cell => cell.trim() !== "")) rows.push(row);
+  return rows;
 }
 
-a{color:var(--accent); text-decoration:none}
-a:hover{text-decoration:underline}
-
-.container{max-width:var(--max); margin:0 auto; padding:18px 16px 40px}
-
-.topbar{
-  position:sticky; top:0; z-index:50;
-  backdrop-filter: blur(10px);
-  background: rgba(20,6,8,.62);
-  border-bottom: 1px solid rgba(255,255,255,.08);
+function normalizeUrl(u){
+  if(!u) return "";
+  let s = (""+u).trim();
+  if(!s) return "";
+  // allow @username for twitter and convert
+  if(s.startsWith("@")) s = "https://twitter.com/" + s.slice(1);
+  // allow x.com
+  if(s.includes("x.com/")) s = s.replace("x.com/", "twitter.com/");
+  if(!s.startsWith("http")) s = "https://" + s;
+  return s;
 }
 
-.nav{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:14px;
-  max-width:var(--max);
-  margin:0 auto;
-  padding:12px 16px;
+function mapPlayers(rows){
+  // Expected headers:
+  // Name, Class, Position, HeightWeight, HUDL, Writeup, ImageURL, Twitter, GPA, Offers, Status, College, CollegeLogo
+  const header = rows[0].map(h => (h||"").trim());
+  const idx = Object.fromEntries(header.map((h,i)=>[h,i]));
+
+  const get = (r, key) => (idx[key] != null ? (r[idx[key]] ?? "") : "");
+
+  return rows.slice(1).map(r => {
+    const p = {
+      Name: (get(r,"Name")||"").trim(),
+      Class: (get(r,"Class")||"").trim(),
+      Position: (get(r,"Position")||"").trim(),
+      HeightWeight: (get(r,"HeightWeight")||"").trim(),
+      HUDL: normalizeUrl(get(r,"HUDL")),
+      Writeup: (get(r,"Writeup")||"").trim(),
+      ImageURL: normalizeUrl(get(r,"ImageURL")),
+      Twitter: normalizeUrl(get(r,"Twitter")),
+      GPA: (get(r,"GPA")||"").trim(),
+      Offers: (get(r,"Offers")||"").trim(),
+      Status: (get(r,"Status")||"").trim(),
+      College: (get(r,"College")||"").trim(),
+      CollegeLogo: normalizeUrl(get(r,"CollegeLogo")),
+    };
+    // fallback image
+    if(!p.ImageURL) p.ImageURL = "images/placeholder_player.png";
+    return p;
+  }).filter(p => p.Name);
 }
 
-.brand{
-  display:flex; align-items:center; gap:12px;
-  min-width: 160px;
-}
-.brand img{height:38px; width:auto; display:block}
-
-.navlinks{
-  display:flex; gap:18px; align-items:center;
-  font-weight:800;
-  letter-spacing:.2px;
-}
-.navlinks a{opacity:.92}
-.navlinks a.active{opacity:1; text-decoration:underline}
-
-.hero{
-  border-radius:var(--radius);
-  overflow:hidden;
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(255,255,255,.10);
+async function fetchPlayers(){
+  const res = await fetch(CSV_URL, {cache:"no-store"});
+  const txt = await res.text();
+  const rows = csvToRows(txt);
+  if(rows.length < 2) return [];
+  return mapPlayers(rows);
 }
 
-.hero-media{
-  position:relative;
-  height: 300px;
-  background: #000;
+// --- Recruits page render ---
+function slugify(name){
+  return encodeURIComponent((name||"").trim().toLowerCase());
 }
 
-.hero-media img{
-  position:absolute; inset:0;
-  width:100%; height:100%;
-  object-fit:cover;
-  filter: saturate(1.05) contrast(1.05);
+function buildCard(player){
+  const safeName = player.Name || "";
+  const profileLink = `profile.html?name=${slugify(safeName)}`;
+
+  return `
+  <div class="player-card">
+    <div class="player-photo">
+      <img src="${player.ImageURL}" alt="${safeName}" loading="lazy"
+           onerror="this.onerror=null;this.src='images/placeholder_player.png';" />
+    </div>
+    <div class="player-body">
+      <p class="player-name">${safeName}</p>
+      <p class="player-meta"><strong>${player.Position || ""}</strong></p>
+      <p class="player-meta">${player.Class ? ("Class of " + player.Class) : ""}</p>
+      <p class="player-meta">${player.HeightWeight || ""}</p>
+
+      <div class="social-icons">
+        ${player.Twitter ? `
+          <a href="${player.Twitter}" target="_blank" rel="noopener" aria-label="Twitter">
+            <img src="icons/twitter.svg" alt="Twitter">
+          </a>` : ""}
+
+        ${player.HUDL ? `
+          <a href="${player.HUDL}" target="_blank" rel="noopener" aria-label="Hudl">
+            <img src="icons/hudl.svg" alt="Hudl">
+          </a>` : ""}
+      </div>
+
+      <a class="card-btn" href="${profileLink}">View Profile</a>
+    </div>
+  </div>`;
 }
 
-.hero-overlay{
-  position:absolute; inset:0;
-  background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.65));
+function classMatches(player, cls){
+  if(cls === "All") return true;
+  return (player.Class||"").trim() === cls;
 }
 
-.hero-content{
-  position:absolute; inset:0;
-  display:flex; flex-direction:column; justify-content:flex-end;
-  padding:26px;
-  gap:10px;
+function textMatches(player, q){
+  if(!q) return true;
+  const hay = `${player.Name} ${player.Position} ${player.Class}`.toLowerCase();
+  return hay.includes(q.toLowerCase());
 }
 
-.h1{
-  margin:0;
-  font-size: clamp(26px, 3.2vw, 42px);
-  font-weight: 900;
-  letter-spacing: .4px;
-  text-shadow: 0 10px 25px rgba(0,0,0,.65);
+async function initRecruitsPage(){
+  requireAuth();
+
+  const grid = document.getElementById("grid");
+  const search = document.getElementById("search");
+  const pills = document.querySelectorAll(".pill");
+  const count = document.getElementById("count");
+
+  let players = [];
+  let activeClass = "All";
+
+  try{
+    players = await fetchPlayers();
+  }catch(e){
+    console.error(e);
+    grid.innerHTML = `<div class="card"><b>Could not load recruits.</b><div class="notice">Check that your Google Sheet is published and the CSV link is correct.</div></div>`;
+    return;
+  }
+
+  function render(){
+    const q = (search.value||"").trim();
+    const filtered = players.filter(p => classMatches(p, activeClass) && textMatches(p, q));
+    grid.innerHTML = filtered.map(buildCard).join("");
+    if(count) count.textContent = `${filtered.length} recruits`;
+  }
+
+  pills.forEach(p=>{
+    p.addEventListener("click", ()=>{
+      pills.forEach(x=>x.classList.remove("active"));
+      p.classList.add("active");
+      activeClass = p.dataset.cls;
+      render();
+    });
+  });
+
+  search.addEventListener("input", render);
+
+  render();
 }
 
-.sub{
-  margin:0;
-  max-width: 820px;
-  font-size: 15px;
-  color: var(--muted);
-  font-weight: 700;
-  line-height: 1.35;
+async function initProfilePage(){
+  requireAuth();
+
+  const params = new URLSearchParams(window.location.search);
+  const name = (params.get("name") || "").toLowerCase();
+  const wrap = document.getElementById("profile");
+
+  let players = [];
+  try{
+    players = await fetchPlayers();
+  }catch(e){
+    wrap.innerHTML = `<div class="card"><b>Could not load player profile.</b></div>`;
+    return;
+  }
+
+  const player = players.find(p => (p.Name||"").trim().toLowerCase() === name) || players.find(p => slugify(p.Name).toLowerCase() === name);
+  if(!player){
+    wrap.innerHTML = `<div class="card"><b>Player not found.</b><div class="notice">Go back and select a player again.</div></div>`;
+    return;
+  }
+
+  wrap.innerHTML = `
+    <div class="profile-wrap">
+      <div class="profile-photo">
+        <img src="${player.ImageURL}" alt="${player.Name}" onerror="this.onerror=null;this.src='images/placeholder_player.png';" />
+      </div>
+      <div class="profile-panel">
+        <h2>${player.Name}</h2>
+
+        <div class="profile-kv">
+          <div class="kv"><div class="k">Class</div><div class="v">${player.Class || ""}</div></div>
+          <div class="kv"><div class="k">Position</div><div class="v">${player.Position || ""}</div></div>
+          <div class="kv"><div class="k">Height / Weight</div><div class="v">${player.HeightWeight || ""}</div></div>
+          <div class="kv"><div class="k">GPA</div><div class="v">${player.GPA || ""}</div></div>
+        </div>
+
+        <div class="social-icons" style="justify-content:flex-start;">
+          ${player.Twitter ? `
+            <a href="${player.Twitter}" target="_blank" rel="noopener" aria-label="Twitter">
+              <img src="icons/twitter.svg" alt="Twitter">
+            </a>` : ""}
+
+          ${player.HUDL ? `
+            <a href="${player.HUDL}" target="_blank" rel="noopener" aria-label="Hudl">
+              <img src="icons/hudl.svg" alt="Hudl">
+            </a>` : ""}
+        </div>
+
+        ${player.Offers ? `<div class="notice"><b>Offers:</b> ${player.Offers}</div>` : ""}
+        ${player.Status ? `<div class="notice"><b>Status:</b> ${player.Status}</div>` : ""}
+        ${player.College ? `<div class="notice"><b>College:</b> ${player.College}</div>` : ""}
+
+        <div class="writeup">${player.Writeup || ""}</div>
+
+        <div class="actions" style="margin-top:14px;">
+          <a class="btn" href="recruits.html">Back to Recruits</a>
+          <a class="btn" href="#" onclick="logout();return false;">Log Out</a>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
-.hero-rule{
-  margin-top:10px;
-  height:2px;
-  width:100%;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  opacity:.95;
-}
+// Expose logout for inline use
+window.logout = logout;
 
-.stats{
-  display:grid;
-  grid-template-columns: repeat(4, minmax(0,1fr));
-  gap:12px;
-  margin-top:16px;
-}
-
-.stat{
-  background: rgba(0,0,0,.28);
-  border: 1px solid rgba(255,255,255,.09);
-  border-radius: 18px;
-  padding:14px 14px;
-  box-shadow: var(--shadow2);
-  text-align:center;
-}
-.stat .num{font-weight: 950; font-size: 26px; color: var(--gold)}
-.stat .lbl{font-weight: 900; font-size: 12px; opacity:.9; letter-spacing:.4px}
-
-.card{
-  margin-top:16px;
-  background: rgba(0,0,0,.25);
-  border: 1px solid rgba(255,255,255,.09);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow2);
-  padding: 16px;
-}
-
-.qr{
-  display:flex;
-  gap:16px;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap;
-}
-.qr img{
-  width:92px; height:92px;
-  background:#fff;
-  border-radius: 14px;
-  padding:8px;
-}
-.qr h3{margin:0; font-size:18px; font-weight:950}
-.qr p{margin:6px 0 0; color:var(--muted); font-weight:700; line-height:1.3}
-
-.actions{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-top:14px;
-}
-
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  padding: 12px 16px;
-  border-radius: 999px;
-  font-weight: 950;
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.10);
-  color: #fff;
-  text-decoration:none;
-  box-shadow: 0 10px 30px rgba(0,0,0,.28);
-}
-.btn.primary{
-  background: #ffffff;
-  color:#3a0b10;
-}
-.btn.primary:hover{filter: brightness(.96)}
-.btn:hover{text-decoration:none}
-
-.section-title{
-  margin: 20px 0 10px;
-  font-size: 22px;
-  font-weight: 950;
-  letter-spacing:.2px;
-}
-
-.tools{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:space-between;
-  margin-top: 14px;
-}
-.search{
-  flex: 1 1 280px;
-  min-width: 220px;
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-.search input{
-  width:100%;
-  padding: 12px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.12);
-  color:#fff;
-  font-weight: 850;
-  outline:none;
-}
-.search input::placeholder{color: rgba(255,255,255,.65)}
-.filters{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-}
-.pill{
-  padding:10px 14px;
-  border-radius:999px;
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.22);
-  color:#fff;
-  font-weight: 950;
-  cursor:pointer;
-}
-.pill.active{
-  background:#fff;
-  color:#3a0b10;
-}
-
-.grid{
-  margin-top: 14px;
-  display:grid;
-  grid-template-columns: repeat(4, minmax(0,1fr));
-  gap:14px;
-}
-
-.player-card{
-  background: rgba(0,0,0,.22);
-  border: 1px solid rgba(255,255,255,.10);
-  border-radius: 22px;
-  box-shadow: var(--shadow2);
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-}
-
-.player-photo{
-  position:relative;
-  height: 210px;
-  background: rgba(255,255,255,.05);
-}
-.player-photo img{
-  width:100%;
-  height:100%;
-  object-fit: cover;
-  /* ✅ Head-to-waist crop control */
-  object-position: 50% 18%;
-  display:block;
-}
-
-.player-body{
-  padding: 12px 14px 14px;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  text-align:center;
-}
-
-.player-name{
-  font-weight: 950;
-  font-size: 18px;
-  letter-spacing:.2px;
-  margin:0;
-}
-.player-meta{
-  margin:0;
-  color: rgba(255,255,255,.82);
-  font-weight: 850;
-  font-size: 13px;
-  line-height: 1.25;
-}
-.player-meta strong{color:#fff}
-
-.social-icons{
-  display:flex;
-  justify-content:center;
-  gap:14px;
-  margin-top: 8px;
-}
-.social-icons a{
-  width:34px; height:34px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border-radius: 50%;
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.12);
-  transition: all .18s ease;
-}
-.social-icons a:hover{
-  background:#fff;
-  transform: translateY(-2px);
-}
-.social-icons img{
-  width:18px; height:18px;
-}
-
-.card-btn{
-  margin-top: 8px;
-  display:inline-flex;
-  justify-content:center;
-  padding: 11px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.15);
-  background: rgba(255,255,255,.10);
-  color:#fff;
-  font-weight: 950;
-  text-decoration:none;
-}
-
-.notice{
-  margin-top: 14px;
-  color: rgba(255,255,255,.82);
-  font-weight: 800;
-  font-size: 13px;
-}
-
-.profile-wrap{
-  margin-top: 14px;
-  display:grid;
-  grid-template-columns: 360px 1fr;
-  gap: 16px;
-}
-.profile-photo{
-  border-radius: 22px;
-  overflow:hidden;
-  border: 1px solid rgba(255,255,255,.10);
-  box-shadow: var(--shadow2);
-  background: rgba(0,0,0,.22);
-}
-.profile-photo img{
-  width:100%;
-  height:420px;
-  object-fit: cover;
-  object-position: 50% 18%;
-  display:block;
-}
-.profile-panel{
-  background: rgba(0,0,0,.22);
-  border: 1px solid rgba(255,255,255,.10);
-  border-radius: 22px;
-  box-shadow: var(--shadow2);
-  padding: 16px;
-}
-.profile-panel h2{
-  margin:0 0 6px;
-  font-size: 26px;
-  font-weight: 950;
-}
-.profile-kv{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin: 12px 0 12px;
-}
-.kv{
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.10);
-  border-radius: 16px;
-  padding: 12px;
-}
-.kv .k{font-weight:950; opacity:.9; font-size:12px}
-.kv .v{font-weight:950; font-size:14px; margin-top:4px}
-
-.writeup{
-  margin-top: 10px;
-  line-height: 1.55;
-  color: rgba(255,255,255,.92);
-  font-weight: 750;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.footer{
-  margin-top: 26px;
-  text-align:center;
-  color: rgba(255,255,255,.6);
-  font-weight: 800;
-  font-size: 12px;
-}
-
-/* Responsive */
-@media (max-width: 980px){
-  .stats{grid-template-columns: repeat(2, minmax(0,1fr))}
-  .grid{grid-template-columns: repeat(2, minmax(0,1fr))}
-  .profile-wrap{grid-template-columns: 1fr}
-  .profile-photo img{height: 360px}
-}
-@media (max-width: 520px){
-  .hero-media{height: 250px}
-  .grid{grid-template-columns: 1fr}
-  .brand img{height: 34px}
-  .navlinks{gap:12px; font-size: 14px}
-}
+// Auto-run based on page
+document.addEventListener("DOMContentLoaded", ()=>{
+  const page = (document.body.dataset.page || "").trim();
+  if(page === "recruits") initRecruitsPage();
+  if(page === "profile") initProfilePage();
+});
