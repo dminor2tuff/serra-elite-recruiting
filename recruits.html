@@ -5,11 +5,20 @@
 <title>Serra Football Recruits</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- Font Awesome for Twitter/X icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
+:root {
+  --serra-red: #7a1419;
+  --serra-dark: #4a0d10;
+  --card-red: #6e1419;
+}
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: linear-gradient(180deg, #5a0f14, #7a1419);
+  background: linear-gradient(180deg, var(--serra-dark), var(--serra-red));
   color: #fff;
 }
 
@@ -19,31 +28,64 @@ body {
   padding: 24px;
 }
 
+h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 14px;
+}
+
+/* FILTER BUTTONS */
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(255,255,255,.15);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background: #fff;
+  color: var(--serra-red);
+}
+
+/* GRID */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 20px;
 }
 
+/* CARD */
 .card {
-  background: linear-gradient(180deg, #6e1419, #4a0d10);
-  border-radius: 16px;
+  background: linear-gradient(180deg, var(--card-red), var(--serra-dark));
+  border-radius: 18px;
   padding: 16px;
-  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  box-shadow: 0 10px 28px rgba(0,0,0,.35);
   text-align: center;
 }
 
+/* IMAGE */
 .card img {
   width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 14px;
   margin-bottom: 12px;
 }
 
+/* TEXT */
 .name {
   font-size: 1.15rem;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .meta {
@@ -51,24 +93,25 @@ body {
   opacity: .95;
 }
 
+/* ACTIONS */
 .actions {
-  margin-top: 10px;
+  margin-top: 12px;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .btn {
-  padding: 8px 14px;
-  border-radius: 20px;
+  padding: 8px 16px;
+  border-radius: 22px;
   font-size: .85rem;
-  font-weight: 700;
+  font-weight: 800;
   text-decoration: none;
 }
 
-.profile {
+.hudl {
   background: #fff;
-  color: #7a1419;
+  color: var(--serra-red);
 }
 
 .twitter {
@@ -79,50 +122,82 @@ body {
 </head>
 
 <body>
+
 <div class="container">
   <h1>Serra Football Prospects</h1>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <button class="filter-btn active" data-class="all">All</button>
+    <button class="filter-btn" data-class="2026">2026</button>
+    <button class="filter-btn" data-class="2027">2027</button>
+    <button class="filter-btn" data-class="2028">2028</button>
+    <button class="filter-btn" data-class="2029">2029</button>
+  </div>
+
   <div id="recruits" class="grid"></div>
 </div>
 
 <script>
 const CSV_URL = "PASTE_YOUR_CSV_LINK_HERE";
+let allPlayers = [];
 
 fetch(CSV_URL)
   .then(res => res.text())
   .then(csv => {
     const rows = csv.split("\n").slice(1);
-    const container = document.getElementById("recruits");
 
     rows.forEach(row => {
       if (!row.trim()) return;
-
       const cols = row.split(",");
 
-      const name = cols[0];
-      const grad = cols[1];
-      const pos = cols[2];
-      const hw = cols[3];
-      const hudl = cols[4];
-      const img = cols[6];
-      const twitter = cols[7];
+      allPlayers.push({
+        name: cols[0],
+        grad: cols[1],
+        pos: cols[2],
+        hw: cols[3],
+        hudl: cols[4],
+        image: cols[6],
+        twitter: cols[7]
+      });
+    });
 
+    renderPlayers("all");
+  });
+
+function renderPlayers(filter) {
+  const container = document.getElementById("recruits");
+  container.innerHTML = "";
+
+  allPlayers
+    .filter(p => filter === "all" || p.grad === filter)
+    .forEach(p => {
       const card = document.createElement("div");
       card.className = "card";
 
       card.innerHTML = `
-        <img src="${img}" onerror="this.src='images/placeholder_player.png'">
-        <div class="name">${name}</div>
-        <div class="meta">${pos} · Class of ${grad}</div>
-        <div class="meta">${hw}</div>
+        <img src="${p.image}" onerror="this.src='images/placeholder_player.png'">
+        <div class="name">${p.name}</div>
+        <div class="meta">${p.pos} · Class of ${p.grad}</div>
+        <div class="meta">${p.hw}</div>
         <div class="actions">
-          <a class="btn profile" href="${hudl}" target="_blank">HUDL</a>
-          ${twitter ? `<a class="btn twitter" href="${twitter}" target="_blank">Twitter</a>` : ""}
+          <a class="btn hudl" href="${p.hudl}" target="_blank">HUDL</a>
+          ${p.twitter ? `<a class="btn twitter" href="${p.twitter}" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>` : ""}
         </div>
       `;
-
       container.appendChild(card);
     });
+}
+
+/* FILTER BUTTON LOGIC */
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    renderPlayers(btn.dataset.class);
   });
+});
 </script>
+
 </body>
 </html>
