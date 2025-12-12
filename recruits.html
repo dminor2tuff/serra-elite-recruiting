@@ -1,72 +1,128 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Serra Recruits</title>
-
-<script>
-if (sessionStorage.getItem("serraCoachAccess") !== "true") {
-  window.location.href = "coach-login.html";
-}
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<title>Serra Football Recruits</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(180deg, #4a0000, #7a0000);
-  color: white;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #5a0f14, #7a1419);
+  color: #fff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 24px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
-  gap: 18px;
-  padding: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
 }
 
 .card {
-  background: rgba(0,0,0,.35);
-  border-radius: 20px;
-  padding: 14px;
+  background: linear-gradient(180deg, #6e1419, #4a0d10);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
   text-align: center;
 }
 
 .card img {
   width: 100%;
-  height: 260px;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
-  object-position: center 22%;
-  border-radius: 16px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.name {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.meta {
+  font-size: .9rem;
+  opacity: .95;
+}
+
+.actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: .85rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.profile {
+  background: #fff;
+  color: #7a1419;
+}
+
+.twitter {
+  background: #1da1f2;
+  color: #fff;
 }
 </style>
 </head>
 
 <body>
-
-<div class="grid" id="grid"></div>
+<div class="container">
+  <h1>Serra Football Prospects</h1>
+  <div id="recruits" class="grid"></div>
+</div>
 
 <script>
-const CSV =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const CSV_URL = "PASTE_YOUR_CSV_LINK_HERE";
 
-fetch(CSV).then(r=>r.text()).then(t=>{
-  const data = Papa.parse(t,{header:true}).data;
-  document.getElementById("grid").innerHTML =
-    data.map(p=>`
-      <div class="card">
-        <img src="${p.ImageURL || 'images/placeholder_player.png'}">
-        <h3>${p.Name}</h3>
-        <p>${p.Position} • Class of ${p.Class}</p>
-        <a href="profile.html?name=${encodeURIComponent(p.Name)}"
-           style="color:white;font-weight:700">View Profile</a>
-      </div>
-    `).join("");
-});
+fetch(CSV_URL)
+  .then(res => res.text())
+  .then(csv => {
+    const rows = csv.split("\n").slice(1);
+    const container = document.getElementById("recruits");
+
+    rows.forEach(row => {
+      if (!row.trim()) return;
+
+      const cols = row.split(",");
+
+      const name = cols[0];
+      const grad = cols[1];
+      const pos = cols[2];
+      const hw = cols[3];
+      const hudl = cols[4];
+      const img = cols[6];
+      const twitter = cols[7];
+
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <img src="${img}" onerror="this.src='images/placeholder_player.png'">
+        <div class="name">${name}</div>
+        <div class="meta">${pos} · Class of ${grad}</div>
+        <div class="meta">${hw}</div>
+        <div class="actions">
+          <a class="btn profile" href="${hudl}" target="_blank">HUDL</a>
+          ${twitter ? `<a class="btn twitter" href="${twitter}" target="_blank">Twitter</a>` : ""}
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  });
 </script>
-
 </body>
 </html>
