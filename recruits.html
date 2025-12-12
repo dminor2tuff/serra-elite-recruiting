@@ -5,7 +5,6 @@
 <title>Serra Football Recruits</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Password Protection -->
 <script>
 if (sessionStorage.getItem("serraCoachAccess") !== "true") {
   window.location.href = "coach-login.html";
@@ -15,202 +14,219 @@ if (sessionStorage.getItem("serraCoachAccess") !== "true") {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-:root {
-  --serra-red: #7a1419;
-  --serra-dark: #4a0d10;
+:root{
+  --serra-red:#7a1419;
+  --serra-dark:#4a0d10;
+  --serra-gold:#d4af37;
 }
 
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
-  background: linear-gradient(180deg, var(--serra-dark), var(--serra-red));
-  color: #fff;
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
+  background:linear-gradient(180deg,var(--serra-dark),var(--serra-red));
+  color:#fff;
 }
 
 /* TOP BAR */
-.topbar {
-  background: rgba(0,0,0,.45);
-  backdrop-filter: blur(6px);
-  padding: 12px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.topbar{
+  background:rgba(0,0,0,.45);
+  backdrop-filter:blur(6px);
+  padding:12px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:900;
+}
+.brand img{height:40px}
+.nav a{
+  color:white;
+  text-decoration:none;
+  font-weight:800;
+  margin-left:16px;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 900;
+/* HERO */
+.hero{
+  position:relative;
+  height:300px;
+  background:url("images/serra_action.png") center/cover no-repeat;
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(74,13,16,.35),rgba(74,13,16,.9));
+}
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:1200px;
+  margin:auto;
+  height:100%;
+  display:flex;
+  align-items:flex-end;
+  padding:28px;
+}
+.hero h1{
+  font-size:2.4rem;
+  font-weight:900;
+  margin:0;
+}
+.hero p{
+  margin-top:6px;
+  font-size:1.05rem;
+  max-width:620px;
+  opacity:.95;
 }
 
-.brand img {
-  height: 40px;
+/* STATS BAR */
+.stats{
+  background:#3e0c0f;
+  border-top:3px solid var(--serra-gold);
+  border-bottom:3px solid var(--serra-gold);
+}
+.stats-inner{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+  text-align:center;
+}
+.stat h2{
+  margin:0;
+  font-size:2rem;
+  font-weight:900;
+  color:var(--serra-gold);
+}
+.stat p{
+  margin-top:4px;
+  font-weight:800;
+  letter-spacing:.5px;
 }
 
-.nav a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 800;
-  margin-left: 16px;
+/* QR BLOCK */
+.qr-block{
+  max-width:1200px;
+  margin:30px auto 10px;
+  padding:18px;
+  background:rgba(0,0,0,.35);
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+.qr-block img{
+  width:110px;
+  height:110px;
+}
+.qr-block h3{
+  margin:0;
+  font-size:1.3rem;
+  font-weight:900;
+}
+.qr-block p{
+  margin-top:4px;
+  opacity:.9;
 }
 
-/* 🔥 ACTION HEADER */
-.hero {
-  position: relative;
-  height: 300px;
-  background: url("images/serra_action.png") center/cover no-repeat;
+/* CONTENT */
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:22px;
 }
 
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(74,13,16,.35),
-    rgba(74,13,16,.85)
-  );
+/* CONTROLS */
+.controls{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-bottom:22px;
 }
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 1200px;
-  margin: auto;
-  height: 100%;
-  display: flex;
-  align-items: flex-end;
-  padding: 28px;
+.controls input{
+  padding:12px 18px;
+  border-radius:999px;
+  border:none;
+  font-size:1rem;
 }
-
-.hero h1 {
-  font-size: 2.4rem;
-  font-weight: 900;
-  margin: 0;
+.filters{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
 }
-
-.hero p {
-  margin-top: 6px;
-  font-size: 1.05rem;
-  max-width: 600px;
-  opacity: .95;
+.filters button{
+  padding:8px 16px;
+  border-radius:999px;
+  border:none;
+  background:rgba(255,255,255,.18);
+  color:white;
+  font-weight:800;
+  cursor:pointer;
 }
-
-/* LAYOUT */
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 22px;
-}
-
-/* SEARCH + FILTERS */
-.controls {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 22px;
-}
-
-.controls input {
-  padding: 12px 18px;
-  border-radius: 999px;
-  border: none;
-  font-size: 1rem;
-}
-
-.filters {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.filters button {
-  padding: 8px 16px;
-  border-radius: 999px;
-  border: none;
-  background: rgba(255,255,255,.18);
-  color: #fff;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.filters button.active {
-  background: #fff;
-  color: var(--serra-red);
+.filters button.active{
+  background:white;
+  color:var(--serra-red);
 }
 
 /* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 18px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:18px;
 }
 
 /* CARD */
-.card {
-  background: rgba(0,0,0,.35);
-  border-radius: 18px;
-  padding: 14px;
-  text-align: center;
+.card{
+  background:rgba(0,0,0,.35);
+  border-radius:18px;
+  padding:14px;
+  text-align:center;
 }
-
-/* ✅ HEAD → WAIST CROP (FINAL) */
-.card img {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  object-position: 50% 30%;
-  transform: scale(1.06);
-  border-radius: 14px;
-  margin-bottom: 10px;
+.card img{
+  width:100%;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  object-position:50% 30%;
+  transform:scale(1.06);
+  border-radius:14px;
+  margin-bottom:10px;
 }
-
-/* TEXT */
-.name {
-  font-size: 1.15rem;
-  font-weight: 900;
+.name{
+  font-size:1.15rem;
+  font-weight:900;
 }
-
-.meta {
-  font-size: .92rem;
-  opacity: .95;
+.meta{
+  font-size:.92rem;
+  opacity:.95;
 }
-
-/* ACTIONS */
-.actions {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+.actions{
+  margin-top:10px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
 }
-
-.btn {
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: .85rem;
-  font-weight: 900;
-  text-decoration: none;
+.btn{
+  padding:8px 14px;
+  border-radius:999px;
+  font-size:.85rem;
+  font-weight:900;
+  text-decoration:none;
 }
-
-.profile {
-  background: #fff;
-  color: var(--serra-red);
-}
-
-.twitter {
-  background: #1da1f2;
-  color: #fff;
-}
+.profile{background:white;color:var(--serra-red)}
+.twitter{background:#1da1f2;color:white}
 
 /* MOBILE */
-@media (max-width: 768px) {
-  .hero {
-    height: 220px;
-  }
-  .hero h1 {
-    font-size: 1.9rem;
-  }
+@media(max-width:768px){
+  .hero{height:220px}
+  .hero h1{font-size:1.9rem}
+  .qr-block{flex-direction:column;text-align:center}
 }
 </style>
 </head>
@@ -219,7 +235,7 @@ body {
 
 <div class="topbar">
   <div class="brand">
-    <img src="images/serra_logo.png" alt="Serra Logo">
+    <img src="images/serra_logo.png">
     Serra Football Recruits
   </div>
   <div class="nav">
@@ -228,24 +244,35 @@ body {
   </div>
 </div>
 
-<!-- 🔥 ACTION HEADER -->
 <section class="hero">
   <div class="hero-content">
     <div>
       <h1>Serra Football Recruiting</h1>
-      <p>
-        A tradition of excellence. College-ready student-athletes developed
-        through discipline, academics, and elite competition.
-      </p>
+      <p>Developing college-ready student-athletes through discipline, academics, and elite competition.</p>
     </div>
   </div>
 </section>
+
+<section class="stats">
+  <div class="stats-inner">
+    <div class="stat"><h2>30+</h2><p>NFL Draft Picks</p></div>
+    <div class="stat"><h2>20+</h2><p>All-Americans</p></div>
+    <div class="stat"><h2>10+</h2><p>State Titles</p></div>
+  </div>
+</section>
+
+<div class="qr-block">
+  <img src="images/serra_main_qr.png">
+  <div>
+    <h3>Recruiting Portal Access</h3>
+    <p>Scan to view Serra Football recruiting profiles and verified prospect information.</p>
+  </div>
+</div>
 
 <div class="container">
 
   <div class="controls">
     <input id="search" placeholder="Search by name or position">
-
     <div class="filters">
       <button class="active" data-class="all">All</button>
       <button data-class="2026">2026</button>
@@ -259,86 +286,70 @@ body {
 </div>
 
 <script>
-const CSV_URL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const CSV_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+let players=[],activeClass="all";
 
-let players = [];
-let activeClass = "all";
-
-function logout() {
+function logout(){
   sessionStorage.removeItem("serraCoachAccess");
-  window.location.href = "coach-login.html";
+  window.location.href="coach-login.html";
 }
 
-function parseCSV(text) {
-  const rows = [];
-  let row = [], field = "", inQuotes = false;
-  for (let i = 0; i < text.length; i++) {
-    const c = text[i];
-    if (inQuotes) {
-      if (c === '"') {
-        if (text[i + 1] === '"') { field += '"'; i++; }
-        else inQuotes = false;
-      } else field += c;
-    } else {
-      if (c === '"') inQuotes = true;
-      else if (c === ',') { row.push(field); field = ""; }
-      else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ""; }
-      else if (c !== '\r') field += c;
+function parseCSV(t){
+  const r=[];let row=[],f="",q=false;
+  for(let i=0;i<t.length;i++){
+    let c=t[i];
+    if(q){
+      if(c=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}
+      else f+=c;
+    }else{
+      if(c=='"')q=true;
+      else if(c==','){row.push(f);f=""}
+      else if(c=='\n'){row.push(f);r.push(row);row=[];f=""}
+      else if(c!='\r')f+=c;
     }
   }
-  if (field || row.length) { row.push(field); rows.push(row); }
-  return rows;
+  if(f||row.length){row.push(f);r.push(row)}
+  return r;
 }
 
-fetch(CSV_URL)
-  .then(res => res.text())
-  .then(text => {
-    const rows = parseCSV(text);
-    const headers = rows[0];
+fetch(CSV_URL).then(r=>r.text()).then(t=>{
+  const rows=parseCSV(t),h=rows[0];
+  players=rows.slice(1).map(r=>{
+    let o={};h.forEach((x,i)=>o[x]=r[i]||"");return o;
+  }).filter(p=>p.Name);
+  render();
+});
 
-    players = rows.slice(1).map(r => {
-      let o = {};
-      headers.forEach((h, i) => o[h] = r[i] || "");
-      return o;
-    }).filter(p => p.Name);
-
-    render();
+function render(){
+  const g=document.getElementById("grid");
+  const q=document.getElementById("search").value.toLowerCase();
+  g.innerHTML="";
+  players.filter(p=>
+    (activeClass=="all"||p.Class==activeClass)&&
+    (`${p.Name} ${p.Position}`.toLowerCase().includes(q))
+  ).forEach(p=>{
+    g.innerHTML+=`
+      <div class="card">
+        <img src="${p.ImageURL||'images/placeholder_player.png'}"
+             onerror="this.src='images/placeholder_player.png'">
+        <div class="name">${p.Name}</div>
+        <div class="meta">${p.Position} · Class of ${p.Class}</div>
+        <div class="meta">${p.HeightWeight}</div>
+        <div class="actions">
+          <a class="btn profile" href="profile.html?name=${encodeURIComponent(p.Name)}">Profile</a>
+          ${p.Twitter?`<a class="btn twitter" href="${p.Twitter}" target="_blank">
+            <i class="fa-brands fa-x-twitter"></i></a>`:""}
+        </div>
+      </div>`;
   });
-
-function render() {
-  const grid = document.getElementById("grid");
-  const q = document.getElementById("search").value.toLowerCase();
-  grid.innerHTML = "";
-
-  players
-    .filter(p =>
-      (activeClass === "all" || p.Class === activeClass) &&
-      (`${p.Name} ${p.Position}`.toLowerCase().includes(q))
-    )
-    .forEach(p => {
-      grid.innerHTML += `
-        <div class="card">
-          <img src="${p.ImageURL || 'images/placeholder_player.png'}"
-               onerror="this.src='images/placeholder_player.png'">
-          <div class="name">${p.Name}</div>
-          <div class="meta">${p.Position} · Class of ${p.Class}</div>
-          <div class="meta">${p.HeightWeight}</div>
-          <div class="actions">
-            <a class="btn profile" href="profile.html?name=${encodeURIComponent(p.Name)}">Profile</a>
-            ${p.Twitter ? `<a class="btn twitter" href="${p.Twitter}" target="_blank">
-              <i class="fa-brands fa-x-twitter"></i></a>` : ""}
-          </div>
-        </div>`;
-    });
 }
 
-document.getElementById("search").addEventListener("input", render);
-document.querySelectorAll(".filters button").forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll(".filters button").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    activeClass = btn.dataset.class;
+document.getElementById("search").addEventListener("input",render);
+document.querySelectorAll(".filters button").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    activeClass=b.dataset.class;
     render();
   };
 });
