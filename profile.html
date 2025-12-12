@@ -1,134 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Serra Player Profile</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<script>
-if (sessionStorage.getItem("serraCoachAccess") !== "true") {
-  window.location.href = "coach-login.html";
-}
-</script>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<style>
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
-  background:linear-gradient(180deg,#4a0d10,#7a1419);
-  color:white;
-}
-.container{
-  max-width:900px;
-  margin:auto;
-  padding:24px;
-}
-.card{
-  background:rgba(0,0,0,.35);
-  border-radius:22px;
-  padding:20px;
-}
-.header{
-  display:grid;
-  grid-template-columns:320px 1fr;
-  gap:20px;
-}
-img{
-  width:100%;
-  aspect-ratio:3/4;
-  object-fit:cover;
-  object-position:50% 12%;
-  border-radius:18px;
-}
-h1{margin:0;font-size:2rem;font-weight:900}
-.meta{margin-top:6px}
-.actions{
-  margin-top:14px;
-  display:flex;
-  gap:12px;
-}
-.btn{
-  padding:10px 16px;
-  border-radius:999px;
-  font-weight:900;
-  border:none;
-  cursor:pointer;
-}
-.primary{background:white;color:#7a1419}
-.ghost{background:rgba(255,255,255,.2);color:white}
-.writeup{
-  margin-top:20px;
-  line-height:1.6;
-}
-@media(max-width:800px){
-  .header{grid-template-columns:1fr;text-align:center}
-}
-@media print{
-  body{background:white;color:black}
-  .actions{display:none}
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Player Profile</title>
+  <link rel="stylesheet" href="assets/styles.css" />
 </head>
-
-<body>
-
-<div class="container">
-  <div id="profile" class="card">Loading…</div>
-</div>
-
-<script>
-const CSV_URL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
-
-const name=new URLSearchParams(location.search).get("name");
-
-function parseCSV(t){
-  const r=[];let row=[],f="",q=false;
-  for(let i=0;i<t.length;i++){
-    let c=t[i];
-    if(q){
-      if(c=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}
-      else f+=c;
-    } else {
-      if(c=='"') q=true;
-      else if(c==','){row.push(f);f=""}
-      else if(c=='\n'){row.push(f);r.push(row);row=[];f=""}
-      else if(c!='\r') f+=c;
-    }
-  }
-  if(f||row.length){row.push(f);r.push(row)}
-  return r;
-}
-
-fetch(CSV_URL).then(r=>r.text()).then(text=>{
-  const rows=parseCSV(text);
-  const h=rows[0];
-  const data=rows.slice(1).map(r=>{
-    let o={};h.forEach((x,i)=>o[x]=r[i]||"");return o;
-  });
-  const p=data.find(x=>x.Name===name);
-  if(!p){document.getElementById("profile").innerHTML="Player not found";return;}
-  document.getElementById("profile").innerHTML=`
-    <div class="header">
-      <img src="${p.ImageURL||'images/placeholder_player.png'}"
-           onerror="this.src='images/placeholder_player.png'">
-      <div>
-        <h1>${p.Name}</h1>
-        <div class="meta">${p.Position} · Class of ${p.Class}</div>
-        <div class="meta">${p.HeightWeight} · GPA ${p.GPA}</div>
-        <div class="actions">
-          <button class="btn primary" onclick="window.print()">Download PDF</button>
-          ${p.Twitter?`<a class="btn ghost" href="${p.Twitter}" target="_blank">
-            <i class="fa-brands fa-x-twitter"></i></a>`:""}
-        </div>
+<body data-page="profile">
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">
+        <img src="images/serra_logo.png" alt="Serra" />
+      </div>
+      <div class="navlinks">
+        <a href="index.html">Home</a>
+        <a href="coach-login.html">Coach Login</a>
+        <a href="transcript-transfer.html">Transcript / Transfer</a>
+        <a class="active" href="recruits.html">Recruits</a>
       </div>
     </div>
-    <div class="writeup">${p.Writeup}</div>
-  `;
-});
-</script>
+  </div>
 
+  <div class="container">
+    <div id="profile"></div>
+    <div class="footer">serrafbrecruits.com</div>
+  </div>
+
+  <script src="assets/app.js"></script>
 </body>
 </html>
