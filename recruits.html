@@ -1,203 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <title>Serra Football Recruits</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<!-- Font Awesome for Twitter/X icon -->
+<script>
+  if (sessionStorage.getItem("serraCoachAccess") !== "true") {
+    window.location.href = "coach-login.html";
+  }
+</script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-:root {
-  --serra-red: #7a1419;
-  --serra-dark: #4a0d10;
-  --card-red: #6e1419;
-}
-
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: linear-gradient(180deg, var(--serra-dark), var(--serra-red));
-  color: #fff;
-}
-
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 24px;
-}
-
-h1 {
-  font-size: 2rem;
-  font-weight: 900;
-  margin-bottom: 14px;
-}
-
-/* FILTER BUTTONS */
-.filters {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-.filter-btn {
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: none;
-  background: rgba(255,255,255,.15);
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.filter-btn.active {
-  background: #fff;
-  color: var(--serra-red);
-}
-
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-}
-
-/* CARD */
-.card {
-  background: linear-gradient(180deg, var(--card-red), var(--serra-dark));
-  border-radius: 18px;
-  padding: 16px;
-  box-shadow: 0 10px 28px rgba(0,0,0,.35);
-  text-align: center;
-}
-
-/* IMAGE */
-.card img {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  border-radius: 14px;
-  margin-bottom: 12px;
-}
-
-/* TEXT */
-.name {
-  font-size: 1.15rem;
-  font-weight: 900;
-}
-
-.meta {
-  font-size: .9rem;
-  opacity: .95;
-}
-
-/* ACTIONS */
-.actions {
-  margin-top: 12px;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-}
-
-.btn {
-  padding: 8px 16px;
-  border-radius: 22px;
-  font-size: .85rem;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.hudl {
-  background: #fff;
-  color: var(--serra-red);
-}
-
-.twitter {
-  background: #1da1f2;
-  color: #fff;
-}
+  :root{--serra-red:#7a1419;--serra-dark:#4a0d10;--card-red:#6e1419;}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background:linear-gradient(180deg,var(--serra-dark),var(--serra-red));color:#fff;}
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(0,0,0,.35);backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:12px 16px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.04em}
+  .brand img{height:38px}
+  .navlinks{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .navlinks a{color:#fff;text-decoration:none;font-weight:800;opacity:.95}
+  .navlinks a:hover{opacity:1;text-decoration:underline}
+  .container{max-width:1200px;margin:auto;padding:18px 14px 60px;}
+  h1{font-size:2rem;font-weight:950;margin:8px 0 12px;}
+  .controls{display:flex;flex-direction:column;gap:12px;margin-bottom:18px;}
+  .searchrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .searchrow input{
+    flex:1;min-width:220px;padding:11px 14px;border-radius:999px;border:none;outline:none;
+    font-size:1rem;
+  }
+  .pillrow{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{
+    padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.45);
+    background:rgba(255,255,255,.10);color:#fff;font-weight:900;cursor:pointer;
+  }
+  .pill.active{background:#fff;color:var(--serra-red);border-color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;}
+  .card{
+    background:linear-gradient(180deg,var(--card-red),var(--serra-dark));
+    border-radius:18px;padding:14px;box-shadow:0 10px 28px rgba(0,0,0,.35);text-align:center;
+  }
+  .card img{
+    width:100%;aspect-ratio:3/4;object-fit:cover;object-position:50% 12%;
+    border-radius:14px;margin-bottom:10px;
+  }
+  .name{font-size:1.12rem;font-weight:950}
+  .meta{font-size:.92rem;opacity:.95;margin-top:2px}
+  .actions{margin-top:12px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+  .btn{
+    padding:8px 14px;border-radius:999px;font-size:.88rem;font-weight:950;
+    text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn.profile{background:#fff;color:var(--serra-red)}
+  .btn.hudl{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.55);color:#fff}
+  .btn.twitter{background:#1da1f2;color:#fff}
+  .empty{opacity:.9;margin-top:18px}
 </style>
 </head>
 
 <body>
-
-<div class="container">
-  <h1>Serra Football Prospects</h1>
-
-  <!-- FILTERS -->
-  <div class="filters">
-    <button class="filter-btn active" data-class="all">All</button>
-    <button class="filter-btn" data-class="2026">2026</button>
-    <button class="filter-btn" data-class="2027">2027</button>
-    <button class="filter-btn" data-class="2028">2028</button>
-    <button class="filter-btn" data-class="2029">2029</button>
+  <div class="topbar">
+    <div class="brand">
+      <img src="images/serra_logo.png" alt="Serra Logo" />
+      <div>Serra Football Recruits</div>
+    </div>
+    <div class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="#" onclick="logout();return false;">Logout</a>
+      <a href="admin.html" id="adminLink" style="display:none;">Admin Tools</a>
+    </div>
   </div>
 
-  <div id="recruits" class="grid"></div>
-</div>
+  <div class="container">
+    <h1>Prospects Board</h1>
+
+    <div class="controls">
+      <div class="searchrow">
+        <input id="search" type="text" placeholder="Search by name or position..." />
+      </div>
+
+      <div class="pillrow">
+        <button class="pill active" data-class="all">All</button>
+        <button class="pill" data-class="2026">2026</button>
+        <button class="pill" data-class="2027">2027</button>
+        <button class="pill" data-class="2028">2028</button>
+        <button class="pill" data-class="2029">2029</button>
+      </div>
+    </div>
+
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty" style="display:none;">No players match your filters.</div>
+  </div>
 
 <script>
-const CSV_URL = "PASTE_YOUR_CSV_LINK_HERE";
-let allPlayers = [];
+  // Show admin link only if admin session is true
+  if (sessionStorage.getItem("serraAdminAccess") === "true") {
+    document.getElementById("adminLink").style.display = "inline";
+  }
 
-fetch(CSV_URL)
-  .then(res => res.text())
-  .then(csv => {
-    const rows = csv.split("\n").slice(1);
+  function logout(){
+    sessionStorage.removeItem("serraCoachAccess");
+    sessionStorage.removeItem("serraAdminAccess");
+    window.location.href = "coach-login.html";
+  }
 
-    rows.forEach(row => {
-      if (!row.trim()) return;
-      const cols = row.split(",");
+  const CSV_URL = "PASTE_YOUR_CSV_LINK_HERE"; // <-- paste your published CSV URL
+  const grid = document.getElementById("grid");
+  const empty = document.getElementById("empty");
+  const searchInput = document.getElementById("search");
+  const pills = [...document.querySelectorAll(".pill")];
 
-      allPlayers.push({
-        name: cols[0],
-        grad: cols[1],
-        pos: cols[2],
-        hw: cols[3],
-        hudl: cols[4],
-        image: cols[6],
-        twitter: cols[7]
-      });
+  let activeClass = "all";
+  let searchText = "";
+  let sheetPlayers = [];
+  let mergedPlayers = [];
+
+  // Local override roster from Admin tools
+  function getLocalRoster(){
+    try{
+      return JSON.parse(localStorage.getItem("serraLocalRoster") || "[]");
+    }catch(e){
+      return [];
+    }
+  }
+
+  function normalizeTwitter(url){
+    if (!url) return "";
+    url = String(url).trim();
+    if (!url) return "";
+    if (url.startsWith("@")) return "https://twitter.com/" + url.slice(1);
+    if (url.startsWith("twitter.com/")) return "https://" + url;
+    if (url.startsWith("x.com/")) return "https://" + url;
+    return url;
+  }
+
+  // Small CSV parser that respects quotes
+  function parseCSV(text){
+    const rows=[]; let row=[]; let field=""; let inQuotes=false;
+    for (let i=0;i<text.length;i++){
+      const c=text[i];
+      if(inQuotes){
+        if(c === '"'){
+          if(text[i+1] === '"'){ field+='"'; i++; }
+          else inQuotes=false;
+        } else field+=c;
+      } else {
+        if(c === '"') inQuotes=true;
+        else if(c === ','){ row.push(field); field=""; }
+        else if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=""; }
+        else if(c !== '\r'){ field+=c; }
+      }
+    }
+    if(field.length || row.length){ row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  async function loadSheet(){
+    const res = await fetch(CSV_URL);
+    const text = await res.text();
+    const rows = parseCSV(text);
+    const headers = rows[0].map(h => (h||"").trim());
+    const data = rows.slice(1).filter(r => r.some(x => String(x||"").trim() !== ""));
+
+    sheetPlayers = data.map(r => {
+      const obj = {};
+      headers.forEach((h,idx)=> obj[h] = (r[idx]||"").trim());
+      return {
+        Name: obj.Name || "",
+        Class: obj.Class || "",
+        Position: obj.Position || "",
+        HeightWeight: obj.HeightWeight || "",
+        HUDL: obj.HUDL || "",
+        Writeup: obj.Writeup || "",
+        ImageURL: obj.ImageURL || "",
+        Twitter: normalizeTwitter(obj.Twitter || ""),
+        GPA: obj.GPA || "",
+        Offers: obj.Offers || "",
+        Status: obj.Status || "",
+        College: obj.College || "",
+        CollegeLogo: obj.CollegeLogo || ""
+      };
+    }).filter(p => p.Name);
+
+    mergeRosters();
+    render();
+  }
+
+  function mergeRosters(){
+    const local = getLocalRoster(); // admin-added players (browser local)
+    // Merge strategy: local entries override sheet by exact Name match
+    const byName = new Map();
+    sheetPlayers.forEach(p => byName.set(p.Name, p));
+    local.forEach(p => { if (p && p.Name) byName.set(p.Name, p); });
+    mergedPlayers = Array.from(byName.values());
+  }
+
+  function render(){
+    grid.innerHTML = "";
+    empty.style.display = "none";
+
+    const q = searchText.toLowerCase();
+    const list = mergedPlayers.filter(p => {
+      const matchClass = (activeClass === "all") || String(p.Class||"").trim() === activeClass;
+      const hay = `${p.Name} ${p.Position}`.toLowerCase();
+      const matchSearch = !q || hay.includes(q);
+      return matchClass && matchSearch;
     });
 
-    renderPlayers("all");
-  });
+    if (!list.length){
+      empty.style.display = "block";
+      return;
+    }
 
-function renderPlayers(filter) {
-  const container = document.getElementById("recruits");
-  container.innerHTML = "";
-
-  allPlayers
-    .filter(p => filter === "all" || p.grad === filter)
-    .forEach(p => {
+    list.forEach(p => {
       const card = document.createElement("div");
       card.className = "card";
+      const img = p.ImageURL || "images/placeholder_player.png";
+      const twitter = p.Twitter;
 
       card.innerHTML = `
-        <img src="${p.image}" onerror="this.src='images/placeholder_player.png'">
-        <div class="name">${p.name}</div>
-        <div class="meta">${p.pos} · Class of ${p.grad}</div>
-        <div class="meta">${p.hw}</div>
+        <img src="${img}" alt="${p.Name}" onerror="this.onerror=null;this.src='images/placeholder_player.png';">
+        <div class="name">${p.Name}</div>
+        <div class="meta">${p.Position || ""} · Class of ${p.Class || ""}</div>
+        <div class="meta">${p.HeightWeight || ""}</div>
+
         <div class="actions">
-          <a class="btn hudl" href="${p.hudl}" target="_blank">HUDL</a>
-          ${p.twitter ? `<a class="btn twitter" href="${p.twitter}" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>` : ""}
+          <a class="btn profile" href="profile.html?name=${encodeURIComponent(p.Name)}">View Profile</a>
+          ${p.HUDL ? `<a class="btn hudl" href="${p.HUDL}" target="_blank" rel="noopener">HUDL</a>` : ""}
+          ${twitter ? `<a class="btn twitter" href="${twitter}" target="_blank" rel="noopener" aria-label="Twitter/X">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>` : ""}
         </div>
       `;
-      container.appendChild(card);
+      grid.appendChild(card);
     });
-}
+  }
 
-/* FILTER BUTTON LOGIC */
-document.querySelectorAll(".filter-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    renderPlayers(btn.dataset.class);
+  pills.forEach(btn => {
+    btn.addEventListener("click", () => {
+      pills.forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      activeClass = btn.dataset.class;
+      render();
+    });
   });
-});
-</script>
 
+  searchInput.addEventListener("input", (e) => {
+    searchText = e.target.value || "";
+    render();
+  });
+
+  loadSheet().catch(err => {
+    console.error(err);
+    empty.style.display = "block";
+    empty.textContent = "Unable to load recruits. Check your CSV link and try again.";
+  });
+</script>
 </body>
 </html>
