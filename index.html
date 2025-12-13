@@ -1,71 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
   <title>Serra Football Recruiting</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 
-<div class="nav">
-  <div class="nav-inner">
-    <div class="brand">
-      <img src="images/serra-logo.png" alt="Serra" />
-      <h1>Serra Elite Recruiting</h1>
-    </div>
-    <div class="menu">
-      <a href="index.html">Home</a>
-      <a class="pill" href="login.html?next=recruits.html">Coach Login</a>
-      <a href="transcript.html">Transcript / Transfer</a>
-      <a class="pill" href="login.html?next=recruits.html">Recruits</a>
-    </div>
+<header class="topbar">
+  <div class="brand">
+    <img src="/images/serra-logo.png" class="logo">
+    <span>Serra Football Recruiting</span>
   </div>
-</div>
+  <nav>
+    <a href="/index.html">Home</a>
+    <a href="/coach.html">Coach Login</a>
+    <a href="/recruits.html">Recruits</a>
+  </nav>
+</header>
 
-<div class="container">
-  <div class="hero">
-    <img src="images/action_header.jpg" alt="Action" />
-    <div class="overlay"></div>
-    <div class="content">
-      <h2>Serra Football Recruiting</h2>
-      <p>Developing college-ready student-athletes through discipline, academics, and competition.</p>
-    </div>
+<section class="hero" style="background-image:url('/images/serra-action.jpg')">
+  <div class="hero-overlay">
+    <h1>Serra Football Recruiting</h1>
+    <p>Developing college-ready student-athletes through discipline, academics, and competition.</p>
   </div>
+</section>
 
-  <div class="stats">
-    <div class="stat"><div class="big">21</div><div class="small">NFL Draft Picks</div></div>
-    <div class="stat"><div class="big">30+</div><div class="small">All-Americans</div></div>
-    <div class="stat"><div class="big">5</div><div class="small">CIF Championships</div></div>
-    <div class="stat"><div class="big">4</div><div class="small">State Titles</div></div>
+<section class="stats">
+  <div>21<br><span>NFL Draft Picks</span></div>
+  <div>30+<br><span>All-Americans</span></div>
+  <div>5<br><span>CIF Championships</span></div>
+  <div>4<br><span>State Titles</span></div>
+</section>
+
+<section class="qr-section">
+  <img src="/images/serra-qr.png">
+  <div>
+    <h3>Recruiting Portal Access</h3>
+    <p>Scan to view Serra Football recruiting profiles and verified prospect information.</p>
   </div>
+</section>
 
-  <div class="qr-row">
-    <img src="images/qr.png" alt="QR" />
-    <div>
-      <h3>Recruiting Portal Access</h3>
-      <p>Scan to view Serra Football recruiting profiles and verified prospect information.</p>
-    </div>
-  </div>
+<section class="cta">
+  <a href="/coach.html" class="btn">College Coach Login</a>
+  <a href="/recruits.html" class="btn secondary">View All Recruits</a>
+</section>
 
-  <h3 class="section-title">Coach Access</h3>
-  <div class="tools">
-    <a class="btn" style="max-width:360px; display:inline-block; text-align:center;"
-       href="login.html?next=recruits.html">College Coach Login</a>
-    <a class="btn" style="max-width:360px; display:inline-block; text-align:center;"
-       href="login.html?next=recruits.html">View All Recruits</a>
-  </div>
+<section class="on3">
+  <h3>Serra Alumni (On3)</h3>
+  <a href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/" target="_blank">
+    View Verified Alumni on On3
+  </a>
+</section>
 
-  <h3 class="section-title">Serra Alumni (On3)</h3>
-  <div class="card">
-    <p class="meta" style="margin:0;">
-      <strong>Verified alumni credibility:</strong> view Serra’s football alumni on On3.
-    </p>
-    <a class="btn" style="max-width:420px; text-align:center; display:inline-block;"
-       href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/"
-       target="_blank">View Serra Alumni on On3</a>
-  </div>
-
-</div>
 </body>
 </html>
