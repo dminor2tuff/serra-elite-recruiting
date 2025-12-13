@@ -1,117 +1,88 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <base href="/serra-elite-recruiting/">
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Player Profile</title>
-  <link rel="stylesheet" href="styles.css?v=7">
+  <meta charset="UTF-8" />
+  <title>Player Profile | Serra Elite Recruiting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <script defer src="auth.js?v=7"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="images/serra_logo.png" />
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
 </head>
 
-<body onload="protectPage()">
+<body>
 
 <header class="site-header">
-  <div class="header-inner">
-    <div class="brand">
-      <img class="logo" src="images/serra-logo.png" alt="Serra Football" onerror="this.style.display='none'">
-      <span>Player Profile</span>
-    </div>
-    <div class="nav-links">
-      <a href="recruits.html">Back</a>
-      <button onclick="logout()">Logout</button>
-    </div>
+  <div class="header-left">
+    <img src="images/serra_logo.png" class="logo" />
+    <span>Serra Elite Recruiting</span>
   </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="recruits.html">Recruits</a>
+  </nav>
 </header>
 
-<div class="profile">
-  <div id="box" class="profile-card">Loading…</div>
-</div>
+<section class="profile-wrapper" id="profile">
+  <p>Loading player profile...</p>
+</section>
 
+<script src="auth.js"></script>
 <script>
 const CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-function slugify(name){
-  return (name||"").toLowerCase().trim().replace(/’/g,"'").replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+const params = new URLSearchParams(window.location.search);
+const playerName = decodeURIComponent(params.get("player") || "");
+
+if (!playerName) {
+  document.getElementById("profile").innerHTML = "<p>Player not found.</p>";
 }
-function val(x){ return (x ?? "").toString().trim(); }
-function fixTwitter(valx){
-  if(!valx) return "";
-  let v = String(valx).trim().replace(/^@/,"");
-  v = v.replace("https://x.com/","").replace("https://twitter.com/","").replace("twitter.com/","").replace("x.com/","");
-  return v ? `https://twitter.com/${v}` : "";
-}
-function fixHudl(v){ v = (v||"").trim(); return v.startsWith("http") ? v : ""; }
 
-const playerSlug = new URLSearchParams(location.search).get("player");
-const box = document.getElementById("box");
+fetch(CSV_URL)
+  .then(res => res.text())
+  .then(text => {
+    const rows = text.trim().split("\n").map(r => r.split(","));
+    const headers = rows.shift();
 
-Papa.parse(CSV_URL, {
-  download:true,
-  header:true,
-  skipEmptyLines:true,
-  complete:(res)=>{
-    const rows = (res.data||[]).map(r=>({
-      Name: val(r.Name),
-      Class: val(r.Class),
-      Position: val(r.Position),
-      HeightWeight: val(r.HeightWeight),
-      HUDL: val(r.HUDL),
-      Twitter: val(r.Twitter),
-      ImageURL: val(r.ImageURL),
-      Writeup: val(r.Writeup),
-      GPA: val(r.GPA),
-      Offers: val(r.Offers),
-      Status: val(r.Status),
-      College: val(r.College),
-      CollegeLogo: val(r.CollegeLogo || r.CollegeLogoURL)
-    })).filter(r=>r.Name);
+    const data = rows.map(row => {
+      const obj = {};
+      headers.forEach((h, i) => {
+        obj[h.trim()] = (row[i] || "").trim();
+      });
+      return obj;
+    });
 
-    const p = rows.find(r=>slugify(r.Name)===playerSlug);
-    if(!p){
-      box.innerHTML = "<h2>Player not found</h2><p class='meta'>Check the Name in Google Sheets and try again.</p>";
+    const player = data.find(p => p.Name === playerName);
+
+    if (!player) {
+      document.getElementById("profile").innerHTML = "<p>Player not found.</p>";
       return;
     }
 
-    const img = p.ImageURL || "images/placeholder.png";
-    const hudl = fixHudl(p.HUDL);
-    const tw = fixTwitter(p.Twitter);
-
-    box.innerHTML = `
-      <div class="profile-top">
-        <div class="profile-photo">
-          <img src="${img}" alt="${p.Name}" onerror="this.onerror=null;this.src='images/placeholder.png';">
+    document.getElementById("profile").innerHTML = `
+      <div class="profile-card">
+        <div class="image-crop profile-image">
+          <img src="images/${player.Image || "placeholder.png"}">
         </div>
-        <div>
-          <h2>${p.Name}</h2>
 
-          <div class="badges">
-            ${p.Position ? `<span class="badge">${p.Position}</span>` : ``}
-            ${p.Class ? `<span class="badge">Class of ${p.Class}</span>` : ``}
-            ${p.HeightWeight ? `<span class="badge">${p.HeightWeight}</span>` : ``}
-            ${p.GPA ? `<span class="badge">GPA ${p.GPA}</span>` : ``}
-            ${p.Status ? `<span class="badge">${p.Status}</span>` : ``}
-          </div>
+        <h1>${player.Name}</h1>
+        <h3>${player.Position}</h3>
 
-          <div class="icon-row">
-            ${tw ? `<a href="${tw}" target="_blank" rel="noopener" title="Twitter/X"><i class="fa-brands fa-x-twitter"></i></a>` : ``}
-            ${hudl ? `<a href="${hudl}" target="_blank" rel="noopener" title="Hudl"><i class="fa-solid fa-football"></i></a>` : ``}
-          </div>
+        <p><strong>Class:</strong> ${player.Class}</p>
+        <p><strong>Height / Weight:</strong> ${player.Height} / ${player.Weight} lbs</p>
 
-          ${p.Offers ? `<p class="meta"><strong>Offers:</strong> ${p.Offers}</p>` : ``}
-          ${p.College ? `<p class="meta"><strong>College:</strong> ${p.College}</p>` : ``}
-          ${p.CollegeLogo ? `<img src="${p.CollegeLogo}" alt="College Logo" style="height:44px;margin-top:10px" onerror="this.style.display='none'">` : ``}
+        <div class="socials">
+          ${player.Twitter ? `<a href="https://twitter.com/${player.Twitter.replace("@","")}" target="_blank"><i class="fab fa-twitter"></i></a>` : ""}
+          ${player.Hudl ? `<a href="${player.Hudl}" target="_blank"><i class="fas fa-football"></i></a>` : ""}
         </div>
       </div>
-
-      <div class="writeup">${p.Writeup || "Write-up coming soon."}</div>
     `;
-  }
-});
+  });
 </script>
 
 </body>
