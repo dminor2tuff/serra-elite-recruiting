@@ -1,43 +1,147 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Serra Football Recruits</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
+// recruits.js
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-<script src="auth.js"></script>
-<script>requireAuth();</script>
+const grid = document.getElementById("grid");
+const searchEl = document.getElementById("search");
+const filtersEl = document.getElementById("filters");
 
-<div class="nav">
-  <div class="nav-inner">
-    <div class="brand">
-      <img src="images/serra-logo.png" alt="Serra" />
-      <h1>Serra Football Recruits</h1>
-    </div>
-    <div class="menu">
-      <a href="index.html">Home</a>
-      <a href="transcript.html">Transcript / Transfer</a>
-      <button onclick="logout()">Logout</button>
-    </div>
-  </div>
-</div>
+let allPlayers = [];
+let activeClass = "All";
 
-<div class="container">
+function slugify(name) {
+  return (name || "")
+    .toLowerCase()
+    .trim()
+    .replace(/’/g,"'")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
 
-  <div class="tools">
-    <input class="search" id="search" placeholder="Search by name or position..." />
-    <div class="filters" id="filters"></div>
-  </div>
+function cleanTwitter(val) {
+  if (!val) return "";
+  let v = val.trim();
+  v = v.replace(/^@/, "");
+  v = v.replace("https://x.com/", "");
+  v = v.replace("https://twitter.com/", "");
+  v = v.replace("http://twitter.com/", "");
+  v = v.replace("twitter.com/", "");
+  v = v.replace("x.com/", "");
+  if (!v) return "";
+  return `https://twitter.com/${v}`;
+}
 
-  <div class="grid" id="grid"></div>
+function hudlIcon() {
+  // football icon
+  return `
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M12 3c5 0 9 4 9 9s-4 9-9 9-9-4-9-9 4-9 9-9Z" stroke="white" stroke-width="2"/>
+    <path d="M7.5 9.5c2 1 7 1 9 0M7.5 14.5c2-1 7-1 9 0" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  </svg>`;
+}
 
-</div>
+function twitterIcon() {
+  return `
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M16.9 3H20l-6.8 7.8L21 21h-6.2l-4.9-6.3L4.5 21H1.4l7.3-8.4L1 3h6.3l4.4 5.7L16.9 3Zm-1.1 16h1.7L7.1 4.9H5.3L15.8 19Z" fill="white"/>
+  </svg>`;
+}
 
-<!-- PapaParse fixes commas in Writeup -->
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="recruits.js"></script>
-</body>
-</html>
+function renderFilters(classes) {
+  const buttons = ["All", ...classes].map(cls => {
+    const active = cls === activeClass ? "active" : "";
+    return `<button class="filter-btn ${active}" data-cls="${cls}">${cls}</button>`;
+  }).join("");
+  filtersEl.innerHTML = buttons;
+
+  filtersEl.querySelectorAll("button").forEach(b => {
+    b.addEventListener("click", () => {
+      activeClass = b.dataset.cls;
+      renderFilters(classes);
+      render();
+    });
+  });
+}
+
+function matches(p, q) {
+  if (!q) return true;
+  const s = q.toLowerCase();
+  return (
+    (p.Name || "").toLowerCase().includes(s) ||
+    (p.Position || "").toLowerCase().includes(s) ||
+    (p.Class || "").toLowerCase().includes(s)
+  );
+}
+
+function render() {
+  const q = (searchEl.value || "").trim();
+  const filtered = allPlayers.filter(p => {
+    if (activeClass !== "All" && String(p.Class).trim() !== activeClass) return false;
+    return matches(p, q);
+  });
+
+  grid.innerHTML = filtered.map(p => {
+    const img = p.ImageURL || "images/placeholder_player.png";
+    const tw = cleanTwitter(p.Twitter);
+    const hudl = (p.HUDL || "").trim();
+    const playerSlug = slugify(p.Name);
+
+    return `
+      <div class="card">
+        <div class="photo-wrap">
+          <img src="${img}" alt="${p.Name || "Player"}"
+               onerror="this.onerror=null; this.src='images/placeholder_player.png';" />
+        </div>
+
+        <h3 class="name">${p.Name || ""}</h3>
+        <p class="meta">
+          <strong>${p.Position || ""}</strong><br/>
+          Class of ${p.Class || ""}<br/>
+          ${p.HeightWeight || ""}
+        </p>
+
+        <div class="icon-row">
+          ${tw ? `<a class="icon-btn" href="${tw}" target="_blank" title="Twitter/X">${twitterIcon()}</a>` : ""}
+          ${hudl ? `<a class="icon-btn" href="${hudl}" target="_blank" title="Hudl">${hudlIcon()}</a>` : ""}
+        </div>
+
+        <button class="btn" onclick="location.href='profile.html?player=${encodeURIComponent(playerSlug)}'">
+          View Profile
+        </button>
+      </div>
+    `;
+  }).join("");
+}
+
+Papa.parse(CSV_URL, {
+  download: true,
+  header: true,
+  skipEmptyLines: true,
+  complete: (res) => {
+    // Expected headers:
+    // Name, Class, Position, HeightWeight, HUDL, Writeup, ImageURL, Twitter, GPA, Offers, Status, College, CollegeLogo
+    allPlayers = res.data
+      .map(r => ({
+        Name: (r.Name || "").trim(),
+        Class: (r.Class || "").trim(),
+        Position: (r.Position || "").trim(),
+        HeightWeight: (r.HeightWeight || "").trim(),
+        HUDL: (r.HUDL || "").trim(),
+        Writeup: (r.Writeup || "").trim(),
+        ImageURL: (r.ImageURL || "").trim(),
+        Twitter: (r.Twitter || "").trim(),
+        GPA: (r.GPA || "").trim(),
+        Offers: (r.Offers || "").trim(),
+        Status: (r.Status || "").trim(),
+        College: (r.College || "").trim(),
+        CollegeLogo: (r.CollegeLogo || r.CollegeLogoURL || "").trim()
+      }))
+      .filter(p => p.Name);
+
+    const classes = [...new Set(allPlayers.map(p => String(p.Class).trim()).filter(Boolean))].sort();
+    renderFilters(classes);
+
+    render();
+  }
+});
+
+searchEl.addEventListener("input", render);
