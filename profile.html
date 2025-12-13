@@ -1,89 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Player Profile | Serra Elite Recruiting</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<div class="container profile">
+  <img id="photo">
+  <div>
+    <h2 id="name"></h2>
+    <p id="meta"></p>
 
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="images/serra_logo.png" />
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-  />
-</head>
-
-<body>
-
-<header class="site-header">
-  <div class="header-left">
-    <img src="images/serra_logo.png" class="logo" />
-    <span>Serra Elite Recruiting</span>
+    <div class="btn-row">
+      <a id="twitter" class="btn" target="_blank">Twitter</a>
+      <a id="hudl" class="btn primary" target="_blank">Hudl</a>
+    </div>
   </div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="recruits.html">Recruits</a>
-  </nav>
-</header>
+</div>
 
-<section class="profile-wrapper" id="profile">
-  <p>Loading player profile...</p>
-</section>
-
-<script src="auth.js"></script>
 <script>
-const CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const p = new URLSearchParams(location.search).get("player");
 
-const params = new URLSearchParams(window.location.search);
-const playerName = decodeURIComponent(params.get("player") || "");
+fetch("https://docs.google.com/spreadsheets/d/e/YOUR_SHEET_ID/pub?output=csv")
+.then(r => r.text())
+.then(csv => {
+  csv.split("\n").forEach(r => {
+    const c = r.split(",");
+    if (c[8] === p) {
+      document.getElementById("photo").src = c[5];
+      document.getElementById("name").textContent = c[0];
+      document.getElementById("meta").innerHTML =
+        `${c[1]}<br>Class of ${c[2]}<br>${c[3]} / ${c[4]}`;
 
-if (!playerName) {
-  document.getElementById("profile").innerHTML = "<p>Player not found.</p>";
-}
-
-fetch(CSV_URL)
-  .then(res => res.text())
-  .then(text => {
-    const rows = text.trim().split("\n").map(r => r.split(","));
-    const headers = rows.shift();
-
-    const data = rows.map(row => {
-      const obj = {};
-      headers.forEach((h, i) => {
-        obj[h.trim()] = (row[i] || "").trim();
-      });
-      return obj;
-    });
-
-    const player = data.find(p => p.Name === playerName);
-
-    if (!player) {
-      document.getElementById("profile").innerHTML = "<p>Player not found.</p>";
-      return;
+      document.getElementById("twitter").href =
+        "https://twitter.com/" + c[6].replace("@","");
+      document.getElementById("hudl").href = c[7];
     }
-
-    document.getElementById("profile").innerHTML = `
-      <div class="profile-card">
-        <div class="image-crop profile-image">
-          <img src="images/${player.Image || "placeholder.png"}">
-        </div>
-
-        <h1>${player.Name}</h1>
-        <h3>${player.Position}</h3>
-
-        <p><strong>Class:</strong> ${player.Class}</p>
-        <p><strong>Height / Weight:</strong> ${player.Height} / ${player.Weight} lbs</p>
-
-        <div class="socials">
-          ${player.Twitter ? `<a href="https://twitter.com/${player.Twitter.replace("@","")}" target="_blank"><i class="fab fa-twitter"></i></a>` : ""}
-          ${player.Hudl ? `<a href="${player.Hudl}" target="_blank"><i class="fas fa-football"></i></a>` : ""}
-        </div>
-      </div>
-    `;
   });
+});
 </script>
-
-</body>
-</html>
