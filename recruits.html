@@ -1,49 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <base href="/serra-elite-recruiting/">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Serra Football Recruits</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Serra Recruits</title>
+  <link rel="stylesheet" href="styles.css?v=7">
 
-  <link rel="stylesheet" href="styles.css">
-  <script src="auth.js"></script>
-  <script defer src="recruits.js"></script>
+  <!-- Icons (no /icons folder needed) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <script defer src="auth.js?v=7"></script>
+
+  <!-- PapaParse = CSV safe with commas -->
+  <script defer src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <script defer src="recruits.js?v=7"></script>
 </head>
 
 <body onload="protectPage()">
 
 <header class="site-header">
   <div class="header-inner">
-    <img src="images/serra-logo.png" class="logo" alt="Serra Football">
-    <nav class="nav-links">
+    <div class="brand">
+      <img class="logo" src="images/serra-logo.png" alt="Serra Football" onerror="this.style.display='none'">
+      <span>Recruits Board</span>
+    </div>
+    <div class="nav-links">
       <a href="index.html">Home</a>
-      <a href="#" onclick="logout()">Logout</a>
-    </nav>
+      <button onclick="logout()">Logout</button>
+    </div>
   </div>
 </header>
 
-<section class="recruits-hero">
-  <h1>Serra Football Recruits</h1>
-
-  <input
-    id="search"
-    type="text"
-    placeholder="Search name or position..."
-  />
-
-  <div class="filters">
-    <button data-class="All" class="active">All</button>
-    <button data-class="2026">2026</button>
-    <button data-class="2027">2027</button>
-    <button data-class="2028">2028</button>
-    <button data-class="2029">2029</button>
+<div class="container recruits-hero">
+  <div class="tools">
+    <input id="search" class="search" placeholder="Search name, position, class..." />
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-class="All">All</button>
+      <button class="filter-btn" data-class="2026">2026</button>
+      <button class="filter-btn" data-class="2027">2027</button>
+      <button class="filter-btn" data-class="2028">2028</button>
+      <button class="filter-btn" data-class="2029">2029</button>
+    </div>
   </div>
-</section>
 
-<section class="recruits-grid" id="grid">
-  <!-- Cards injected here -->
-</section>
+  <div id="grid" class="recruits-grid"></div>
+</div>
 
 </body>
 </html>
