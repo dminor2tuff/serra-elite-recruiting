@@ -1,35 +1,43 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
   <base href="/serra-elite-recruiting/">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Coach Login</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="auth.js"></script>
+  <link rel="stylesheet" href="styles.css?v=7">
+  <script defer src="auth.js?v=7"></script>
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-inner">
-    <img src="images/serra-logo.png" class="logo">
-    <nav class="nav-links">
+    <div class="brand">
+      <img class="logo" src="images/serra-logo.png" alt="Serra Football" onerror="this.style.display='none'">
+      <span>Coach Access</span>
+    </div>
+    <div class="nav-links">
       <a href="index.html">Home</a>
-    </nav>
+    </div>
   </div>
 </header>
 
-<section class="hero">
-  <div class="hero-overlay">
-    <h1>College Coach Login</h1>
-    <p>Authorized recruiting access only</p>
-
-    <input id="password" type="password" placeholder="Enter password"
-      style="padding:12px;width:260px;border-radius:8px;border:none">
-
-    <br><br>
-    <button class="btn" onclick="login()">Enter Recruiting Portal</button>
-  </div>
-</section>
+<div class="container">
+  <section class="hero" style="min-height:320px">
+    <img src="images/action-header.jpg" alt="" onerror="this.style.display='none'">
+    <div class="overlay"></div>
+    <div class="content">
+      <h1>College Coach Login</h1>
+      <p>Authorized recruiting access only.</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px">
+        <input id="password" type="password" placeholder="Enter password"
+          style="padding:14px 16px; border-radius:999px; border:none; font-weight:900; min-width:260px;">
+        <button class="btn primary" onclick="login()">Enter Portal</button>
+      </div>
+      <p style="margin-top:10px; color:var(--muted); font-weight:800;">If you don’t have access, contact Serra Football staff.</p>
+    </div>
+  </section>
+</div>
 
 </body>
 </html>
