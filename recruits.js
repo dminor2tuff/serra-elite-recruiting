@@ -1,35 +1,47 @@
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
 fetch(CSV_URL)
-  .then(r => r.text())
+  .then(res => res.text())
   .then(text => {
     const rows = text.split("\n").slice(1);
-    rows.forEach(r => {
-      const c = r.split(",");
-      if (!c[0]) return;
+    const grid = document.getElementById("grid");
 
-      const card = document.createElement("div");
-      card.className = "card";
+    rows.forEach(row => {
+      const cols = row.split(",");
 
-      const img = c[6] || "/images/placeholder.png";
-      const twitter = c[7] ? `https://twitter.com/${c[7].replace("@","")}` : "";
-      const hudl = c[8] || "";
+      if (!cols[0]) return;
 
-      card.innerHTML = `
-        <div class="img-wrap">
-          <img src="${img}" onerror="this.src='/images/placeholder.png'">
-        </div>
-        <h4>${c[0]}</h4>
-        <p>${c[1]}</p>
-        <p>Class of ${c[2]}</p>
-        <p>${c[3]} / ${c[4]}</p>
+      const [
+        name,
+        classYear,
+        position,
+        heightWeight,
+        hudl,
+        writeup,
+        imageUrl,
+        twitter
+      ] = cols;
 
-        <div class="icons">
-          ${twitter ? `<a href="${twitter}" target="_blank">🐦</a>` : ""}
-          ${hudl ? `<a href="${hudl}" target="_blank">🎥</a>` : ""}
+      const cleanTwitter = twitter?.replace(/@/g,"").replace("https://twitter.com/","").replace("https://x.com/","");
+
+      grid.innerHTML += `
+        <div class="recruit-card">
+          <div class="recruit-img">
+            <img src="${imageUrl}" onerror="this.src='/images/placeholder.png'">
+          </div>
+
+          <div class="recruit-name">${name}</div>
+          <div class="recruit-meta">${position}</div>
+          <div class="recruit-meta">Class of ${classYear}</div>
+          <div class="recruit-meta">${heightWeight}</div>
+
+          <div class="icon-row">
+            ${hudl ? `<a href="${hudl}" target="_blank"><img src="/icons/hudl.svg"></a>` : ``}
+            ${cleanTwitter ? `<a href="https://twitter.com/${cleanTwitter}" target="_blank"><img src="/icons/twitter.svg"></a>` : ``}
+          </div>
+
+          <a class="view-btn" href="profile.html?name=${encodeURIComponent(name)}">View Profile</a>
         </div>
       `;
-
-      document.getElementById("grid").appendChild(card);
     });
   });
