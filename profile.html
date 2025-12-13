@@ -1,64 +1,115 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Player Profile</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Player Profile</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
 
-<header class="site-header">
-  <a href="recruits.html">← Back to Recruits</a>
-</header>
+<script src="auth.js"></script>
+<script>requireAuth();</script>
 
-<section class="profile-container" id="profile"></section>
+<div class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <img src="images/serra-logo.png" alt="Serra" />
+      <h1>Player Profile</h1>
+    </div>
+    <div class="menu">
+      <a href="recruits.html">Back to Recruits</a>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+</div>
 
+<div class="profile">
+  <div id="profileBox" class="profile-card"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script>
-const csvURL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-const params = new URLSearchParams(window.location.search);
-const slug = params.get("player");
-
-function slugify(text) {
-  return text.toLowerCase()
-    .replace(/,/g,"")
-    .replace(/\s+/g,"-")
-    .replace(/[^a-z0-9-]/g,"");
+function slugify(name) {
+  return (name || "")
+    .toLowerCase()
+    .trim()
+    .replace(/’/g,"'")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 }
 
-fetch(csvURL)
-  .then(r => r.text())
-  .then(csv => {
-    const rows = csv.split("\n").slice(1);
-    const container = document.getElementById("profile");
+function cleanTwitter(val) {
+  if (!val) return "";
+  let v = val.trim();
+  v = v.replace(/^@/, "");
+  v = v.replace("https://x.com/", "");
+  v = v.replace("https://twitter.com/", "");
+  v = v.replace("http://twitter.com/", "");
+  v = v.replace("twitter.com/", "");
+  v = v.replace("x.com/", "");
+  if (!v) return "";
+  return `https://twitter.com/${v}`;
+}
 
-    rows.forEach(row => {
-      const c = row.split(",");
-      if (slugify(c[0]) !== slug) return;
+const params = new URLSearchParams(location.search);
+const wanted = params.get("player");
 
-      container.innerHTML = `
-        <img class="profile-photo"
-          src="${c[6]}"
-          onerror="this.src='images/placeholder_player.png'">
+Papa.parse(CSV_URL, {
+  download: true,
+  header: true,
+  skipEmptyLines: true,
+  complete: (res) => {
+    const rows = res.data;
+    const match = rows.find(r => slugify(r.Name) === wanted);
 
-        <h1>${c[0]}</h1>
-        <p><strong>${c[2]}</strong></p>
-        <p>Class of ${c[1]} • ${c[3]}</p>
-        <p><strong>GPA:</strong> ${c[8]}</p>
+    const box = document.getElementById("profileBox");
+    if (!match) {
+      box.innerHTML = "<h1>Player not found</h1><p class='meta'>Check the player link or the Name column in Google Sheets.</p>";
+      return;
+    }
 
-        <p>${c[5]}</p>
+    const img = (match.ImageURL || "").trim() || "images/placeholder_player.png";
+    const hudl = (match.HUDL || "").trim();
+    const tw = cleanTwitter(match.Twitter);
+    const collegeLogo = (match.CollegeLogo || match.CollegeLogoURL || "").trim();
+    const writeup = (match.Writeup || "").trim();
 
-        <div class="icon-links">
-          ${c[4] ? `<a href="${c[4]}" target="_blank">🎥 Hudl</a>` : ""}
-          ${c[7] ? `<a href="${c[7]}" target="_blank">🐦 Twitter</a>` : ""}
+    box.innerHTML = `
+      <div class="profile-top">
+        <div class="profile-photo">
+          <img src="${img}" alt="${match.Name}"
+               onerror="this.onerror=null; this.src='images/placeholder_player.png';" />
         </div>
-      `;
-    });
-  });
-</script>
 
+        <div>
+          <h1>${match.Name || ""}</h1>
+
+          <div class="badges">
+            ${match.Position ? `<div class="badge">${match.Position}</div>` : ""}
+            ${match.Class ? `<div class="badge">Class of ${match.Class}</div>` : ""}
+            ${match.HeightWeight ? `<div class="badge">${match.HeightWeight}</div>` : ""}
+            ${match.GPA ? `<div class="badge">GPA ${match.GPA}</div>` : ""}
+            ${match.Status ? `<div class="badge">${match.Status}</div>` : ""}
+          </div>
+
+          <div class="small-row">
+            ${tw ? `<a class="btn" style="max-width:220px; text-align:center; display:inline-block;" target="_blank" href="${tw}">Twitter / X</a>` : ""}
+            ${hudl ? `<a class="btn" style="max-width:220px; text-align:center; display:inline-block;" target="_blank" href="${hudl}">Hudl</a>` : ""}
+          </div>
+
+          ${match.Offers ? `<p class="meta" style="margin-top:12px;"><strong>Offers:</strong> ${match.Offers}</p>` : ""}
+          ${match.College ? `<p class="meta"><strong>College:</strong> ${match.College}</p>` : ""}
+          ${collegeLogo ? `<img src="${collegeLogo}" alt="College Logo" style="margin-top:10px; height:46px; width:auto;" />` : ""}
+        </div>
+      </div>
+
+      <div class="writeup">${writeup || "Write-up coming soon."}</div>
+    `;
+  }
+});
+</script>
 </body>
 </html>
