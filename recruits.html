@@ -1,51 +1,269 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Serra Football Prospects</title>
-  <link rel="stylesheet" href="assets/styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Serra Football Recruits</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --serra-red: #7b0f16;
+  --serra-dark: #4e0b10;
+  --card-bg: rgba(255,255,255,0.08);
+  --text-main: #ffffff;
+  --text-muted: #e0cfcf;
+  --accent: #f5c400;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(180deg, var(--serra-dark), var(--serra-red));
+  color: var(--text-main);
+}
+
+/* ================= NAV ================= */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(6px);
+}
+
+nav img {
+  height: 38px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 18px;
+}
+
+/* ================= HEADER ================= */
+.header {
+  text-align: center;
+  padding: 30px 16px 20px;
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.header input {
+  width: 100%;
+  max-width: 420px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: none;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+/* ================= FILTERS ================= */
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filters button {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.filters button.active {
+  background: var(--accent);
+  color: #000;
+}
+
+/* ================= GRID ================= */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 16px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* ================= CARD ================= */
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 14px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+/* IMAGE CROP FIX */
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  object-position: center top; /* 🔥 HEAD → CHEST */
+  border-radius: 12px;
+  background: #000;
+}
+
+/* ================= TEXT ================= */
+.card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 10px 0 4px;
+}
+
+.card .meta {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.card .icons {
+  margin-top: 8px;
+}
+
+.card .icons a {
+  margin: 0 6px;
+  display: inline-block;
+}
+
+.card .icons img {
+  width: 20px;
+  height: 20px;
+}
+
+/* ================= BUTTON ================= */
+.card a.profile-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 14px;
+  background: #fff;
+  color: #000;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* ================= MOBILE TUNING ================= */
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 22px;
+  }
+
+  .card img {
+    height: 180px;
+  }
+}
+</style>
 </head>
-<body data-page="recruits">
-  <div class="topbar">
-    <div class="nav">
-      <div class="brand">
-        <img src="images/serra_logo.png" alt="Serra" />
-      </div>
-      <div class="navlinks">
-        <a href="index.html">Home</a>
-        <a href="coach-login.html">Coach Login</a>
-        <a href="transcript-transfer.html">Transcript / Transfer</a>
-        <a class="active" href="recruits.html">Recruits</a>
-      </div>
-    </div>
+
+<body>
+
+<!-- NAV -->
+<nav>
+  <img src="images/serra_logo.png" alt="Serra Logo">
+  <div>
+    <a href="index.html">Home</a>
+    <a href="recruits.html">Recruits</a>
   </div>
+</nav>
 
-  <div class="container">
-    <div class="section-title">Serra Football Prospects</div>
-
-    <div class="tools">
-      <div class="search">
-        <input id="search" placeholder="Search by name or position" />
-      </div>
-
-      <div class="filters">
-        <button class="pill active" data-cls="All">All</button>
-        <button class="pill" data-cls="2026">2026</button>
-        <button class="pill" data-cls="2027">2027</button>
-        <button class="pill" data-cls="2028">2028</button>
-        <button class="pill" data-cls="2029">2029</button>
-        <button class="pill" onclick="logout()">Log Out</button>
-      </div>
-    </div>
-
-    <div class="notice" id="count" style="margin-top:10px;"></div>
-
-    <div id="grid" class="grid"></div>
-
-    <div class="footer">serrafbrecruits.com</div>
+<!-- HEADER -->
+<section class="header">
+  <h1>Serra Football Recruits</h1>
+  <input id="search" placeholder="Search by name or position..." />
+  <div class="filters">
+    <button class="active" onclick="filterClass('All')">All</button>
+    <button onclick="filterClass('2026')">2026</button>
+    <button onclick="filterClass('2027')">2027</button>
+    <button onclick="filterClass('2028')">2028</button>
+    <button onclick="filterClass('2029')">2029</button>
   </div>
+</section>
 
-  <script src="assets/app.js"></script>
+<!-- GRID -->
+<section class="grid" id="grid"></section>
+
+<script>
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+
+let players = [];
+let currentClass = "All";
+
+fetch(CSV_URL)
+  .then(res => res.text())
+  .then(text => {
+    const rows = text.split("\n").slice(1);
+    players = rows.map(r => {
+      const c = r.split(",");
+      return {
+        name: c[0],
+        class: c[1],
+        position: c[2],
+        heightWeight: c[3],
+        hudl: c[4],
+        image: c[6],
+        twitter: c[7]
+      };
+    });
+    render();
+  });
+
+function render() {
+  const grid = document.getElementById("grid");
+  const search = document.getElementById("search").value.toLowerCase();
+  grid.innerHTML = "";
+
+  players
+    .filter(p =>
+      (currentClass === "All" || p.class === currentClass) &&
+      (p.name.toLowerCase().includes(search) || p.position.toLowerCase().includes(search))
+    )
+    .forEach(p => {
+      grid.innerHTML += `
+      <div class="card">
+        <img src="${p.image}" onerror="this.src='images/placeholder_player.png'">
+        <h3>${p.name}</h3>
+        <div class="meta">${p.position}<br>Class of ${p.class}<br>${p.heightWeight}</div>
+        <div class="icons">
+          ${p.twitter ? `<a href="${p.twitter}" target="_blank"><img src="images/twitter.svg"></a>` : ""}
+          ${p.hudl ? `<a href="${p.hudl}" target="_blank"><img src="images/hudl.svg"></a>` : ""}
+        </div>
+        <a class="profile-btn" href="#">View Profile</a>
+      </div>`;
+    });
+}
+
+function filterClass(cls) {
+  currentClass = cls;
+  document.querySelectorAll(".filters button").forEach(b => b.classList.remove("active"));
+  event.target.classList.add("active");
+  render();
+}
+
+document.getElementById("search").addEventListener("input", render);
+</script>
+
 </body>
 </html>
