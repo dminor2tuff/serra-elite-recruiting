@@ -1,119 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Player Profile</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-body{
-  margin:0;
-  font-family:'Inter',sans-serif;
-  background:linear-gradient(180deg,#3f0c10,#7a1419);
-  color:#fff;
-}
-
-.container{
-  max-width:900px;
-  margin:auto;
-  padding:24px 16px 60px;
-}
-
-.card{
-  background:rgba(0,0,0,.35);
-  border-radius:18px;
-  padding:24px;
-  text-align:center;
-}
-
-.photo{
-  width:100%;
-  max-width:360px;
-  height:440px;
-  object-fit:cover;
-  object-position:50% 18%;
-  border-radius:14px;
-}
-
-h1{margin:16px 0 6px;font-size:1.9rem}
-.sub{opacity:.9;font-weight:600}
-
-.badges{
-  margin:14px 0;
-  display:flex;
-  gap:10px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-.badge{
-  padding:6px 14px;
-  border-radius:999px;
-  font-size:.8rem;
-  font-weight:700;
-}
-.offer{background:#f5c400;color:#000}
-.status{background:#1e7cff}
-
-.actions{
-  margin:18px 0;
-  display:flex;
-  justify-content:center;
-  gap:16px;
-}
-.actions a{
-  display:flex;
-  gap:8px;
-  align-items:center;
-  padding:10px 16px;
-  border-radius:999px;
-  background:rgba(255,255,255,.15);
-  color:#fff;
-  text-decoration:none;
-  font-weight:700;
-}
-.actions img{width:18px}
-
-.writeup{
-  margin-top:18px;
-  line-height:1.7;
-  font-size:1rem;
-}
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-<div class="container">
-  <div class="card">
-    <img id="photo" class="photo">
-    <h1 id="name"></h1>
-    <div class="sub" id="meta"></div>
 
-    <div class="badges">
-      <span id="offers" class="badge offer"></span>
-      <span id="status" class="badge status"></span>
-    </div>
+<header class="site-header">
+  <a href="recruits.html">← Back to Recruits</a>
+</header>
 
-    <div class="actions">
-      <a id="hudl" target="_blank"><img src="icons/hudl.svg">Hudl</a>
-      <a id="twitter" target="_blank"><img src="icons/twitter.svg">Twitter</a>
-    </div>
-
-    <div id="writeup" class="writeup"></div>
-  </div>
-</div>
+<section class="profile-container" id="profile"></section>
 
 <script>
-const p=JSON.parse(localStorage.getItem("player"));
-photo.src=p.ImageURL||"images/placeholder_player.png";
-name.textContent=p.Name;
-meta.textContent=`${p.Position} • Class ${p.Class} • ${p.HeightWeight} • GPA ${p.GPA}`;
-offers.textContent=p.Offers?`${p.Offers} Offers`:"No Offers";
-status.textContent=p.Status||"Uncommitted";
-hudl.href=p.HUDL;
-twitter.href=p.Twitter;
-writeup.textContent=p.Writeup;
+const csvURL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+
+const params = new URLSearchParams(window.location.search);
+const slug = params.get("player");
+
+function slugify(text) {
+  return text.toLowerCase()
+    .replace(/,/g,"")
+    .replace(/\s+/g,"-")
+    .replace(/[^a-z0-9-]/g,"");
+}
+
+fetch(csvURL)
+  .then(r => r.text())
+  .then(csv => {
+    const rows = csv.split("\n").slice(1);
+    const container = document.getElementById("profile");
+
+    rows.forEach(row => {
+      const c = row.split(",");
+      if (slugify(c[0]) !== slug) return;
+
+      container.innerHTML = `
+        <img class="profile-photo"
+          src="${c[6]}"
+          onerror="this.src='images/placeholder_player.png'">
+
+        <h1>${c[0]}</h1>
+        <p><strong>${c[2]}</strong></p>
+        <p>Class of ${c[1]} • ${c[3]}</p>
+        <p><strong>GPA:</strong> ${c[8]}</p>
+
+        <p>${c[5]}</p>
+
+        <div class="icon-links">
+          ${c[4] ? `<a href="${c[4]}" target="_blank">🎥 Hudl</a>` : ""}
+          ${c[7] ? `<a href="${c[7]}" target="_blank">🐦 Twitter</a>` : ""}
+        </div>
+      `;
+    });
+  });
 </script>
+
 </body>
 </html>
