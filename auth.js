@@ -1,22 +1,23 @@
 const PASSWORD = "Serrafb";
 
 function login() {
-  const input = document.getElementById("password").value;
-  if (input === PASSWORD) {
+  const val = (document.getElementById("password")?.value || "").trim();
+  if (val === PASSWORD) {
     localStorage.setItem("serra_auth", "true");
-    window.location.href = "recruits.html";
+    const next = new URLSearchParams(location.search).get("next") || "recruits.html";
+    location.href = next;
   } else {
     alert("Incorrect password");
   }
 }
 
 function protectPage() {
-  if (!localStorage.getItem("serra_auth")) {
-    window.location.href = "coach-login.html";
+  if (localStorage.getItem("serra_auth") !== "true") {
+    location.href = "coach-login.html?next=" + encodeURIComponent(location.pathname.split("/").pop() || "recruits.html");
   }
 }
 
 function logout() {
   localStorage.removeItem("serra_auth");
-  window.location.href = "index.html";
+  location.href = "index.html";
 }
