@@ -1,161 +1,59 @@
+/* =====================================================
+   ROOT / THEME
+===================================================== */
 :root {
-  --serra-red:#7a1f1f;
-  --gold:#f5c400;
-  --bg:#1b0d0d;
-  --card:#6a1e1e;
+  --bg: #0e0e11;
+  --panel: #1b1b22;
+  --panel-soft: #24242c;
+  --primary: #b71c1c;
+  --primary-dark: #8e1515;
+  --text: #f5f5f7;
+  --muted: #b5b5c0;
+  --border: rgba(255,255,255,.08);
 }
 
-* {
-  box-sizing:border-box;
-  font-family: Inter, system-ui, sans-serif;
-}
-
-body {
-  margin:0;
-  background:linear-gradient(#2a0f0f,#120606);
-  color:#fff;
-}
-
-.top-nav {
-  display:flex;
-  justify-content:space-between;
-  padding:14px 24px;
-  background:#140707;
-  align-items:center;
-}
-
-.logo {
-  height:40px;
-  margin-right:10px;
-}
-
-.top-nav a {
-  color:#fff;
-  margin-left:20px;
-  text-decoration:none;
-  font-weight:600;
-}
-
-.recruits-header {
-  text-align:center;
-  padding:40px 20px;
-}
-
-.recruits-header input {
-  width:90%;
-  max-width:420px;
-  padding:12px;
-  border-radius:30px;
-  border:none;
-  margin:15px 0;
-}
-
-.filters button {
-  margin:6px;
-  padding:8px 16px;
-  border-radius:20px;
-  border:none;
-  background:#3a1313;
-  color:#fff;
-  cursor:pointer;
-}
-
-.filters .active {
-  background:var(--gold);
-  color:#000;
-}
-
-.recruit-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:20px;
-  padding:30px;
-}
-
-.recruit-card {
-  background:var(--card);
-  border-radius:18px;
-  padding:18px;
-  text-align:center;
-}
-
-.photo-wrap {
-  width:100%;
-  height:260px;
-  overflow:hidden;
-  border-radius:14px;
-}
-
-.photo-wrap img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:50% 30%; /* 🔥 HEAD TO WAIST CROP */
-}
-
-.recruit-card h3 {
-  margin:12px 0 4px;
-}
-
-.pos {
-  font-weight:700;
-}
-
-.meta {
-  font-size:14px;
-  opacity:.9;
-}
-
-.icons img {
-  height:22px;
-  margin:8px;
-}
-
-.profile-btn {
-  display:block;
-  margin-top:12px;
-  padding:10px;
-  background:#eee;
-  color:#000;
-  border-radius:20px;
-  text-decoration:none;
-  font-weight:700;
-}
-
-.footer {
-  padding:20px;
-  text-align:center;
-  opacity:.7;
-}/* -----------------------------
-   GLOBAL RESET / BASE
------------------------------ */
+/* =====================================================
+   RESET
+===================================================== */
 * {
   box-sizing: border-box;
 }
 
-body {
+html, body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-  background: #0f0f12;
-  color: #f5f5f5;
+  padding: 0;
 }
 
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, Inter, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* =====================================================
+   LINKS
+===================================================== */
 a {
-  color: #d9d9d9;
+  color: var(--text);
   text-decoration: none;
   font-weight: 600;
 }
 
 a:hover {
-  color: #c62828;
+  color: var(--primary);
 }
 
-/* -----------------------------
+/* =====================================================
    HEADER
------------------------------ */
+===================================================== */
 .site-header {
-  background: #1a1a1f;
-  border-bottom: 1px solid rgba(255,255,255,.08);
+  background: #14141a;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
 
 .header-inner {
@@ -172,22 +70,44 @@ a:hover {
   align-items: center;
   gap: 12px;
   font-weight: 900;
-  letter-spacing: .5px;
+  letter-spacing: .6px;
 }
 
 .logo {
-  height: 42px;
+  height: 44px;
+  width: auto;
 }
 
-/* -----------------------------
+.nav-links {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.nav-links a.primary {
+  background: var(--primary);
+  padding: 8px 16px;
+  border-radius: 999px;
+}
+
+/* =====================================================
+   LAYOUT
+===================================================== */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* =====================================================
    HERO
------------------------------ */
+===================================================== */
 .hero {
   position: relative;
-  height: 420px;
+  height: 460px;
+  margin-top: 18px;
+  border-radius: 16px;
   overflow: hidden;
-  border-radius: 14px;
-  margin-top: 20px;
 }
 
 .hero img {
@@ -202,66 +122,66 @@ a:hover {
   background: linear-gradient(
     to top,
     rgba(0,0,0,.85),
-    rgba(0,0,0,.25)
+    rgba(0,0,0,.35)
   );
 }
 
 .hero .content {
   position: absolute;
-  bottom: 30px;
-  left: 30px;
+  bottom: 36px;
+  left: 36px;
+  max-width: 640px;
   z-index: 2;
-  max-width: 600px;
 }
 
 .hero h1 {
-  font-size: 42px;
+  font-size: 44px;
   margin: 0 0 10px;
 }
 
 .hero p {
   font-size: 16px;
-  opacity: .9;
+  color: var(--muted);
 }
 
-/* -----------------------------
+/* =====================================================
    STATS
------------------------------ */
+===================================================== */
 .stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 16px;
-  margin: 30px 0;
+  margin: 32px 0;
 }
 
 .stat {
-  background: #1c1c22;
-  padding: 20px;
-  border-radius: 12px;
+  background: var(--panel);
+  padding: 22px;
+  border-radius: 14px;
   text-align: center;
 }
 
 .stat .big {
-  font-size: 32px;
+  font-size: 34px;
   font-weight: 900;
-  color: #c62828;
+  color: var(--primary);
 }
 
 .stat .small {
   font-size: 13px;
-  opacity: .85;
+  color: var(--muted);
 }
 
-/* -----------------------------
+/* =====================================================
    QR SECTION
------------------------------ */
+===================================================== */
 .qr {
   display: flex;
   align-items: center;
   gap: 24px;
-  background: #1c1c22;
-  padding: 20px;
-  border-radius: 12px;
+  background: var(--panel);
+  padding: 22px;
+  border-radius: 14px;
 }
 
 .qr img {
@@ -270,34 +190,159 @@ a:hover {
   object-fit: contain;
 }
 
-/* -----------------------------
+/* =====================================================
    BUTTONS
------------------------------ */
+===================================================== */
 .btn-row {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  margin-top: 24px;
+  margin-top: 26px;
 }
 
 .btn {
-  padding: 12px 20px;
+  background: var(--panel-soft);
+  padding: 12px 22px;
   border-radius: 999px;
-  background: #2a2a32;
-  color: white;
+  font-weight: 700;
 }
 
 .btn.primary {
-  background: #c62828;
+  background: var(--primary);
 }
 
 .btn:hover {
   opacity: .9;
 }
 
-/* -----------------------------
+/* =====================================================
+   RECRUITS GRID
+===================================================== */
+.recruits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 22px;
+  margin-top: 30px;
+}
+
+.player-card {
+  background: var(--panel);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.player-photo {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;         /* ✅ HEAD TO WAIST FIX */
+  object-position: top;
+}
+
+.player-info {
+  padding: 16px;
+  text-align: center;
+}
+
+.player-info h3 {
+  margin: 8px 0 4px;
+  font-size: 18px;
+}
+
+.player-info .meta {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.player-actions {
+  display: flex;
+  gap: 10px;
+  padding: 14px;
+  justify-content: center;
+}
+
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  background: var(--panel-soft);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+/* =====================================================
+   PROFILE PAGE
+===================================================== */
+.profile {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+  margin-top: 30px;
+}
+
+.profile img {
+  width: 100%;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.profile h2 {
+  margin-top: 0;
+}
+
+/* =====================================================
+   FORMS / LOGIN
+===================================================== */
+form {
+  max-width: 420px;
+  margin: 60px auto;
+  background: var(--panel);
+  padding: 28px;
+  border-radius: 16px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 10px;
+  border: none;
+  background: var(--panel-soft);
+  color: var(--text);
+}
+
+button {
+  width: 100%;
+  margin-top: 18px;
+  padding: 12px;
+  background: var(--primary);
+  border: none;
+  border-radius: 999px;
+  font-weight: 800;
+  color: white;
+  cursor: pointer;
+}
+
+/* =====================================================
+   FOOTER / MISC
+===================================================== */
+footer {
+  margin: 60px 0 30px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* =====================================================
    MOBILE
------------------------------ */
+===================================================== */
 @media (max-width: 768px) {
   .hero {
     height: 300px;
@@ -310,5 +355,13 @@ a:hover {
   .qr {
     flex-direction: column;
     text-align: center;
+  }
+
+  .profile {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    display: none;
   }
 }
