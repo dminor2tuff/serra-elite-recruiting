@@ -261,3 +261,55 @@ a{color:inherit; text-decoration:none}
   .profile-top{grid-template-columns:1fr}
   .hero h1{font-size:34px}
 }
+/* GRID */
+.recruit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+  padding: 30px;
+}
+
+/* CARD */
+.recruit-card {
+  background: #6e1b1b;
+  color: #fff;
+  border-radius: 18px;
+  padding: 16px;
+  text-align: center;
+}
+
+/* IMAGE CROP – HEAD TO WAIST */
+.img-wrap {
+  height: 300px;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+}
+
+/* ICONS */
+.icons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 10px 0;
+}
+
+.icons a {
+  color: #fff;
+  font-size: 20px;
+}
+
+button {
+  background: #fff;
+  color: #000;
+  border-radius: 30px;
+  padding: 8px 18px;
+  border: none;
+  cursor: pointer;
+}
