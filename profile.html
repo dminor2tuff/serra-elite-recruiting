@@ -1,31 +1,143 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Player Profile</title>
-  <link rel="stylesheet" href="assets/styles.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Player Profile</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:linear-gradient(180deg,#3f0c10,#7a1419);
+  color:#fff;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:24px 16px 60px;
+}
+
+.profile-card{
+  background:rgba(0,0,0,.35);
+  border-radius:18px;
+  padding:24px;
+}
+
+.profile-img{
+  width:100%;
+  max-width:360px;
+  height:440px;
+  object-fit:cover;
+  object-position:50% 18%;
+  border-radius:14px;
+  display:block;
+  margin:auto;
+}
+
+h1{
+  margin:18px 0 6px;
+  font-size:1.9rem;
+  font-weight:800;
+}
+
+.sub{
+  font-weight:600;
+  opacity:.9;
+}
+
+.badges{
+  margin:14px 0;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.badge{
+  padding:6px 14px;
+  border-radius:999px;
+  font-size:.8rem;
+  font-weight:700;
+}
+
+.offer{background:#f5c400;color:#000}
+.status{background:#1e7cff}
+
+.actions{
+  margin:18px 0;
+  display:flex;
+  gap:16px;
+}
+
+.actions a{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(255,255,255,.15);
+  padding:10px 16px;
+  border-radius:999px;
+  color:#fff;
+  text-decoration:none;
+  font-weight:700;
+}
+
+.actions img{width:18px}
+
+.writeup{
+  margin-top:18px;
+  line-height:1.7;
+  font-size:1rem;
+}
+</style>
 </head>
-<body data-page="profile">
-  <div class="topbar">
-    <div class="nav">
-      <div class="brand">
-        <img src="images/serra_logo.png" alt="Serra" />
-      </div>
-      <div class="navlinks">
-        <a href="index.html">Home</a>
-        <a href="coach-login.html">Coach Login</a>
-        <a href="transcript-transfer.html">Transcript / Transfer</a>
-        <a class="active" href="recruits.html">Recruits</a>
-      </div>
+
+<body>
+<div class="container">
+  <div class="profile-card">
+
+    <img id="photo" class="profile-img">
+
+    <h1 id="name"></h1>
+    <div class="sub" id="meta"></div>
+
+    <div class="badges">
+      <span class="badge offer" id="offers"></span>
+      <span class="badge status" id="status"></span>
     </div>
-  </div>
 
-  <div class="container">
-    <div id="profile"></div>
-    <div class="footer">serrafbrecruits.com</div>
-  </div>
+    <div class="actions">
+      <a id="hudl" target="_blank">
+        <img src="icons/hudl.svg"> Hudl
+      </a>
+      <a id="twitter" target="_blank">
+        <img src="icons/twitter.svg"> Twitter
+      </a>
+    </div>
 
-  <script src="assets/app.js"></script>
+    <div class="writeup" id="writeup"></div>
+
+  </div>
+</div>
+
+<script>
+const p = JSON.parse(localStorage.getItem("player"));
+
+document.getElementById("photo").src = p.ImageURL || "images/placeholder_player.png";
+document.getElementById("name").textContent = p.Name;
+document.getElementById("meta").textContent =
+  `${p.Position} • Class of ${p.Class} • ${p.HeightWeight} • GPA ${p.GPA}`;
+
+document.getElementById("offers").textContent =
+  p.Offers ? `${p.Offers} Offers` : "No Offers Listed";
+
+document.getElementById("status").textContent = p.Status || "Uncommitted";
+
+document.getElementById("hudl").href = p.HUDL;
+document.getElementById("twitter").href = p.Twitter;
+document.getElementById("writeup").textContent = p.Writeup;
+</script>
 </body>
 </html>
