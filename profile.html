@@ -21,69 +21,58 @@ body{
   padding:24px 16px 60px;
 }
 
-.profile-card{
+.card{
   background:rgba(0,0,0,.35);
   border-radius:18px;
   padding:24px;
+  text-align:center;
 }
 
-.profile-img{
+.photo{
   width:100%;
   max-width:360px;
   height:440px;
   object-fit:cover;
   object-position:50% 18%;
   border-radius:14px;
-  display:block;
-  margin:auto;
 }
 
-h1{
-  margin:18px 0 6px;
-  font-size:1.9rem;
-  font-weight:800;
-}
-
-.sub{
-  font-weight:600;
-  opacity:.9;
-}
+h1{margin:16px 0 6px;font-size:1.9rem}
+.sub{opacity:.9;font-weight:600}
 
 .badges{
   margin:14px 0;
   display:flex;
   gap:10px;
+  justify-content:center;
   flex-wrap:wrap;
 }
-
 .badge{
   padding:6px 14px;
   border-radius:999px;
   font-size:.8rem;
   font-weight:700;
 }
-
 .offer{background:#f5c400;color:#000}
 .status{background:#1e7cff}
 
 .actions{
   margin:18px 0;
   display:flex;
+  justify-content:center;
   gap:16px;
 }
-
 .actions a{
   display:flex;
-  align-items:center;
   gap:8px;
-  background:rgba(255,255,255,.15);
+  align-items:center;
   padding:10px 16px;
   border-radius:999px;
+  background:rgba(255,255,255,.15);
   color:#fff;
   text-decoration:none;
   font-weight:700;
 }
-
 .actions img{width:18px}
 
 .writeup{
@@ -96,48 +85,35 @@ h1{
 
 <body>
 <div class="container">
-  <div class="profile-card">
-
-    <img id="photo" class="profile-img">
-
+  <div class="card">
+    <img id="photo" class="photo">
     <h1 id="name"></h1>
     <div class="sub" id="meta"></div>
 
     <div class="badges">
-      <span class="badge offer" id="offers"></span>
-      <span class="badge status" id="status"></span>
+      <span id="offers" class="badge offer"></span>
+      <span id="status" class="badge status"></span>
     </div>
 
     <div class="actions">
-      <a id="hudl" target="_blank">
-        <img src="icons/hudl.svg"> Hudl
-      </a>
-      <a id="twitter" target="_blank">
-        <img src="icons/twitter.svg"> Twitter
-      </a>
+      <a id="hudl" target="_blank"><img src="icons/hudl.svg">Hudl</a>
+      <a id="twitter" target="_blank"><img src="icons/twitter.svg">Twitter</a>
     </div>
 
-    <div class="writeup" id="writeup"></div>
-
+    <div id="writeup" class="writeup"></div>
   </div>
 </div>
 
 <script>
-const p = JSON.parse(localStorage.getItem("player"));
-
-document.getElementById("photo").src = p.ImageURL || "images/placeholder_player.png";
-document.getElementById("name").textContent = p.Name;
-document.getElementById("meta").textContent =
-  `${p.Position} • Class of ${p.Class} • ${p.HeightWeight} • GPA ${p.GPA}`;
-
-document.getElementById("offers").textContent =
-  p.Offers ? `${p.Offers} Offers` : "No Offers Listed";
-
-document.getElementById("status").textContent = p.Status || "Uncommitted";
-
-document.getElementById("hudl").href = p.HUDL;
-document.getElementById("twitter").href = p.Twitter;
-document.getElementById("writeup").textContent = p.Writeup;
+const p=JSON.parse(localStorage.getItem("player"));
+photo.src=p.ImageURL||"images/placeholder_player.png";
+name.textContent=p.Name;
+meta.textContent=`${p.Position} • Class ${p.Class} • ${p.HeightWeight} • GPA ${p.GPA}`;
+offers.textContent=p.Offers?`${p.Offers} Offers`:"No Offers";
+status.textContent=p.Status||"Uncommitted";
+hudl.href=p.HUDL;
+twitter.href=p.Twitter;
+writeup.textContent=p.Writeup;
 </script>
 </body>
 </html>
