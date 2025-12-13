@@ -1,30 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <base href="/serra-elite-recruiting/">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Serra Recruits</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Serra Football Recruits</title>
+
   <link rel="stylesheet" href="styles.css">
+  <script src="auth.js"></script>
   <script defer src="recruits.js"></script>
 </head>
-<body>
+
+<body onload="protectPage()">
 
 <header class="site-header">
   <div class="header-inner">
-    <img src="images/serra-logo.png" class="logo">
+    <img src="images/serra-logo.png" class="logo" alt="Serra Football">
     <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a href="coach-login.html">Coach Login</a>
+      <a href="#" onclick="logout()">Logout</a>
     </nav>
   </div>
 </header>
 
-<section class="hero">
-  <div class="hero-overlay">
-    <h1>Serra Football Recruits</h1>
-    <input id="search" placeholder="Search name or position">
-    <div id="grid" class="grid"></div>
+<section class="recruits-hero">
+  <h1>Serra Football Recruits</h1>
+
+  <input
+    id="search"
+    type="text"
+    placeholder="Search name or position..."
+  />
+
+  <div class="filters">
+    <button data-class="All" class="active">All</button>
+    <button data-class="2026">2026</button>
+    <button data-class="2027">2027</button>
+    <button data-class="2028">2028</button>
+    <button data-class="2029">2029</button>
   </div>
+</section>
+
+<section class="recruits-grid" id="grid">
+  <!-- Cards injected here -->
 </section>
 
 </body>
