@@ -1,115 +1,159 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Player Profile</title>
+  <meta charset="UTF-8" />
+  <title>Serra Football Recruit Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    body {
+      background: #3b1216;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    .profile-container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #5b1f24;
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .profile-header {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 24px;
+    }
+
+    .profile-header img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      object-position: center 20%;
+      border-radius: 16px;
+      background: #111;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 800;
+    }
+
+    .meta {
+      margin-top: 10px;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .icons {
+      margin-top: 16px;
+      display: flex;
+      gap: 16px;
+    }
+
+    .icons img {
+      width: 28px;
+      height: 28px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 10px 22px;
+      background: #fff;
+      color: #000;
+      font-weight: 700;
+      border-radius: 22px;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .profile-header {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-header img {
+        height: 360px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<script src="auth.js"></script>
-<script>requireAuth();</script>
-
-<div class="nav">
-  <div class="nav-inner">
-    <div class="brand">
-      <img src="images/serra-logo.png" alt="Serra" />
-      <h1>Player Profile</h1>
-    </div>
-    <div class="menu">
-      <a href="recruits.html">Back to Recruits</a>
-      <button onclick="logout()">Logout</button>
-    </div>
+  <div class="profile-container" id="profile">
+    Loading profile…
   </div>
-</div>
 
-<div class="profile">
-  <div id="profileBox" class="profile-card"></div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script>
-const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-function slugify(name) {
-  return (name || "")
-    .toLowerCase()
-    .trim()
-    .replace(/’/g,"'")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
+const params = new URLSearchParams(window.location.search);
+const playerName = params.get("name");
 
-function cleanTwitter(val) {
-  if (!val) return "";
-  let v = val.trim();
-  v = v.replace(/^@/, "");
-  v = v.replace("https://x.com/", "");
-  v = v.replace("https://twitter.com/", "");
-  v = v.replace("http://twitter.com/", "");
-  v = v.replace("twitter.com/", "");
-  v = v.replace("x.com/", "");
-  if (!v) return "";
+function cleanTwitter(v) {
+  if (!v) return null;
+  v = v.replace("@", "").trim();
+  if (v.includes("twitter.com") || v.includes("x.com")) return v;
   return `https://twitter.com/${v}`;
 }
 
-const params = new URLSearchParams(location.search);
-const wanted = params.get("player");
+fetch(CSV_URL)
+  .then(res => res.text())
+  .then(text => {
+    const rows = text.split("\n").slice(1);
 
-Papa.parse(CSV_URL, {
-  download: true,
-  header: true,
-  skipEmptyLines: true,
-  complete: (res) => {
-    const rows = res.data;
-    const match = rows.find(r => slugify(r.Name) === wanted);
+    const players = rows.map(r => {
+      const c = r.split(",");
+      return {
+        name: c[0],
+        class: c[1],
+        position: c[2],
+        height: c[3],
+        hudl: c[4],
+        twitter: cleanTwitter(c[5]),
+        image: c[6],
+        gpa: c[7],
+        offers: c[8],
+      };
+    });
 
-    const box = document.getElementById("profileBox");
-    if (!match) {
-      box.innerHTML = "<h1>Player not found</h1><p class='meta'>Check the player link or the Name column in Google Sheets.</p>";
+    const p = players.find(pl => pl.name === playerName);
+
+    if (!p) {
+      document.getElementById("profile").innerHTML = "Player not found.";
       return;
     }
 
-    const img = (match.ImageURL || "").trim() || "images/placeholder_player.png";
-    const hudl = (match.HUDL || "").trim();
-    const tw = cleanTwitter(match.Twitter);
-    const collegeLogo = (match.CollegeLogo || match.CollegeLogoURL || "").trim();
-    const writeup = (match.Writeup || "").trim();
-
-    box.innerHTML = `
-      <div class="profile-top">
-        <div class="profile-photo">
-          <img src="${img}" alt="${match.Name}"
-               onerror="this.onerror=null; this.src='images/placeholder_player.png';" />
-        </div>
-
+    document.getElementById("profile").innerHTML = `
+      <div class="profile-header">
+        <img src="${p.image}" onerror="this.src='images/placeholder.png'" />
         <div>
-          <h1>${match.Name || ""}</h1>
-
-          <div class="badges">
-            ${match.Position ? `<div class="badge">${match.Position}</div>` : ""}
-            ${match.Class ? `<div class="badge">Class of ${match.Class}</div>` : ""}
-            ${match.HeightWeight ? `<div class="badge">${match.HeightWeight}</div>` : ""}
-            ${match.GPA ? `<div class="badge">GPA ${match.GPA}</div>` : ""}
-            ${match.Status ? `<div class="badge">${match.Status}</div>` : ""}
+          <h1>${p.name}</h1>
+          <div class="meta">
+            <strong>Position:</strong> ${p.position}<br>
+            <strong>Class:</strong> ${p.class}<br>
+            <strong>Height / Weight:</strong> ${p.height}<br>
+            ${p.gpa ? `<strong>GPA:</strong> ${p.gpa}<br>` : ""}
+            ${p.offers ? `<strong>Offers:</strong> ${p.offers}<br>` : ""}
           </div>
 
-          <div class="small-row">
-            ${tw ? `<a class="btn" style="max-width:220px; text-align:center; display:inline-block;" target="_blank" href="${tw}">Twitter / X</a>` : ""}
-            ${hudl ? `<a class="btn" style="max-width:220px; text-align:center; display:inline-block;" target="_blank" href="${hudl}">Hudl</a>` : ""}
+          <div class="icons">
+            ${p.hudl ? `<a href="${p.hudl}" target="_blank"><img src="icons/hudl.svg"></a>` : ""}
+            ${p.twitter ? `<a href="${p.twitter}" target="_blank"><img src="icons/twitter.svg"></a>` : ""}
           </div>
 
-          ${match.Offers ? `<p class="meta" style="margin-top:12px;"><strong>Offers:</strong> ${match.Offers}</p>` : ""}
-          ${match.College ? `<p class="meta"><strong>College:</strong> ${match.College}</p>` : ""}
-          ${collegeLogo ? `<img src="${collegeLogo}" alt="College Logo" style="margin-top:10px; height:46px; width:auto;" />` : ""}
+          <a href="recruits.html" class="back">← Back to Recruits</a>
         </div>
       </div>
-
-      <div class="writeup">${writeup || "Write-up coming soon."}</div>
     `;
-  }
-});
+  });
 </script>
+
 </body>
 </html>
