@@ -1,26 +1,22 @@
-// auth.js
-const SERRA_PASSWORD = "Serrafb"; // change anytime
+const PASSWORD = "Serrafb";
 
-function isAuthed() {
-  return localStorage.getItem("serraAuth") === "true";
-}
-
-function requireAuth() {
-  if (!isAuthed()) window.location.href = "login.html";
-}
-
-function doLogin() {
-  const val = document.getElementById("password").value.trim();
-  if (val === SERRA_PASSWORD) {
-    localStorage.setItem("serraAuth", "true");
-    const next = new URLSearchParams(window.location.search).get("next") || "recruits.html";
-    window.location.href = next;
+function login() {
+  const input = document.getElementById("password").value;
+  if (input === PASSWORD) {
+    localStorage.setItem("serra_auth", "true");
+    window.location.href = "recruits.html";
   } else {
     alert("Incorrect password");
   }
 }
 
+function protectPage() {
+  if (!localStorage.getItem("serra_auth")) {
+    window.location.href = "coach-login.html";
+  }
+}
+
 function logout() {
-  localStorage.removeItem("serraAuth");
+  localStorage.removeItem("serra_auth");
   window.location.href = "index.html";
 }
