@@ -5,16 +5,15 @@ const grid = document.getElementById("grid");
 const searchInput = document.getElementById("search");
 const filterButtons = document.querySelectorAll(".filters button");
 
-let players = [];
+let recruits = [];
 let activeClass = "All";
 
 fetch(CSV_URL)
   .then(res => res.text())
   .then(text => {
     const rows = text.split("\n").slice(1);
-    players = rows.map(row => {
-      const cols = row.split(",");
-
+    recruits = rows.map(r => {
+      const cols = r.split(",");
       return {
         name: cols[0],
         position: cols[1],
@@ -22,62 +21,64 @@ fetch(CSV_URL)
         height: cols[3],
         weight: cols[4],
         image: cols[5] || "images/placeholder.png",
-        twitter: cleanTwitter(cols[6]),
-        hudl: cols[7],
-        profile: `profile.html?name=${encodeURIComponent(cols[0])}`
+        twitter: cols[6],
+        hudl: cols[7]
       };
     });
-
     render();
   });
 
-function cleanTwitter(val) {
-  if (!val) return "";
-  val = val.replace("@", "").replace("https://twitter.com/", "").replace("https://x.com/", "");
-  return `https://twitter.com/${val}`;
-}
-
 function render() {
+  const term = searchInput.value.toLowerCase();
   grid.innerHTML = "";
 
-  const search = searchInput.value.toLowerCase();
-
-  players
-    .filter(p =>
-      (activeClass === "All" || p.classYear === activeClass) &&
-      (p.name.toLowerCase().includes(search) ||
-        p.position.toLowerCase().includes(search))
+  recruits
+    .filter(r =>
+      (activeClass === "All" || r.classYear === activeClass) &&
+      (r.name.toLowerCase().includes(term) ||
+       r.position.toLowerCase().includes(term))
     )
-    .forEach(p => {
-      grid.innerHTML += `
-        <div class="card">
-          <div class="img-wrap">
-            <img src="${p.image}" onerror="this.src='images/placeholder.png'" />
-          </div>
+    .forEach(r => grid.appendChild(card(r)));
+}
 
-          <h3>${p.name}</h3>
-          <p class="meta">${p.position}</p>
-          <p class="meta">Class of ${p.classYear}</p>
-          <p class="meta">${p.height} / ${p.weight} lbs</p>
+function card(r) {
+  const el = document.createElement("div");
+  el.className = "recruit-card";
 
-          <div class="icons">
-            ${p.twitter ? `<a href="${p.twitter}" target="_blank"><img src="icons/twitter.svg"></a>` : ""}
-            ${p.hudl ? `<a href="${p.hudl}" target="_blank"><img src="icons/hudl.svg"></a>` : ""}
-          </div>
+  el.innerHTML = `
+    <div class="photo-wrap">
+      <img src="${r.image}" onerror="this.src='images/placeholder.png'" />
+    </div>
 
-          <a href="${p.profile}" class="btn">View Profile</a>
-        </div>
-      `;
-    });
+    <h3>${r.name}</h3>
+    <p class="pos">${r.position}</p>
+    <p class="meta">Class of ${r.classYear}<br>${r.height} / ${r.weight}</p>
+
+    <div class="icons">
+      ${r.twitter ? `<a href="https://twitter.com/${clean(r.twitter)}" target="_blank">
+        <img src="icons/twitter.svg"></a>` : ""}
+      ${r.hudl ? `<a href="${r.hudl}" target="_blank">
+        <img src="icons/hudl.svg"></a>` : ""}
+    </div>
+
+    <a class="profile-btn" href="profile.html?name=${encodeURIComponent(r.name)}">
+      View Profile
+    </a>
+  `;
+  return el;
+}
+
+function clean(v) {
+  return v.replace("@","").replace("https://twitter.com/","");
 }
 
 searchInput.addEventListener("input", render);
 
 filterButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
+  btn.onclick = () => {
     filterButtons.forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     activeClass = btn.dataset.class;
     render();
-  });
+  };
 });
