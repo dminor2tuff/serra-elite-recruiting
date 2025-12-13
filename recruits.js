@@ -2,117 +2,97 @@ const CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
 const grid = document.getElementById("grid");
-const searchEl = document.getElementById("search");
-const filtersEl = document.getElementById("filters");
+const searchInput = document.getElementById("search");
+const filterButtons = document.querySelectorAll(".filters button");
 
-let all = [];
+let players = [];
 let activeClass = "All";
 
-function slugify(name){
-  return (name||"").toLowerCase().trim().replace(/’/g,"'").replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
-}
+fetch(CSV_URL)
+  .then(res => res.text())
+  .then(text => {
+    players = parseCSV(text);
+    render();
+  });
 
-function fixTwitter(val){
-  if(!val) return "";
-  let v = String(val).trim();
-  v = v.replace(/^@/,"");
-  v = v.replace("https://x.com/","");
-  v = v.replace("https://twitter.com/","");
-  v = v.replace("http://twitter.com/","");
-  v = v.replace("x.com/","");
-  v = v.replace("twitter.com/","");
-  if(!v) return "";
-  return `https://twitter.com/${v}`;
-}
-
-function fixHudl(val){
-  if(!val) return "";
-  const v = String(val).trim();
-  return v.startsWith("http") ? v : "";
-}
-
-function val(x){ return (x ?? "").toString().trim(); }
-
-function matches(p,q){
-  if(!q) return true;
-  const s = q.toLowerCase();
-  return (
-    p.Name.toLowerCase().includes(s) ||
-    p.Position.toLowerCase().includes(s) ||
-    p.Class.toLowerCase().includes(s)
-  );
-}
-
-function render(){
-  const q = (searchEl.value||"").trim();
-  grid.innerHTML = "";
-
-  const list = all
-    .filter(p => activeClass === "All" || p.Class === activeClass)
-    .filter(p => matches(p,q));
-
-  list.forEach(p => {
-    const slug = slugify(p.Name);
-    const img = p.ImageURL || "images/placeholder.png";
-    const hudl = fixHudl(p.HUDL);
-    const tw = fixTwitter(p.Twitter);
-
-    const card = document.createElement("div");
-    card.className = "recruit-card";
-    card.innerHTML = `
-      <div class="img-wrap">
-        <img src="${img}" alt="${p.Name}" onerror="this.onerror=null;this.src='images/placeholder.png';">
-      </div>
-
-      <h3 class="name">${p.Name}</h3>
-      <p class="meta"><strong>${p.Position || ""}</strong></p>
-      <p class="meta">Class of ${p.Class || ""} • ${p.HeightWeight || ""}</p>
-
-      <div class="icon-row">
-        ${tw ? `<a href="${tw}" target="_blank" rel="noopener" title="Twitter/X"><i class="fa-brands fa-x-twitter"></i></a>` : ``}
-        ${hudl ? `<a href="${hudl}" target="_blank" rel="noopener" title="Hudl"><i class="fa-solid fa-football"></i></a>` : ``}
-      </div>
-
-      <a class="btn primary card-btn" href="profile.html?player=${encodeURIComponent(slug)}">View Profile</a>
-    `;
-    grid.appendChild(card);
+function parseCSV(text) {
+  const rows = text.split("\n").slice(1);
+  return rows.map(row => {
+    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+    return {
+      name: cols[0]?.replace(/"/g, ""),
+      classYear: cols[1],
+      position: cols[2],
+      heightWeight: cols[3],
+      hudl: cols[4],
+      writeup: cols[5],
+      image: cols[6],
+      twitter: cols[7]
+    };
   });
 }
 
-filtersEl.addEventListener("click", (e) => {
-  const btn = e.target.closest("button[data-class]");
-  if(!btn) return;
-  activeClass = btn.dataset.class;
-  [...filtersEl.querySelectorAll("button")].forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-  render();
-});
+function cleanTwitter(val) {
+  if (!val) return "";
+  return "https://twitter.com/" +
+    val.replace("https://twitter.com/", "")
+       .replace("https://x.com/", "")
+       .replace("@", "")
+       .trim();
+}
 
-searchEl.addEventListener("input", render);
+function render() {
+  const q = searchInput.value.toLowerCase();
 
-Papa.parse(CSV_URL, {
-  download: true,
-  header: true,
-  skipEmptyLines: true,
-  complete: (res) => {
-    all = (res.data || [])
-      .map(r => ({
-        Name: val(r.Name),
-        Class: val(r.Class),
-        Position: val(r.Position),
-        HeightWeight: val(r.HeightWeight),
-        HUDL: val(r.HUDL),
-        Twitter: val(r.Twitter),
-        ImageURL: val(r.ImageURL),
-        Writeup: val(r.Writeup),
-        GPA: val(r.GPA),
-        Offers: val(r.Offers),
-        Status: val(r.Status),
-        College: val(r.College),
-        CollegeLogo: val(r.CollegeLogo || r.CollegeLogoURL)
-      }))
-      .filter(p => p.Name);
+  grid.innerHTML = "";
 
+  players
+    .filter(p =>
+      (activeClass === "All" || p.classYear === activeClass) &&
+      (p.name?.toLowerCase().includes(q) ||
+       p.position?.toLowerCase().includes(q))
+    )
+    .forEach(p => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <div class="photo">
+          <img src="${p.image || "images/placeholder.png"}"
+               onerror="this.src='images/placeholder.png'">
+        </div>
+
+        <div class="name">${p.name || ""}</div>
+        <div class="meta">${p.position || ""}</div>
+        <div class="meta">Class of ${p.classYear || ""}</div>
+        <div class="meta">${p.heightWeight || ""}</div>
+
+        <div class="icons">
+          ${p.twitter ? `<a href="${cleanTwitter(p.twitter)}" target="_blank">
+            <img src="icons/twitter.svg">
+          </a>` : ""}
+
+          ${p.hudl ? `<a href="${p.hudl}" target="_blank">
+            <img src="icons/hudl.svg">
+          </a>` : ""}
+        </div>
+
+        <a class="btn" href="profile.html?name=${encodeURIComponent(p.name)}">
+          View Profile
+        </a>
+      `;
+
+      grid.appendChild(card);
+    });
+}
+
+searchInput.addEventListener("input", render);
+
+filterButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    filterButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeClass = btn.dataset.class;
     render();
-  }
+  });
 });
