@@ -1,35 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
+  <base href="/serra-elite-recruiting/">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Serra Recruits</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="recruits.js"></script>
 </head>
 <body>
- <input id="search" placeholder="Search name or position" />
-<div id="grid" class="grid"></div>
 
-<script src="recruits.js"></script>
-<header class="topbar">
-  <div class="brand">
-    <img src="/images/serra-logo.png" class="logo">
-    <span>Serra Football Recruits</span>
+<header class="site-header">
+  <div class="header-inner">
+    <img src="images/serra-logo.png" class="logo">
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="coach-login.html">Coach Login</a>
+    </nav>
   </div>
 </header>
 
-<input id="search" class="search" placeholder="Search name or position">
+<section class="hero">
+  <div class="hero-overlay">
+    <h1>Serra Football Recruits</h1>
+    <input id="search" placeholder="Search name or position">
+    <div id="grid" class="grid"></div>
+  </div>
+</section>
 
-<div class="filters">
-  <button data-year="all">All</button>
-  <button data-year="2026">2026</button>
-  <button data-year="2027">2027</button>
-  <button data-year="2028">2028</button>
-  <button data-year="2029">2029</button>
-</div>
-
-<div id="grid" class="grid"></div>
-
-<script src="/js/recruits.js"></script>
 </body>
 </html>
