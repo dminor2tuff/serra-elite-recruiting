@@ -1,51 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <base href="/serra-elite-recruiting/">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Serra Football Recruiting</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-inner">
-    <img src="images/serra-logo.png" class="logo">
-    <nav class="nav-links">
+    <div class="brand">
+      <img class="logo" src="images/serra-logo.png" alt="Serra Football" onerror="this.style.display='none'">
+      <span>Serra Elite Recruiting</span>
+    </div>
+    <div class="nav-links">
       <a href="index.html">Home</a>
-      <a href="coach-login.html">Coach Login</a>
-      <a href="recruits.html">Recruits</a>
+      <a class="primary" href="coach-login.html?next=recruits.html">Coach Login</a>
+      <a href="coach-login.html?next=recruits.html">View Recruits</a>
       <a href="transcript_request.html">Transcript</a>
-    </nav>
+    </div>
   </div>
 </header>
 
-<section class="hero">
-  <div class="hero-overlay">
-    <h1>Serra Football Recruiting</h1>
-    <p>Developing college-ready student-athletes through discipline, academics, and competition.</p>
-
-    <div class="stats">
-      <div class="stat"><strong>21</strong><br>NFL Draft Picks</div>
-      <div class="stat"><strong>30+</strong><br>All-Americans</div>
-      <div class="stat"><strong>5</strong><br>CIF Titles</div>
-      <div class="stat"><strong>4</strong><br>State Titles</div>
+<div class="container">
+  <section class="hero">
+    <img src="images/action-header.jpg" alt="Serra Football Action" onerror="this.style.display='none'">
+    <div class="overlay"></div>
+    <div class="content">
+      <h1>Serra Football Recruiting</h1>
+      <p>Developing college-ready student-athletes through discipline, academics, and competition.</p>
     </div>
+  </section>
 
-    <div class="qr-section">
-      <img src="images/qr-code.png" width="120">
-      <div>
-        <h3>Recruiting Portal Access</h3>
-        <p>Scan to view verified Serra Football prospects.</p>
-      </div>
+  <section class="stats">
+    <div class="stat"><div class="big">21</div><div class="small">NFL Draft Picks</div></div>
+    <div class="stat"><div class="big">30+</div><div class="small">All-Americans</div></div>
+    <div class="stat"><div class="big">5</div><div class="small">CIF Championships</div></div>
+    <div class="stat"><div class="big">4</div><div class="small">State Titles</div></div>
+  </section>
+
+  <section class="qr">
+    <img src="images/qr-code.png" alt="Recruiting QR" onerror="this.style.display='none'">
+    <div>
+      <h3>Recruiting Portal Access</h3>
+      <p>Scan to view verified Serra Football recruiting profiles and prospect information.</p>
     </div>
+  </section>
 
-    <br>
-    <a class="btn" href="coach-login.html">College Coach Login</a>
-    <a class="btn secondary" href="recruits.html">View All Recruits</a>
+  <div class="btn-row">
+    <a class="btn primary" href="coach-login.html?next=recruits.html">College Coach Login</a>
+    <a class="btn" href="coach-login.html?next=recruits.html">View All Recruits</a>
+    <a class="btn" href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/" target="_blank" rel="noopener">Serra Alumni on On3</a>
   </div>
-</section>
+
+  <div style="margin-top:18px; color:var(--muted); font-weight:800;">
+    Follow: <a href="https://twitter.com/serra_football" target="_blank" rel="noopener">@serra_football</a> •
+    <a href="https://instagram.com/serrafootball" target="_blank" rel="noopener">@serrafootball</a>
+  </div>
+</div>
 
 </body>
 </html>
