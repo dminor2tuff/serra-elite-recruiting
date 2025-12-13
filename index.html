@@ -1,345 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Serra Football Recruiting</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-
-<style>
-:root{
-  --serra-red:#7a1419;
-  --serra-dark:#3f0c10;
-  --serra-gold:#d4af37;
-  --panel:rgba(0,0,0,.38);
-}
-
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',system-ui}
-
-body{
-  background:linear-gradient(180deg,var(--serra-dark),var(--serra-red));
-  color:#fff;
-}
-
-/* ===== HEADER / NAV ===== */
-header{
-  position:sticky;
-  top:0;
-  z-index:50;
-  background:rgba(0,0,0,.6);
-  backdrop-filter:blur(8px);
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.nav{
-  max-width:1200px;
-  margin:auto;
-  padding:12px 16px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:900;
-  font-size:1rem;
-}
-
-.brand img{
-  height:38px;
-}
-
-.nav-links a{
-  color:#fff;
-  text-decoration:none;
-  font-weight:700;
-  margin-left:16px;
-  font-size:.95rem;
-}
-
-/* ===== HERO ===== */
-.hero{
-  position:relative;
-  height:360px;
-  background:url("images/serra_action.png") center 30% / cover no-repeat;
-}
-
-.hero::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    180deg,
-    rgba(0,0,0,.25),
-    rgba(63,12,16,.9)
-  );
-}
-
-.hero-inner{
-  position:relative;
-  z-index:2;
-  max-width:1200px;
-  margin:auto;
-  height:100%;
-  padding:28px 18px 48px;
-  display:flex;
-  align-items:flex-end;
-}
-
-.hero h1{
-  font-size:2.6rem;
-  font-weight:900;
-}
-
-.hero p{
-  margin-top:8px;
-  max-width:640px;
-  font-size:1.05rem;
-  line-height:1.45;
-  opacity:.95;
-}
-
-.hero-rule{
-  margin-top:14px;
-  height:2px;
-  width:100%;
-  background:linear-gradient(90deg,transparent,var(--serra-gold),transparent);
-}
-
-/* ===== STATS ===== */
-.stats{
-  background:#3b0c10;
-  border-top:3px solid var(--serra-gold);
-  border-bottom:3px solid var(--serra-gold);
-}
-
-.stats-inner{
-  max-width:1200px;
-  margin:auto;
-  padding:20px 16px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:16px;
-  text-align:center;
-}
-
-.stat h2{
-  font-size:2.2rem;
-  font-weight:900;
-  color:var(--serra-gold);
-}
-
-.stat p{
-  margin-top:4px;
-  font-weight:700;
-  font-size:.95rem;
-}
-
-/* ===== SECTIONS ===== */
-.section{
-  max-width:1200px;
-  margin:24px auto;
-  padding:0 16px;
-}
-
-.panel{
-  background:var(--panel);
-  border-radius:18px;
-  padding:20px;
-}
-
-/* ===== ON3 ===== */
-.on3{
-  border-left:4px solid var(--serra-gold);
-}
-
-.on3 h3{
-  font-size:1.25rem;
-  font-weight:900;
-}
-
-.on3 p{
-  margin-top:6px;
-  font-size:.95rem;
-  line-height:1.45;
-}
-
-.on3 a{
-  display:inline-block;
-  margin-top:10px;
-  font-weight:800;
-  color:var(--serra-gold);
-  text-decoration:none;
-}
-
-/* ===== QR ===== */
-.qr{
-  display:flex;
-  align-items:center;
-  gap:20px;
-  flex-wrap:wrap;
-}
-
-.qr img{
-  width:100px;
-  height:100px;
-  background:#fff;
-  padding:6px;
-  border-radius:12px;
-}
-
-.qr h4{
-  font-size:1.2rem;
-  font-weight:900;
-}
-
-.qr p{
-  margin-top:6px;
-  font-size:.95rem;
-}
-
-.actions{
-  margin-top:14px;
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-}
-
-.btn{
-  padding:10px 16px;
-  border-radius:999px;
-  font-weight:800;
-  text-decoration:none;
-  border:1px solid rgba(255,255,255,.15);
-  background:rgba(255,255,255,.12);
-  color:#fff;
-  font-size:.9rem;
-}
-
-.btn.primary{
-  background:#fff;
-  color:var(--serra-red);
-}
-
-/* ===== FOOTER ===== */
-footer{
-  margin:36px 0 20px;
-  text-align:center;
-  font-weight:700;
-  opacity:.75;
-  font-size:.85rem;
-}
-
-/* ===== MOBILE REFINEMENT ===== */
-@media(max-width:768px){
-  .hero{
-    height:240px;
-    background-position:center 20%;
-  }
-
-  .hero h1{
-    font-size:1.9rem;
-  }
-
-  .hero p{
-    font-size:.95rem;
-  }
-
-  .stats-inner{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .qr{
-    flex-direction:column;
-    text-align:center;
-  }
-
-  .nav-links{
-    display:none; /* keeps header clean on mobile */
-  }
-
-  .brand{
-    font-size:.95rem;
-  }
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Serra Football Recruiting</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
 
-<header>
-  <div class="nav">
+<div class="nav">
+  <div class="nav-inner">
     <div class="brand">
-      <img src="images/serra_logo.png" alt="Serra Logo">
-      Serra Football Recruiting
+      <img src="images/serra-logo.png" alt="Serra" />
+      <h1>Serra Elite Recruiting</h1>
     </div>
-    <div class="nav-links">
+    <div class="menu">
       <a href="index.html">Home</a>
-      <a href="recruits.html">Recruits</a>
-      <a href="coach-login.html">Coach Login</a>
+      <a class="pill" href="login.html?next=recruits.html">Coach Login</a>
+      <a href="transcript.html">Transcript / Transfer</a>
+      <a class="pill" href="login.html?next=recruits.html">Recruits</a>
     </div>
   </div>
-</header>
+</div>
 
-<section class="hero">
-  <div class="hero-inner">
+<div class="container">
+  <div class="hero">
+    <img src="images/action_header.jpg" alt="Action" />
+    <div class="overlay"></div>
+    <div class="content">
+      <h2>Serra Football Recruiting</h2>
+      <p>Developing college-ready student-athletes through discipline, academics, and competition.</p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="big">21</div><div class="small">NFL Draft Picks</div></div>
+    <div class="stat"><div class="big">30+</div><div class="small">All-Americans</div></div>
+    <div class="stat"><div class="big">5</div><div class="small">CIF Championships</div></div>
+    <div class="stat"><div class="big">4</div><div class="small">State Titles</div></div>
+  </div>
+
+  <div class="qr-row">
+    <img src="images/qr.png" alt="QR" />
     <div>
-      <h1>Serra Football Recruiting</h1>
-      <p>
-        Developing college-ready student-athletes through discipline,
-        academics, and elite competition.
-      </p>
-      <div class="hero-rule"></div>
+      <h3>Recruiting Portal Access</h3>
+      <p>Scan to view Serra Football recruiting profiles and verified prospect information.</p>
     </div>
   </div>
-</section>
 
-<section class="stats">
-  <div class="stats-inner">
-    <div class="stat"><h2>21</h2><p>NFL Draft Picks</p></div>
-    <div class="stat"><h2>30+</h2><p>All-Americans</p></div>
-    <div class="stat"><h2>5</h2><p>CIF Championships</p></div>
-    <div class="stat"><h2>4</h2><p>State Titles</p></div>
+  <h3 class="section-title">Coach Access</h3>
+  <div class="tools">
+    <a class="btn" style="max-width:360px; display:inline-block; text-align:center;"
+       href="login.html?next=recruits.html">College Coach Login</a>
+    <a class="btn" style="max-width:360px; display:inline-block; text-align:center;"
+       href="login.html?next=recruits.html">View All Recruits</a>
   </div>
-</section>
 
-<section class="section">
-  <div class="panel on3">
-    <h3>Verified Serra Football Alumni</h3>
-    <p>
-      Serra Football alumni who have competed at the collegiate and professional
-      levels, independently verified by ON3 Sports.
+  <h3 class="section-title">Serra Alumni (On3)</h3>
+  <div class="card">
+    <p class="meta" style="margin:0;">
+      <strong>Verified alumni credibility:</strong> view Serra’s football alumni on On3.
     </p>
-    <a href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/"
-       target="_blank" rel="noopener">
-      View Serra Football Alumni on ON3 →
-    </a>
+    <a class="btn" style="max-width:420px; text-align:center; display:inline-block;"
+       href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/"
+       target="_blank">View Serra Alumni on On3</a>
   </div>
-</section>
 
-<section class="section">
-  <div class="panel qr">
-    <img src="images/serra_main_qr.png" alt="Serra Recruiting QR">
-    <div>
-      <h4>Recruiting Portal Access</h4>
-      <p>
-        Scan to view verified Serra Football recruiting profiles and prospect information.
-      </p>
-      <div class="actions">
-        <a class="btn primary" href="coach-login.html">College Coach Login</a>
-        <a class="btn" href="recruits.html">View All Recruits</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  © Serra Football Recruiting · serrafbrecruits.com
-</footer>
-
+</div>
 </body>
 </html>
