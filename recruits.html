@@ -1,70 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Serra Football Recruits</title>
-<link rel="stylesheet" href="styles.css">
-</head>
 
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+</head>
 <body>
 
 <header class="site-header">
-  <a href="index.html">Serra Football Recruiting</a>
+  <img src="images/serra-logo.png" class="logo" alt="Serra">
+  <h1>Serra Football Recruits</h1>
 </header>
 
-<section class="recruits-container">
-  <h1>Serra Football Recruits</h1>
-  <div class="recruits-grid" id="grid"></div>
+<section class="controls">
+  <input id="search" type="text" placeholder="Search name or position">
+  <div class="filters">
+    <button data-class="all" class="active">All</button>
+    <button data-class="2026">2026</button>
+    <button data-class="2027">2027</button>
+    <button data-class="2028">2028</button>
+    <button data-class="2029">2029</button>
+  </div>
 </section>
 
-<script>
-const csvURL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+<section id="recruitsGrid" class="grid"></section>
 
-function slugify(text) {
-  return text.toLowerCase()
-    .replace(/,/g,"")
-    .replace(/\s+/g,"-")
-    .replace(/[^a-z0-9-]/g,"");
-}
-
-fetch(csvURL)
-  .then(res => res.text())
-  .then(csv => {
-    const rows = csv.split("\n").slice(1);
-    const grid = document.getElementById("grid");
-
-    rows.forEach(row => {
-      const c = row.split(",");
-      if (!c[0]) return;
-
-      const slug = slugify(c[0]);
-
-      grid.innerHTML += `
-        <div class="player-card">
-          <img class="player-photo"
-            src="${c[6]}"
-            onerror="this.src='images/placeholder_player.png'">
-
-          <div class="player-name">${c[0]}</div>
-          <div class="player-meta">${c[2]}</div>
-          <div class="player-meta">Class of ${c[1]} • ${c[3]}</div>
-
-          <div class="icon-links">
-            ${c[4] ? `<a href="${c[4]}" target="_blank">🎥</a>` : ""}
-            ${c[7] ? `<a href="${c[7]}" target="_blank">🐦</a>` : ""}
-          </div>
-
-          <a class="view-profile-btn"
-             href="profile.html?player=${slug}">
-             View Profile
-          </a>
-        </div>
-      `;
-    });
-  });
-</script>
-
+<script src="recruits.js"></script>
 </body>
 </html>
