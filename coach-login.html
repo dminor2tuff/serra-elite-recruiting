@@ -1,65 +1,35 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <base href="/serra-elite-recruiting/">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Coach Login</title>
-  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="styles.css">
+  <script src="auth.js"></script>
 </head>
 <body>
-  <div class="topbar">
-    <div class="nav">
-      <div class="brand">
-        <img src="images/serra_logo.png" alt="Serra" />
-      </div>
-      <div class="navlinks">
-        <a href="index.html">Home</a>
-        <a class="active" href="coach-login.html">Coach Login</a>
-        <a href="transcript-transfer.html">Transcript / Transfer</a>
-        <a href="recruits.html">Recruits</a>
-      </div>
-    </div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <img src="images/serra-logo.png" class="logo">
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+    </nav>
   </div>
+</header>
 
-  <div class="container">
-    <div class="card" style="max-width:520px;margin:18px auto;">
-      <div class="section-title">College Coach Login</div>
-      <div class="notice">Enter the password to access the full recruit board.</div>
+<section class="hero">
+  <div class="hero-overlay">
+    <h1>College Coach Login</h1>
+    <p>Authorized recruiting access only</p>
 
-      <div style="margin-top:12px;display:flex;gap:10px;align-items:center;">
-        <input id="pw" type="password" placeholder="Enter password" style="flex:1;padding:12px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.12);color:#fff;font-weight:850;outline:none;">
-        <button id="go" class="btn primary" style="border:none;cursor:pointer;">Login</button>
-      </div>
+    <input id="password" type="password" placeholder="Enter password"
+      style="padding:12px;width:260px;border-radius:8px;border:none">
 
-      <div id="msg" class="notice" style="margin-top:12px;"></div>
-    </div>
-
-    <div class="footer">serrafbrecruits.com</div>
+    <br><br>
+    <button class="btn" onclick="login()">Enter Recruiting Portal</button>
   </div>
+</section>
 
-<script>
-  const COACH_PASSWORD = "Serrafb";
-
-  function nextPage(){
-    const params = new URLSearchParams(window.location.search);
-    return params.get("next") || "recruits.html";
-  }
-
-  document.getElementById("go").addEventListener("click", ()=>{
-    const val = document.getElementById("pw").value.trim();
-    const msg = document.getElementById("msg");
-
-    if(val === COACH_PASSWORD){
-      localStorage.setItem("serra_coach_auth","yes");
-      window.location.href = nextPage();
-    }else{
-      msg.textContent = "Incorrect password. Please try again.";
-    }
-  });
-
-  document.getElementById("pw").addEventListener("keydown",(e)=>{
-    if(e.key === "Enter") document.getElementById("go").click();
-  });
-</script>
 </body>
 </html>
