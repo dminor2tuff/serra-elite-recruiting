@@ -1,59 +1,29 @@
-/* =====================================================
-   ROOT / THEME
-===================================================== */
 :root {
-  --bg: #0e0e11;
-  --panel: #1b1b22;
-  --panel-soft: #24242c;
-  --primary: #b71c1c;
-  --primary-dark: #8e1515;
-  --text: #f5f5f7;
-  --muted: #b5b5c0;
-  --border: rgba(255,255,255,.08);
+  --bg: #0f0f12;
+  --panel: #16161d;
+  --card: #1f1f28;
+  --text: #ffffff;
+  --muted: #b5b5c5;
+  --accent: #8b1c1c;
 }
 
-/* =====================================================
-   RESET
-===================================================== */
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: Inter, Arial, sans-serif;
-  background: #0f172a;
-  color: #e5e7eb;
-}
-}
-
-/* =====================================================
-   LINKS
-===================================================== */
-a {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+  background: var(--bg);
   color: var(--text);
-  text-decoration: none;
-  font-weight: 600;
 }
 
-a:hover {
-  color: var(--primary);
-}
+a { color: var(--text); text-decoration: none; }
 
-/* =====================================================
-   HEADER
-===================================================== */
 .site-header {
-  background: #14141a;
-  border-bottom: 1px solid var(--border);
+  background: rgba(15,15,18,.9);
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 10;
+  border-bottom: 1px solid #222;
 }
 
 .header-inner {
@@ -68,46 +38,29 @@ a:hover {
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-weight: 900;
-  letter-spacing: .6px;
+  gap: 10px;
+  font-weight: 800;
 }
 
 .logo {
-  height: 44px;
-  width: auto;
+  height: 40px;
 }
 
-.nav-links {
-  display: flex;
-  gap: 18px;
-  align-items: center;
+.nav-links a {
+  margin-left: 18px;
+  font-weight: 600;
 }
 
-.nav-links a.primary {
-  background: var(--primary);
-  padding: 8px 16px;
-  border-radius: 999px;
+.nav-links .primary {
+  background: var(--accent);
+  padding: 8px 14px;
+  border-radius: 6px;
 }
 
-/* =====================================================
-   LAYOUT
-===================================================== */
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
-}
-
-/* =====================================================
-   HERO
-===================================================== */
+/* HERO */
 .hero {
   position: relative;
-  height: 460px;
-  margin-top: 18px;
-  border-radius: 16px;
-  overflow: hidden;
+  height: 75vh;
 }
 
 .hero img {
@@ -116,252 +69,109 @@ a:hover {
   object-fit: cover;
 }
 
-.hero .overlay {
+.hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,.85),
-    rgba(0,0,0,.35)
-  );
+  background: linear-gradient(to top, rgba(15,15,18,.9), rgba(15,15,18,.3));
 }
 
-.hero .content {
+.hero-content {
   position: absolute;
-  bottom: 36px;
-  left: 36px;
-  max-width: 640px;
-  z-index: 2;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 800px;
+  padding: 0 20px;
 }
 
 .hero h1 {
-  font-size: 44px;
-  margin: 0 0 10px;
+  font-size: 3rem;
+  margin-bottom: 10px;
 }
 
 .hero p {
-  font-size: 16px;
   color: var(--muted);
+  max-width: 600px;
 }
 
-/* =====================================================
-   STATS
-===================================================== */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 16px;
-  margin: 32px 0;
+/* SECTIONS */
+.section {
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.stat {
+.section.alt {
   background: var(--panel);
-  padding: 22px;
-  border-radius: 14px;
-  text-align: center;
 }
 
-.stat .big {
-  font-size: 34px;
-  font-weight: 900;
-  color: var(--primary);
+.section h2 {
+  margin-bottom: 30px;
+  font-size: 2rem;
 }
 
-.stat .small {
-  font-size: 13px;
-  color: var(--muted);
+/* GRID */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap: 20px;
 }
 
-/* =====================================================
-   QR SECTION
-===================================================== */
-.qr {
+.card {
+  background: var(--card);
+  padding: 24px;
+  border-radius: 12px;
+}
+
+/* EXPECT */
+.expect-list {
+  list-style: none;
+  padding: 0;
+}
+
+.expect-list li {
+  padding: 12px 0;
+  font-size: 1.05rem;
+}
+
+/* ACCESS */
+.access {
   display: flex;
   align-items: center;
-  gap: 24px;
-  background: var(--panel);
-  padding: 22px;
-  border-radius: 14px;
+  gap: 30px;
 }
 
-.qr img {
-  width: 140px;
-  height: 140px;
-  object-fit: contain;
+.qr {
+  width: 160px;
+  border-radius: 10px;
+  background: #fff;
+  padding: 10px;
 }
 
-/* =====================================================
-   BUTTONS
-===================================================== */
-.btn-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 26px;
-}
-
+/* BUTTONS */
 .btn {
-  background: var(--panel-soft);
-  padding: 12px 22px;
-  border-radius: 999px;
+  display: inline-block;
+  margin-top: 15px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: #2a2a35;
   font-weight: 700;
 }
 
 .btn.primary {
-  background: var(--primary);
+  background: var(--accent);
 }
 
-.btn:hover {
-  opacity: .9;
-}
-
-/* =====================================================
-   RECRUITS GRID
-===================================================== */
-.recruits-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 22px;
-  margin-top: 30px;
-}
-
-.player-card {
-  background: var(--panel);
-  border-radius: 16px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.player-photo {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;         /* ✅ HEAD TO WAIST FIX */
-  object-position: top;
-}
-
-.player-info {
-  padding: 16px;
-  text-align: center;
-}
-
-.player-info h3 {
-  margin: 8px 0 4px;
-  font-size: 18px;
-}
-
-.player-info .meta {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.player-actions {
-  display: flex;
-  gap: 10px;
-  padding: 14px;
-  justify-content: center;
-}
-
-.icon-btn {
-  width: 38px;
-  height: 38px;
-  background: var(--panel-soft);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.icon-btn img {
-  width: 18px;
-  height: 18px;
-}
-
-/* =====================================================
-   PROFILE PAGE
-===================================================== */
-.profile {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 28px;
-  margin-top: 30px;
-}
-
-.profile img {
-  width: 100%;
-  border-radius: 16px;
-  object-fit: cover;
-}
-
-.profile h2 {
-  margin-top: 0;
-}
-
-/* =====================================================
-   FORMS / LOGIN
-===================================================== */
-form {
-  max-width: 420px;
-  margin: 60px auto;
-  background: var(--panel);
-  padding: 28px;
-  border-radius: 16px;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  margin-top: 12px;
-  border-radius: 10px;
-  border: none;
-  background: var(--panel-soft);
-  color: var(--text);
-}
-
-button {
-  width: 100%;
-  margin-top: 18px;
-  padding: 12px;
-  background: var(--primary);
-  border: none;
-  border-radius: 999px;
-  font-weight: 800;
-  color: white;
-  cursor: pointer;
-}
-
-/* =====================================================
-   FOOTER / MISC
-===================================================== */
-footer {
-  margin: 60px 0 30px;
+/* FOOTER */
+.site-footer {
+  padding: 30px;
   text-align: center;
   color: var(--muted);
-  font-size: 13px;
+  background: #0b0b0f;
 }
 
-/* =====================================================
-   MOBILE
-===================================================== */
+/* MOBILE */
 @media (max-width: 768px) {
-  .hero {
-    height: 300px;
-  }
-
-  .hero h1 {
-    font-size: 28px;
-  }
-
-  .qr {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .profile {
-    grid-template-columns: 1fr;
-  }
-
-  .nav-links {
-    display: none;
-  }
+  .hero h1 { font-size: 2.2rem; }
+  .access { flex-direction: column; text-align: center; }
 }
