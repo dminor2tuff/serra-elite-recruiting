@@ -1,49 +1,60 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Coach Login | Serra Elite Recruiting</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=1">
 </head>
-
 <body>
 
 <header class="site-header">
   <div class="header-inner">
     <div class="brand">
-      <img class="logo" src="images/serra_logo.png" alt="Serra">
+      <img class="logo" src="images/serra_logo.png" alt="Serra" onerror="this.style.display='none'">
       <span>Serra Elite Recruiting</span>
     </div>
-    <div class="nav-links">
+    <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a href="recruits.html">Recruits</a>
-    </div>
+      <a class="primary" href="coach-login.html">Coach Login</a>
+    </nav>
   </div>
 </header>
 
-<div class="container auth-container">
-
+<main class="container" style="padding-top:24px;">
   <div class="auth-card">
-    <h1>College Coach Login</h1>
-    <p class="muted">
-      Verified college coaches only.  
-      Access Serra Football recruiting profiles.
-    </p>
+    <h1 class="page-title" style="margin-bottom:6px;">Coach Access</h1>
+    <p class="muted" style="margin-top:0;">Verified college coaches only. Enter access password.</p>
 
-    <form id="loginForm">
-      <input type="email" placeholder="College Email" required>
-      <input type="password" placeholder="Password" required>
+    <form id="loginForm" class="auth-form">
+      <label class="label">Password</label>
+      <input id="pw" class="input" type="password" placeholder="Enter password" required>
 
-      <button class="btn primary full">Login</button>
+      <button class="btn primary" type="submit">Unlock Recruit Board</button>
+      <div id="msg" class="status" style="margin-top:12px;"></div>
     </form>
-
-    <div class="auth-footer">
-      <a href="index.html">← Back to Home</a>
-    </div>
   </div>
+</main>
 
-</div>
+<script src="auth.js?v=1"></script>
+<script>
+  const next = new URLSearchParams(location.search).get("next") || "recruits.html";
+  const form = document.getElementById("loginForm");
+  const msg = document.getElementById("msg");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const pw = document.getElementById("pw").value || "";
+    const ok = window.Auth && window.Auth.login(pw);
+
+    if (ok) {
+      msg.textContent = "Access granted. Redirecting…";
+      location.href = next;
+    } else {
+      msg.textContent = "Incorrect password.";
+    }
+  });
+</script>
 
 </body>
 </html>
