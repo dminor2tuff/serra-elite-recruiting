@@ -1,23 +1,30 @@
-const PASSWORD = "Serrafb";
+(function () {
+  const COACH_PASSWORD = "Serra!"; // <-- CHANGE THIS anytime
+  const KEY = "serraCoachAuthed";
 
-function login() {
-  const val = (document.getElementById("password")?.value || "").trim();
-  if (val === PASSWORD) {
-    localStorage.setItem("serra_auth", "true");
-    const next = new URLSearchParams(location.search).get("next") || "recruits.html";
-    location.href = next;
-  } else {
-    alert("Incorrect password");
+  function login(pw) {
+    if ((pw || "").trim() === COACH_PASSWORD) {
+      sessionStorage.setItem(KEY, "1");
+      return true;
+    }
+    return false;
   }
-}
 
-function protectPage() {
-  if (localStorage.getItem("serra_auth") !== "true") {
-    location.href = "coach-login.html?next=" + encodeURIComponent(location.pathname.split("/").pop() || "recruits.html");
+  function logout() {
+    sessionStorage.removeItem(KEY);
   }
-}
 
-function logout() {
-  localStorage.removeItem("serra_auth");
-  location.href = "index.html";
-}
+  function isCoach() {
+    return sessionStorage.getItem(KEY) === "1";
+  }
+
+  function requireCoach() {
+    if (isCoach()) return true;
+    // preserve current page as next
+    const next = encodeURIComponent(location.pathname.split("/").pop() || "recruits.html");
+    location.href = `coach-login.html?next=${next}`;
+    return false;
+  }
+
+  window.Auth = { login, logout, isCoach, requireCoach };
+})();
