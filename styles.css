@@ -225,3 +225,146 @@ a { color: var(--text); text-decoration: none; }
   margin: 0 6px;
   font-weight: bold;
 }
+/* ===== RECRUITING UI (append) ===== */
+.page-title { font-size: 32px; font-weight: 900; margin: 0 0 10px; }
+.status { color: var(--muted, #b8b8c7); font-weight: 700; padding: 10px 0; }
+
+.recruits-controls {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 14px 0 6px;
+}
+
+.search {
+  width: min(560px, 100%);
+  padding: 12px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.25);
+  color: #fff;
+  outline: none;
+}
+
+.filters { display: flex; gap: 10px; flex-wrap: wrap; }
+.pill {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 800;
+}
+.pill.active { background: var(--accent, #f2c94c); color: #111; border-color: transparent; }
+
+.recruit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  padding: 10px 0 30px;
+}
+
+.recruit-card {
+  background: var(--card, rgba(255,255,255,.06));
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 16px;
+  padding: 14px;
+  text-align: center;
+}
+
+.photo-wrap {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.10);
+}
+
+.recruit-photo {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  /* head-to-waist bias: pushes image UP so top junk (phone UI bars) is minimized */
+  object-position: 50% 18%;
+  display: block;
+}
+
+.recruit-name { margin: 10px 0 4px; font-weight: 900; font-size: 18px; }
+.recruit-meta { color: rgba(255,255,255,.85); font-weight: 700; font-size: 13px; margin: 2px 0; }
+
+.recruit-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.icon-row { display: flex; gap: 10px; }
+
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.25);
+  color: #fff;
+  text-decoration: none;
+}
+.icon-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* Coach login card */
+.auth-card {
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--card, rgba(255,255,255,.06));
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 16px;
+  padding: 18px;
+}
+.label { display:block; font-weight: 900; margin: 12px 0 6px; }
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.25);
+  color: #fff;
+  outline: none;
+}
+
+/* Profile page */
+.profile-card {
+  background: var(--card, rgba(255,255,255,.06));
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 16px;
+  padding: 16px;
+}
+.profile-top {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.profile-photo img{
+  width:100%;
+  height: 340px;
+  object-fit: cover;
+  object-position: 50% 18%;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.10);
+}
+.profile-name { margin: 0; font-size: 30px; font-weight: 1000; }
+.profile-links { display:flex; gap:10px; flex-wrap:wrap; margin-top: 14px; }
+
+@media (max-width: 820px) {
+  .profile-top { grid-template-columns: 1fr; }
+  .profile-photo img { height: 320px; }
+}
