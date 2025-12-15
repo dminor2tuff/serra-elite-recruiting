@@ -1,78 +1,60 @@
-const SHEET_URL =
-  "https://docs.google.com/spreadsheets/d/e/YOUR_SHEET_ID/pub?output=csv";
+const recruits = [
+  {
+    name: "Devohn Moutra Jr",
+    position: "DB / RB",
+    classYear: "2026",
+    height: "5'10\"",
+    weight: "184 lbs",
+    image: "images/devohn_moutra.png",
+    hudl: "#",
+    twitter: "#"
+  },
+  {
+    name: "Nicolas Johnson",
+    position: "QB",
+    classYear: "2026",
+    height: "5'11\"",
+    weight: "181 lbs",
+    image: "images/johnson_nicolas.png",
+    hudl: "#",
+    twitter: "#"
+  }
+];
 
-const grid = document.getElementById("recruitsGrid");
-let allPlayers = [];
+const grid = document.getElementById("recruitGrid");
+const buttons = document.querySelectorAll(".filters button");
 
-fetch(SHEET_URL)
-  .then(res => res.text())
-  .then(csv => {
-    const rows = csv.split("\n").slice(1);
-    allPlayers = rows.map(r => {
-      const c = r.split(",");
-      return {
-        name: c[0],
-        position: c[1],
-        classYear: c[2],
-        height: c[3],
-        weight: c[4],
-        image: c[5],
-        twitter: cleanTwitter(c[6]),
-        hudl: c[7],
-        slug: c[8]
-      };
-    });
-    render(allPlayers);
-  });
-
-function render(players) {
+function renderRecruits(filter) {
   grid.innerHTML = "";
-  players.forEach(p => {
-    grid.innerHTML += `
-      <div class="player-card">
-        <img class="player-photo"
-             src="${p.image || 'images/placeholder.png'}"
-             onerror="this.src='images/placeholder.png'">
 
-        <div class="player-info">
-          <h3>${p.name}</h3>
-          <div class="meta">
-            ${p.position}<br>
-            Class of ${p.classYear}<br>
-            ${p.height} / ${p.weight}
-          </div>
+  recruits
+    .filter(r => filter === "all" || r.classYear === filter)
+    .forEach(r => {
+      const card = document.createElement("div");
+      card.className = "recruit-card";
+
+      card.innerHTML = `
+        <img src="${r.image}" onerror="this.src='images/placeholder.png'">
+        <h3>${r.name}</h3>
+        <p>${r.position}</p>
+        <p>Class of ${r.classYear}</p>
+        <p>${r.height} • ${r.weight}</p>
+
+        <div class="icons">
+          <a href="${r.twitter}" target="_blank">X</a>
+          <a href="${r.hudl}" target="_blank">Hudl</a>
         </div>
+      `;
+      grid.appendChild(card);
+    });
+}
 
-        <div class="player-actions">
-          ${p.twitter ? `
-            <a class="icon-btn" href="${p.twitter}" target="_blank">
-              <img src="icons/twitter.svg">
-            </a>` : ""}
-
-          ${p.hudl ? `
-            <a class="icon-btn" href="${p.hudl}" target="_blank">
-              <img src="icons/hudl.svg">
-            </a>` : ""}
-
-          <a class="icon-btn" href="profile.html?player=${p.slug}">
-            <img src="icons/profile.svg">
-          </a>
-        </div>
-      </div>
-    `;
+buttons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    buttons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    renderRecruits(btn.dataset.class);
   });
-}
-
-function cleanTwitter(val) {
-  if (!val) return "";
-  val = val.replace("@", "").replace("https://twitter.com/", "");
-  return "https://twitter.com/" + val;
-}
-
-document.querySelectorAll(".filter-btn").forEach(btn => {
-  btn.onclick = () => {
-    const year = btn.dataset.class;
-    if (year === "All") render(allPlayers);
-    else render(allPlayers.filter(p => p.classYear === year));
-  };
 });
+
+renderRecruits("all");
