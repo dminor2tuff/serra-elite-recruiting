@@ -174,4 +174,54 @@ a { color: var(--text); text-decoration: none; }
 @media (max-width: 768px) {
   .hero h1 { font-size: 2.2rem; }
   .access { flex-direction: column; text-align: center; }
+}/* RECRUITS */
+.filters {
+  margin: 20px 0;
+}
+
+.filters button {
+  margin-right: 8px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: #2a2a35;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.filters .active {
+  background: var(--accent);
+}
+
+.recruit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  gap: 20px;
+}
+
+.recruit-card {
+  background: var(--card);
+  padding: 18px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.recruit-card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.recruit-card h3 {
+  margin: 10px 0 4px;
+}
+
+.icons {
+  margin-top: 10px;
+}
+
+.icons a {
+  margin: 0 6px;
+  font-weight: bold;
 }
