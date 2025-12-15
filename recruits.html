@@ -1,43 +1,51 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Serra Football Recruits</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=1" />
 </head>
-
 <body>
 
 <header class="site-header">
   <div class="header-inner">
     <div class="brand">
-      <img src="images/serra_logo.png" class="logo">
+      <img class="logo" src="images/serra_logo.png" alt="Serra" onerror="this.style.display='none'">
       <span>Serra Elite Recruiting</span>
     </div>
     <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a class="primary" href="#">Recruit Board</a>
+      <a class="primary" href="recruits.html">Recruits</a>
+      <a href="coach-login.html?next=recruits.html">Coach Login</a>
     </nav>
   </div>
 </header>
 
-<section class="section">
-  <h2>Serra Football Recruits</h2>
+<main class="container" style="padding-top:18px;">
+  <div class="recruits-top">
+    <h1 class="page-title">Serra Football Recruits</h1>
 
-  <!-- FILTERS -->
-  <div class="filters">
-    <button data-class="all" class="active">All</button>
-    <button data-class="2026">2026</button>
-    <button data-class="2027">2027</button>
-    <button data-class="2028">2028</button>
-    <button data-class="2029">2029</button>
+    <div class="recruits-controls">
+      <input id="search" class="search" type="search" placeholder="Search name or position…" autocomplete="off" />
+      <div class="filters" id="filters">
+        <button class="pill active" data-class="All">All</button>
+        <button class="pill" data-class="2026">2026</button>
+        <button class="pill" data-class="2027">2027</button>
+        <button class="pill" data-class="2028">2028</button>
+        <button class="pill" data-class="2029">2029</button>
+      </div>
+    </div>
+
+    <div id="status" class="status">Loading recruits…</div>
   </div>
 
-  <!-- GRID -->
-  <div id="recruitGrid" class="recruit-grid"></div>
-</section>
+  <section>
+    <div id="grid" class="recruit-grid"></div>
+  </section>
+</main>
 
-<script src="recruits.js"></script>
+<script src="auth.js?v=1"></script>
+<script src="recruits.js?v=1"></script>
 </body>
 </html>
