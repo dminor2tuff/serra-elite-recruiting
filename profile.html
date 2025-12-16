@@ -3,21 +3,30 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Recruit Profile | Serra Elite Recruiting</title>
-  <link rel="stylesheet" href="styles.css?v=1" />
+  <title>Recruit Profile</title>
+  <link rel="stylesheet" href="styles.css?v=40" />
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-inner">
-    <div class="brand">
-      <img class="logo" src="images/serra_logo.png" alt="Serra" onerror="this.style.display='none'">
+    <a class="brand" href="index.html">
+      <img src="images/serra_logo.png" class="logo" alt="Serra" onerror="this.style.display='none'">
       <span>Serra Elite Recruiting</span>
-    </div>
+    </a>
     <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a href="recruits.html">Recruits</a>
+      <a href="recruits.html" class="active">Recruits</a>
+      <a class="pill-link coach" href="coach-login.html?next=recruits.html">Coach Login</a>
+      <a class="pill-link admin" href="admin-login.html?next=admin.html">Admin Login</a>
     </nav>
+    <button class="menu-toggle" type="button" onclick="toggleMenu()" aria-label="Open menu">☰</button>
+  </div>
+  <div id="mobileMenu" class="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="recruits.html" class="active">Recruits</a>
+    <a href="coach-login.html?next=recruits.html">Coach Login</a>
+    <a href="admin-login.html?next=admin.html">Admin Login</a>
   </div>
 </header>
 
@@ -27,126 +36,138 @@
   </div>
 </main>
 
+<script src="auth.js?v=40"></script>
 <script>
-  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+Auth.requireCoach();
 
-  function parseCSV(text) {
-    const rows = [];
-    let row = [], cur = "", inQuotes = false;
-    for (let i=0;i<text.length;i++){
-      const ch=text[i], next=text[i+1];
-      if (ch === '"' && inQuotes && next === '"'){ cur+='"'; i++; }
-      else if (ch === '"'){ inQuotes=!inQuotes; }
-      else if (ch === "," && !inQuotes){ row.push(cur); cur=""; }
-      else if ((ch === "\n" || ch === "\r") && !inQuotes){
-        if (cur.length || row.length) row.push(cur);
-        if (row.length) rows.push(row);
-        row=[]; cur="";
-        if (ch === "\r" && next === "\n") i++;
-      } else cur += ch;
-    }
-    if (cur.length || row.length){ row.push(cur); rows.push(row); }
-    return rows;
+function toggleMenu() {
+  const m = document.getElementById("mobileMenu");
+  m.style.display = (m.style.display === "flex") ? "none" : "flex";
+}
+
+function parseCSV(text) {
+  const rows = [];
+  let row = [];
+  let cur = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    const next = text[i + 1];
+    if (ch === '"' && inQuotes && next === '"') { cur += '"'; i++; }
+    else if (ch === '"') inQuotes = !inQuotes;
+    else if (ch === "," && !inQuotes) { row.push(cur); cur = ""; }
+    else if ((ch === "\n" || ch === "\r") && !inQuotes) {
+      if (cur.length || row.length) row.push(cur);
+      if (row.length) rows.push(row);
+      row = []; cur = "";
+      if (ch === "\r" && next === "\n") i++;
+    } else cur += ch;
   }
-  const nk = s => String(s||"").trim().toLowerCase().replace(/\s+/g,"_").replace(/[^\w]/g,"");
-  const slugify = s => String(s||"").trim().toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+  if (cur.length || row.length) { row.push(cur); rows.push(row); }
+  return rows;
+}
 
-  function normalizeTwitter(v){
-    v=String(v||"").trim();
-    if(!v) return "";
-    if(v.startsWith("http")) return v;
-    v=v.replace(/^@/,"").trim();
-    return v ? `https://twitter.com/${v}` : "";
+const nk = s => String(s||"").trim().toLowerCase().replace(/\s+/g,"");
+const slugify = s => String(s||"").trim().toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+
+function normalizePhoto(v){
+  v=String(v||"").trim();
+  if(!v) return "images/placeholder.png";
+  if(v.startsWith("http")) return v;
+  if(v.startsWith("images/")||v.startsWith("./images/")) return v.replace("./","");
+  return `images/${v}`;
+}
+function normalizeTwitter(v){
+  v=String(v||"").trim();
+  if(!v) return "";
+  if(v.startsWith("http")) return v;
+  v=v.replace(/^@/,"").trim();
+  return v ? `https://twitter.com/${v}` : "";
+}
+function normalizeHudl(v){
+  v=String(v||"").trim();
+  if(!v) return "";
+  return v.startsWith("http") ? v : "";
+}
+function pick(map,row,opts){
+  for(const opt of opts){
+    const k=nk(opt);
+    if(map[k]!==undefined) return row[map[k]] ?? "";
   }
-  function normalizeHudl(v){
-    v=String(v||"").trim();
-    if(!v) return "";
-    return v.startsWith("http") ? v : "";
+  return "";
+}
+
+async function run(){
+  const id = new URLSearchParams(location.search).get("id") || "";
+  const box = document.getElementById("profile");
+
+  const res = await fetch(CSV_URL, {cache:"no-store"});
+  const text = await res.text();
+  const rows = parseCSV(text);
+  const headers = rows[0] || [];
+  const map = {};
+  headers.forEach((h,i)=>map[nk(h)]=i);
+
+  const data = rows.slice(1).map(r=>{
+    const name = pick(map,r,["Name"]).trim();
+    if(!name) return null;
+    return {
+      name,
+      slug: slugify(name),
+      classYear: pick(map,r,["Class"]).trim(),
+      position: pick(map,r,["Position"]).trim(),
+      heightWeight: pick(map,r,["HeightWeight"]).trim(),
+      gpa: pick(map,r,["GPA"]).trim(),
+      writeup: pick(map,r,["Writeup"]).trim(),
+      hudl: normalizeHudl(pick(map,r,["HUDL","Hudl"])),
+      twitter: normalizeTwitter(pick(map,r,["Twitter","X"])),
+      photo: normalizePhoto(pick(map,r,["ImageURL","Photo"]))
+    };
+  }).filter(Boolean);
+
+  const p = data.find(x=>x.slug===id);
+  if(!p){
+    box.innerHTML = `<div class="status">Profile not found. <a href="recruits.html">Back to recruits</a></div>`;
+    return;
   }
-  function normalizePhoto(v){
-    v=String(v||"").trim();
-    if(!v) return "images/placeholder.png";
-    if(v.startsWith("http")){
-      const fileD=v.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-      const openId=v.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-      const id=(fileD&&fileD[1])||(openId&&openId[1]);
-      if(id) return `https://drive.google.com/uc?export=download&id=${id}`;
-      return v;
-    }
-    if(v.startsWith("images/")||v.startsWith("./images/")) return v.replace("./","");
-    return `images/${v}`;
-  }
 
-  function pick(map,row,opts){
-    for(const opt of opts){
-      const k=nk(opt);
-      if(map[k]!==undefined) return row[map[k]] ?? "";
-    }
-    return "";
-  }
+  document.title = `${p.name} | Serra Recruiting`;
 
-  async function run(){
-    const id = new URLSearchParams(location.search).get("id") || "";
-    const box = document.getElementById("profile");
+  box.innerHTML = `
+    <div class="profile-top">
+      <div class="profile-photo">
+        <img src="${p.photo}" alt="${p.name}" onerror="this.src='images/placeholder.png'">
+      </div>
+      <div class="profile-info">
+        <h1 class="profile-name">${p.name}</h1>
+        <div class="muted">${p.position || ""}</div>
+        <div class="muted">Class of ${p.classYear || ""}${p.gpa ? ` • GPA ${p.gpa}` : ""}</div>
+        <div class="muted">${p.heightWeight || ""}</div>
 
-    const res = await fetch(CSV_URL, {cache:"no-store"});
-    const text = await res.text();
-    const rows = parseCSV(text);
-    const headers = rows[0] || [];
-    const map = {};
-    headers.forEach((h,i)=>map[nk(h)]=i);
-
-    const data = rows.slice(1).map(r=>{
-      const name = pick(map,r,["name","player","player_name","athlete","full_name"]).trim();
-      if(!name) return null;
-      const slug = slugify(name);
-      return {
-        name,
-        slug,
-        position: pick(map,r,["position","pos"]).trim(),
-        classYear: pick(map,r,["class","class_year","grad_year","year"]).trim(),
-        height: pick(map,r,["height"]).trim(),
-        weight: pick(map,r,["weight","wt"]).trim(),
-        twitter: normalizeTwitter(pick(map,r,["twitter","x","twitter_link","twitter_url","twitter_fixed"])),
-        hudl: normalizeHudl(pick(map,r,["hudl","hudl_link","hudl_url"])),
-        photo: normalizePhoto(pick(map,r,["photo","photo_url","image","image_url","headshot","pic","picture"]))
-      };
-    }).filter(Boolean);
-
-    const player = data.find(p=>p.slug===id) || data.find(p=>p.name.toLowerCase()===id.toLowerCase());
-
-    if(!player){
-      box.innerHTML = `<div class="status">Profile not found. <a href="recruits.html">Back to recruits</a></div>`;
-      return;
-    }
-
-    document.title = `${player.name} | Serra Elite Recruiting`;
-
-    box.innerHTML = `
-      <div class="profile-top">
-        <div class="profile-photo">
-          <img src="${player.photo}" alt="${player.name}" onerror="this.src='images/placeholder.png'">
-        </div>
-        <div class="profile-info">
-          <h1 class="profile-name">${player.name}</h1>
-          <div class="muted">${player.position || ""}</div>
-          <div class="muted">Class of ${player.classYear || ""}</div>
-          <div class="muted">${[player.height, player.weight].filter(Boolean).join(" • ")}</div>
-
-          <div class="profile-links">
-            ${player.twitter ? `<a class="btn small" target="_blank" rel="noopener" href="${player.twitter}">X / Twitter</a>` : ""}
-            ${player.hudl ? `<a class="btn small" target="_blank" rel="noopener" href="${player.hudl}">Hudl Film</a>` : ""}
-            <a class="btn small" href="recruits.html">Back to Recruits</a>
-          </div>
+        <div class="profile-links">
+          ${p.twitter ? `<a class="btn small" href="${p.twitter}" target="_blank" rel="noopener">X / Twitter</a>` : ""}
+          ${p.hudl ? `<a class="btn small" href="${p.hudl}" target="_blank" rel="noopener">Hudl Film</a>` : ""}
+          <a class="btn small" href="recruits.html">Back to Recruits</a>
         </div>
       </div>
-    `;
-  }
+    </div>
 
-  run().catch(()=>{
-    document.getElementById("profile").innerHTML = `<div class="status">Error loading profile.</div>`;
-  });
+    ${p.writeup ? `<div class="writeup"><h3>Scouting Write-up</h3><p>${escapeHtml(p.writeup)}</p></div>` : ""}
+  `;
+}
+
+function escapeHtml(s){
+  return String(s||"")
+    .replaceAll("&","&amp;").replaceAll("<","&lt;")
+    .replaceAll(">","&gt;").replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;").replace(/\n/g,"<br>");
+}
+
+run().catch(()=>{
+  document.getElementById("profile").innerHTML = `<div class="status">Error loading profile.</div>`;
+});
 </script>
-
 </body>
 </html>
