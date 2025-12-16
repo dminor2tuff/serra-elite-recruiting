@@ -3,20 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Coach Login | Serra Elite Recruiting</title>
-  <link rel="stylesheet" href="styles.css?v=1">
+  <title>Coach Login</title>
+  <link rel="stylesheet" href="styles.css?v=40" />
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-inner">
-    <div class="brand">
-      <img class="logo" src="images/serra_logo.png" alt="Serra" onerror="this.style.display='none'">
+    <a class="brand" href="index.html">
+      <img src="images/serra_logo.png" class="logo" alt="Serra" onerror="this.style.display='none'">
       <span>Serra Elite Recruiting</span>
-    </div>
+    </a>
     <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a class="primary" href="coach-login.html">Coach Login</a>
+      <a href="recruits.html">Recruits</a>
+      <a class="pill-link coach active" href="coach-login.html">Coach Login</a>
+      <a class="pill-link admin" href="admin-login.html?next=admin.html">Admin Login</a>
     </nav>
   </div>
 </header>
@@ -24,19 +26,18 @@
 <main class="container" style="padding-top:24px;">
   <div class="auth-card">
     <h1 class="page-title" style="margin-bottom:6px;">Coach Access</h1>
-    <p class="muted" style="margin-top:0;">Verified college coaches only. Enter access password.</p>
+    <p class="muted" style="margin-top:0;">Enter password to view recruiting board.</p>
 
     <form id="loginForm" class="auth-form">
       <label class="label">Password</label>
       <input id="pw" class="input" type="password" placeholder="Enter password" required>
-
-      <button class="btn primary" type="submit">Unlock Recruit Board</button>
+      <button class="btn primary" type="submit">Unlock</button>
       <div id="msg" class="status" style="margin-top:12px;"></div>
     </form>
   </div>
 </main>
 
-<script src="auth.js?v=1"></script>
+<script src="auth.js?v=40"></script>
 <script>
   const next = new URLSearchParams(location.search).get("next") || "recruits.html";
   const form = document.getElementById("loginForm");
@@ -44,17 +45,10 @@
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const pw = document.getElementById("pw").value || "";
-    const ok = window.Auth && window.Auth.login(pw);
-
-    if (ok) {
-      msg.textContent = "Access granted. Redirecting…";
-      location.href = next;
-    } else {
-      msg.textContent = "Incorrect password.";
-    }
+    const ok = Auth.loginCoach(document.getElementById("pw").value || "");
+    msg.textContent = ok ? "Access granted. Redirecting…" : "Incorrect password.";
+    if (ok) location.href = next;
   });
 </script>
-
 </body>
 </html>
