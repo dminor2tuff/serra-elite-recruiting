@@ -1,58 +1,97 @@
-Auth.requireCoach();
+const SHEET_URL =
+  "https://opensheet.elk.sh/YOUR_SHEET_ID/YOUR_TAB_NAME";
 
-const CSV =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const grid = document.getElementById("recruitsGrid");
+const searchInput = document.getElementById("searchInput");
+const classButtons = document.querySelectorAll(".class-filters button");
 
-const grid = document.getElementById("grid");
-const search = document.getElementById("search");
-let recruits = [];
-let classFilter = "All";
+let players = [];
+let activeClass = "All";
 
-fetch(CSV)
-  .then(r => r.text())
-  .then(text => {
-    const rows = text.split("\n").slice(1);
-    recruits = rows.map(r => {
-      const c = r.split(",");
-      return {
-        name: c[0],
-        classYear: c[1],
-        position: c[2],
-        photo: c[6] ? `images/${c[6]}` : "images/placeholder.png",
-        twitter: c[7],
-        hudl: c[4]
-      };
-    });
-    render();
-  });
+// ---------- IMAGE NORMALIZER ----------
+function getPlayerImage(photo) {
+  if (!photo) return "images/placeholder.png";
 
-function render() {
+  if (photo.startsWith("http")) {
+    return photo.trim();
+  }
+
+  return `images/${photo.trim()}`;
+}
+
+// ---------- RENDER ----------
+function renderPlayers() {
   grid.innerHTML = "";
-  recruits
-    .filter(r => classFilter === "All" || r.classYear.includes(classFilter))
-    .filter(r => r.name.toLowerCase().includes(search.value.toLowerCase()))
-    .forEach(r => {
-      grid.innerHTML += `
-      <div class="recruit-card">
-        <img src="${r.photo}" class="recruit-photo"
-             onerror="this.src='images/placeholder.png'">
-        <h3>${r.name}</h3>
-        <p>${r.position}</p>
-        <p>Class of ${r.classYear}</p>
-        <div class="icons">
-          ${r.twitter ? `<a href="https://twitter.com/${r.twitter.replace("@","")}" target="_blank">X</a>` : ""}
-          ${r.hudl ? `<a href="${r.hudl}" target="_blank">Hudl</a>` : ""}
-        </div>
-      </div>`;
+
+  const search = searchInput.value.toLowerCase();
+
+  players
+    .filter(p =>
+      (activeClass === "All" || p.class === activeClass) &&
+      (`${p.name} ${p.position}`.toLowerCase().includes(search))
+    )
+    .forEach(player => {
+      const card = document.createElement("div");
+      card.className = "player-card";
+
+      const img = document.createElement("img");
+      img.className = "player-photo";
+      img.src = getPlayerImage(player.photo);
+      img.onerror = () => img.src = "images/placeholder.png";
+
+      const name = document.createElement("h3");
+      name.textContent = player.name;
+
+      const info = document.createElement("p");
+      info.textContent = `${player.position} • Class of ${player.class}`;
+
+      const icons = document.createElement("div");
+      icons.className = "player-icons";
+
+      if (player.hudl) {
+        const hudl = document.createElement("a");
+        hudl.href = player.hudl;
+        hudl.target = "_blank";
+        hudl.innerHTML = `<img src="icons/hudl.svg" alt="Hudl">`;
+        icons.appendChild(hudl);
+      }
+
+      if (player.twitter) {
+        const twitter = document.createElement("a");
+        twitter.href = player.twitter;
+        twitter.target = "_blank";
+        twitter.innerHTML = `<img src="icons/twitter.svg" alt="Twitter">`;
+        icons.appendChild(twitter);
+      }
+
+      card.append(img, name, info, icons);
+      grid.appendChild(card);
     });
 }
 
-search.oninput = render;
-document.querySelectorAll(".filters button").forEach(b => {
-  b.onclick = () => {
-    document.querySelectorAll(".filters button").forEach(x => x.classList.remove("active"));
-    b.classList.add("active");
-    classFilter = b.dataset.class;
-    render();
-  };
+// ---------- FETCH ----------
+fetch(SHEET_URL)
+  .then(res => res.json())
+  .then(data => {
+    players = data.map(p => ({
+      name: p.Name,
+      position: p.Position,
+      class: p.Class,
+      photo: p.Photo,
+      hudl: p.Hudl,
+      twitter: p.Twitter
+    }));
+    renderPlayers();
+  });
+
+// ---------- EVENTS ----------
+searchInput.addEventListener("input", renderPlayers);
+
+classButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    classButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeClass = btn.dataset.class;
+    renderPlayers();
+  });
 });
