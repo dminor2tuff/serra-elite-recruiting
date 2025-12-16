@@ -1,1 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin | Serra Recruiting</title>
+  <link rel="stylesheet" href="styles.css?v=40" />
+</head>
+<body>
 
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <img src="images/serra_logo.png" class="logo" alt="Serra" onerror="this.style.display='none'">
+      <span>Serra Elite Recruiting</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="recruits.html">Recruits</a>
+      <a class="pill-link coach" href="coach-login.html?next=recruits.html">Coach Login</a>
+      <a class="pill-link admin active" href="admin.html">Admin</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container" style="padding-top:18px;">
+  <div class="admin-wrap">
+    <div class="panel">
+      <h1 class="page-title">Admin Upload</h1>
+      <p class="muted">Add players to Google Sheets. Recruits board updates automatically.</p>
+
+      <form id="adminUpload" class="admin-form">
+        <div class="form-row">
+          <div>
+            <label class="label">Name</label>
+            <input class="input" name="Name" required placeholder="First Last">
+          </div>
+          <div>
+            <label class="label">Class</label>
+            <input class="input" name="Class" required placeholder="2026">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label class="label">Position</label>
+            <input class="input" name="Position" required placeholder="DB / RB">
+          </div>
+          <div>
+            <label class="label">HeightWeight</label>
+            <input class="input" name="HeightWeight" placeholder="5'10 / 184 lbs">
+          </div>
+        </div>
+
+        <label class="label">HUDL</label>
+        <input class="input" name="HUDL" placeholder="https://www.hudl.com/...">
+
+        <label class="label">Twitter</label>
+        <input class="input" name="Twitter" placeholder="https://twitter.com/handle or @handle">
+
+        <label class="label">GPA</label>
+        <input class="input" name="GPA" placeholder="3.2">
+
+        <label class="label">Writeup</label>
+        <textarea class="textarea" name="Writeup" rows="5" placeholder="Scouting write-up..."></textarea>
+
+        <label class="label">ImageURL</label>
+        <input class="input" name="ImageURL" placeholder="raw.githubusercontent.com URL OR filename.png">
+
+        <div class="admin-actions">
+          <button class="btn primary" type="submit">Submit Player</button>
+          <button class="btn ghost" type="button" id="logoutBtn">Logout Admin</button>
+        </div>
+
+        <div id="adminMsg" class="status" style="margin-top:12px;"></div>
+      </form>
+    </div>
+
+    <div class="panel">
+      <h2 style="margin-top:0;">Photo URL Tip</h2>
+      <p class="muted">
+        Best option: paste the <b>raw.githubusercontent.com</b> image link from your repo.
+        Example:
+      </p>
+      <div class="codebox">
+https://raw.githubusercontent.com/dminor2tuff/serra-elite-recruiting/main/images/moutra_jr_devohn.png
+      </div>
+      <p class="muted" style="margin-top:12px;">
+        If you prefer filenames, you can use: <b>moutra_jr_devohn.png</b> and put the file inside <b>/images/</b>.
+      </p>
+    </div>
+  </div>
+</main>
+
+<script src="auth.js?v=40"></script>
+<script>
+  Auth.requireAdmin();
+
+  // PASTE YOUR APPS SCRIPT WEB APP URL HERE:
+  const APPS_SCRIPT_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+  const form = document.getElementById("adminUpload");
+  const msg = document.getElementById("adminMsg");
+
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    Auth.logoutAdmin();
+    location.href = "index.html";
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    msg.textContent = "Submitting…";
+
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      const res = await fetch(APPS_SCRIPT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(data)
+      });
+
+      // Some deployments return text
+      const text = await res.text();
+      msg.textContent = res.ok ? "✅ Player submitted successfully." : ("❌ Submit failed: " + text);
+
+      if (res.ok) form.reset();
+    } catch (err) {
+      msg.textContent = "❌ Error submitting. Check Apps Script URL / permissions.";
+    }
+  });
+</script>
+</body>
+</html>
