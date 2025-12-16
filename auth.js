@@ -1,30 +1,18 @@
-(function () {
-  const COACH_PASSWORD = "Serra!"; // <-- CHANGE THIS anytime
-  const KEY = "serraCoachAuthed";
+const PASSWORD = "Serra!";
+const KEY = "serraAuth";
 
-  function login(pw) {
-    if ((pw || "").trim() === COACH_PASSWORD) {
-      sessionStorage.setItem(KEY, "1");
-      return true;
-    }
-    return false;
+function login(pw) {
+  if (pw === PASSWORD) {
+    sessionStorage.setItem(KEY, "1");
+    return true;
   }
+  return false;
+}
 
-  function logout() {
-    sessionStorage.removeItem(KEY);
+function requireCoach() {
+  if (!sessionStorage.getItem(KEY)) {
+    location.href = "coach-login.html?next=recruits.html";
   }
+}
 
-  function isCoach() {
-    return sessionStorage.getItem(KEY) === "1";
-  }
-
-  function requireCoach() {
-    if (isCoach()) return true;
-    // preserve current page as next
-    const next = encodeURIComponent(location.pathname.split("/").pop() || "recruits.html");
-    location.href = `coach-login.html?next=${next}`;
-    return false;
-  }
-
-  window.Auth = { login, logout, isCoach, requireCoach };
-})();
+window.Auth = { login, requireCoach };
