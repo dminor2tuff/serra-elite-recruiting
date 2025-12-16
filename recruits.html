@@ -1,48 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Serra Football Recruits</title>
-
-  <link rel="stylesheet" href="styles.css" />
+  <title>Serra Recruits</title>
+  <link rel="stylesheet" href="styles.css?v=40" />
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-inner">
-    <div class="brand">
-      <img src="images/serra_logo.png" class="logo" alt="Serra Football">
+    <a class="brand" href="index.html">
+      <img src="images/serra_logo.png" class="logo" alt="Serra" onerror="this.style.display='none'">
       <span>Serra Elite Recruiting</span>
-    </div>
+    </a>
 
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="recruits.html" class="active">Recruits</a>
-      <a href="coach-login.html">Coach Login</a>
+      <a class="pill-link coach" href="coach-login.html?next=recruits.html">Coach Login</a>
+      <a class="pill-link admin" href="admin-login.html?next=admin.html">Admin Login</a>
     </nav>
+
+    <button class="menu-toggle" type="button" onclick="toggleMenu()" aria-label="Open menu">☰</button>
+  </div>
+
+  <div id="mobileMenu" class="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="recruits.html" class="active">Recruits</a>
+    <a href="coach-login.html?next=recruits.html">Coach Login</a>
+    <a href="admin-login.html?next=admin.html">Admin Login</a>
   </div>
 </header>
 
-<main class="container">
+<main class="container" style="padding-top:18px;">
+  <div class="recruits-top">
+    <h1 class="page-title">Recruit Board</h1>
+    <div class="muted">Filter by class, search by name/position, open film + social.</div>
 
-  <h1>Serra Football Recruits</h1>
-
-  <div class="filters">
-    <input id="searchInput" type="text" placeholder="Search by name or position">
-    <div class="class-filters">
-      <button data-class="All" class="active">All</button>
-      <button data-class="2026">2026</button>
-      <button data-class="2027">2027</button>
-      <button data-class="2028">2028</button>
-      <button data-class="2029">2029</button>
+    <div class="recruits-controls">
+      <input id="search" class="search" type="search" placeholder="Search name or position…" autocomplete="off" />
+      <div class="filters" id="filters">
+        <button class="pill active" data-class="All">All</button>
+        <button class="pill" data-class="2026">2026</button>
+        <button class="pill" data-class="2027">2027</button>
+        <button class="pill" data-class="2028">2028</button>
+        <button class="pill" data-class="2029">2029</button>
+      </div>
     </div>
+
+    <div id="status" class="status">Loading recruits…</div>
   </div>
 
-  <div id="recruitsGrid" class="recruits-grid"></div>
-
+  <section>
+    <div id="grid" class="recruit-grid"></div>
+  </section>
 </main>
 
-<script src="recruits.js"></script>
+<script src="auth.js?v=40"></script>
+<script src="recruits.js?v=40"></script>
+
+<script>
+function toggleMenu() {
+  const m = document.getElementById("mobileMenu");
+  m.style.display = (m.style.display === "flex") ? "none" : "flex";
+}
+</script>
 </body>
 </html>
