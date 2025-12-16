@@ -1,39 +1,48 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Serra Recruits</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="styles.css?v=12">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Serra Football Recruits</title>
+
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-inner">
     <div class="brand">
-      <img src="images/serra_logo.png" class="logo">
+      <img src="images/serra_logo.png" class="logo" alt="Serra Football">
       <span>Serra Elite Recruiting</span>
     </div>
+
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="recruits.html" class="active">Recruits</a>
+      <a href="coach-login.html">Coach Login</a>
+    </nav>
   </div>
 </header>
 
 <main class="container">
-  <h1 class="page-title">Serra Football Recruits</h1>
 
-  <input id="search" class="search" placeholder="Search by name or position">
+  <h1>Serra Football Recruits</h1>
 
   <div class="filters">
-    <button data-class="All" class="active">All</button>
-    <button data-class="2026">2026</button>
-    <button data-class="2027">2027</button>
-    <button data-class="2028">2028</button>
-    <button data-class="2029">2029</button>
+    <input id="searchInput" type="text" placeholder="Search by name or position">
+    <div class="class-filters">
+      <button data-class="All" class="active">All</button>
+      <button data-class="2026">2026</button>
+      <button data-class="2027">2027</button>
+      <button data-class="2028">2028</button>
+      <button data-class="2029">2029</button>
+    </div>
   </div>
 
-  <div id="grid" class="recruit-grid"></div>
+  <div id="recruitsGrid" class="recruits-grid"></div>
+
 </main>
 
-<script src="auth.js"></script>
 <script src="recruits.js"></script>
 </body>
 </html>
