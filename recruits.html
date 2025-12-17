@@ -1,57 +1,27 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <base href="/serra-elite-recruiting/">
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Recruits • Serra Football Recruiting</title>
-  <link rel="stylesheet" href="styles.css?v=100">
+  <meta charset="utf-8">
+  <title>Serra Recruits</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+  <script src="auth.js"></script>
+  <script src="recruits.js" defer></script>
 </head>
-<body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <div class="brand">
-      <img class="logo" src="images/serra_logo.png" alt="Serra Football" onerror="this.style.display='none'">
-      <div class="title">Serra Elite Recruiting</div>
-    </div>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a class="primary" href="recruits.html">Recruits</a>
-      <a href="coach-login.html">Coach Login</a>
-      <a href="admin.html">Admin Login</a>
-    </nav>
-  </div>
+<body onload="Auth.requireCoach()">
+<header class="top-nav">
+  <span>Serra Football Recruits</span>
 </header>
 
-<div class="container">
-  <div class="page-title">Serra Football Recruits</div>
-
-  <div class="toolbar">
-    <div class="search">
-      <span style="opacity:.8; font-weight:1000;">🔎</span>
-      <input id="search" placeholder="Search by name or position..." />
-    </div>
-
-    <div class="chips" id="chips">
-      <button class="chip active" data-class="all">All</button>
-      <button class="chip" data-class="2026">2026</button>
-      <button class="chip" data-class="2027">2027</button>
-      <button class="chip" data-class="2028">2028</button>
-      <button class="chip" data-class="2029">2029</button>
-    </div>
-  </div>
-
-  <div id="status" class="footer-note" style="margin:8px 0 12px;">Loading recruits…</div>
-
-  <div class="grid" id="grid"></div>
+<div class="filters">
+  <button onclick="filterClass('All')">All</button>
+  <button onclick="filterClass('2026')">2026</button>
+  <button onclick="filterClass('2027')">2027</button>
+  <button onclick="filterClass('2028')">2028</button>
+  <button onclick="filterClass('2029')">2029</button>
 </div>
 
-<script src="auth.js?v=100"></script>
-<script>
-  // Hard gate: must be logged in
-  AUTH.requireCoach("recruits.html");
-</script>
-<script src="recruits.js?v=100"></script>
+<div id="recruitsGrid" class="grid"></div>
 </body>
 </html>
