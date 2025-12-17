@@ -2,45 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Serra Football Prospects</title>
+  <title>Serra Football Recruits</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="recruits-bg">
+<body>
 
-<script src="auth.js"></script>
-<script>requireProspects();</script>
-
-<header class="top-nav">
+<header class="site-header">
   <div class="nav-inner">
-    <img src="images/serra_logo.png" class="nav-logo">
-    <nav>
+    <div class="brand">
+      <img src="images/serra_logo.png" alt="Serra">
+      <span>Serra Elite Recruiting</span>
+    </div>
+
+    <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="recruits.html" class="active">View Prospects</a>
-      <a href="#" onclick="logoutProspects()">Logout</a>
+      <a href="https://www.maxpreps.com/ca/gardena/junipero-serra-cavaliers/football/" target="_blank">MaxPreps</a>
     </nav>
   </div>
 </header>
 
-<section class="recruits-hero">
-  <h1>Serra Football Prospects</h1>
-  <p>Verified recruiting board · Film · Measurables · Academics</p>
-</section>
+<main class="recruits-page">
+  <h1>Serra Football Recruits</h1>
 
-<section class="recruits-controls">
-  <input type="text" id="searchInput" placeholder="Search name or position">
-
-  <div class="class-filters">
-    <button data-year="all" class="active">All</button>
-    <button data-year="2026">2026</button>
-    <button data-year="2027">2027</button>
-    <button data-year="2028">2028</button>
-    <button data-year="2029">2029</button>
+  <div class="filters">
+    <button data-class="All" class="active">All</button>
+    <button data-class="2026">2026</button>
+    <button data-class="2027">2027</button>
+    <button data-class="2028">2028</button>
+    <button data-class="2029">2029</button>
   </div>
-</section>
 
-<section id="recruitsGrid" class="recruits-grid"></section>
+  <div id="recruitsGrid" class="recruits-grid"></div>
+</main>
 
 <script src="recruits.js"></script>
 </body>
