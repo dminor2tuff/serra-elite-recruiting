@@ -92,3 +92,110 @@ body.dark {
   margin: 0 8px;
   font-size: 20px;
 }
+body.dark {
+  background: #0b0b0b;
+  color: #fff;
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+}
+
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #8b1d18;
+  padding: 14px 22px;
+}
+
+.nav-logo {
+  height: 42px;
+}
+
+.top-nav a {
+  color: #fff;
+  margin-left: 16px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.page-header {
+  text-align: center;
+  padding: 48px 20px 20px;
+}
+
+.filters {
+  padding: 0 20px 20px;
+}
+
+.filters input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+}
+
+.year-filters {
+  margin-top: 10px;
+}
+
+.year-filters button {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: none;
+  background: #222;
+  color: #fff;
+  margin-right: 6px;
+  cursor: pointer;
+}
+
+.year-filters .active {
+  background: #8b1d18;
+}
+
+.recruits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 22px;
+  padding: 20px;
+}
+
+/* ---- IMAGE CROP FIX ---- */
+.img-wrap {
+  width: 100%;
+  height: 260px;          /* head → waist */
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.recruit-card {
+  background: #161616;
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+}
+
+.recruit-card h3 {
+  margin: 12px 0 4px;
+}
+
+.position {
+  font-weight: 600;
+}
+
+.class {
+  color: #bbb;
+  font-size: 0.9rem;
+}
+
+.icons a {
+  font-size: 20px;
+  margin: 0 8px;
+  text-decoration: none;
+}
