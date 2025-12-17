@@ -3,7 +3,7 @@
    =============================== */
 
 const COACH_KEY = "serra_coach_auth";
-const COACH_PASSWORD = "Serra!";
+const COACH_PASSWORD = "SerraFB!";
 
 /* Login */
 function coachLogin(password) {
