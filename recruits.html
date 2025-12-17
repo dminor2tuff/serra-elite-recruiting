@@ -1,69 +1,64 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <base href="/serra-elite-recruiting/">
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Recruits • Serra Elite Recruiting</title>
-  <link rel="stylesheet" href="styles.css?v=25">
+  <meta charset="UTF-8">
+  <title>Serra Football | Recruiting Board</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
+<!-- HEADER (SAME BRANDING AS MAIN PAGE) -->
 <header class="site-header">
   <div class="header-inner">
     <div class="brand">
-      <img class="logo" src="images/serra_logo.png" alt="Serra Football">
+      <img src="images/serra_logo.png" alt="Serra Football Logo">
       <span>Serra Elite Recruiting</span>
     </div>
+
     <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a class="primary" href="recruits.html">Recruits</a>
-      <a href="admin-login.html">Admin Login</a>
-      <a href="#" id="logoutLink">Logout</a>
+      <a href="recruits.html" class="active">Recruits</a>
+      <a href="coach-login.html">Coach Login</a>
+      <a href="admin-login.html" class="admin">Admin</a>
     </nav>
   </div>
 </header>
 
-<div class="container">
-  <div class="page-title">
-    <div>
-      <h1>Serra Football Recruits</h1>
-      <div class="small-muted">Search, filter by class, open profiles, and export a printable roster PDF.</div>
-    </div>
+<!-- PAGE TITLE -->
+<section class="content">
+  <h2>Serra Football Recruiting Board</h2>
+  <p>Verified prospects from Junípero Serra High School (Gardena, CA).</p>
 
-    <div class="tools">
-      <input id="search" class="search" placeholder="Search name, position, class, height/weight…" />
-      <div class="filters" id="filters">
-        <div class="pill active" data-class="all">All</div>
-        <div class="pill" data-class="2026">2026</div>
-        <div class="pill" data-class="2027">2027</div>
-        <div class="pill" data-class="2028">2028</div>
-        <div class="pill" data-class="2029">2029</div>
-      </div>
-      <button class="btn" id="printBtn" type="button">Print / Save PDF</button>
-      <button class="btn" id="scoutBtn" type="button">Scout View</button>
-    </div>
+  <!-- FILTERS -->
+  <div class="filters">
+    <select id="classFilter">
+      <option value="all">All Classes</option>
+      <option value="2026">2026</option>
+      <option value="2027">2027</option>
+      <option value="2028">2028</option>
+      <option value="2029">2029</option>
+    </select>
+
+    <input type="text" id="searchInput" placeholder="Search player name…">
   </div>
+</section>
 
-  <div id="status" class="small-muted" style="margin-top:10px;"></div>
-  <div id="grid" class="grid" aria-live="polite"></div>
+<!-- RECRUITS GRID -->
+<section class="recruits-grid" id="recruitGrid">
+  <!-- JS injects players here -->
+</section>
 
-  <div class="footer">
-    Coach access is protected. If you need access, contact Serra Football Recruiting staff.
-  </div>
-</div>
+<!-- FOOTER -->
+<footer class="footer">
+  <p>
+    © Serra Football Recruiting · Gardena, CA<br>
+    <a href="https://twitter.com/serra_football" target="_blank">@serra_football</a> ·
+    <a href="https://instagram.com/serrafootball" target="_blank">@serrafootball</a>
+  </p>
+</footer>
 
-<script src="auth.js?v=25"></script>
-<script src="recruits.js?v=25"></script>
-<script>
-  // Password protect this page
-  SerraAuth.requireCoach({ next: "recruits.html" });
-
-  document.getElementById("logoutLink").addEventListener("click", (e)=>{
-    e.preventDefault();
-    SerraAuth.coachLogout();
-  });
-</script>
-
+<script src="recruits.js"></script>
 </body>
 </html>
