@@ -1,12 +1,12 @@
-/* RESET */
+/* ===== RESET ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Inter", Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-/* COLORS */
+/* ===== COLORS ===== */
 :root {
   --serra-red: #8c1d18;
   --serra-blue: #0b2a4a;
@@ -18,7 +18,14 @@
   --accent: #e5b565;
 }
 
-/* HEADER */
+/* ===== BODY ===== */
+body {
+  background: var(--dark);
+  color: var(--light);
+  line-height: 1.6;
+}
+
+/* ===== HEADER ===== */
 .site-header {
   background: linear-gradient(90deg, var(--serra-red), var(--serra-blue));
   border-bottom: 1px solid rgba(255,255,255,.15);
@@ -37,8 +44,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  color: white;
   font-weight: 900;
+  letter-spacing: .5px;
 }
 
 .brand img {
@@ -52,11 +59,13 @@
   font-weight: 700;
 }
 
-.nav-links a:hover {
-  text-decoration: underline;
+.nav-links .admin {
+  padding: 6px 12px;
+  border: 1px solid rgba(255,255,255,.4);
+  border-radius: 6px;
 }
 
-/* HERO */
+/* ===== HERO ===== */
 .hero {
   position: relative;
   height: 70vh;
@@ -72,42 +81,60 @@
 .hero .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,.4), rgba(0,0,0,.75));
+  background: linear-gradient(
+    to right,
+    rgba(0,0,0,.85),
+    rgba(0,0,0,.55),
+    rgba(0,0,0,.35)
+  );
 }
 
 .hero-content {
   position: absolute;
-  bottom: 15%;
+  bottom: 18%;
   left: 8%;
-  color: white;
-  max-width: 600px;
+  max-width: 620px;
 }
 
 .hero h1 {
   font-size: clamp(2.3rem, 4vw, 3.5rem);
   font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .hero p {
   margin-top: 14px;
-  font-size: 1.15rem;
   color: #e5e7eb;
 }
 
-/* STATS */
+/* ===== BUTTON ===== */
+.btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 22px;
+  border-radius: 6px;
+  background: var(--serra-red);
+  color: white;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+/* ===== STATS ===== */
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
   gap: 20px;
   padding: 50px 20px;
-  background: var(--dark);
+  background: #020617;
 }
 
 .stat {
   background: var(--card);
   border: 1px solid var(--border);
-  padding: 24px;
+  padding: 26px;
   text-align: center;
+  border-radius: 10px;
 }
 
 .stat .big {
@@ -122,39 +149,34 @@
   font-weight: 700;
 }
 
-/* CONTENT */
-.content-section {
+/* ===== CONTENT ===== */
+.content {
   max-width: 1000px;
   margin: auto;
-  padding: 60px 20px;
+  padding: 80px 20px;
 }
 
-.content-section.dark {
-  background: var(--dark);
-  color: var(--light);
+.content.dark {
+  background: #020617;
 }
 
-.content-section h2 {
+.content h2 {
   font-size: 1.9rem;
   font-weight: 900;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   border-left: 6px solid var(--serra-red);
   padding-left: 14px;
 }
 
-.content-section p {
-  margin-bottom: 18px;
-}
-
-.content-section ul {
+.content ul {
   margin-left: 20px;
 }
 
-.content-section li {
-  margin-bottom: 8px;
+.content li {
+  margin-bottom: 10px;
 }
 
-/* QR */
+/* ===== QR ===== */
 .qr {
   display: flex;
   gap: 28px;
@@ -162,40 +184,22 @@
   justify-content: center;
   padding: 60px 20px;
   background: #020617;
+  border-top: 1px solid rgba(255,255,255,.1);
 }
 
 .qr img {
   width: 140px;
   background: white;
   padding: 10px;
+  border-radius: 8px;
 }
 
-.qr h3 {
-  font-size: 1.4rem;
-  font-weight: 900;
-}
-
-.btn {
-  display: inline-block;
-  margin-top: 14px;
-  padding: 12px 20px;
-  border-radius: 6px;
-  background: var(--serra-red);
-  color: white;
-  text-decoration: none;
-  font-weight: 800;
-}
-
-.btn.primary:hover {
-  background: #a52520;
-}
-
-/* FOOTER */
+/* ===== FOOTER ===== */
 .footer {
   background: black;
-  color: var(--muted);
-  padding: 20px;
+  padding: 24px;
   text-align: center;
+  font-size: .9rem;
 }
 
 .footer a {
@@ -203,19 +207,9 @@
   text-decoration: none;
 }
 
-/* MOBILE */
+/* ===== MOBILE ===== */
 @media (max-width: 768px) {
-  .nav-links {
-    display: none;
-  }
-
-  .hero-content {
-    left: 6%;
-    right: 6%;
-  }
-
-  .qr {
-    flex-direction: column;
-    text-align: center;
-  }
+  .nav-links { display: none; }
+  .hero-content { left: 6%; right: 6%; }
+  .qr { flex-direction: column; text-align: center; }
 }
