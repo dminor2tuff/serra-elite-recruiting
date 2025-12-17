@@ -1,97 +1,46 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <base href="/serra-elite-recruiting/">
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin • Serra Elite Recruiting</title>
-  <link rel="stylesheet" href="styles.css?v=25">
+  <meta charset="UTF-8">
+  <title>Serra Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+
+<body class="dark">
+
+<script>
+if (sessionStorage.getItem("adminAccess") !== "true") {
+  alert("Admin only.");
+  window.location.href = "index.html";
+}
+</script>
 
 <header class="site-header">
   <div class="header-inner">
     <div class="brand">
-      <img class="logo" src="images/serra_logo.png" alt="Serra Football">
-      <span>Serra Elite Recruiting</span>
+      <img src="images/serra_logo.png" class="logo">
+      <span>Serra Admin</span>
     </div>
+
     <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a href="recruits.html">Recruits</a>
-      <a class="primary" href="admin.html">Admin</a>
-      <a href="#" id="logoutLink">Logout</a>
+      <a href="#" onclick="logout()">Logout</a>
     </nav>
   </div>
 </header>
 
-<div class="container">
-  <div class="section">
-    <h2>Admin Tools</h2>
-    <p>Use Google Sheets as the source of truth. Add/update athletes there and the site will sync automatically.</p>
+<section class="page-header">
+  <h1>Admin Dashboard</h1>
+  <p>Manage recruiting data via Google Sheets</p>
+</section>
 
-    <div class="btn-row" style="margin-top:12px">
-      <a class="btn primary" target="_blank" rel="noopener"
-         href="https://docs.google.com/spreadsheets/d/1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/edit">
-        Open Google Sheet
-      </a>
-      <a class="btn" href="recruits.html">Preview Recruits</a>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Photo Rules (Best Practice)</h2>
-    <ul>
-      <li>Upload photo files into <strong>/images</strong> in your repo.</li>
-      <li>Name them like: <strong>lastname_firstname.png</strong> (example: <strong>johnson_nicolas.png</strong>)</li>
-      <li>In Google Sheets “Photo” column, put either:
-        <ul>
-          <li><strong>johnson_nicolas.png</strong> (recommended)</li>
-          <li>OR a full URL like <strong>https://raw.githubusercontent.com/…</strong></li>
-        </ul>
-      </li>
-      <li>The site automatically crops “head-to-waist” using CSS.</li>
-    </ul>
-  </div>
-
-  <div class="section">
-    <h2>Photo URL Helper</h2>
-    <p class="small-muted">Paste a filename and copy the value into your Google Sheet Photo column.</p>
-    <input id="file" class="input" placeholder="ex: johnson_nicolas.png" />
-    <div class="btn-row" style="margin-top:10px">
-      <button class="btn primary" id="copyBtn" type="button">Copy Value</button>
-    </div>
-    <div id="out" class="small-muted" style="margin-top:10px;"></div>
-  </div>
-
-</div>
-
-<script src="auth.js?v=25"></script>
 <script>
-  SerraAuth.requireAdmin({ next: "admin.html" });
-
-  document.getElementById("logoutLink").addEventListener("click", (e)=>{
-    e.preventDefault();
-    SerraAuth.adminLogout();
-  });
-
-  const fileEl = document.getElementById("file");
-  const out = document.getElementById("out");
-
-  fileEl.addEventListener("input", ()=>{
-    const v = (fileEl.value||"").trim();
-    out.textContent = v ? `Use this in Sheets Photo column: ${v}` : "";
-  });
-
-  document.getElementById("copyBtn").addEventListener("click", async ()=>{
-    const v = (fileEl.value||"").trim();
-    if(!v) return;
-    try{
-      await navigator.clipboard.writeText(v);
-      out.textContent = `Copied: ${v}`;
-    }catch{
-      out.textContent = `Copy failed — manually copy: ${v}`;
-    }
-  });
+function logout() {
+  sessionStorage.clear();
+  window.location.href = "index.html";
+}
 </script>
+
 </body>
 </html>
