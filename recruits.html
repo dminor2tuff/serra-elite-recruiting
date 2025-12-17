@@ -2,15 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Serra Football | Recruits</title>
+  <title>Serra Football | Recruiting Board</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<script src="auth.js"></script>
-<script>requireCoach();</script>
+<script>
+  // SIMPLE, SAFE GUARD (NO REDIRECT LOOP)
+  if (localStorage.getItem("serra_recruit_access") !== "true") {
+    const pw = prompt("Enter Recruiting Portal Password:");
+    if (pw === "SerraFB!") {
+      localStorage.setItem("serra_recruit_access", "true");
+    } else {
+      alert("Access denied");
+      window.location.href = "index.html";
+    }
+  }
+</script>
 
 <header class="site-header">
   <div class="header-inner">
@@ -21,7 +31,6 @@
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a class="active" href="recruits.html">Recruits</a>
-      <a href="#" onclick="logoutCoach()">Logout</a>
     </nav>
   </div>
 </header>
@@ -43,36 +52,6 @@
 </section>
 
 <section id="recruitGrid" class="recruits-grid"></section>
-
-<!-- PROFILE MODAL -->
-<div id="profileModal" class="profile-modal hidden">
-  <div class="profile-content">
-    <span class="close-btn" onclick="closeProfile()">×</span>
-
-    <div class="profile-grid">
-      <div class="profile-photo">
-        <img id="profileImg">
-      </div>
-
-      <div class="profile-info">
-        <h2 id="profileName"></h2>
-        <p id="profileMeta"></p>
-        <p id="profileHW"></p>
-        <p id="profileGPA"></p>
-
-        <div class="profile-links">
-          <a id="profileHudl" target="_blank">Hudl</a>
-          <a id="profileTwitter" target="_blank">Twitter</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="profile-writeup">
-      <h3>Scouting Report</h3>
-      <p id="profileWriteup"></p>
-    </div>
-  </div>
-</div>
 
 <script src="recruits.js"></script>
 </body>
