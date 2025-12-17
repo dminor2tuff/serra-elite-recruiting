@@ -1,49 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Serra Football Recruits</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <link rel="stylesheet" href="css/styles.css" />
+  <meta charset="UTF-8">
+  <title>Serra Football Prospects</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <div class="brand">
-      <img src="images/serra_logo.png" class="logo" alt="Serra Football">
-      <span>Serra Football Recruiting</span>
-    </div>
+<body class="recruits-bg">
 
-    <nav class="nav-links">
+<script src="auth.js"></script>
+<script>requireProspects();</script>
+
+<header class="top-nav">
+  <div class="nav-inner">
+    <img src="images/serra_logo.png" class="nav-logo">
+    <nav>
       <a href="index.html">Home</a>
-      <a href="#" id="viewProspectsBtn">View Prospects</a>
-      <a href="admin.html">Admin</a>
+      <a href="recruits.html" class="active">View Prospects</a>
+      <a href="#" onclick="logoutProspects()">Logout</a>
     </nav>
   </div>
 </header>
 
-<!-- PASSWORD GATE -->
-<section id="passwordGate" class="gate">
-  <h2>Recruiting Portal</h2>
-  <p>Enter password to view Serra prospects</p>
-  <input type="password" id="portalPassword" placeholder="Enter password">
-  <button onclick="unlockPortal()">Enter</button>
-  <p id="gateError"></p>
+<section class="recruits-hero">
+  <h1>Serra Football Prospects</h1>
+  <p>Verified recruiting board · Film · Measurables · Academics</p>
 </section>
 
-<!-- RECRUITS -->
-<main id="recruitsSection" class="container hidden">
-  <h1>Serra Football Prospects</h1>
+<section class="recruits-controls">
+  <input type="text" id="searchInput" placeholder="Search name or position">
 
-  <div class="filters">
-    <input type="text" id="searchInput" placeholder="Search name or position">
+  <div class="class-filters">
+    <button data-year="all" class="active">All</button>
+    <button data-year="2026">2026</button>
+    <button data-year="2027">2027</button>
+    <button data-year="2028">2028</button>
+    <button data-year="2029">2029</button>
   </div>
+</section>
 
-  <div id="recruitsGrid" class="recruits-grid"></div>
-</main>
+<section id="recruitsGrid" class="recruits-grid"></section>
 
-<script src="js/recruits.js"></script>
+<script src="recruits.js"></script>
 </body>
 </html>
