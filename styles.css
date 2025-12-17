@@ -348,4 +348,104 @@ small, .muted {
   h1 {
     font-size: 2rem;
   }
+}/* ===============================
+   MOBILE RESPONSIVE LAYER
+   =============================== */
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+
+  /* Typography */
+  h1 { font-size: 1.9rem; line-height: 1.15; }
+  h2 { font-size: 1.4rem; }
+  h3 { font-size: 1rem; }
+  p  { font-size: 0.95rem; }
+
+  /* Header / Nav */
+  .top-nav,
+  .site-header {
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 14px;
+    text-align: center;
+  }
+
+  .top-nav nav,
+  .site-header .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .nav-logo,
+  .logo {
+    height: 38px;
+  }
+
+  /* Page Header / Hero */
+  .page-header {
+    padding: 44px 16px 36px;
+  }
+
+  /* Filters */
+  .filters {
+    padding: 0 14px 16px;
+  }
+
+  .filters input {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  .year-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .year-filters button {
+    flex: 1 1 auto;
+    min-width: 72px;
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+
+  /* Recruit Cards */
+  .recruits-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .recruit-card {
+    padding: 12px;
+  }
+
+  /* Image Crop */
+  .img-wrap {
+    height: 220px;
+  }
+
+  /* Icons */
+  .icons a {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  /* Buttons */
+  .btn,
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.95rem;
+  }
 }
