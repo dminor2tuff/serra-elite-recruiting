@@ -2,34 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Serra Football Prospects</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Serra Prospects</title>
   <link rel="stylesheet" href="styles.css">
-
-  <!-- PASSWORD GUARD -->
-  <script>
-    if (sessionStorage.getItem("serraAccess") !== "granted") {
-      window.location.href = "recruits-lock.html";
-    }
-  </script>
 </head>
-
-<body>
+<body class="recruits">
 
 <header class="top-nav">
-  <a href="index.html">Home</a>
-  <a class="active">View Prospects</a>
-  <a href="admin.html">Admin</a>
+  <div class="nav-left">
+    <img src="images/serra_logo.png" class="nav-logo">
+  </div>
+  <div class="nav-right">
+    <a href="index.html" class="nav-btn">Home</a>
+    <a href="recruits.html" class="nav-btn active">View Prospects</a>
+  </div>
 </header>
 
-<section class="recruits-hero">
+<main class="recruit-container">
   <h1>Serra Football Prospects</h1>
-  <p>Verified high school recruiting profiles</p>
-</section>
-
-<section class="recruits-grid" id="recruitsGrid">
-  <!-- JS injects cards here -->
-</section>
+  <div id="recruitGrid" class="grid"></div>
+</main>
 
 <script src="recruits.js"></script>
 </body>
