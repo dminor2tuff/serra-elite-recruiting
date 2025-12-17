@@ -2,41 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Serra Football Recruits</title>
+  <title>Serra Football Prospects</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles.css">
+
+  <!-- PASSWORD GUARD -->
+  <script>
+    if (sessionStorage.getItem("serraAccess") !== "granted") {
+      window.location.href = "recruits-lock.html";
+    }
+  </script>
 </head>
 
 <body>
 
-<header class="site-header">
-  <div class="nav-inner">
-    <div class="brand">
-      <img src="images/serra_logo.png" alt="Serra">
-      <span>Serra Elite Recruiting</span>
-    </div>
-
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="recruits.html" class="active">View Prospects</a>
-      <a href="https://www.maxpreps.com/ca/gardena/junipero-serra-cavaliers/football/" target="_blank">MaxPreps</a>
-    </nav>
-  </div>
+<header class="top-nav">
+  <a href="index.html">Home</a>
+  <a class="active">View Prospects</a>
+  <a href="admin.html">Admin</a>
 </header>
 
-<main class="recruits-page">
-  <h1>Serra Football Recruits</h1>
+<section class="recruits-hero">
+  <h1>Serra Football Prospects</h1>
+  <p>Verified high school recruiting profiles</p>
+</section>
 
-  <div class="filters">
-    <button data-class="All" class="active">All</button>
-    <button data-class="2026">2026</button>
-    <button data-class="2027">2027</button>
-    <button data-class="2028">2028</button>
-    <button data-class="2029">2029</button>
-  </div>
-
-  <div id="recruitsGrid" class="recruits-grid"></div>
-</main>
+<section class="recruits-grid" id="recruitsGrid">
+  <!-- JS injects cards here -->
+</section>
 
 <script src="recruits.js"></script>
 </body>
