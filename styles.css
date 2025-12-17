@@ -198,4 +198,29 @@ body.dark {
   font-size: 20px;
   margin: 0 8px;
   text-decoration: none;
+}/* === GLOBAL SERRA THEME FIX === */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #0b0b0b !important; /* Serra dark */
+  color: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+}
+
+/* Ensure sections inherit dark background */
+section,
+.container,
+main {
+  background-color: transparent;
+}
+
+/* Headings pop */
+h1, h2, h3 {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+/* Muted text */
+p, span {
+  color: #d1d1d1;
 }
