@@ -12,7 +12,22 @@ body.dark {
   background: #8b1d18;
   padding: 14px 24px;
 }
+/* ===== HEADER RESTORE (DESKTOP FIRST) ===== */
+.site-header,
+.top-nav {
+  padding: 18px 32px;
+}
 
+.nav-logo,
+.logo {
+  height: 52px; /* restores presence */
+}
+
+.top-nav a,
+.site-header a {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
 .nav-logo {
   height: 42px;
 }
