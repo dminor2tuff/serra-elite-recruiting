@@ -1,77 +1,68 @@
-const SHEET_URL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
+const PASSWORD = "SerraFB!";
+const STORAGE_KEY = "serra_recruits_access";
+
+const gate = document.getElementById("passwordGate");
+const recruitsSection = document.getElementById("recruitsSection");
 const grid = document.getElementById("recruitsGrid");
-const searchInput = document.getElementById("search");
-const yearButtons = document.querySelectorAll(".year-filters button");
+const error = document.getElementById("gateError");
 
-let recruits = [];
-let activeYear = "all";
-
-function parseCSV(text) {
-  const rows = [];
-  let row = [], current = "", inQuotes = false;
-  for (let char of text) {
-    if (char === '"') inQuotes = !inQuotes;
-    else if (char === "," && !inQuotes) {
-      row.push(current); current = "";
-    } else if (char === "\n" && !inQuotes) {
-      row.push(current); rows.push(row);
-      row = []; current = "";
-    } else current += char;
+function unlockPortal() {
+  const input = document.getElementById("portalPassword").value;
+  if (input === PASSWORD) {
+    localStorage.setItem(STORAGE_KEY, "true");
+    gate.classList.add("hidden");
+    recruitsSection.classList.remove("hidden");
+    loadRecruits();
+  } else {
+    error.textContent = "Incorrect password";
   }
-  row.push(current); rows.push(row);
-  return rows;
 }
 
-fetch(SHEET_URL)
-  .then(res => res.text())
-  .then(csv => {
-    const rows = parseCSV(csv).slice(1);
-    recruits = rows.map(c => ({
-      name: c[0],
-      year: c[1],
-      position: c[2],
-      image: c[6],
-      hudl: c[4],
-      twitter: c[7]
-    }));
-    render();
-  });
+document.getElementById("viewProspectsBtn").onclick = () => {
+  gate.scrollIntoView({ behavior: "smooth" });
+};
 
-function render() {
+if (localStorage.getItem(STORAGE_KEY)) {
+  gate.classList.add("hidden");
+  recruitsSection.classList.remove("hidden");
+  loadRecruits();
+}
+
+async function loadRecruits() {
+  const res = await fetch(CSV_URL);
+  const text = await res.text();
+  const rows = text.split("\n").slice(1);
+
   grid.innerHTML = "";
-  recruits
-    .filter(r =>
-      (activeYear === "all" || r.year === activeYear) &&
-      (r.name.toLowerCase().includes(searchInput.value.toLowerCase()) ||
-       r.position.toLowerCase().includes(searchInput.value.toLowerCase()))
-    )
-    .forEach(r => {
-      const card = document.createElement("div");
-      card.className = "recruit-card";
-      card.innerHTML = `
-        <div class="img-wrap">
-          <img src="${r.image}" onerror="this.src='images/placeholder.png'">
-        </div>
-        <h3>${r.name}</h3>
-        <p class="position">${r.position}</p>
-        <span class="class">Class of ${r.year}</span>
-        <div class="icons">
-          ${r.hudl ? `<a href="${r.hudl}" target="_blank">🎥</a>` : ""}
-          ${r.twitter ? `<a href="${r.twitter}" target="_blank">🐦</a>` : ""}
-        </div>
-      `;
-      grid.appendChild(card);
-    });
-}
 
-searchInput.addEventListener("input", render);
-yearButtons.forEach(b => {
-  b.onclick = () => {
-    yearButtons.forEach(x => x.classList.remove("active"));
-    b.classList.add("active");
-    activeYear = b.dataset.year;
-    render();
-  };
-});
+  rows.forEach(row => {
+    const cols = row.split(",");
+
+    if (cols.length < 5) return;
+
+    const name = cols[0];
+    const position = cols[1];
+    const gradYear = cols[2];
+    const imageUrl = cols[3];
+    const hudl = cols[4];
+
+    const card = document.createElement("div");
+    card.className = "recruit-card";
+
+    card.innerHTML = `
+      <div class="photo-wrap">
+        <img src="${imageUrl.trim()}"
+             onerror="this.src='images/placeholder.png'">
+      </div>
+      <h3>${name}</h3>
+      <p>${position}</p>
+      <p>Class of ${gradYear}</p>
+      ${hudl ? `<a href="${hudl}" target="_blank">Hudl</a>` : ""}
+    `;
+
+    grid.appendChild(card);
+  });
+}
