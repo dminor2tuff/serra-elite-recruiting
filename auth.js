@@ -1,5 +1,5 @@
 /* ===============================
-   SERRA AUTH SYSTEM (COACH + ADMIN)
+   SERRA AUTH SYSTEM
    =============================== */
 
 const COACH_KEY = "serra_coach_logged_in";
@@ -8,25 +8,20 @@ const ADMIN_KEY = "serra_admin_logged_in";
 const COACH_PASSWORD = "SerraFB!";
 const ADMIN_PASSWORD = "SerraAdmin!";
 
-/* ===============================
-   COACH LOGIN
-   =============================== */
+/* ---------- COACH LOGIN ---------- */
 function coachLogin(password) {
   if (password === COACH_PASSWORD) {
     localStorage.setItem(COACH_KEY, "true");
 
     const params = new URLSearchParams(window.location.search);
     const next = params.get("next") || "recruits.html";
-
     window.location.href = next;
   } else {
     alert("Incorrect coach password.");
   }
 }
 
-/* ===============================
-   ADMIN LOGIN
-   =============================== */
+/* ---------- ADMIN LOGIN ---------- */
 function adminLogin(password) {
   if (password === ADMIN_PASSWORD) {
     localStorage.setItem(ADMIN_KEY, "true");
@@ -36,9 +31,7 @@ function adminLogin(password) {
   }
 }
 
-/* ===============================
-   ACCESS GUARDS
-   =============================== */
+/* ---------- PAGE GUARDS ---------- */
 function requireCoach() {
   if (localStorage.getItem(COACH_KEY) !== "true") {
     window.location.href = "coach-login.html?next=recruits.html";
@@ -51,9 +44,7 @@ function requireAdmin() {
   }
 }
 
-/* ===============================
-   LOGOUTS
-   =============================== */
+/* ---------- LOGOUT ---------- */
 function coachLogout() {
   localStorage.removeItem(COACH_KEY);
   window.location.href = "index.html";
@@ -64,9 +55,7 @@ function adminLogout() {
   window.location.href = "index.html";
 }
 
-/* ===============================
-   GLOBAL EXPORT
-   =============================== */
+/* ---------- EXPORT ---------- */
 window.Auth = {
   coachLogin,
   adminLogin,
