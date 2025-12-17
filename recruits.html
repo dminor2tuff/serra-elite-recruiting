@@ -1,57 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Serra Football | Recruiting Board</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <title>Serra Football Recruits</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-<script>
-  // SIMPLE, SAFE GUARD (NO REDIRECT LOOP)
-  if (localStorage.getItem("serra_recruit_access") !== "true") {
-    const pw = prompt("Enter Recruiting Portal Password:");
-    if (pw === "SerraFB!") {
-      localStorage.setItem("serra_recruit_access", "true");
-    } else {
-      alert("Access denied");
-      window.location.href = "index.html";
-    }
-  }
-</script>
-
 <header class="site-header">
-  <div class="header-inner">
-    <div class="brand">
-      <img src="images/serra_logo.png" alt="Serra Football">
-      <span>Serra Elite Recruiting</span>
-    </div>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a class="active" href="recruits.html">Recruits</a>
-    </nav>
+  <div class="brand">
+    <img src="images/serra_logo.png" alt="Serra Football Logo" class="logo">
+    <span>Serra Elite Recruiting</span>
   </div>
+
+  <nav class="top-nav">
+    <a href="index.html">Home</a>
+    <a href="recruits.html" class="active">View Prospects</a>
+    <a href="https://www.maxpreps.com/ca/gardena/junipero-serra-cavaliers/football/"
+       target="_blank">MaxPreps</a>
+    <a href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/"
+       target="_blank">On3 Alumni</a>
+  </nav>
 </header>
 
-<section class="content">
-  <h2>Recruiting Board</h2>
+<main class="recruits-container">
+  <h1>Serra Football Recruits</h1>
+  <p class="subhead">
+    Verified varsity prospects from Junípero Serra High School (Gardena, CA)
+  </p>
 
   <div class="filters">
-    <select id="classFilter">
-      <option value="all">All Classes</option>
-      <option value="2026">2026</option>
-      <option value="2027">2027</option>
-      <option value="2028">2028</option>
-      <option value="2029">2029</option>
-    </select>
-
-    <input id="searchInput" type="text" placeholder="Search player name">
+    <input type="text" id="searchInput" placeholder="Search name or position">
+    <button data-class="all" class="filter-btn active">All</button>
+    <button data-class="2026" class="filter-btn">2026</button>
+    <button data-class="2027" class="filter-btn">2027</button>
+    <button data-class="2028" class="filter-btn">2028</button>
+    <button data-class="2029" class="filter-btn">2029</button>
   </div>
-</section>
 
-<section id="recruitGrid" class="recruits-grid"></section>
+  <section id="recruitsGrid" class="recruits-grid">
+    <!-- Players injected by JS -->
+  </section>
+</main>
 
 <script src="recruits.js"></script>
 </body>
