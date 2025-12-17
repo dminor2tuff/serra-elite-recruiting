@@ -1,66 +1,169 @@
-/* ===============================
-   SERRA AUTH SYSTEM
-   =============================== */
+<!doctype html>
+<html lang="en">
+<head>
+  <base href="/serra-elite-recruiting/">
+  <meta charset="utf-8">
+  <title>Serra Football Recruiting | College Pipeline</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-const COACH_KEY = "serra_coach_logged_in";
-const ADMIN_KEY = "serra_admin_logged_in";
+  <link rel="stylesheet" href="styles.css?v=55">
+</head>
+<body>
 
-const COACH_PASSWORD = "SerraFB!";
-const ADMIN_PASSWORD = "SerraAdmin!";
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <img src="images/serra_logo.png"
+           class="logo"
+           alt="Serra Football"
+           onerror="this.style.display='none'">
+      <span>Serra Elite Recruiting</span>
+    </a>
 
-/* ---------- COACH LOGIN ---------- */
-function coachLogin(password) {
-  if (password === COACH_PASSWORD) {
-    localStorage.setItem(COACH_KEY, "true");
+    <nav class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="coach-login.html?next=recruits.html">Recruits</a>
+      <a href="coach-login.html?next=recruits.html" class="pill-link coach">
+        Coach Login
+      </a>
+      <a href="admin-login.html" class="pill-link admin">
+        Admin
+      </a>
+    </nav>
 
-    const params = new URLSearchParams(window.location.search);
-    const next = params.get("next") || "recruits.html";
-    window.location.href = next;
-  } else {
-    alert("Incorrect coach password.");
-  }
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="coach-login.html?next=recruits.html">Recruits</a>
+    <a href="coach-login.html?next=recruits.html">Coach Login</a>
+    <a href="admin-login.html">Admin Login</a>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <img src="images/serra_action.png"
+       alt="Serra Football Action"
+       onerror="this.style.display='none'">
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <h1>SERRA FOOTBALL</h1>
+    <h2>A COLLEGE PIPELINE</h2>
+
+    <p class="hero-sub">
+      21 NFL Draft Picks • 30+ All-Americans • Proven College Placement
+    </p>
+
+    <div class="hero-actions">
+      <a href="coach-login.html?next=recruits.html" class="btn primary">
+        Enter Recruiting Portal
+      </a>
+      <a href="coach-login.html?next=recruits.html" class="btn ghost">
+        View Recruits
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STATS ================= -->
+<section class="stats">
+  <div class="stat">
+    <div class="stat-number">21</div>
+    <div class="stat-label">NFL Draft Picks</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">30+</div>
+    <div class="stat-label">All-Americans</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">5</div>
+    <div class="stat-label">CIF Championships</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">4</div>
+    <div class="stat-label">State Titles</div>
+  </div>
+</section>
+
+<!-- ================= WHY SERRA ================= -->
+<section class="panel">
+  <h2>Why Serra Football</h2>
+  <ul class="bullet-grid">
+    <li>Proven college placement across all levels</li>
+    <li>Academics-first recruiting approach</li>
+    <li>Elite competition & national exposure</li>
+    <li>Player development over hype</li>
+  </ul>
+</section>
+
+<!-- ================= EXPECTATIONS ================= -->
+<section class="panel dark">
+  <h2>What We Expect From Our Athletes</h2>
+  <p class="panel-lead">
+    Serra Football is not for everyone. Our athletes are held to a standard.
+  </p>
+
+  <ul class="bullet-grid">
+    <li>Accountability on and off the field</li>
+    <li>Academic responsibility</li>
+    <li>Coachability & toughness</li>
+    <li>Respect for the Serra legacy</li>
+  </ul>
+</section>
+
+<!-- ================= QR SECTION ================= -->
+<section class="qr-panel">
+  <img src="images/serra_main_qr.png"
+       alt="Serra Recruiting QR"
+       onerror="this.style.display='none'">
+
+  <div>
+    <h3>College Coach Access</h3>
+    <p>
+      Scan to enter the official Serra Football Recruiting Portal
+    </p>
+
+    <a href="coach-login.html?next=recruits.html" class="btn primary">
+      Enter Portal
+    </a>
+  </div>
+</section>
+
+<!-- ================= LINKS ================= -->
+<section class="cta-row">
+  <a href="coach-login.html?next=recruits.html" class="btn">
+    View All Recruits
+  </a>
+  <a href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/"
+     target="_blank"
+     rel="noopener"
+     class="btn ghost">
+    Serra Alumni on On3
+  </a>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <p>
+    Follow Serra Football:
+    <a href="https://twitter.com/serra_football" target="_blank">@serra_football</a> •
+    <a href="https://instagram.com/serrafootball" target="_blank">@serrafootball</a>
+  </p>
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+function toggleMenu() {
+  const menu = document.getElementById("mobileMenu");
+  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
 }
+</script>
 
-/* ---------- ADMIN LOGIN ---------- */
-function adminLogin(password) {
-  if (password === ADMIN_PASSWORD) {
-    localStorage.setItem(ADMIN_KEY, "true");
-    window.location.href = "admin.html";
-  } else {
-    alert("Incorrect admin password.");
-  }
-}
-
-/* ---------- PAGE GUARDS ---------- */
-function requireCoach() {
-  if (localStorage.getItem(COACH_KEY) !== "true") {
-    window.location.href = "coach-login.html?next=recruits.html";
-  }
-}
-
-function requireAdmin() {
-  if (localStorage.getItem(ADMIN_KEY) !== "true") {
-    window.location.href = "admin-login.html";
-  }
-}
-
-/* ---------- LOGOUT ---------- */
-function coachLogout() {
-  localStorage.removeItem(COACH_KEY);
-  window.location.href = "index.html";
-}
-
-function adminLogout() {
-  localStorage.removeItem(ADMIN_KEY);
-  window.location.href = "index.html";
-}
-
-/* ---------- EXPORT ---------- */
-window.Auth = {
-  coachLogin,
-  adminLogin,
-  requireCoach,
-  requireAdmin,
-  coachLogout,
-  adminLogout
-};
+</body>
+</html>
