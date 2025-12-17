@@ -218,3 +218,24 @@ body {
   object-fit: cover;
   border-radius: 6px;
 }
+img {
+  display: block;
+}
+
+img[src=""] {
+  display: none;
+}
+
+.logo {
+  height: 48px;
+}
+
+.hero img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+}
+
+.qr {
+  width: 140px;
+}
