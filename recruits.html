@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Serra Football | Recruiting Board</title>
+  <title>Serra Football | Recruits</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -10,11 +10,7 @@
 <body>
 
 <script src="auth.js"></script>
-<script>
-  if (!localStorage.getItem("serra_recruit_access")) {
-    window.location.href = "coach-login.html";
-  }
-</script>
+<script>requireCoach();</script>
 
 <header class="site-header">
   <div class="header-inner">
@@ -22,7 +18,6 @@
       <img src="images/serra_logo.png" alt="Serra Football">
       <span>Serra Elite Recruiting</span>
     </div>
-
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a class="active" href="recruits.html">Recruits</a>
@@ -47,7 +42,6 @@
   </div>
 </section>
 
-<!-- THIS IS THE MOST IMPORTANT LINE -->
 <section id="recruitGrid" class="recruits-grid"></section>
 
 <!-- PROFILE MODAL -->
