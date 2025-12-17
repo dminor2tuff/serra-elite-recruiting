@@ -373,4 +373,35 @@ body {
   .profile-photo img {
     height: 300px;
   }
+}.recruits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.recruit-card {
+  background: #111;
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  color: #fff;
+}
+
+.recruit-card img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.recruit-card h3 {
+  margin: 10px 0 4px;
+  font-size: 1.1rem;
+}
+
+.recruit-card .links a {
+  color: #c62828;
+  margin: 0 6px;
+  font-weight: bold;
 }
