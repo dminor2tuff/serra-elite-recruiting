@@ -11,12 +11,11 @@ let activeYear = "all";
 function parseCSV(text) {
   const rows = [];
   let row = [], current = "", inQuotes = false;
-
   for (let char of text) {
     if (char === '"') inQuotes = !inQuotes;
-    else if (char === ',' && !inQuotes) {
+    else if (char === "," && !inQuotes) {
       row.push(current); current = "";
-    } else if (char === '\n' && !inQuotes) {
+    } else if (char === "\n" && !inQuotes) {
       row.push(current); rows.push(row);
       row = []; current = "";
     } else current += char;
@@ -56,8 +55,8 @@ function render() {
           <img src="${r.image}" onerror="this.src='images/placeholder.png'">
         </div>
         <h3>${r.name}</h3>
-        <p>${r.position}</p>
-        <span>Class of ${r.year}</span>
+        <p class="position">${r.position}</p>
+        <span class="class">Class of ${r.year}</span>
         <div class="icons">
           ${r.hudl ? `<a href="${r.hudl}" target="_blank">🎥</a>` : ""}
           ${r.twitter ? `<a href="${r.twitter}" target="_blank">🐦</a>` : ""}
