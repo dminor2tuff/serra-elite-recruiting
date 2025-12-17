@@ -7,7 +7,7 @@ const searchInput = document.getElementById("searchInput");
 
 let players = [];
 
-// Load CSV
+// Fetch roster
 fetch(SHEET_URL)
   .then(res => res.text())
   .then(csv => {
@@ -15,27 +15,27 @@ fetch(SHEET_URL)
 
     players = rows
       .map(row => {
-        const cols = row.split(",");
+        const c = row.split(",");
 
         return {
-          name: cols[0]?.trim(),
-          classYear: cols[1]?.trim(),
-          position: cols[2]?.trim(),
-          heightWeight: cols[3]?.trim(),
-          hudl: cols[4]?.trim(),
-          writeup: cols[5]?.trim(),
-          image: cols[6]?.trim(),
-          twitter: cols[7]?.trim(),
-          gpa: cols[8]?.trim()
+          name: c[0]?.trim(),
+          classYear: c[1]?.trim(),
+          position: c[2]?.trim(),
+          heightWeight: c[3]?.trim(),
+          hudl: c[4]?.trim(),
+          writeup: c[5]?.trim(),
+          image: c[6]?.trim(),
+          twitter: c[7]?.trim(),
+          gpa: c[8]?.trim()
         };
       })
       .filter(p => p.name);
 
     renderPlayers();
   })
-  .catch(err => {
-    grid.innerHTML = "<p style='color:white'>Failed to load recruits.</p>";
-    console.error(err);
+  .catch(() => {
+    grid.innerHTML =
+      "<p style='color:#fff'>Unable to load recruits at this time.</p>";
   });
 
 function renderPlayers() {
@@ -46,29 +46,42 @@ function renderPlayers() {
 
   players
     .filter(p => {
-      const matchClass = classVal === "all" || p.classYear === classVal;
-      const matchSearch = p.name.toLowerCase().includes(searchVal);
+      const matchClass =
+        classVal === "all" || p.classYear === classVal;
+      const matchSearch =
+        p.name.toLowerCase().includes(searchVal);
       return matchClass && matchSearch;
     })
-    .forEach(player => {
+    .forEach(p => {
       const card = document.createElement("div");
       card.className = "recruit-card";
 
-      const imgSrc = player.image
-        ? player.image
+      const imgSrc = p.image
+        ? p.image
         : "images/placeholder.png";
 
       card.innerHTML = `
-        <img src="${imgSrc}" alt="${player.name}" 
-             onerror="this.src='images/placeholder.png'">
+        <div class="photo-wrap">
+          <img src="${imgSrc}" alt="${p.name}"
+               onerror="this.src='images/placeholder.png'">
+        </div>
 
-        <h3>${player.name}</h3>
-        <div class="meta">${player.position} · Class of ${player.classYear}</div>
-        <div class="meta">${player.heightWeight}</div>
+        <h3>${p.name}</h3>
+        <div class="meta">
+          ${p.position} · Class of ${p.classYear}
+        </div>
+        <div class="meta">${p.heightWeight}</div>
 
-        <div class="links">
-          ${player.hudl ? `<a href="${player.hudl}" target="_blank">Hudl</a>` : ""}
-          ${player.twitter ? `<a href="${formatTwitter(player.twitter)}" target="_blank">Twitter</a>` : ""}
+        <div class="icons">
+          ${p.hudl ? `
+            <a href="${p.hudl}" target="_blank" title="Hudl">
+              🏈
+            </a>` : ""}
+
+          ${p.twitter ? `
+            <a href="${formatTwitter(p.twitter)}" target="_blank" title="Twitter">
+              🐦
+            </a>` : ""}
         </div>
       `;
 
@@ -76,9 +89,10 @@ function renderPlayers() {
     });
 }
 
-function formatTwitter(handle) {
-  if (handle.startsWith("http")) return handle;
-  return `https://twitter.com/${handle.replace("@", "")}`;
+function formatTwitter(val) {
+  if (!val) return "";
+  if (val.startsWith("http")) return val;
+  return `https://twitter.com/${val.replace("@", "")}`;
 }
 
 classFilter.addEventListener("change", renderPlayers);
