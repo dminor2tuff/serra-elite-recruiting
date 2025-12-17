@@ -1,565 +1,117 @@
-body.dark {
-  background: #0d0d0d;
-  color: #fff;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+:root {
+  --serra-red: #9e1b32;
+  --serra-blue: #002f6c;
+  --dark: #111;
+  --light: #fff;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
   margin: 0;
+  background: #0e0e0e;
+  color: white;
 }
 
-.top-nav {
+/* HEADER */
+.site-header {
+  background: linear-gradient(90deg, var(--serra-blue), var(--serra-red));
+  padding: 12px 20px;
+}
+
+.header-inner {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  background: #8b1d18;
-  padding: 14px 24px;
-}
-/* ===== HEADER RESTORE (DESKTOP FIRST) ===== */
-.site-header,
-.top-nav {
-  padding: 18px 32px;
+  align-items: center;
 }
 
-.nav-logo,
 .logo {
-  height: 52px; /* restores presence */
-}
-
-.top-nav a,
-.site-header a {
-  font-size: 0.95rem;
-  font-weight: 700;
-}
-.nav-logo {
   height: 42px;
 }
 
-.top-nav a {
-  color: #fff;
-  margin-left: 16px;
+.nav-links a {
+  color: white;
+  margin-left: 18px;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: bold;
 }
 
-.page-header {
+/* PASSWORD GATE */
+.gate {
   text-align: center;
-  padding: 50px 20px;
+  padding: 60px 20px;
 }
 
-.filters {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 0 20px 20px;
-}
-
-.filters input {
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-}
-
-.year-filters button {
-  margin-right: 6px;
-  padding: 8px 14px;
-  border-radius: 20px;
-  border: none;
-  background: #222;
-  color: #fff;
-  cursor: pointer;
-}
-
-.year-filters .active {
-  background: #8b1d18;
-}
-
-.recruits-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 22px;
-  padding: 20px;
-}
-
-.recruit-card {
-  background: #161616;
-  border-radius: 14px;
-  padding: 14px;
-  text-align: center;
-}
-
-.img-wrap {
-  width: 100%;
-  height: 260px;
-  overflow: hidden;
-  border-radius: 12px;
-}
-
-.img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-}
-
-.icons {
-  margin-top: 10px;
-}
-
-.icons a {
-  margin: 0 8px;
-  font-size: 20px;
-}
-body.dark {
-  background: #0b0b0b;
-  color: #fff;
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont;
-}
-
-.top-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #8b1d18;
-  padding: 14px 22px;
-}
-
-.nav-logo {
-  height: 42px;
-}
-
-.top-nav a {
-  color: #fff;
-  margin-left: 16px;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.page-header {
-  text-align: center;
-  padding: 48px 20px 20px;
-}
-
-.filters {
-  padding: 0 20px 20px;
-}
-
-.filters input {
-  width: 100%;
+.gate input {
   padding: 12px;
-  border-radius: 8px;
-  border: none;
+  width: 240px;
+  margin: 10px 0;
 }
 
-.year-filters {
-  margin-top: 10px;
-}
-
-.year-filters button {
-  padding: 8px 14px;
-  border-radius: 20px;
+.gate button {
+  padding: 12px 24px;
+  background: var(--serra-red);
   border: none;
-  background: #222;
-  color: #fff;
-  margin-right: 6px;
+  color: white;
   cursor: pointer;
 }
 
-.year-filters .active {
-  background: #8b1d18;
+.hidden {
+  display: none;
+}
+
+/* RECRUITS */
+.container {
+  padding: 40px 20px;
 }
 
 .recruits-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 22px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
 }
 
-/* ---- IMAGE CROP FIX ---- */
-.img-wrap {
-  width: 100%;
-  height: 260px;          /* head → waist */
+/* CARD */
+.recruit-card {
+  background: #1b1b1b;
+  border-radius: 10px;
   overflow: hidden;
-  border-radius: 12px;
+  text-align: center;
+  padding-bottom: 16px;
 }
 
-.img-wrap img {
+.photo-wrap {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+}
+
+.photo-wrap img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: top center;
-}
-
-.recruit-card {
-  background: #161616;
-  border-radius: 14px;
-  padding: 14px;
-  text-align: center;
+  object-fit: cover; /* HEAD → WAIST CROP */
+  object-position: top;
 }
 
 .recruit-card h3 {
   margin: 12px 0 4px;
 }
 
-.position {
-  font-weight: 600;
-}
-
-.class {
-  color: #bbb;
-  font-size: 0.9rem;
-}
-
-.icons a {
-  font-size: 20px;
-  margin: 0 8px;
+.recruit-card a {
+  color: #6fbaff;
   text-decoration: none;
-}/* === GLOBAL SERRA THEME FIX === */
-html, body {
-  margin: 0;
-  padding: 0;
-  background-color: #0b0b0b !important; /* Serra dark */
-  color: #ffffff;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
 }
 
-/* Ensure sections inherit dark background */
-section,
-.container,
-main {
-  background-color: transparent;
-}
-
-/* Headings pop */
-h1, h2, h3 {
-  color: #ffffff;
-  font-weight: 800;
-}
-
-/* Muted text */
-p, span {
-  color: #d1d1d1;
-}/* ================================
-   SERRA PRO POLISH (20+ YR LEVEL)
-   ================================ */
-
-/* Rich dark background with depth */
-html, body {
-  background: linear-gradient(
-    180deg,
-    #0a0a0a 0%,
-    #0f0f0f 45%,
-    #0b0b0b 100%
-  ) !important;
-  color: #f2f2f2;
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI";
-  letter-spacing: 0.2px;
-}
-
-/* Section spacing consistency */
-section {
-  padding: 56px 22px;
-}
-
-/* Headings – strong but clean */
-h1 {
-  font-size: clamp(2.2rem, 4vw, 3rem);
-  font-weight: 900;
-  letter-spacing: -0.8px;
-}
-
-h2 {
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
-  font-weight: 800;
-}
-
-h3 {
-  font-weight: 700;
-}
-
-/* Subtext */
-p {
-  color: #cfcfcf;
-  line-height: 1.6;
-  max-width: 900px;
-}
-
-/* Serra red accent */
-:root {
-  --serra-red: #8b1d18;
-}
-
-/* Buttons – subtle lift */
-.btn,
-button {
-  background: var(--serra-red);
-  border-radius: 10px;
-  padding: 12px 20px;
-  font-weight: 700;
-  box-shadow: 0 8px 18px rgba(139, 29, 24, 0.35);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.btn:hover,
-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 12px 24px rgba(139, 29, 24, 0.45);
-}
-
-/* Header polish */
-.top-nav,
-.site-header {
-  background: linear-gradient(
-    180deg,
-    #8b1d18 0%,
-    #741813 100%
-  );
-  box-shadow: 0 4px 18px rgba(0,0,0,0.45);
-}
-
-/* Cards – professional depth */
-.recruit-card {
-  background: linear-gradient(
-    180deg,
-    #181818 0%,
-    #121212 100%
-  );
-  border-radius: 16px;
-  box-shadow: 0 10px 26px rgba(0,0,0,0.55);
-  transition: transform 0.15s ease;
-}
-
-.recruit-card:hover {
-  transform: translateY(-3px);
-}
-
-/* Image framing */
-.img-wrap {
-  border-radius: 14px;
-  background: #000;
-}
-
-/* Icons */
-.icons a {
-  opacity: 0.85;
-  transition: opacity 0.15s ease, transform 0.15s ease;
-}
-
-.icons a:hover {
-  opacity: 1;
-  transform: scale(1.15);
-}
-
-/* Footer / small text */
-small, .muted {
-  color: #9b9b9b;
-}
-
-/* Mobile refinements */
-@media (max-width: 768px) {
-  section {
-    padding: 40px 16px;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
-}/* ===============================
-   MOBILE RESPONSIVE LAYER
-   =============================== */
-
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-@media (max-width: 768px) {
-
-  /* Typography */
-  h1 { font-size: 1.9rem; line-height: 1.15; }
-  h2 { font-size: 1.4rem; }
-  h3 { font-size: 1rem; }
-  p  { font-size: 0.95rem; }
-
-  /* Header / Nav */
-  .top-nav,
-  .site-header {
+/* MOBILE */
+@media (max-width: 600px) {
+  .header-inner {
     flex-direction: column;
-    align-items: center;
-    padding: 12px 14px;
-    text-align: center;
   }
 
-  .top-nav nav,
-  .site-header .nav-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 8px;
-  }
-
-  .nav-logo,
-  .logo {
-    height: 38px;
-  }@media (max-width: 768px) {
-
-  .nav-logo,
-  .logo {
-    height: 42px;
-  }
-
-  .qr-block img {
-    width: 120px;
-  }
-
-}
-
-  /* Page Header / Hero */
-  .page-header {
-    padding: 44px 16px 36px;
-  }
-
-  /* Filters */
-  .filters {
-    padding: 0 14px 16px;
-  }
-
-  .filters input {
-    width: 100%;
-    padding: 12px;
-    font-size: 0.95rem;
-  }
-
-  .year-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+  .nav-links {
     margin-top: 10px;
   }
-
-  .year-filters button {
-    flex: 1 1 auto;
-    min-width: 72px;
-    font-size: 0.85rem;
-    padding: 8px 10px;
-  }
-
-  /* Recruit Cards */
-  .recruits-grid {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 14px;
-    padding: 14px;
-  }
-
-  .recruit-card {
-    padding: 12px;
-  }
-
-  /* Image Crop */
-  .img-wrap {
-    height: 220px;
-  }
-
-  /* Icons */
-  .icons a {
-    width: 36px;
-    height: 36px;
-    font-size: 18px;
-  }
-
-  /* Buttons */
-  .btn,
-  button {
-    width: 100%;
-    padding: 12px;
-    font-size: 0.95rem;
-  }
-}/* ===== QR CONTROL ===== */
-.qr-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 40px auto;
-}
-
-.qr-block img {
-  width: 140px;     /* perfect desktop size */
-  max-width: 45vw;  /* mobile safety */
-}
-
-.qr-block p {
-  margin-top: 10px;
-  font-size: 0.85rem;
-  color: #cfcfcf;
-}
-/* ===== NCSA STYLE HERO ===== */
-.ncsa-hero {
-  position: relative;
-  height: 78vh;
-}
-.ncsa-hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.hero-content {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,.6);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 8%;
-}
-.hero-content h1 {
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
-  font-weight: 900;
-}
-.hero-cta {
-  margin-top: 20px;
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-/* ===== WHY SERRA ===== */
-.why-serra {
-  background: #f5f5f5;
-  color: #111;
-  padding: 60px 8%;
-  text-align: center;
-}
-.why-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 30px;
-  margin-top: 30px;
-}
-.why-grid h3 {
-  font-weight: 800;
-}
-
-/* ===== LEGACY STRIP ===== */
-.legacy-strip {
-  display: flex;
-  justify-content: space-around;
-  background: #111;
-  padding: 30px;
-  text-align: center;
-}
-.legacy-item strong {
-  font-size: 2.2rem;
-  display: block;
-}
-
-/* ===== QR STRIP ===== */
-.qr-strip {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  padding: 50px 8%;
-  background: #141414;
-}
-.qr-strip img {
-  width: 160px;
 }
