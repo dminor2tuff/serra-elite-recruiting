@@ -1,37 +1,77 @@
 /* ===============================
-   SIMPLE AUTH SYSTEM
+   SERRA AUTH SYSTEM (COACH + ADMIN)
    =============================== */
 
-const COACH_KEY = "serra_coach_auth";
-const COACH_PASSWORD = "SerraFB!";
+const COACH_KEY = "serra_coach_logged_in";
+const ADMIN_KEY = "serra_admin_logged_in";
 
-/* Login */
+const COACH_PASSWORD = "SerraFB!";
+const ADMIN_PASSWORD = "SerraAdmin!";
+
+/* ===============================
+   COACH LOGIN
+   =============================== */
 function coachLogin(password) {
   if (password === COACH_PASSWORD) {
     localStorage.setItem(COACH_KEY, "true");
-    const next = new URLSearchParams(window.location.search).get("next");
-    window.location.href = next || "recruits.html";
+
+    const params = new URLSearchParams(window.location.search);
+    const next = params.get("next") || "recruits.html";
+
+    window.location.href = next;
   } else {
-    alert("Incorrect password");
+    alert("Incorrect coach password.");
   }
 }
 
-/* Require Coach */
+/* ===============================
+   ADMIN LOGIN
+   =============================== */
+function adminLogin(password) {
+  if (password === ADMIN_PASSWORD) {
+    localStorage.setItem(ADMIN_KEY, "true");
+    window.location.href = "admin.html";
+  } else {
+    alert("Incorrect admin password.");
+  }
+}
+
+/* ===============================
+   ACCESS GUARDS
+   =============================== */
 function requireCoach() {
   if (localStorage.getItem(COACH_KEY) !== "true") {
-    window.location.href = "coach-login.html";
+    window.location.href = "coach-login.html?next=recruits.html";
   }
 }
 
-/* Logout */
+function requireAdmin() {
+  if (localStorage.getItem(ADMIN_KEY) !== "true") {
+    window.location.href = "admin-login.html";
+  }
+}
+
+/* ===============================
+   LOGOUTS
+   =============================== */
 function coachLogout() {
   localStorage.removeItem(COACH_KEY);
   window.location.href = "index.html";
 }
 
-/* Expose globally */
+function adminLogout() {
+  localStorage.removeItem(ADMIN_KEY);
+  window.location.href = "index.html";
+}
+
+/* ===============================
+   GLOBAL EXPORT
+   =============================== */
 window.Auth = {
-  login: coachLogin,
+  coachLogin,
+  adminLogin,
   requireCoach,
-  logout: coachLogout
+  requireAdmin,
+  coachLogout,
+  adminLogout
 };
