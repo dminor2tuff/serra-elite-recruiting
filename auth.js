@@ -1,105 +1,104 @@
-/* ================================
-   SERRA AUTH SYSTEM
-   - Coach portal password: SerraFB!
-   - Admin password: SerraAdmin!
-   ================================ */
+/* =======================
+   SERRA AUTH (simple gate)
+   Coach Portal: SerraFB!
+   Admin: SerraAdmin!
+   ======================= */
 
-const COACH_KEY = "serra_coach_logged_in";
-const ADMIN_KEY = "serra_admin_logged_in";
+const AUTH = (() => {
+  const COACH_KEY = "serra_coach_logged_in";
+  const ADMIN_KEY = "serra_admin_logged_in";
 
-const COACH_PASSWORD = "SerraFB!";
-const ADMIN_PASSWORD = "SerraAdmin!";
+  const COACH_PASSWORD = "SerraFB!";
+  const ADMIN_PASSWORD = "SerraAdmin!";
 
-// --- helpers
-function qs(name) {
-  return new URLSearchParams(window.location.search).get(name);
-}
-function isCoachLoggedIn() {
-  return localStorage.getItem(COACH_KEY) === "true";
-}
-function isAdminLoggedIn() {
-  return localStorage.getItem(ADMIN_KEY) === "true";
-}
+  function isCoach() { return localStorage.getItem(COACH_KEY) === "true"; }
+  function isAdmin() { return localStorage.getItem(ADMIN_KEY) === "true"; }
 
-function coachLogin(pw, nextUrl) {
-  if ((pw || "").trim() === COACH_PASSWORD) {
-    localStorage.setItem(COACH_KEY, "true");
-    window.location.href = nextUrl || "recruits.html";
-    return true;
-  }
-  alert("Incorrect password.");
-  return false;
-}
-
-function adminLogin(pw, nextUrl) {
-  if ((pw || "").trim() === ADMIN_PASSWORD) {
-    localStorage.setItem(ADMIN_KEY, "true");
-    window.location.href = nextUrl || "admin.html";
-    return true;
-  }
-  alert("Incorrect admin password.");
-  return false;
-}
-
-function coachLogout() {
-  localStorage.removeItem(COACH_KEY);
-  window.location.href = "index.html";
-}
-function adminLogout() {
-  localStorage.removeItem(ADMIN_KEY);
-  window.location.href = "index.html";
-}
-
-// Guards
-function requireCoach() {
-  if (isCoachLoggedIn()) return;
-  const next = encodeURIComponent(window.location.pathname.split("/").pop() || "recruits.html");
-  window.location.href = `coach-login.html?next=${next}`;
-}
-function requireAdmin() {
-  if (isAdminLoggedIn()) return;
-  const next = encodeURIComponent(window.location.pathname.split("/").pop() || "admin.html");
-  window.location.href = `admin-login.html?next=${next}`;
-}
-
-// Expose for inline calls if needed
-window.Auth = {
-  coachLogin,
-  adminLogin,
-  requireCoach,
-  requireAdmin,
-  coachLogout,
-  adminLogout,
-  isCoachLoggedIn,
-  isAdminLoggedIn
-};
-
-// Auto-wire forms if present
-document.addEventListener("DOMContentLoaded", () => {
-  const coachForm = document.getElementById("coachLoginForm");
-  if (coachForm) {
-    coachForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const pw = (document.getElementById("coachPassword") || {}).value || "";
-      const next = qs("next") || "recruits.html";
-      coachLogin(pw, next);
-    });
+  function coachLogin(pass){
+    if ((pass || "").trim() === COACH_PASSWORD){
+      localStorage.setItem(COACH_KEY, "true");
+      return true;
+    }
+    return false;
   }
 
-  const adminForm = document.getElementById("adminLoginForm");
-  if (adminForm) {
-    adminForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const pw = (document.getElementById("adminPassword") || {}).value || "";
-      const next = qs("next") || "admin.html";
-      adminLogin(pw, next);
-    });
+  function adminLogin(pass){
+    if ((pass || "").trim() === ADMIN_PASSWORD){
+      localStorage.setItem(ADMIN_KEY, "true");
+      return true;
+    }
+    return false;
   }
 
-  // logout buttons (optional)
-  const coachOut = document.querySelectorAll("[data-coach-logout]");
-  coachOut.forEach(btn => btn.addEventListener("click", coachLogout));
+  function coachLogout(){
+    localStorage.removeItem(COACH_KEY);
+  }
+  function adminLogout(){
+    localStorage.removeItem(ADMIN_KEY);
+  }
 
-  const adminOut = document.querySelectorAll("[data-admin-logout]");
-  adminOut.forEach(btn => btn.addEventListener("click", adminLogout));
-});
+  function requireCoach(nextUrlIfNot){
+    if (isCoach()) return true;
+    // bounce to coach-login with next
+    const next = encodeURIComponent(nextUrlIfNot || window.location.href.split("#")[0]);
+    window.location.href = `coach-login.html?next=${next}`;
+    return false;
+  }
+
+  function requireAdmin(nextUrlIfNot){
+    if (isAdmin()) return true;
+    const next = encodeURIComponent(nextUrlIfNot || window.location.href.split("#")[0]);
+    window.location.href = `admin.html?next=${next}`;
+    return false;
+  }
+
+  // ===== Modal Gate (used on index + buttons) =====
+  function openGate({title="Enter Recruiting Portal", onSubmit}){
+    const back = document.getElementById("authModalBackdrop");
+    const t = document.getElementById("authModalTitle");
+    const input = document.getElementById("authModalInput");
+    const err = document.getElementById("authModalErr");
+
+    if (!back || !t || !input || !err){
+      alert("Auth modal is missing on this page. Please paste index.html fully.");
+      return;
+    }
+    t.textContent = title;
+    err.style.display = "none";
+    input.value = "";
+    back.style.display = "flex";
+    input.focus();
+
+    const submit = () => {
+      const ok = onSubmit(input.value);
+      if (ok){
+        back.style.display = "none";
+      } else {
+        err.style.display = "block";
+        err.textContent = "Incorrect password. Please try again.";
+        input.focus();
+        input.select();
+      }
+    };
+
+    // wire buttons
+    const btnGo = document.getElementById("authModalGo");
+    const btnCancel = document.getElementById("authModalCancel");
+    const btnClose = document.getElementById("authModalClose");
+
+    btnGo.onclick = submit;
+    btnCancel.onclick = () => (back.style.display="none");
+    btnClose.onclick = () => (back.style.display="none");
+    input.onkeydown = (e) => { if (e.key === "Enter") submit(); };
+  }
+
+  return {
+    isCoach, isAdmin,
+    coachLogin, adminLogin,
+    coachLogout, adminLogout,
+    requireCoach, requireAdmin,
+    openGate
+  };
+})();
+
+window.AUTH = AUTH;
