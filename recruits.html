@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Serra Football Recruits</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
@@ -10,10 +10,10 @@
 <body class="dark">
 
 <header class="top-nav">
-  <img src="images/serra_logo.png" class="nav-logo" />
+  <img src="images/serra_logo.png" class="nav-logo" alt="Serra Football" />
   <nav>
     <a href="index.html">Home</a>
-    <a class="active" href="recruits.html">View Prospects</a>
+    <a href="recruits.html" class="active">View Recruits</a>
   </nav>
 </header>
 
@@ -23,7 +23,7 @@
 </section>
 
 <section class="filters">
-  <input type="text" id="search" placeholder="Search name or position" />
+  <input type="text" id="search" placeholder="Search name or position…" />
   <div class="year-filters">
     <button data-year="all" class="active">All</button>
     <button data-year="2026">2026</button>
@@ -33,9 +33,7 @@
   </div>
 </section>
 
-<section id="recruitsGrid" class="recruits-grid">
-  <!-- injected by JS -->
-</section>
+<section id="recruitsGrid" class="recruits-grid"></section>
 
 <script src="recruits.js"></script>
 </body>
