@@ -1,94 +1,121 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <base href="/serra-elite-recruiting/">
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Serra Football Recruiting</title>
-  <link rel="stylesheet" href="styles.css?v=25">
+  <meta charset="UTF-8" />
+  <title>Serra Elite Recruiting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
+<!-- ================= HEADER ================= -->
 <header class="site-header">
   <div class="header-inner">
     <div class="brand">
-      <img class="logo" src="images/serra_logo.png" alt="Serra Football">
+      <img src="images/serra-logo.png" alt="Serra Football Logo" />
       <span>Serra Elite Recruiting</span>
     </div>
 
-    <nav class="nav-links">
+    <nav class="nav">
       <a href="index.html">Home</a>
+      <a href="recruits.html">Recruits</a>
       <a href="coach-login.html">Coach Login</a>
-      <a href="admin-login.html">Admin Login</a>
-      <a class="primary" href="coach-login.html?next=recruits.html">Recruits</a>
+      <a href="admin-login.html" class="admin">Admin</a>
     </nav>
   </div>
 </header>
 
-<div class="container">
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <img src="images/hero-action.jpg" alt="Serra Football Action" />
+  <div class="hero-overlay"></div>
 
-  <section class="hero">
-    <img src="images/serra_action.png" alt="Serra Football Action" />
-    <div class="overlay"></div>
-    <div class="content">
-      <h1>Serra Football Recruiting</h1>
-      <p>Developing college-ready student-athletes through discipline, academics, and elite competition.</p>
+  <div class="hero-content">
+    <h1>Serra Football Recruiting</h1>
+    <p>Developing college-ready student-athletes through discipline, academics, and elite competition.</p>
+
+    <div class="hero-buttons">
+      <a href="coach-login.html" class="btn primary">Enter Recruiting Portal</a>
+      <a href="recruits.html" class="btn outline">View Recruits</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="stats">
-    <div class="stat"><div class="big">21</div><div class="small">NFL Draft Picks</div></div>
-    <div class="stat"><div class="big">30+</div><div class="small">All-Americans</div></div>
-    <div class="stat"><div class="big">5</div><div class="small">CIF Championships</div></div>
-    <div class="stat"><div class="big">4</div><div class="small">State Titles</div></div>
-  </section>
+<!-- ================= STATS ================= -->
+<section class="stats">
+  <div class="stat">
+    <div class="number">21</div>
+    <div class="label">NFL Draft Picks</div>
+  </div>
+  <div class="stat">
+    <div class="number">30+</div>
+    <div class="label">All-Americans</div>
+  </div>
+  <div class="stat">
+    <div class="number">5</div>
+    <div class="label">CIF Championships</div>
+  </div>
+  <div class="stat">
+    <div class="number">4</div>
+    <div class="label">State Titles</div>
+  </div>
+</section>
 
-  <section class="section">
-    <h2>Why Serra Football</h2>
-    <p>
-      Junípero Serra High School has built a national reputation for producing elite student-athletes.
-      Our program emphasizes accountability, academics, and preparation for the next level.
-    </p>
-    <ul>
-      <li>Proven college placement across all levels</li>
-      <li>Academics-first recruiting approach</li>
-      <li>Elite competition & national exposure</li>
-      <li>Player development over hype</li>
-    </ul>
-  </section>
+<!-- ================= WHY SERRA ================= -->
+<section class="content">
+  <h2>Why Serra Football</h2>
+  <p>
+    Junípero Serra High School has built a national reputation for producing elite student-athletes.
+    Our program emphasizes accountability, academics, toughness, and preparation for the next level.
+  </p>
 
-  <section class="section">
-    <h2>What We Expect From Our Athletes</h2>
-    <p>Serra Football is not for everyone. Our athletes are held to a standard.</p>
-    <ul>
-      <li>Accountability on and off the field</li>
-      <li>Academic responsibility</li>
-      <li>Coachability & toughness</li>
-      <li>Respect for the Serra legacy</li>
-    </ul>
-  </section>
+  <ul class="bullets">
+    <li>Proven college placement across all levels</li>
+    <li>Academics-first recruiting approach</li>
+    <li>Elite competition & national exposure</li>
+    <li>Development over hype</li>
+  </ul>
+</section>
 
-  <section class="section">
-    <div class="qr">
-      <img src="images/serra_main_qr.png" alt="Recruiting Portal QR">
-      <div>
-        <h2 style="margin:0 0 6px">Recruiting Portal</h2>
-        <p>Scan to access verified Serra Football recruiting profiles.</p>
-        <div class="btn-row" style="margin-top:10px">
-          <a class="btn primary" href="coach-login.html?next=recruits.html">Enter Recruiting Portal</a>
-          <a class="btn" href="coach-login.html?next=recruits.html">View All Recruits</a>
-          <a class="btn" href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/" target="_blank" rel="noopener">Serra Alumni on On3</a>
-        </div>
+<!-- ================= EXPECTATIONS ================= -->
+<section class="content dark">
+  <h2>What We Expect From Our Athletes</h2>
+  <p>Serra Football is not for everyone. Our athletes are held to a standard.</p>
 
-        <div class="footer">
-          Follow: <a href="https://twitter.com/serra_football" target="_blank" rel="noopener">@serra_football</a> •
-          <a href="https://instagram.com/serrafootball" target="_blank" rel="noopener">@serrafootball</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <ul class="bullets">
+    <li>Accountability on and off the field</li>
+    <li>Academic responsibility</li>
+    <li>Coachability & toughness</li>
+    <li>Respect for the Serra legacy</li>
+  </ul>
+</section>
 
-</div>
+<!-- ================= QR / PORTAL ================= -->
+<section class="qr-section">
+  <img src="images/qr-code.png" alt="Recruiting QR Code" />
+  <div>
+    <h3>College Coach Access</h3>
+    <p>Scan to access verified Serra Football recruiting profiles.</p>
+    <a href="coach-login.html" class="btn primary">Enter Portal</a>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <p>Follow Serra Football</p>
+  <p>
+    <a href="https://twitter.com/serra_football" target="_blank">@serra_football</a> ·
+    <a href="https://instagram.com/serrafootball" target="_blank">@serrafootball</a>
+  </p>
+</footer>
 
 </body>
 </html>
