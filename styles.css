@@ -1,257 +1,106 @@
-/* NAV */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg,#071b2e,#0a2f4f);
+  color: white;
+}
+
 .top-nav {
-  display:flex;
-  gap:20px;
-  padding:15px 30px;
-  background:#0b1c3d;
-}
-.top-nav a {
-  color:white;
-  text-decoration:none;
-  font-weight:600;
-}
-.top-nav a.active {
-  background:#c71f2d;
-  padding:6px 14px;
-  border-radius:4px;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #081e34;
 }
 
-/* HERO */
-.recruits-hero {
-  background:linear-gradient(135deg,#0b3aa4,#c71f2d);
-  color:white;
-  padding:50px 20px;
-  text-align:center;
+.nav-logo { height: 40px; }
+
+.nav-btn {
+  color: white;
+  margin-left: 16px;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 6px;
 }
 
-/* GRID */
-.recruits-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-  gap:25px;
-  padding:40px;
+.nav-btn.active,
+.nav-btn:hover {
+  background: #c41f3a;
 }
 
-/* CARD */
-.recruit-card {
-  background:#111;
-  border-radius:10px;
-  padding:15px;
-  color:white;
-  text-align:center;
+.hero { position: relative; }
+.hero-img { width: 100%; height: 70vh; object-fit: cover; }
+.hero-overlay {
+  position: absolute;
+  bottom: 15%;
+  left: 8%;
 }
 
-/* PHOTO CROP */
-.photo-wrap {
-  width:100%;
-  height:260px;
-  overflow:hidden;
-  border-radius:8px;
-}
-.photo-wrap img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:top;
-}
-
-/* ICONS */
-.icons {
-  display:flex;
-  justify-content:center;
-  gap:15px;
-  margin-top:10px;
-}
-.icons img {
-  width:28px;
-}
-
-/* LOCK PAGE */
-.lock-page {
-  background:linear-gradient(135deg,#0b3aa4,#c71f2d);
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.lock-box {
-  background:#111;
-  padding:40px;
-  text-align:center;
-  border-radius:10px;
-}
-.lock-box img {
-  width:90px;
-}
-.lock-box input {
-  width:100%;
-  padding:12px;
-  margin:15px 0;
-}
-.lock-box button {
-  width:100%;
-  padding:12px;
-  background:#c71f2d;
-  color:white;
-  border:none;
-  font-weight:700;
-}
-.error {
-  color:#ff6b6b;
-}
-
-/* MOBILE */
-@media(max-width:768px){
-  .recruits-grid {
-    padding:20px;
-  }
-}/* ===============================
-   GLOBAL BACKGROUND FIX
-   =============================== */
-
-html, body {
-  background: linear-gradient(180deg, #0b2a4a 0%, #05070c 100%) !important;
-  color: #f5f7fa;
-  min-height: 100%;
-}
-
-/* Prevent white sections */
-section,
-main,
-.container {
-  background: transparent !important;
-}
-
-/* Ensure header/nav stays Serra */
-.site-header,
-.top-nav,
-header {
-  background: linear-gradient(
-    90deg,
-    #b11226,
-    #0b2a4a
-  ) !important;
-}
-
-/* Footer fix */
-footer {
-  background: #05070c !important;
-  color: #9aa4b2;
-}/* ===============================
-   FINAL DESIGN POLISH – SERRA
-   =============================== */
-
-/* NAV – tighter + premium */
-.site-header,
-.top-nav,
-header {
-  box-shadow: 0 6px 20px rgba(0,0,0,0.45);
-}
-
-.nav-links a {
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-}
-
-/* HERO – better text readability */
-.hero::after {
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.35),
-    rgba(0,0,0,0.9)
-  );
-}
-
-.hero-content h1 {
-  text-shadow: 0 4px 14px rgba(0,0,0,0.8);
-}
-
-.hero-content p {
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-/* SECTION SEPARATORS (subtle, pro) */
-.section {
-  position: relative;
-}
-
-.section::before {
-  content: "";
-  display: block;
-  width: 70px;
-  height: 4px;
-  background: #b11226;
-  margin-bottom: 18px;
-}
-
-/* STATS – more contrast */
 .stats {
-  border-top: 1px solid rgba(255,255,255,0.08);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  background: #0d3b66;
+  padding: 20px;
+  text-align: center;
 }
 
-.stat .big {
-  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+.lock-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
 }
 
-/* QR – intentional size */
-.qr-box img,
-.qr img {
-  width: 120px !important;
-  height: auto;
-  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.6));
+.lock-card {
+  background: black;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 360px;
 }
 
-/* BUTTONS – recruiting site feel */
-.btn,
-.btn-primary,
-.btn-secondary {
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 800;
+.lock-logo { width: 120px; }
+
+.unlock-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  background: #c41f3a;
+  color: white;
+  border: none;
+  font-size: 16px;
 }
 
-/* RECRUIT CARDS – refined */
+.qr-small {
+  width: 140px;
+  margin-top: 20px;
+}
+
+.recruit-container {
+  padding: 40px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap: 20px;
+}
+
 .recruit-card {
-  box-shadow: 0 10px 28px rgba(0,0,0,0.5);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: #111;
+  padding: 16px;
+  border-radius: 10px;
+  text-align: center;
 }
 
-.recruit-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 36px rgba(0,0,0,0.65);
+.player-img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 8px;
 }
 
-/* IMAGE CROP – clean head-to-waist */
-.photo-wrap img {
-  object-position: center top;
-}
-
-/* FOOTER – tighter */
-footer {
-  border-top: 1px solid rgba(255,255,255,0.08);
-  font-size: 0.8rem;
-}
-
-/* MOBILE FINAL TWEAKS */
-@media (max-width: 768px) {
-  .hero-content h1 {
-    font-size: 1.9rem;
-  }
-
-  .hero-content p {
-    font-size: 1rem;
-  }
-
-  .nav-links a {
-    padding: 8px 14px;
-    font-size: 0.75rem;
-  }
-
-  .qr-box,
-  .qr {
-    padding: 20px;
-  }
+.icons a {
+  margin: 0 8px;
+  color: #4da3ff;
 }
