@@ -7,32 +7,33 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
-<body><script src="auth.js"></script>
-<script>requireRecruitAccess();</script>
+<body>
 
-<!-- HEADER (SAME BRANDING AS MAIN PAGE) -->
+<script src="auth.js"></script>
+<script>
+  if (!localStorage.getItem("serra_recruit_access")) {
+    window.location.href = "coach-login.html";
+  }
+</script>
+
 <header class="site-header">
   <div class="header-inner">
     <div class="brand">
-      <img src="images/serra_logo.png" alt="Serra Football Logo">
+      <img src="images/serra_logo.png" alt="Serra Football">
       <span>Serra Elite Recruiting</span>
     </div>
 
     <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a href="recruits.html" class="active">Recruits</a>
-      <a href="coach-login.html">Coach Login</a>
-      <a href="admin-login.html" class="admin">Admin</a>
+      <a class="active" href="recruits.html">Recruits</a>
+      <a href="#" onclick="logoutCoach()">Logout</a>
     </nav>
   </div>
 </header>
 
-<!-- PAGE TITLE -->
 <section class="content">
-  <h2>Serra Football Recruiting Board</h2>
-  <p>Verified prospects from Junípero Serra High School (Gardena, CA).</p>
+  <h2>Recruiting Board</h2>
 
-  <!-- FILTERS -->
   <div class="filters">
     <select id="classFilter">
       <option value="all">All Classes</option>
@@ -42,23 +43,42 @@
       <option value="2029">2029</option>
     </select>
 
-    <input type="text" id="searchInput" placeholder="Search player name…">
+    <input id="searchInput" type="text" placeholder="Search player name">
   </div>
 </section>
 
-<!-- RECRUITS GRID -->
-<section class="recruits-grid" id="recruitGrid">
-  <!-- JS injects players here -->
-</section>
+<!-- THIS IS THE MOST IMPORTANT LINE -->
+<section id="recruitGrid" class="recruits-grid"></section>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <p>
-    © Serra Football Recruiting · Gardena, CA<br>
-    <a href="https://twitter.com/serra_football" target="_blank">@serra_football</a> ·
-    <a href="https://instagram.com/serrafootball" target="_blank">@serrafootball</a>
-  </p>
-</footer>
+<!-- PROFILE MODAL -->
+<div id="profileModal" class="profile-modal hidden">
+  <div class="profile-content">
+    <span class="close-btn" onclick="closeProfile()">×</span>
+
+    <div class="profile-grid">
+      <div class="profile-photo">
+        <img id="profileImg">
+      </div>
+
+      <div class="profile-info">
+        <h2 id="profileName"></h2>
+        <p id="profileMeta"></p>
+        <p id="profileHW"></p>
+        <p id="profileGPA"></p>
+
+        <div class="profile-links">
+          <a id="profileHudl" target="_blank">Hudl</a>
+          <a id="profileTwitter" target="_blank">Twitter</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-writeup">
+      <h3>Scouting Report</h3>
+      <p id="profileWriteup"></p>
+    </div>
+  </div>
+</div>
 
 <script src="recruits.js"></script>
 </body>
