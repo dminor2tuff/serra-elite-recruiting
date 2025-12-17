@@ -1,54 +1,40 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin Login</title>
-  <link rel="stylesheet" href="styles.css?v=40" />
+  <meta charset="utf-8">
+  <title>Admin Login | Serra Elite Recruiting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-inner">
     <a class="brand" href="index.html">
-      <img src="images/serra_logo.png" class="logo" alt="Serra" onerror="this.style.display='none'">
+      <img src="images/serra_logo.png" class="logo" alt="Serra Football">
       <span>Serra Elite Recruiting</span>
     </a>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="recruits.html">Recruits</a>
-      <a class="pill-link coach" href="coach-login.html?next=recruits.html">Coach Login</a>
-      <a class="pill-link admin active" href="admin-login.html">Admin Login</a>
-    </nav>
   </div>
 </header>
 
-<main class="container" style="padding-top:24px;">
-  <div class="auth-card">
-    <h1 class="page-title" style="margin-bottom:6px;">Admin Access</h1>
-    <p class="muted" style="margin-top:0;">Staff only. Enter admin password.</p>
+<main class="container narrow">
+  <h1>Admin Login</h1>
 
-    <form id="adminForm" class="auth-form">
-      <label class="label">Password</label>
-      <input id="apw" class="input" type="password" placeholder="Enter admin password" required>
-      <button class="btn primary" type="submit">Unlock Admin</button>
-      <div id="msg" class="status" style="margin-top:12px;"></div>
-    </form>
-  </div>
+  <input
+    type="password"
+    id="adminPass"
+    placeholder="Enter Admin Password"
+    autocomplete="off"
+  >
+
+  <button
+    class="btn primary"
+    type="button"
+    onclick="Auth.adminLogin(document.getElementById('adminPass').value)">
+    Login
+  </button>
 </main>
 
-<script src="auth.js?v=40"></script>
-<script>
-  const next = new URLSearchParams(location.search).get("next") || "admin.html";
-  const form = document.getElementById("adminForm");
-  const msg = document.getElementById("msg");
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const ok = Auth.loginAdmin(document.getElementById("apw").value || "");
-    msg.textContent = ok ? "Admin unlocked. Redirecting…" : "Incorrect password.";
-    if (ok) location.href = next;
-  });
-</script>
+<script src="auth.js"></script>
 </body>
 </html>
