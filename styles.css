@@ -1,333 +1,224 @@
-/* ===============================
-   SERRA ELITE RECRUITING – MASTER STYLES
-   20+ YEAR CLEAN HS RECRUITING LOOK
-   =============================== */
-
-:root {
-  --serra-red: #8c1d18;
-  --serra-dark: #111111;
-  --serra-gray: #1e1e1e;
-  --serra-light: #f4f4f4;
-  --serra-gold: #c9a227;
-  --text-main: #ffffff;
-  --text-muted: #bdbdbd;
+:root{
+  --red:#8c1d18;
+  --dark:#0f0f0f;
+  --panel:#1a1a1a;
+  --gold:#c9a227;
+  --text:#ffffff;
+  --muted:#cfcfcf;
 }
 
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:linear-gradient(180deg,#0b0b0b,#181818);
+  color:var(--text);
 }
 
-body {
-  margin: 0;
-  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-  background: linear-gradient(180deg, #0f0f0f, #1a1a1a);
-  color: var(--text-main);
-  line-height: 1.6;
+a{text-decoration:none;color:inherit}
+
+.site-header{
+  background:linear-gradient(90deg,var(--red),#5a1210);
+  border-bottom:3px solid var(--gold);
+  position:sticky;
+  top:0;
+  z-index:1000;
 }
 
-/* ===============================
-   HEADER / NAV
-   =============================== */
-
-.site-header {
-  background: linear-gradient(90deg, var(--serra-red), #5a1210);
-  border-bottom: 3px solid var(--serra-gold);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+.header-inner{
+  max-width:1200px;
+  margin:auto;
+  padding:14px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
-.header-inner {
-  max-width: 1200px;
-  margin: auto;
-  padding: 14px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:900;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 900;
-  letter-spacing: 0.5px;
+.brand img{
+  height:42px;
 }
 
-.brand img.logo {
-  height: 42px;
-  width: auto;
+.nav-links a{
+  margin-left:18px;
+  font-weight:800;
+  font-size:14px;
 }
 
-.nav-links a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 700;
-  margin-left: 18px;
-  font-size: 14px;
+.nav-links .primary{
+  background:var(--gold);
+  color:#000;
+  padding:8px 14px;
+  border-radius:6px;
 }
 
-.nav-links a.primary {
-  background: var(--serra-gold);
-  color: #000;
-  padding: 8px 14px;
-  border-radius: 6px;
+.hero{
+  position:relative;
+  height:420px;
+  overflow:hidden;
 }
 
-.nav-links a:hover {
-  opacity: 0.85;
+.hero img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
-/* ===============================
-   HERO
-   =============================== */
-
-.hero {
-  position: relative;
-  height: 420px;
-  overflow: hidden;
+.hero .overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.9));
 }
 
-.hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.hero .content{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  max-width:1100px;
+  margin:auto;
+  padding:0 20px;
 }
 
-.hero .overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    rgba(0,0,0,0.6),
-    rgba(0,0,0,0.9)
-  );
+.hero h1{
+  font-size:42px;
+  font-weight:900;
 }
 
-.hero .content {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 1100px;
-  margin: auto;
-  padding: 0 20px;
+.hero p{
+  max-width:600px;
+  color:var(--muted);
+  font-size:18px;
 }
 
-.hero h1 {
-  font-size: 42px;
-  font-weight: 900;
-  margin-bottom: 10px;
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:40px 20px;
 }
 
-.hero p {
-  font-size: 18px;
-  max-width: 600px;
-  color: var(--text-muted);
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:18px;
+  margin:40px 0;
 }
 
-/* ===============================
-   MAIN CONTAINER
-   =============================== */
-
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 40px 20px;
+.stat{
+  background:var(--panel);
+  border-radius:14px;
+  padding:22px;
+  text-align:center;
+  border:1px solid #2a2a2a;
 }
 
-/* ===============================
-   STATS
-   =============================== */
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 18px;
-  margin: 40px 0;
+.stat .big{
+  font-size:34px;
+  font-weight:900;
+  color:var(--gold);
 }
 
-.stat {
-  background: var(--serra-gray);
-  border-radius: 14px;
-  padding: 22px;
-  text-align: center;
-  border: 1px solid #2a2a2a;
+h2{
+  font-size:28px;
+  margin:50px 0 14px;
+  border-left:6px solid var(--red);
+  padding-left:12px;
 }
 
-.stat .big {
-  font-size: 34px;
-  font-weight: 900;
-  color: var(--serra-gold);
+.section{
+  background:#141414;
+  padding:24px;
+  border-radius:16px;
+  border:1px solid #2a2a2a;
 }
 
-.stat .small {
-  color: var(--text-muted);
-  font-weight: 600;
+.qr{
+  display:flex;
+  gap:20px;
+  align-items:center;
 }
 
-/* ===============================
-   SECTION HEADERS
-   =============================== */
-
-h2 {
-  font-size: 28px;
-  margin-top: 60px;
-  margin-bottom: 14px;
-  border-left: 6px solid var(--serra-red);
-  padding-left: 12px;
+.qr img{
+  width:120px;
 }
 
-p {
-  color: var(--text-muted);
+.btn{
+  display:inline-block;
+  background:#2a2a2a;
+  padding:12px 18px;
+  border-radius:10px;
+  font-weight:800;
+  border:1px solid #333;
 }
 
-/* ===============================
-   EXPECTATIONS / WHY SERRA
-   =============================== */
-
-ul {
-  padding-left: 18px;
+.btn.primary{
+  background:var(--red);
+  border-color:var(--gold);
 }
 
-li {
-  margin-bottom: 8px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:22px;
+  margin-top:30px;
 }
 
-/* ===============================
-   BUTTONS
-   =============================== */
-
-.btn {
-  display: inline-block;
-  background: #2a2a2a;
-  color: #fff;
-  padding: 12px 18px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 800;
-  margin-right: 10px;
-  border: 1px solid #333;
+.card{
+  background:#1b1b1b;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid #2a2a2a;
 }
 
-.btn.primary {
-  background: var(--serra-red);
-  border-color: var(--serra-gold);
+.card .photo{
+  height:300px;
+  overflow:hidden;
 }
 
-.btn:hover {
-  transform: translateY(-1px);
-  opacity: 0.9;
+.card .photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:50% 18%;
 }
 
-/* ===============================
-   QR SECTION
-   =============================== */
-
-.qr {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  background: #121212;
-  border-radius: 16px;
-  padding: 24px;
-  margin-top: 40px;
-  border: 1px solid #2a2a2a;
+.card .body{
+  padding:16px;
 }
 
-.qr img {
-  width: 120px;
-  height: 120px;
+.card .name{
+  font-size:18px;
+  font-weight:900;
 }
 
-/* ===============================
-   RECRUITS GRID
-   =============================== */
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 22px;
-  margin-top: 30px;
+.meta{
+  font-size:14px;
+  color:var(--muted);
 }
 
-.card {
-  background: #1b1b1b;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid #2a2a2a;
-  display: flex;
-  flex-direction: column;
+.links{
+  display:flex;
+  gap:14px;
+  margin-top:10px;
 }
 
-.card .photo {
-  height: 300px;
-  background: #000;
+.iconlink{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:13px;
+  color:var(--gold);
 }
 
-.card .photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.card .body {
-  padding: 16px;
-}
-
-.card .name {
-  font-size: 18px;
-  font-weight: 900;
-}
-
-.card .meta {
-  color: var(--text-muted);
-  font-size: 14px;
-}
-
-.links {
-  display: flex;
-  gap: 14px;
-  margin-top: 10px;
-}
-
-.iconlink {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: var(--serra-gold);
-  text-decoration: none;
-}
-
-.iconlink svg {
-  width: 18px;
-  height: 18px;
-}
-
-.actions {
-  margin-top: 14px;
-}
-
-/* ===============================
-   MOBILE
-   =============================== */
-
-@media (max-width: 768px) {
-  .hero {
-    height: 300px;
-  }
-
-  .hero h1 {
-    font-size: 30px;
-  }
-
-  .nav-links {
-    display: none;
-  }
-
-  .qr {
-    flex-direction: column;
-    text-align: center;
-  }
+@media(max-width:768px){
+  .hero{height:300px}
+  .nav-links{display:none}
 }
