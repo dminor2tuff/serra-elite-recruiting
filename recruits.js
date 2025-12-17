@@ -1,51 +1,44 @@
-const CSV_URL =
+const SHEET_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-const grid = document.getElementById("recruitsGrid");
-let recruits = [];
-
-fetch(CSV_URL)
+fetch(SHEET_URL)
   .then(res => res.text())
-  .then(text => {
-    const rows = text.split("\n").slice(1);
-    recruits = rows.map(row => {
-      const cols = row.split(",");
-      return {
-        name: cols[0],
-        position: cols[1],
-        classYear: cols[2],
-        image: cols[3],
-        hudl: cols[4],
-        twitter: cols[5]
-      };
-    });
-    render("All");
-  });
+  .then(csv => {
+    const rows = csv.split("\n").slice(1);
+    const grid = document.getElementById("recruitsGrid");
 
-function render(filter) {
-  grid.innerHTML = "";
-  recruits
-    .filter(r => filter === "All" || r.classYear === filter)
-    .forEach(r => {
-      grid.innerHTML += `
-        <div class="recruit-card">
-          <img src="${r.image}" alt="${r.name}">
-          <h3>${r.name}</h3>
-          <p>${r.position}</p>
-          <p>Class of ${r.classYear}</p>
-          <div class="links">
-            ${r.hudl ? `<a href="${r.hudl}" target="_blank">Hudl</a>` : ""}
-            ${r.twitter ? `<a href="${r.twitter}" target="_blank">X</a>` : ""}
-          </div>
+    rows.forEach(row => {
+      const cols = row.split(",");
+
+      const name = cols[0];
+      const position = cols[1];
+      const height = cols[2];
+      const weight = cols[3];
+      const grad = cols[4];
+      const image = cols[5];
+      const hudl = cols[6];
+      const twitter = cols[7];
+
+      if (!name || !image) return;
+
+      const card = document.createElement("div");
+      card.className = "recruit-card";
+
+      card.innerHTML = `
+        <div class="photo-wrap">
+          <img src="${image}" alt="${name}">
+        </div>
+
+        <h3>${name}</h3>
+        <p>${position} | ${height}, ${weight}</p>
+        <p>Class of ${grad}</p>
+
+        <div class="icons">
+          ${hudl ? `<a href="${hudl}" target="_blank"><img src="icons/hudl.svg"></a>` : ""}
+          ${twitter ? `<a href="${twitter}" target="_blank"><img src="icons/twitter-x.svg"></a>` : ""}
         </div>
       `;
-    });
-}
 
-document.querySelectorAll(".filters button").forEach(btn => {
-  btn.onclick = () => {
-    document.querySelector(".filters .active").classList.remove("active");
-    btn.classList.add("active");
-    render(btn.dataset.class);
-  };
-});
+      grid.appendChild(card);
+    });
+  });
