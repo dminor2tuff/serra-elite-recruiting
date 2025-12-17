@@ -1,46 +1,37 @@
-(function () {
-  // CHANGE THESE:
-  const COACH_PASSWORD = "Serra!";
-  const ADMIN_PASSWORD = "SerraAdmin!";
+/* ===============================
+   SIMPLE AUTH SYSTEM
+   =============================== */
 
-  const KEY_COACH = "serraCoachAuthed";
-  const KEY_ADMIN = "serraAdminAuthed";
+const COACH_KEY = "serra_coach_auth";
+const COACH_PASSWORD = "Serra!";
 
-  function loginCoach(pw) {
-    if ((pw || "").trim() === COACH_PASSWORD) {
-      sessionStorage.setItem(KEY_COACH, "1");
-      return true;
-    }
-    return false;
+/* Login */
+function coachLogin(password) {
+  if (password === COACH_PASSWORD) {
+    localStorage.setItem(COACH_KEY, "true");
+    const next = new URLSearchParams(window.location.search).get("next");
+    window.location.href = next || "recruits.html";
+  } else {
+    alert("Incorrect password");
   }
+}
 
-  function loginAdmin(pw) {
-    if ((pw || "").trim() === ADMIN_PASSWORD) {
-      sessionStorage.setItem(KEY_ADMIN, "1");
-      return true;
-    }
-    return false;
+/* Require Coach */
+function requireCoach() {
+  if (localStorage.getItem(COACH_KEY) !== "true") {
+    window.location.href = "coach-login.html";
   }
+}
 
-  function logoutAdmin() { sessionStorage.removeItem(KEY_ADMIN); }
-  function logoutCoach() { sessionStorage.removeItem(KEY_COACH); }
+/* Logout */
+function coachLogout() {
+  localStorage.removeItem(COACH_KEY);
+  window.location.href = "index.html";
+}
 
-  function isCoach() { return sessionStorage.getItem(KEY_COACH) === "1"; }
-  function isAdmin() { return sessionStorage.getItem(KEY_ADMIN) === "1"; }
-
-  function requireCoach() {
-    if (isCoach()) return true;
-    const next = encodeURIComponent(location.pathname.split("/").pop() || "recruits.html");
-    location.href = `coach-login.html?next=${next}`;
-    return false;
-  }
-
-  function requireAdmin() {
-    if (isAdmin()) return true;
-    const next = encodeURIComponent(location.pathname.split("/").pop() || "admin.html");
-    location.href = `admin-login.html?next=${next}`;
-    return false;
-  }
-
-  window.Auth = { loginCoach, loginAdmin, logoutAdmin, logoutCoach, isCoach, isAdmin, requireCoach, requireAdmin };
-})();
+/* Expose globally */
+window.Auth = {
+  login: coachLogin,
+  requireCoach,
+  logout: coachLogout
+};
