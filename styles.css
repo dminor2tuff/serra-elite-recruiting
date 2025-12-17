@@ -401,7 +401,18 @@ html, body {
   .nav-logo,
   .logo {
     height: 38px;
+  }@media (max-width: 768px) {
+
+  .nav-logo,
+  .logo {
+    height: 42px;
   }
+
+  .qr-block img {
+    width: 120px;
+  }
+
+}
 
   /* Page Header / Hero */
   .page-header {
