@@ -2,168 +2,136 @@
 <html lang="en">
 <head>
   <base href="/serra-elite-recruiting/">
-  <meta charset="utf-8">
-  <title>Serra Football Recruiting | College Pipeline</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link rel="stylesheet" href="styles.css?v=55">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Serra Football Recruiting</title>
+  <link rel="stylesheet" href="styles.css?v=100">
 </head>
 <body>
 
-<!-- ================= HEADER ================= -->
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="index.html">
-      <img src="images/serra_logo.png"
-           class="logo"
-           alt="Serra Football"
+    <div class="brand">
+      <img class="logo" src="images/serra_logo.png" alt="Serra Football"
            onerror="this.style.display='none'">
-      <span>Serra Elite Recruiting</span>
-    </a>
+      <div class="title">Serra Elite Recruiting</div>
+    </div>
 
     <nav class="nav-links">
-      <a href="index.html" class="active">Home</a>
-      <a href="coach-login.html?next=recruits.html">Recruits</a>
-      <a href="coach-login.html?next=recruits.html" class="pill-link coach">
-        Coach Login
-      </a>
-      <a href="admin-login.html" class="pill-link admin">
-        Admin
-      </a>
+      <a href="index.html">Home</a>
+      <a href="#" id="navRecruits">Recruits</a>
+      <a class="primary" href="coach-login.html">Coach Login</a>
+      <a href="admin.html">Admin Login</a>
     </nav>
-
-    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-  </div>
-
-  <!-- Mobile Menu -->
-  <div id="mobileMenu" class="mobile-menu">
-    <a href="index.html">Home</a>
-    <a href="coach-login.html?next=recruits.html">Recruits</a>
-    <a href="coach-login.html?next=recruits.html">Coach Login</a>
-    <a href="admin-login.html">Admin Login</a>
   </div>
 </header>
 
-<!-- ================= HERO ================= -->
-<section class="hero">
-  <img src="images/serra_action.png"
-       alt="Serra Football Action"
-       onerror="this.style.display='none'">
+<div class="container">
+  <section class="hero">
+    <img src="images/serra_action.png" alt="Serra Action"
+         onerror="this.style.display='none'">
+    <div class="overlay"></div>
+    <div class="content">
+      <h1>Serra Football Recruiting</h1>
+      <p>Developing college-ready student-athletes through discipline, academics, and elite competition.</p>
+    </div>
+  </section>
 
-  <div class="hero-overlay"></div>
+  <section class="stats">
+    <div class="stat"><div class="big">21</div><div class="small">NFL Draft Picks</div></div>
+    <div class="stat"><div class="big">30+</div><div class="small">All-Americans</div></div>
+    <div class="stat"><div class="big">5</div><div class="small">CIF Championships</div></div>
+    <div class="stat"><div class="big">4</div><div class="small">State Titles</div></div>
+  </section>
 
-  <div class="hero-content">
-    <h1>SERRA FOOTBALL</h1>
-    <h2>A COLLEGE PIPELINE</h2>
+  <section class="section">
+    <h2>Why Serra Football</h2>
+    <p>Junípero Serra High School has built a national reputation for producing elite student-athletes. Our program emphasizes accountability, academics, and preparation for the next level.</p>
+  </section>
 
-    <p class="hero-sub">
-      21 NFL Draft Picks • 30+ All-Americans • Proven College Placement
-    </p>
+  <section class="section">
+    <h2>What We Expect From Our Athletes</h2>
+    <ul class="bullets">
+      <li>Commitment to academics</li>
+      <li>Coachability and discipline</li>
+      <li>Accountability on and off the field</li>
+      <li>Respect for the Serra legacy</li>
+    </ul>
+  </section>
 
-    <div class="hero-actions">
-      <a href="coach-login.html?next=recruits.html" class="btn primary">
-        Enter Recruiting Portal
-      </a>
-      <a href="coach-login.html?next=recruits.html" class="btn ghost">
-        View Recruits
-      </a>
+  <section class="section qr">
+    <img src="images/serra_main_qr.png" alt="Recruiting QR"
+         onerror="this.style.display='none'">
+    <div>
+      <div class="label">Recruiting Portal</div>
+      <div class="sub">Scan to access Serra Football recruiting profiles and verified prospect information.</div>
+    </div>
+  </section>
+
+  <div class="btn-row">
+    <a class="btn primary" href="#" id="btnEnterPortal">Enter Recruiting Portal</a>
+    <a class="btn" href="#" id="btnViewRecruits">View All Recruits</a>
+    <a class="btn" href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/" target="_blank" rel="noopener">Serra Alumni on On3</a>
+  </div>
+
+  <div class="footer-note">
+    Follow: <a href="https://twitter.com/serra_football" target="_blank" rel="noopener">@serra_football</a> •
+    <a href="https://instagram.com/serrafootball" target="_blank" rel="noopener">@serrafootball</a>
+  </div>
+</div>
+
+<!-- Password Modal -->
+<div class="modal-backdrop" id="authModalBackdrop">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="top">
+      <div class="t" id="authModalTitle">Enter Recruiting Portal</div>
+      <div class="close" id="authModalClose">✕</div>
+    </div>
+    <div class="content">
+      <label for="authModalInput">Password</label>
+      <input id="authModalInput" type="password" placeholder="Enter password..." autocomplete="current-password">
+      <div class="err" id="authModalErr"></div>
+      <div class="hint">
+        College coaches only. If you need access, contact Serra Football Recruiting.
+      </div>
+      <div class="row">
+        <a class="btn" href="#" id="authModalCancel">Cancel</a>
+        <a class="btn primary" href="#" id="authModalGo">Continue</a>
+      </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ================= STATS ================= -->
-<section class="stats">
-  <div class="stat">
-    <div class="stat-number">21</div>
-    <div class="stat-label">NFL Draft Picks</div>
-  </div>
-  <div class="stat">
-    <div class="stat-number">30+</div>
-    <div class="stat-label">All-Americans</div>
-  </div>
-  <div class="stat">
-    <div class="stat-number">5</div>
-    <div class="stat-label">CIF Championships</div>
-  </div>
-  <div class="stat">
-    <div class="stat-number">4</div>
-    <div class="stat-label">State Titles</div>
-  </div>
-</section>
-
-<!-- ================= WHY SERRA ================= -->
-<section class="panel">
-  <h2>Why Serra Football</h2>
-  <ul class="bullet-grid">
-    <li>Proven college placement across all levels</li>
-    <li>Academics-first recruiting approach</li>
-    <li>Elite competition & national exposure</li>
-    <li>Player development over hype</li>
-  </ul>
-</section>
-
-<!-- ================= EXPECTATIONS ================= -->
-<section class="panel dark">
-  <h2>What We Expect From Our Athletes</h2>
-  <p class="panel-lead">
-    Serra Football is not for everyone. Our athletes are held to a standard.
-  </p>
-
-  <ul class="bullet-grid">
-    <li>Accountability on and off the field</li>
-    <li>Academic responsibility</li>
-    <li>Coachability & toughness</li>
-    <li>Respect for the Serra legacy</li>
-  </ul>
-</section>
-
-<!-- ================= QR SECTION ================= -->
-<section class="qr-panel">
-  <img src="images/serra_main_qr.png"
-       alt="Serra Recruiting QR"
-       onerror="this.style.display='none'">
-
-  <div>
-    <h3>College Coach Access</h3>
-    <p>
-      Scan to enter the official Serra Football Recruiting Portal
-    </p>
-
-    <a href="coach-login.html?next=recruits.html" class="btn primary">
-      Enter Portal
-    </a>
-  </div>
-</section>
-
-<!-- ================= LINKS ================= -->
-<section class="cta-row">
-  <a href="coach-login.html?next=recruits.html" class="btn">
-    View All Recruits
-  </a>
-  <a href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/"
-     target="_blank"
-     rel="noopener"
-     class="btn ghost">
-    Serra Alumni on On3
-  </a>
-</section>
-
-<!-- ================= FOOTER ================= -->
-<footer class="site-footer">
-  <p>
-    Follow Serra Football:
-    <a href="https://twitter.com/serra_football" target="_blank">@serra_football</a> •
-    <a href="https://instagram.com/serrafootball" target="_blank">@serrafootball</a>
-  </p>
-</footer>
-
-<!-- ================= SCRIPTS ================= -->
+<script src="auth.js?v=100"></script>
 <script>
-function toggleMenu() {
-  const menu = document.getElementById("mobileMenu");
-  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-}
-</script>
+  // Gate recruits link in header
+  document.getElementById("navRecruits").addEventListener("click", (e) => {
+    e.preventDefault();
+    if (AUTH.isCoach()) return (window.location.href = "recruits.html");
+    AUTH.openGate({
+      title: "Enter Serra Recruiting Portal",
+      onSubmit: (pass) => {
+        const ok = AUTH.coachLogin(pass);
+        if (ok) window.location.href = "recruits.html";
+        return ok;
+      }
+    });
+  });
 
+  // Buttons
+  function goPortal(){
+    if (AUTH.isCoach()) return (window.location.href = "recruits.html");
+    AUTH.openGate({
+      title: "Enter Serra Recruiting Portal",
+      onSubmit: (pass) => {
+        const ok = AUTH.coachLogin(pass);
+        if (ok) window.location.href = "recruits.html";
+        return ok;
+      }
+    });
+  }
+  document.getElementById("btnEnterPortal").addEventListener("click", (e)=>{ e.preventDefault(); goPortal(); });
+  document.getElementById("btnViewRecruits").addEventListener("click", (e)=>{ e.preventDefault(); goPortal(); });
+</script>
 </body>
 </html>
