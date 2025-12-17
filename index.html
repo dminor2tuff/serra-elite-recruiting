@@ -1,104 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Serra Football Recruiting</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
-
 <body>
 
+<!-- HEADER -->
 <header class="site-header">
   <div class="header-inner">
     <div class="brand">
-      <img src="images/serra_logo.png" class="logo">
+      <img src="images/serra_logo.png" class="logo" alt="Serra Football">
       <span>Serra Football Recruiting</span>
     </div>
 
     <nav class="nav-links">
-      <a href="index.html" class="active">Home</a>
-      <a href="#" onclick="enterProspects()">View Prospects</a>
-      <a href="#" onclick="enterAdmin()">Admin</a>
+      <a href="index.html">Home</a>
+      <a href="recruits.html">View Prospects</a>
+      <a href="admin.html">Admin</a>
     </nav>
   </div>
 </header>
 
 <!-- HERO -->
-<section class="hero ncsa-hero">
+<section class="hero">
   <img src="images/serra_action.png" alt="Serra Football Action">
-  <div class="hero-content">
-    <h1>Elite Football. Real Recruiting.</h1>
-    <p>One of the nation’s most respected high school football programs.</p>
+  <div class="hero-overlay"></div>
 
-    <div class="hero-cta">
-      <button onclick="enterProspects()" class="btn primary">
-        View Recruiting Board
-      </button>
-      <a href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/"
-         target="_blank" class="btn outline">
-        Serra Alumni on On3
-      </a>
-    </div>
+  <div class="hero-content">
+    <h1>College Football Starts at Serra</h1>
+    <p>Developing college-ready student-athletes through discipline, academics, and elite competition.</p>
+    <a href="recruits.html" class="hero-btn">View Serra Prospects</a>
   </div>
 </section>
 
 <!-- WHY SERRA -->
-<section class="why-serra">
+<section class="why">
   <h2>Why Serra Football</h2>
 
   <div class="why-grid">
-    <div>
+    <div class="why-card">
       <h3>Proven Pipeline</h3>
-      <p>Serra develops college-ready athletes with verified recruiting exposure.</p>
+      <p>Consistent college placement across Power 5, FCS, D2, D3, NAIA, and JUCO.</p>
     </div>
 
-    <div>
-      <h3>Academics & Accountability</h3>
-      <p>Our athletes are coached to succeed in the classroom and beyond.</p>
+    <div class="why-card">
+      <h3>Academics First</h3>
+      <p>Recruiting built on GPA, accountability, and long-term development.</p>
     </div>
 
-    <div>
-      <h3>National Credibility</h3>
-      <p>Recognized by college staffs, NFL scouts, MaxPreps, and On3.</p>
+    <div class="why-card">
+      <h3>Elite Competition</h3>
+      <p>National exposure against top programs and prospects.</p>
     </div>
   </div>
 </section>
 
-<!-- TRUST / LEGACY -->
-<section class="legacy-strip">
-  <div class="legacy-item"><strong>21</strong><span>NFL Draft Picks</span></div>
-  <div class="legacy-item"><strong>30+</strong><span>All-Americans</span></div>
-  <div class="legacy-item"><strong>5</strong><span>CIF Titles</span></div>
-  <div class="legacy-item"><strong>4</strong><span>State Titles</span></div>
-</section>
-
-<!-- QR STRIP -->
-<section class="qr-strip">
-  <img src="images/serra_main_qr.png" alt="Recruiting QR">
-  <div>
-    <h3>Recruiting Portal Access</h3>
-    <p>Scan to view Serra Football recruiting profiles.</p>
+<!-- STATS -->
+<section class="stats">
+  <div class="stat">
+    <span class="stat-num">21</span>
+    <span class="stat-label">NFL Draft Picks</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">30+</span>
+    <span class="stat-label">All-Americans</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">5</span>
+    <span class="stat-label">CIF Titles</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">4</span>
+    <span class="stat-label">State Titles</span>
   </div>
 </section>
 
-<script>
-function enterProspects() {
-  const pass = prompt("Enter recruiting access password:");
-  if (pass === "SerraFB!") {
-    sessionStorage.setItem("prospectsAccess", "true");
-    window.location.href = "recruits.html";
-  } else if (pass !== null) alert("Incorrect password.");
-}
+<!-- RECRUITING LINKS -->
+<section class="links">
+  <h2>Serra Recruiting Profiles</h2>
 
-function enterAdmin() {
-  const pass = prompt("Enter admin password:");
-  if (pass === "SerraAdmin!") {
-    sessionStorage.setItem("adminAccess", "true");
-    window.location.href = "admin.html";
-  } else if (pass !== null) alert("Incorrect password.");
-}
-</script>
+  <div class="link-buttons">
+    <a href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/"
+       target="_blank">View Serra on On3</a>
+
+    <a href="https://www.maxpreps.com/ca/gardena/junipero-serra-cavaliers/football/"
+       target="_blank">View Serra on MaxPreps</a>
+  </div>
+</section>
+
+<!-- IMAGE FEATURE -->
+<section class="feature">
+  <img src="images/serra_main_qr.png" alt="Serra Recruiting QR">
+  <div class="feature-text">
+    <h2>Recruiting Made Simple</h2>
+    <p>Verified prospect data, film links, and direct access for college programs.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>© Serra Football Recruiting</p>
+  <p>
+    Follow:
+    <a href="https://twitter.com/serra_football" target="_blank">@serra_football</a> ·
+    <a href="https://instagram.com/serrafootball" target="_blank">@serrafootball</a>
+  </p>
+</footer>
 
 </body>
 </html>
