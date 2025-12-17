@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Serra Football Recruiting</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -12,50 +12,73 @@
 <header class="site-header">
   <div class="header-inner">
     <div class="brand">
-      <img src="images/serra_logo.png" class="logo" alt="Serra Football" />
+      <img src="images/serra_logo.png" class="logo">
       <span>Serra Football Recruiting</span>
     </div>
 
     <nav class="nav-links">
-      <a href="index.html">Home</a>
+      <a href="index.html" class="active">Home</a>
       <a href="#" onclick="enterProspects()">View Prospects</a>
       <a href="#" onclick="enterAdmin()">Admin</a>
     </nav>
   </div>
 </header>
 
-<section class="hero">
+<!-- HERO -->
+<section class="hero ncsa-hero">
   <img src="images/serra_action.png" alt="Serra Football Action">
-  <div class="hero-overlay">
-    <h1>Serra Football</h1>
-    <p>College-ready student-athletes. Built the right way.</p>
+  <div class="hero-content">
+    <h1>Elite Football. Real Recruiting.</h1>
+    <p>One of the nation’s most respected high school football programs.</p>
+
+    <div class="hero-cta">
+      <button onclick="enterProspects()" class="btn primary">
+        View Recruiting Board
+      </button>
+      <a href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/"
+         target="_blank" class="btn outline">
+        Serra Alumni on On3
+      </a>
+    </div>
   </div>
 </section>
 
-<section class="stats">
-  <div><strong>21</strong><span>NFL Draft Picks</span></div>
-  <div><strong>30+</strong><span>All-Americans</span></div>
-  <div><strong>5</strong><span>CIF Titles</span></div>
-  <div><strong>4</strong><span>State Titles</span></div>
+<!-- WHY SERRA -->
+<section class="why-serra">
+  <h2>Why Serra Football</h2>
+
+  <div class="why-grid">
+    <div>
+      <h3>Proven Pipeline</h3>
+      <p>Serra develops college-ready athletes with verified recruiting exposure.</p>
+    </div>
+
+    <div>
+      <h3>Academics & Accountability</h3>
+      <p>Our athletes are coached to succeed in the classroom and beyond.</p>
+    </div>
+
+    <div>
+      <h3>National Credibility</h3>
+      <p>Recognized by college staffs, NFL scouts, MaxPreps, and On3.</p>
+    </div>
+  </div>
 </section>
 
-<section class="qr-block">
-  <img src="images/serra_main_qr.png" alt="Serra Recruiting QR">
-  <p>Scan to visit SerraFBRecruits.com</p>
+<!-- TRUST / LEGACY -->
+<section class="legacy-strip">
+  <div class="legacy-item"><strong>21</strong><span>NFL Draft Picks</span></div>
+  <div class="legacy-item"><strong>30+</strong><span>All-Americans</span></div>
+  <div class="legacy-item"><strong>5</strong><span>CIF Titles</span></div>
+  <div class="legacy-item"><strong>4</strong><span>State Titles</span></div>
 </section>
 
-<section class="on3-block">
-  <h2>Serra Football on On3</h2>
-  <p>Nationally recognized program with verified alumni and prospect coverage.</p>
-  <div class="on3-links">
-    <a href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/"
-       target="_blank" rel="noopener">
-      View Serra Football on On3
-    </a>
-    <a href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/"
-       target="_blank" rel="noopener">
-      Serra Alumni on On3
-    </a>
+<!-- QR STRIP -->
+<section class="qr-strip">
+  <img src="images/serra_main_qr.png" alt="Recruiting QR">
+  <div>
+    <h3>Recruiting Portal Access</h3>
+    <p>Scan to view Serra Football recruiting profiles.</p>
   </div>
 </section>
 
@@ -65,9 +88,7 @@ function enterProspects() {
   if (pass === "SerraFB!") {
     sessionStorage.setItem("prospectsAccess", "true");
     window.location.href = "recruits.html";
-  } else if (pass !== null) {
-    alert("Incorrect password.");
-  }
+  } else if (pass !== null) alert("Incorrect password.");
 }
 
 function enterAdmin() {
@@ -75,9 +96,7 @@ function enterAdmin() {
   if (pass === "SerraAdmin!") {
     sessionStorage.setItem("adminAccess", "true");
     window.location.href = "admin.html";
-  } else if (pass !== null) {
-    alert("Incorrect password.");
-  }
+  } else if (pass !== null) alert("Incorrect password.");
 }
 </script>
 
