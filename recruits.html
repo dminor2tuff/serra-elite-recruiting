@@ -1,27 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Serra Recruits</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="styles.css">
-  <script src="auth.js"></script>
-  <script src="recruits.js" defer></script>
+  <base href="/serra-elite-recruiting/">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recruits • Serra Elite Recruiting</title>
+  <link rel="stylesheet" href="styles.css?v=25">
 </head>
+<body>
 
-<body onload="Auth.requireCoach()">
-<header class="top-nav">
-  <span>Serra Football Recruits</span>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <img class="logo" src="images/serra_logo.png" alt="Serra Football">
+      <span>Serra Elite Recruiting</span>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a class="primary" href="recruits.html">Recruits</a>
+      <a href="admin-login.html">Admin Login</a>
+      <a href="#" id="logoutLink">Logout</a>
+    </nav>
+  </div>
 </header>
 
-<div class="filters">
-  <button onclick="filterClass('All')">All</button>
-  <button onclick="filterClass('2026')">2026</button>
-  <button onclick="filterClass('2027')">2027</button>
-  <button onclick="filterClass('2028')">2028</button>
-  <button onclick="filterClass('2029')">2029</button>
+<div class="container">
+  <div class="page-title">
+    <div>
+      <h1>Serra Football Recruits</h1>
+      <div class="small-muted">Search, filter by class, open profiles, and export a printable roster PDF.</div>
+    </div>
+
+    <div class="tools">
+      <input id="search" class="search" placeholder="Search name, position, class, height/weight…" />
+      <div class="filters" id="filters">
+        <div class="pill active" data-class="all">All</div>
+        <div class="pill" data-class="2026">2026</div>
+        <div class="pill" data-class="2027">2027</div>
+        <div class="pill" data-class="2028">2028</div>
+        <div class="pill" data-class="2029">2029</div>
+      </div>
+      <button class="btn" id="printBtn" type="button">Print / Save PDF</button>
+      <button class="btn" id="scoutBtn" type="button">Scout View</button>
+    </div>
+  </div>
+
+  <div id="status" class="small-muted" style="margin-top:10px;"></div>
+  <div id="grid" class="grid" aria-live="polite"></div>
+
+  <div class="footer">
+    Coach access is protected. If you need access, contact Serra Football Recruiting staff.
+  </div>
 </div>
 
-<div id="recruitsGrid" class="grid"></div>
+<script src="auth.js?v=25"></script>
+<script src="recruits.js?v=25"></script>
+<script>
+  // Password protect this page
+  SerraAuth.requireCoach({ next: "recruits.html" });
+
+  document.getElementById("logoutLink").addEventListener("click", (e)=>{
+    e.preventDefault();
+    SerraAuth.coachLogout();
+  });
+</script>
+
 </body>
 </html>
