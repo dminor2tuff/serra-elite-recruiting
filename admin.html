@@ -1,132 +1,95 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <base href="/serra-elite-recruiting/">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin | Serra Recruiting</title>
-  <link rel="stylesheet" href="styles.css?v=40" />
+  <title>Admin • Serra Elite Recruiting</title>
+  <link rel="stylesheet" href="styles.css?v=25">
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="index.html">
-      <img src="images/serra_logo.png" class="logo" alt="Serra" onerror="this.style.display='none'">
+    <div class="brand">
+      <img class="logo" src="images/serra_logo.png" alt="Serra Football">
       <span>Serra Elite Recruiting</span>
-    </a>
+    </div>
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="recruits.html">Recruits</a>
-      <a class="pill-link coach" href="coach-login.html?next=recruits.html">Coach Login</a>
-      <a class="pill-link admin active" href="admin.html">Admin</a>
+      <a class="primary" href="admin.html">Admin</a>
+      <a href="#" id="logoutLink">Logout</a>
     </nav>
   </div>
 </header>
 
-<main class="container" style="padding-top:18px;">
-  <div class="admin-wrap">
-    <div class="panel">
-      <h1 class="page-title">Admin Upload</h1>
-      <p class="muted">Add players to Google Sheets. Recruits board updates automatically.</p>
+<div class="container">
+  <div class="section">
+    <h2>Admin Tools</h2>
+    <p>Use Google Sheets as the source of truth. Add/update athletes there and the site will sync automatically.</p>
 
-      <form id="adminUpload" class="admin-form">
-        <div class="form-row">
-          <div>
-            <label class="label">Name</label>
-            <input class="input" name="Name" required placeholder="First Last">
-          </div>
-          <div>
-            <label class="label">Class</label>
-            <input class="input" name="Class" required placeholder="2026">
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div>
-            <label class="label">Position</label>
-            <input class="input" name="Position" required placeholder="DB / RB">
-          </div>
-          <div>
-            <label class="label">HeightWeight</label>
-            <input class="input" name="HeightWeight" placeholder="5'10 / 184 lbs">
-          </div>
-        </div>
-
-        <label class="label">HUDL</label>
-        <input class="input" name="HUDL" placeholder="https://www.hudl.com/...">
-
-        <label class="label">Twitter</label>
-        <input class="input" name="Twitter" placeholder="https://twitter.com/handle or @handle">
-
-        <label class="label">GPA</label>
-        <input class="input" name="GPA" placeholder="3.2">
-
-        <label class="label">Writeup</label>
-        <textarea class="textarea" name="Writeup" rows="5" placeholder="Scouting write-up..."></textarea>
-
-        <label class="label">ImageURL</label>
-        <input class="input" name="ImageURL" placeholder="raw.githubusercontent.com URL OR filename.png">
-
-        <div class="admin-actions">
-          <button class="btn primary" type="submit">Submit Player</button>
-          <button class="btn ghost" type="button" id="logoutBtn">Logout Admin</button>
-        </div>
-
-        <div id="adminMsg" class="status" style="margin-top:12px;"></div>
-      </form>
-    </div>
-
-    <div class="panel">
-      <h2 style="margin-top:0;">Photo URL Tip</h2>
-      <p class="muted">
-        Best option: paste the <b>raw.githubusercontent.com</b> image link from your repo.
-        Example:
-      </p>
-      <div class="codebox">
-https://raw.githubusercontent.com/dminor2tuff/serra-elite-recruiting/main/images/moutra_jr_devohn.png
-      </div>
-      <p class="muted" style="margin-top:12px;">
-        If you prefer filenames, you can use: <b>moutra_jr_devohn.png</b> and put the file inside <b>/images/</b>.
-      </p>
+    <div class="btn-row" style="margin-top:12px">
+      <a class="btn primary" target="_blank" rel="noopener"
+         href="https://docs.google.com/spreadsheets/d/1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/edit">
+        Open Google Sheet
+      </a>
+      <a class="btn" href="recruits.html">Preview Recruits</a>
     </div>
   </div>
-</main>
 
-<script src="auth.js?v=40"></script>
+  <div class="section">
+    <h2>Photo Rules (Best Practice)</h2>
+    <ul>
+      <li>Upload photo files into <strong>/images</strong> in your repo.</li>
+      <li>Name them like: <strong>lastname_firstname.png</strong> (example: <strong>johnson_nicolas.png</strong>)</li>
+      <li>In Google Sheets “Photo” column, put either:
+        <ul>
+          <li><strong>johnson_nicolas.png</strong> (recommended)</li>
+          <li>OR a full URL like <strong>https://raw.githubusercontent.com/…</strong></li>
+        </ul>
+      </li>
+      <li>The site automatically crops “head-to-waist” using CSS.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Photo URL Helper</h2>
+    <p class="small-muted">Paste a filename and copy the value into your Google Sheet Photo column.</p>
+    <input id="file" class="input" placeholder="ex: johnson_nicolas.png" />
+    <div class="btn-row" style="margin-top:10px">
+      <button class="btn primary" id="copyBtn" type="button">Copy Value</button>
+    </div>
+    <div id="out" class="small-muted" style="margin-top:10px;"></div>
+  </div>
+
+</div>
+
+<script src="auth.js?v=25"></script>
 <script>
-  Auth.requireAdmin();
+  SerraAuth.requireAdmin({ next: "admin.html" });
 
-  // PASTE YOUR APPS SCRIPT WEB APP URL HERE:
-  const APPS_SCRIPT_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
-
-  const form = document.getElementById("adminUpload");
-  const msg = document.getElementById("adminMsg");
-
-  document.getElementById("logoutBtn").addEventListener("click", () => {
-    Auth.logoutAdmin();
-    location.href = "index.html";
+  document.getElementById("logoutLink").addEventListener("click", (e)=>{
+    e.preventDefault();
+    SerraAuth.adminLogout();
   });
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    msg.textContent = "Submitting…";
+  const fileEl = document.getElementById("file");
+  const out = document.getElementById("out");
 
-    const data = Object.fromEntries(new FormData(form).entries());
+  fileEl.addEventListener("input", ()=>{
+    const v = (fileEl.value||"").trim();
+    out.textContent = v ? `Use this in Sheets Photo column: ${v}` : "";
+  });
 
-    try {
-      const res = await fetch(APPS_SCRIPT_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(data)
-      });
-
-      // Some deployments return text
-      const text = await res.text();
-      msg.textContent = res.ok ? "✅ Player submitted successfully." : ("❌ Submit failed: " + text);
-
-      if (res.ok) form.reset();
-    } catch (err) {
-      msg.textContent = "❌ Error submitting. Check Apps Script URL / permissions.";
+  document.getElementById("copyBtn").addEventListener("click", async ()=>{
+    const v = (fileEl.value||"").trim();
+    if(!v) return;
+    try{
+      await navigator.clipboard.writeText(v);
+      out.textContent = `Copied: ${v}`;
+    }catch{
+      out.textContent = `Copy failed — manually copy: ${v}`;
     }
   });
 </script>
