@@ -1,31 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Serra Football Recruiting</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
+<body class="home">
 
-<body>
-
-<header class="site-header">
-  <div class="nav-inner">
-    <div class="brand">
-      <img src="images/serra_logo.png" alt="Serra">
-      <span>Serra Elite Recruiting</span>
-    </div>
-
-    <nav class="nav-links">
-      <a href="index.html" class="active">Home</a>
-      <a href="recruits.html">View Prospects</a>
-      <a href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/" target="_blank">On3</a>
-    </nav>
+<header class="top-nav">
+  <div class="nav-left">
+    <img src="images/serra_logo.png" class="nav-logo" alt="Serra Logo">
+  </div>
+  <div class="nav-right">
+    <a href="index.html" class="nav-btn active">Home</a>
+    <a href="index.html#lock" class="nav-btn">View Prospects</a>
+    <a href="admin.html" class="nav-btn admin">Admin</a>
   </div>
 </header>
 
 <section class="hero">
-  <img src="images/serra_action.png" alt="Serra Football">
+  <img src="images/serra_action.png" class="hero-img" alt="Serra Football">
   <div class="hero-overlay">
     <h1>Serra Football Recruiting</h1>
     <p>Developing college-ready student-athletes through discipline, academics, and elite competition.</p>
@@ -33,38 +28,36 @@
 </section>
 
 <section class="stats">
-  <div><strong>21</strong><span>NFL Draft Picks</span></div>
-  <div><strong>30+</strong><span>All-Americans</span></div>
-  <div><strong>5</strong><span>CIF Championships</span></div>
-  <div><strong>4</strong><span>State Titles</span></div>
+  <div>21<br><span>NFL Draft Picks</span></div>
+  <div>30+<br><span>All-Americans</span></div>
+  <div>5<br><span>CIF Championships</span></div>
+  <div>4<br><span>State Titles</span></div>
 </section>
 
-<section class="why">
-  <h2>Why Serra Football</h2>
-  <p>Junípero Serra High School has built a national reputation for producing elite student-athletes prepared for the next level.</p>
+<section id="lock" class="lock-section">
+  <div class="lock-card">
+    <img src="images/serra_logo.png" class="lock-logo">
+    <h2>View Prospects</h2>
+    <p>Enter recruiting password</p>
 
-  <ul>
-    <li>Proven college placement across all divisions</li>
-    <li>Academics-first recruiting approach</li>
-    <li>Elite competition & national exposure</li>
-    <li>Player development over hype</li>
-  </ul>
-</section>
-
-<section class="qr">
-  <img src="images/serra_main_qr.png" alt="Recruiting QR">
-  <div>
-    <h3>View Verified Serra Prospects</h3>
-    <p>Scan or click below to view current Serra Football recruits.</p>
-    <a class="btn" href="recruits.html">View Prospects</a>
+    <input type="password" id="portalPassword" placeholder="Password">
+    <button class="unlock-btn" onclick="unlock()">Unlock</button>
+    <p id="error" class="error"></p>
   </div>
+
+  <img src="images/serra_main_qr.png" class="qr-small" alt="QR Code">
 </section>
 
-<footer>
-  <p>Follow Serra Football:
-    <a href="https://twitter.com/serra_football" target="_blank">@serra_football</a>
-  </p>
-</footer>
+<script>
+function unlock() {
+  const pass = document.getElementById("portalPassword").value;
+  if (pass === "SerraFB!") {
+    window.location.href = "recruits.html";
+  } else {
+    document.getElementById("error").innerText = "Incorrect password";
+  }
+}
+</script>
 
 </body>
 </html>
