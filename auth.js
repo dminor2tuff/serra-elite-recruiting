@@ -1,32 +1,32 @@
-const AUTH = (() => {
-  const COACH_KEY = "serra_coach";
-  const ADMIN_KEY = "serra_admin";
+const COACH_PASS = "SerraFB!";
+const ADMIN_PASS = "SerraAdmin!";
 
-  const COACH_PASS = "SerraFB!";
-  const ADMIN_PASS = "SerraAdmin!";
+const COACH_KEY = "serra_coach";
+const ADMIN_KEY = "serra_admin";
 
-  function coachLogin(p){
-    if(p === COACH_PASS){
-      localStorage.setItem(COACH_KEY,"1");
-      return true;
+function promptPassword(expected, key, redirect) {
+  const pw = prompt("Enter Password");
+  if (pw === expected) {
+    localStorage.setItem(key, "true");
+    window.location.href = redirect;
+  } else {
+    alert("Incorrect password");
+  }
+}
+
+const Auth = {
+  requireCoach() {
+    if (localStorage.getItem(COACH_KEY)) {
+      window.location.href = "recruits.html";
+    } else {
+      promptPassword(COACH_PASS, COACH_KEY, "recruits.html");
     }
-    return false;
-  }
-
-  function adminLogin(p){
-    if(p === ADMIN_PASS){
-      localStorage.setItem(ADMIN_KEY,"1");
-      return true;
+  },
+  requireAdmin() {
+    if (localStorage.getItem(ADMIN_KEY)) {
+      return;
+    } else {
+      promptPassword(ADMIN_PASS, ADMIN_KEY, "admin.html");
     }
-    return false;
   }
-
-  function isCoach(){ return localStorage.getItem(COACH_KEY)==="1"; }
-  function isAdmin(){ return localStorage.getItem(ADMIN_KEY)==="1"; }
-
-  function requireCoach(){
-    if(!isCoach()) location.href="coach-login.html";
-  }
-
-  return {coachLogin,adminLogin,isCoach,isAdmin,requireCoach};
-})();
+};
