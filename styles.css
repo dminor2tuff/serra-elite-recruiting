@@ -1,8 +1,13 @@
 :root {
   --serra-red: #8c1d18;
-  --serra-navy: #0b1c2d;
-  --serra-white: #ffffff;
-  --text-light: #dfe6ee;
+  --serra-blue: #0b2a4a;
+  --dark: #0f172a;
+  --light: #f8fafc;
+  --muted: #94a3b8;
+  --card: #111827;
+  --border: #1f2937;
+  --accent: #e5b565;
+};
 }
 
 * {
