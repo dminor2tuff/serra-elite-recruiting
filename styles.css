@@ -104,3 +104,17 @@ body {
   margin: 0 8px;
   color: #4da3ff;
 }
+.img-wrap {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #000;
+}
+
+.img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top; /* KEY LINE */
+}
