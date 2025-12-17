@@ -105,4 +105,36 @@
   .recruits-grid {
     padding:20px;
   }
+}/* ===============================
+   GLOBAL BACKGROUND FIX
+   =============================== */
+
+html, body {
+  background: linear-gradient(180deg, #0b2a4a 0%, #05070c 100%) !important;
+  color: #f5f7fa;
+  min-height: 100%;
+}
+
+/* Prevent white sections */
+section,
+main,
+.container {
+  background: transparent !important;
+}
+
+/* Ensure header/nav stays Serra */
+.site-header,
+.top-nav,
+header {
+  background: linear-gradient(
+    90deg,
+    #b11226,
+    #0b2a4a
+  ) !important;
+}
+
+/* Footer fix */
+footer {
+  background: #05070c !important;
+  color: #9aa4b2;
 }
