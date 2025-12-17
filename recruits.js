@@ -7,33 +7,61 @@ const searchInput = document.getElementById("searchInput");
 
 let players = [];
 
+// Proper CSV parser
+function parseCSV(text) {
+  const rows = [];
+  let row = [];
+  let inQuotes = false;
+  let value = "";
+
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+
+    if (char === '"' && text[i + 1] === '"') {
+      value += '"';
+      i++;
+    } else if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === "," && !inQuotes) {
+      row.push(value);
+      value = "";
+    } else if (char === "\n" && !inQuotes) {
+      row.push(value);
+      rows.push(row);
+      row = [];
+      value = "";
+    } else {
+      value += char;
+    }
+  }
+  row.push(value);
+  rows.push(row);
+  return rows;
+}
+
+// Load data
 fetch(SHEET_URL)
   .then(r => r.text())
-  .then(csv => {
-    const rows = csv.split("\n").slice(1);
+  .then(text => {
+    const data = parseCSV(text).slice(1);
 
-    players = rows.map(row => {
-      const c = row.split(",");
-
-      return {
-        name: c[0]?.trim(),
-        classYear: c[1]?.trim(),
-        position: c[2]?.trim(),
-        heightWeight: c[3]?.trim(),
-        hudl: c[4]?.trim(),
-        writeup: c[5]?.trim(),
-        image: c[6]?.trim(),
-        twitter: c[7]?.trim(),
-        gpa: c[8]?.trim()
-      };
-    }).filter(p => p.name);
+    players = data.map(c => ({
+      name: c[0],
+      classYear: c[1],
+      position: c[2],
+      heightWeight: c[3],
+      hudl: c[4],
+      writeup: c[5],
+      image: c[6],
+      twitter: c[7],
+      gpa: c[8]
+    })).filter(p => p.name);
 
     renderPlayers();
   });
 
 function renderPlayers() {
   grid.innerHTML = "";
-
   const classVal = classFilter.value;
   const searchVal = searchInput.value.toLowerCase();
 
@@ -61,41 +89,32 @@ function renderPlayers() {
     });
 }
 
-/* ===== PROFILE MODAL ===== */
-
+// Profile modal
 function openProfile(p) {
-  document.getElementById("profileImg").src =
-    p.image || "images/placeholder.png";
+  profileImg.src = p.image || "images/placeholder.png";
+  profileName.textContent = p.name;
+  profileMeta.textContent = `${p.position} · Class of ${p.classYear}`;
+  profileHW.textContent = `Height / Weight: ${p.heightWeight || "—"}`;
+  profileGPA.textContent = `GPA: ${p.gpa || "—"}`;
+  profileWriteup.textContent = p.writeup || "Scouting report coming soon.";
 
-  document.getElementById("profileName").textContent = p.name;
-  document.getElementById("profileMeta").textContent =
-    `${p.position} · Class of ${p.classYear}`;
-  document.getElementById("profileHW").textContent =
-    `Height / Weight: ${p.heightWeight || "—"}`;
-  document.getElementById("profileGPA").textContent =
-    `GPA: ${p.gpa || "—"}`;
-  document.getElementById("profileWriteup").textContent =
-    p.writeup || "Scouting report coming soon.";
+  profileHudl.style.display = p.hudl ? "inline-block" : "none";
+  profileHudl.href = p.hudl || "#";
 
-  const hudl = document.getElementById("profileHudl");
-  hudl.style.display = p.hudl ? "inline-block" : "none";
-  hudl.href = p.hudl || "#";
+  profileTwitter.style.display = p.twitter ? "inline-block" : "none";
+  profileTwitter.href = formatTwitter(p.twitter);
 
-  const twitter = document.getElementById("profileTwitter");
-  twitter.style.display = p.twitter ? "inline-block" : "none";
-  twitter.href = formatTwitter(p.twitter);
-
-  document.getElementById("profileModal").classList.remove("hidden");
+  profileModal.classList.remove("hidden");
 }
 
 function closeProfile() {
-  document.getElementById("profileModal").classList.add("hidden");
+  profileModal.classList.add("hidden");
 }
 
-function formatTwitter(val) {
-  if (!val) return "#";
-  if (val.startsWith("http")) return val;
-  return `https://twitter.com/${val.replace("@", "")}`;
+function formatTwitter(v) {
+  if (!v) return "#";
+  if (v.startsWith("http")) return v;
+  return `https://twitter.com/${v.replace("@", "")}`;
 }
 
 classFilter.addEventListener("change", renderPlayers);
