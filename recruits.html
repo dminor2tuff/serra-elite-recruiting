@@ -1,73 +1,57 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <base href="/serra-elite-recruiting/">
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Serra Recruits</title>
-  <link rel="stylesheet" href="styles.css?v=40" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Recruits • Serra Football Recruiting</title>
+  <link rel="stylesheet" href="styles.css?v=100">
 </head>
-<body><script src="auth.js"></script>
-<script>
-  Auth.requireCoach();
-</script>
+<body>
 
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="index.html">
-      <img src="images/serra_logo.png" class="logo" alt="Serra" onerror="this.style.display='none'">
-      <span>Serra Elite Recruiting</span>
-    </a>
-
+    <div class="brand">
+      <img class="logo" src="images/serra_logo.png" alt="Serra Football" onerror="this.style.display='none'">
+      <div class="title">Serra Elite Recruiting</div>
+    </div>
     <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a href="recruits.html" class="active">Recruits</a>
-      <a class="pill-link coach" href="coach-login.html?next=recruits.html">Coach Login</a>
-      <a class="pill-link admin" href="admin-login.html?next=admin.html">Admin Login</a>
+      <a class="primary" href="recruits.html">Recruits</a>
+      <a href="coach-login.html">Coach Login</a>
+      <a href="admin.html">Admin Login</a>
     </nav>
-
-    <button class="menu-toggle" type="button" onclick="toggleMenu()" aria-label="Open menu">☰</button>
-  </div>
-
-  <div id="mobileMenu" class="mobile-menu">
-    <a href="index.html">Home</a>
-    <a href="recruits.html" class="active">Recruits</a>
-    <a href="coach-login.html?next=recruits.html">Coach Login</a>
-    <a href="admin-login.html?next=admin.html">Admin Login</a>
   </div>
 </header>
 
-<main class="container" style="padding-top:18px;">
-  <div class="recruits-top">
-    <h1 class="page-title">Recruit Board</h1>
-    <div class="muted">Filter by class, search by name/position, open film + social.</div>
+<div class="container">
+  <div class="page-title">Serra Football Recruits</div>
 
-    <div class="recruits-controls">
-      <input id="search" class="search" type="search" placeholder="Search name or position…" autocomplete="off" />
-      <div class="filters" id="filters">
-        <button class="pill active" data-class="All">All</button>
-        <button class="pill" data-class="2026">2026</button>
-        <button class="pill" data-class="2027">2027</button>
-        <button class="pill" data-class="2028">2028</button>
-        <button class="pill" data-class="2029">2029</button>
-      </div>
+  <div class="toolbar">
+    <div class="search">
+      <span style="opacity:.8; font-weight:1000;">🔎</span>
+      <input id="search" placeholder="Search by name or position..." />
     </div>
 
-    <div id="status" class="status">Loading recruits…</div>
+    <div class="chips" id="chips">
+      <button class="chip active" data-class="all">All</button>
+      <button class="chip" data-class="2026">2026</button>
+      <button class="chip" data-class="2027">2027</button>
+      <button class="chip" data-class="2028">2028</button>
+      <button class="chip" data-class="2029">2029</button>
+    </div>
   </div>
 
-  <section>
-    <div id="grid" class="recruit-grid"></div>
-  </section>
-</main>
+  <div id="status" class="footer-note" style="margin:8px 0 12px;">Loading recruits…</div>
 
-<script src="auth.js?v=40"></script>
-<script src="recruits.js?v=40"></script>
+  <div class="grid" id="grid"></div>
+</div>
 
+<script src="auth.js?v=100"></script>
 <script>
-function toggleMenu() {
-  const m = document.getElementById("mobileMenu");
-  m.style.display = (m.style.display === "flex") ? "none" : "flex";
-}
+  // Hard gate: must be logged in
+  AUTH.requireCoach("recruits.html");
 </script>
+<script src="recruits.js?v=100"></script>
 </body>
 </html>
