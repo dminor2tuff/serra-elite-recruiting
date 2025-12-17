@@ -1,40 +1,62 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Admin Login | Serra Elite Recruiting</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="styles.css">
+  <base href="/serra-elite-recruiting/">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Login • Serra Elite Recruiting</title>
+  <link rel="stylesheet" href="styles.css?v=25">
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="index.html">
-      <img src="images/serra_logo.png" class="logo" alt="Serra Football">
+    <div class="brand">
+      <img class="logo" src="images/serra_logo.png" alt="Serra Football">
       <span>Serra Elite Recruiting</span>
-    </a>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="coach-login.html">Coach Login</a>
+      <a class="primary" href="admin-login.html">Admin Login</a>
+    </nav>
   </div>
 </header>
 
-<main class="container narrow">
-  <h1>Admin Login</h1>
+<div class="container">
+  <div class="login-wrap">
+    <h1>Admin Access</h1>
+    <p>Admins can manage roster + photo workflow.</p>
 
-  <input
-    type="password"
-    id="adminPass"
-    placeholder="Enter Admin Password"
-    autocomplete="off"
-  >
+    <input id="pass" class="input" type="password" placeholder="Enter admin password" autocomplete="current-password" />
+    <div class="btn-row" style="margin-top:12px">
+      <button class="btn primary" id="loginBtn" type="button">Login</button>
+      <a class="btn" href="index.html">Back</a>
+    </div>
 
-  <button
-    class="btn primary"
-    type="button"
-    onclick="Auth.adminLogin(document.getElementById('adminPass').value)">
-    Login
-  </button>
-</main>
+    <p id="msg" class="small-muted" style="margin-top:10px;"></p>
+  </div>
+</div>
 
-<script src="auth.js"></script>
+<script src="auth.js?v=25"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const next = params.get("next") || "admin.html";
+
+  const passEl = document.getElementById("pass");
+  const msgEl = document.getElementById("msg");
+
+  function doLogin(){
+    msgEl.textContent = "";
+    const res = SerraAuth.adminLogin(passEl.value);
+    if(!res.ok){
+      msgEl.textContent = res.message || "Login failed.";
+      return;
+    }
+    window.location.href = next;
+  }
+  document.getElementById("loginBtn").addEventListener("click", doLogin);
+  passEl.addEventListener("keydown", (e)=>{ if(e.key==="Enter") doLogin(); });
+</script>
 </body>
 </html>
