@@ -1,264 +1,233 @@
-/**************************************
- * SERRA ELITE RECRUITING – RECRUITS.JS
- * 20+ year designer / recruiter logic
- **************************************/
+/* =========================
+   RECRUITS (Google Sheets -> Site)
+   - Published CSV required
+   - Cache-busts so updates show
+   - Supports raw.githubusercontent photos
+   ========================= */
 
-/* ===== SETTINGS ===== */
-const CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+// 1) PUT YOUR PUBLISHED CSV URL HERE (the "pub?output=csv" link)
+const CSV_URL = "PASTE_YOUR_GOOGLE_SHEETS_PUBLISHED_CSV_URL_HERE";
 
-const REQUIRE_COACH_LOGIN = true;
+// If photo is missing/bad
+const PLACEHOLDER_IMG = "images/placeholder.png";
 
-/* ===== AUTH GATE ===== */
-if (REQUIRE_COACH_LOGIN && window.Auth) {
-  Auth.requireCoach();
-}
-
-/* ===== ELEMENTS ===== */
+// Grid + controls
 const grid = document.getElementById("grid");
 const statusEl = document.getElementById("status");
 const searchEl = document.getElementById("search");
-const filtersEl = document.getElementById("filters");
+const chipsEl = document.getElementById("chips");
 
-/* ===== STATE ===== */
-let recruits = [];
-let activeClass = "All";
-let searchQuery = "";
+let allRows = [];
+let activeClass = "all";
+let activeQuery = "";
 
-/* ===== UTILITIES ===== */
-function normalizeKey(str) {
-  return String(str || "")
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, "");
-}
-
-function slugify(name) {
-  return String(name || "")
-    .trim()
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
-
-/* ===== IMAGE HANDLER ===== */
-function normalizeImage(url) {
-  if (!url) return "images/placeholder.png";
-
-  const v = url.trim();
-
-  if (v.startsWith("http://") || v.startsWith("https://")) return v;
-  if (v.startsWith("images/")) return v;
-
-  return `images/${v}`;
-}
-
-/* ===== TWITTER NORMALIZER ===== */
-function normalizeTwitter(val) {
-  if (!val) return "";
-
-  let v = val.trim();
-  if (!v) return "";
-
-  if (v.startsWith("http://") || v.startsWith("https://")) return v;
-
-  v = v.replace("@", "");
-  return `https://twitter.com/${v}`;
-}
-
-/* ===== HUDL NORMALIZER ===== */
-function normalizeHudl(val) {
-  if (!val) return "";
-  const v = val.trim();
-  return v.startsWith("http") ? v : "";
-}
-
-/* ===== CSV PARSER (ROBUST) ===== */
-function parseCSV(text) {
+// Small, safe CSV parser (handles quoted commas)
+function parseCSV(text){
   const rows = [];
-  let row = [];
-  let cur = "";
-  let inQuotes = false;
+  let i = 0, field = "", row = [], inQuotes = false;
 
-  for (let i = 0; i < text.length; i++) {
+  const pushField = () => { row.push(field); field = ""; };
+  const pushRow = () => { rows.push(row); row = []; };
+
+  while (i < text.length){
     const c = text[i];
-    const next = text[i + 1];
 
-    if (c === '"' && inQuotes && next === '"') {
-      cur += '"';
-      i++;
-    } else if (c === '"') {
-      inQuotes = !inQuotes;
-    } else if (c === "," && !inQuotes) {
-      row.push(cur);
-      cur = "";
-    } else if ((c === "\n" || c === "\r") && !inQuotes) {
-      if (cur.length || row.length) row.push(cur);
-      if (row.length) rows.push(row);
-      row = [];
-      cur = "";
-      if (c === "\r" && next === "\n") i++;
-    } else {
-      cur += c;
+    if (c === '"'){
+      if (inQuotes && text[i+1] === '"'){ field += '"'; i += 2; continue; }
+      inQuotes = !inQuotes; i++; continue;
     }
+
+    if (!inQuotes && c === ","){ pushField(); i++; continue; }
+    if (!inQuotes && (c === "\n" || c === "\r")){
+      if (c === "\r" && text[i+1] === "\n") i++;
+      pushField(); pushRow(); i++; continue;
+    }
+
+    field += c; i++;
   }
 
-  if (cur.length || row.length) {
-    row.push(cur);
-    rows.push(row);
+  // last
+  pushField();
+  if (row.length > 1 || row[0].trim() !== "") pushRow();
+
+  // convert to objects
+  const header = rows.shift().map(h => (h || "").trim());
+  return rows
+    .filter(r => r.some(x => (x || "").trim() !== ""))
+    .map(r => {
+      const obj = {};
+      header.forEach((h, idx) => obj[h] = (r[idx] || "").trim());
+      return obj;
+    });
+}
+
+function normalizeTwitter(v){
+  if (!v) return "";
+  let s = v.trim();
+  s = s.replace(/^@/, "");
+  if (s.includes("twitter.com")) return s.startsWith("http") ? s : "https://" + s;
+  if (s.includes("x.com")) return s.startsWith("http") ? s : "https://" + s;
+  // handle plain handle
+  return `https://twitter.com/${s}`;
+}
+
+function normalizeHudl(v){
+  if (!v) return "";
+  let s = v.trim();
+  if (!s) return "";
+  if (s.startsWith("http")) return s;
+  // allow hudl username pasted
+  if (!s.includes(".")) return `https://www.hudl.com/profile/${s}`;
+  return `https://${s}`;
+}
+
+function normalizePhoto(v){
+  if (!v) return PLACEHOLDER_IMG;
+  let s = v.trim();
+
+  // Some sheets paste raw github without protocol
+  if (s.startsWith("//")) s = "https:" + s;
+
+  // Common github raw patterns
+  if (s.includes("raw.githubusercontent.com")) return s;
+
+  // If user pasted GitHub "blob" link, convert it:
+  // https://github.com/user/repo/blob/main/images/name.png
+  if (s.includes("github.com") && s.includes("/blob/")){
+    s = s.replace("github.com/", "raw.githubusercontent.com/")
+         .replace("/blob/", "/");
+    return s;
   }
 
-  return rows;
+  // If they stored only a filename, try local images folder
+  if (!s.includes("/") && (s.endsWith(".png") || s.endsWith(".jpg") || s.endsWith(".jpeg") || s.endsWith(".webp"))){
+    return `images/${s}`;
+  }
+
+  // If a normal URL
+  if (s.startsWith("http")) return s;
+
+  return PLACEHOLDER_IMG;
 }
 
-/* ===== ICON SVGs ===== */
-function twitterIcon() {
+function getField(obj, candidates){
+  for (const key of candidates){
+    if (obj[key] && obj[key].trim()) return obj[key].trim();
+  }
+  return "";
+}
+
+function iconHudl(){
   return `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M18.244 2H21l-6.514 7.45L22 22h-6.91l-5.41-7.06L3.5 22H2l7.02-8.03L2 2h7.09l4.9 6.38L18.244 2Zm-1.21 18h1.91L8.12 3.86H6.07L17.034 20Z"></path>
-    </svg>
-  `;
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path fill="currentColor" d="M4 7.2c0-1.2 1-2.2 2.2-2.2h11.6C19 5 20 6 20 7.2v9.6c0 1.2-1 2.2-2.2 2.2H6.2C5 19 4 18 4 16.8V7.2zm3 2.1a1 1 0 0 0-1 1v3.4a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10.3a1 1 0 0 0-1-1H7z"/>
+  </svg>`;
 }
-
-function hudlIcon() {
+function iconTwitter(){
   return `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10
-               10-4.48 10-10S17.52 2 12 2z"></path>
-      <path d="M10 8l8 4-8 4V8z" fill="currentColor"></path>
-    </svg>
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path fill="currentColor" d="M18.9 3H22l-6.8 7.8L23 21h-6.4l-5-6.1L6.2 21H3l7.3-8.4L1 3h6.6l4.6 5.4L18.9 3zm-1.1 16h1.8L7.7 4.9H5.7L17.8 19z"/>
+  </svg>`;
+}
+
+function cardHTML(p){
+  const name = getField(p, ["Name","Player","Full Name","Athlete"]);
+  const pos  = getField(p, ["Position","Pos"]);
+  const cls  = getField(p, ["Class","Grad Year","Year"]);
+  const ht   = getField(p, ["Height","Ht"]);
+  const wt   = getField(p, ["Weight","Wt"]);
+  const hudl = normalizeHudl(getField(p, ["Hudl","HUDL","Hudl Link","Hudl URL"]));
+  const tw   = normalizeTwitter(getField(p, ["Twitter","X","Twitter Link","X Link"]));
+  const photo= normalizePhoto(getField(p, ["Photo","Photo URL","Image","Image URL","Headshot"]));
+
+  const subLine = [
+    pos ? `<div class="meta">${pos}</div>` : "",
+    cls ? `<div class="meta">Class of ${cls}</div>` : "",
+    (ht || wt) ? `<div class="meta">${ht || ""}${ht && wt ? " / " : ""}${wt ? wt + " lbs" : ""}</div>` : ""
+  ].join("");
+
+  const links = `
+    <div class="links">
+      ${tw ? `<a class="iconlink" href="${tw}" target="_blank" rel="noopener">${iconTwitter()}<span>Twitter</span></a>` : ""}
+      ${hudl ? `<a class="iconlink" href="${hudl}" target="_blank" rel="noopener">${iconHudl()}<span>Hudl</span></a>` : ""}
+    </div>
   `;
+
+  return `
+  <div class="card" data-class="${(cls||"").toString()}" data-search="${(name+" "+pos+" "+cls).toLowerCase()}">
+    <div class="photo">
+      <img src="${photo}" alt="${name}" loading="lazy"
+           onerror="this.onerror=null; this.src='${PLACEHOLDER_IMG}';">
+    </div>
+    <div class="body">
+      <div class="name">${name || "Recruit"}</div>
+      ${subLine}
+      ${links}
+      <div class="actions">
+        <a class="btn primary" href="profile.html?name=${encodeURIComponent(name)}">View Profile</a>
+      </div>
+    </div>
+  </div>`;
 }
 
-/* ===== BUILD RECRUIT OBJECT ===== */
-function buildRecruit(row, map) {
-  const name = row[map.name] || "";
-  if (!name.trim()) return null;
+function applyFilters(){
+  const cards = Array.from(grid.children);
+  const q = activeQuery.trim().toLowerCase();
 
-  return {
-    name: name.trim(),
-    slug: slugify(name),
-    classYear: (row[map.class] || "").trim(),
-    position: (row[map.position] || "").trim(),
-    heightWeight: (row[map.heightweight] || "").trim(),
-    gpa: (row[map.gpa] || "").trim(),
-    writeup: (row[map.writeup] || "").trim(),
-    photo: normalizeImage(row[map.imageurl] || ""),
-    hudl: normalizeHudl(row[map.hudl] || ""),
-    twitter: normalizeTwitter(row[map.twitter] || "")
-  };
+  let shown = 0;
+  for (const c of cards){
+    const cClass = (c.getAttribute("data-class") || "").trim();
+    const hay = (c.getAttribute("data-search") || "");
+
+    const okClass = (activeClass === "all") ? true : (cClass === activeClass);
+    const okQuery = !q ? true : hay.includes(q);
+
+    const show = okClass && okQuery;
+    c.style.display = show ? "" : "none";
+    if (show) shown++;
+  }
+
+  statusEl.textContent = `${shown} recruit${shown===1?"":"s"} shown`;
 }
 
-/* ===== RENDER ===== */
-function render() {
-  grid.innerHTML = "";
-
-  const filtered = recruits.filter(r => {
-    if (activeClass !== "All" && r.classYear !== activeClass) return false;
-
-    if (!searchQuery) return true;
-
-    const hay = `${r.name} ${r.position}`.toLowerCase();
-    return hay.includes(searchQuery);
-  });
-
-  if (!filtered.length) {
-    statusEl.textContent = "No recruits found.";
+async function load(){
+  if (!CSV_URL || CSV_URL.includes("PASTE_YOUR_GOOGLE")){
+    statusEl.textContent = "Missing Google Sheets CSV URL in recruits.js.";
     return;
   }
 
-  statusEl.textContent = `${filtered.length} recruit${filtered.length !== 1 ? "s" : ""} shown`;
+  statusEl.textContent = "Syncing recruits from Google Sheets…";
 
-  filtered.forEach(player => {
-    const card = document.createElement("article");
-    card.className = "recruit-card";
+  const url = CSV_URL + (CSV_URL.includes("?") ? "&" : "?") + "cb=" + Date.now();
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok){
+    statusEl.textContent = "Could not load Google Sheet (check publish link).";
+    return;
+  }
+  const text = await res.text();
+  allRows = parseCSV(text);
 
-    card.innerHTML = `
-      <div class="photo-wrap">
-        <img class="recruit-photo"
-             src="${player.photo}"
-             alt="${player.name}"
-             onerror="this.src='images/placeholder.png'">
-      </div>
-
-      <h3 class="recruit-name">${player.name}</h3>
-      <div class="recruit-meta">${player.position}</div>
-      <div class="recruit-meta">Class of ${player.classYear}${player.gpa ? ` • GPA ${player.gpa}` : ""}</div>
-      <div class="recruit-meta">${player.heightWeight}</div>
-
-      <div class="recruit-actions">
-        <a class="btn small" href="profile.html?id=${encodeURIComponent(player.slug)}">
-          View Profile
-        </a>
-
-        <div class="icon-row">
-          ${player.twitter ? `
-            <a class="icon-btn"
-               href="${player.twitter}"
-               target="_blank"
-               rel="noopener"
-               title="Twitter / X">
-              ${twitterIcon()}
-            </a>` : ""}
-
-          ${player.hudl ? `
-            <a class="icon-btn"
-               href="${player.hudl}"
-               target="_blank"
-               rel="noopener"
-               title="Hudl Film">
-              ${hudlIcon()}
-            </a>` : ""}
-        </div>
-      </div>
-    `;
-
-    grid.appendChild(card);
-  });
+  grid.innerHTML = allRows.map(cardHTML).join("");
+  statusEl.textContent = `Loaded ${allRows.length} recruits`;
+  applyFilters();
 }
 
-/* ===== EVENTS ===== */
+// Events
 searchEl.addEventListener("input", () => {
-  searchQuery = searchEl.value.toLowerCase().trim();
-  render();
+  activeQuery = searchEl.value || "";
+  applyFilters();
 });
 
-filtersEl.addEventListener("click", e => {
-  const btn = e.target.closest("button");
+chipsEl.addEventListener("click", (e) => {
+  const btn = e.target.closest(".chip");
   if (!btn) return;
 
-  activeClass = btn.dataset.class;
-  document.querySelectorAll(".pill").forEach(b =>
-    b.classList.toggle("active", b === btn)
-  );
+  Array.from(chipsEl.querySelectorAll(".chip")).forEach(x => x.classList.remove("active"));
+  btn.classList.add("active");
 
-  render();
+  activeClass = btn.getAttribute("data-class") || "all";
+  applyFilters();
 });
 
-/* ===== LOAD DATA ===== */
-async function load() {
-  statusEl.textContent = "Loading recruits…";
-
-  const res = await fetch(CSV_URL, { cache: "no-store" });
-  const text = await res.text();
-  const rows = parseCSV(text);
-
-  const headers = rows[0];
-  const map = {};
-
-  headers.forEach((h, i) => {
-    map[normalizeKey(h)] = i;
-  });
-
-  recruits = rows.slice(1)
-    .map(r => buildRecruit(r, map))
-    .filter(Boolean)
-    .sort((a, b) => a.name.localeCompare(b.name));
-
-  render();
-}
-
-load().catch(() => {
-  statusEl.textContent = "Error loading recruits.";
-});
+// Go
+load();
