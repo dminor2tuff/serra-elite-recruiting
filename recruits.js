@@ -5,8 +5,8 @@
    - Supports raw.githubusercontent photos
    ========================= */
 
-// 1) PUT YOUR PUBLISHED CSV URL HERE (the "pub?output=csv" link)
-const CSV_URL = "PASTE_YOUR_GOOGLE_SHEETS_PUBLISHED_CSV_URL_HERE";
+// 1) Your published CSV URL from Google Sheets:
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
 // If photo is missing/bad
 const PLACEHOLDER_IMG = "images/placeholder.png";
@@ -46,11 +46,9 @@ function parseCSV(text){
     field += c; i++;
   }
 
-  // last
   pushField();
   if (row.length > 1 || row[0].trim() !== "") pushRow();
 
-  // convert to objects
   const header = rows.shift().map(h => (h || "").trim());
   return rows
     .filter(r => r.some(x => (x || "").trim() !== ""))
@@ -65,9 +63,7 @@ function normalizeTwitter(v){
   if (!v) return "";
   let s = v.trim();
   s = s.replace(/^@/, "");
-  if (s.includes("twitter.com")) return s.startsWith("http") ? s : "https://" + s;
-  if (s.includes("x.com")) return s.startsWith("http") ? s : "https://" + s;
-  // handle plain handle
+  if (s.includes("twitter.com") || s.includes("x.com")) return s.startsWith("http") ? s : "https://" + s;
   return `https://twitter.com/${s}`;
 }
 
@@ -76,35 +72,27 @@ function normalizeHudl(v){
   let s = v.trim();
   if (!s) return "";
   if (s.startsWith("http")) return s;
-  // allow hudl username pasted
-  if (!s.includes(".")) return `https://www.hudl.com/profile/${s}`;
-  return `https://${s}`;
+  return `https://www.hudl.com/profile/${s}`;
 }
 
 function normalizePhoto(v){
   if (!v) return PLACEHOLDER_IMG;
   let s = v.trim();
 
-  // Some sheets paste raw github without protocol
   if (s.startsWith("//")) s = "https:" + s;
 
-  // Common github raw patterns
   if (s.includes("raw.githubusercontent.com")) return s;
 
-  // If user pasted GitHub "blob" link, convert it:
-  // https://github.com/user/repo/blob/main/images/name.png
   if (s.includes("github.com") && s.includes("/blob/")){
     s = s.replace("github.com/", "raw.githubusercontent.com/")
          .replace("/blob/", "/");
     return s;
   }
 
-  // If they stored only a filename, try local images folder
   if (!s.includes("/") && (s.endsWith(".png") || s.endsWith(".jpg") || s.endsWith(".jpeg") || s.endsWith(".webp"))){
     return `images/${s}`;
   }
 
-  // If a normal URL
   if (s.startsWith("http")) return s;
 
   return PLACEHOLDER_IMG;
@@ -191,7 +179,7 @@ function applyFilters(){
 }
 
 async function load(){
-  if (!CSV_URL || CSV_URL.includes("PASTE_YOUR_GOOGLE")){
+  if (!CSV_URL){
     statusEl.textContent = "Missing Google Sheets CSV URL in recruits.js.";
     return;
   }
@@ -212,7 +200,6 @@ async function load(){
   applyFilters();
 }
 
-// Events
 searchEl.addEventListener("input", () => {
   activeQuery = searchEl.value || "";
   applyFilters();
@@ -229,5 +216,4 @@ chipsEl.addEventListener("click", (e) => {
   applyFilters();
 });
 
-// Go
 load();
