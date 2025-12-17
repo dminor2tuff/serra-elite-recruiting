@@ -7,12 +7,12 @@ const searchInput = document.getElementById("searchInput");
 
 let players = [];
 
-// Proper CSV parser
+/* SAFE CSV PARSER */
 function parseCSV(text) {
   const rows = [];
   let row = [];
-  let inQuotes = false;
   let value = "";
+  let inQuotes = false;
 
   for (let i = 0; i < text.length; i++) {
     const char = text[i];
@@ -39,9 +39,9 @@ function parseCSV(text) {
   return rows;
 }
 
-// Load data
+/* LOAD DATA */
 fetch(SHEET_URL)
-  .then(r => r.text())
+  .then(res => res.text())
   .then(text => {
     const data = parseCSV(text).slice(1);
 
@@ -62,6 +62,7 @@ fetch(SHEET_URL)
 
 function renderPlayers() {
   grid.innerHTML = "";
+
   const classVal = classFilter.value;
   const searchVal = searchInput.value.toLowerCase();
 
@@ -73,7 +74,6 @@ function renderPlayers() {
     .forEach(p => {
       const card = document.createElement("div");
       card.className = "recruit-card";
-      card.onclick = () => openProfile(p);
 
       card.innerHTML = `
         <div class="photo-wrap">
@@ -87,34 +87,6 @@ function renderPlayers() {
 
       grid.appendChild(card);
     });
-}
-
-// Profile modal
-function openProfile(p) {
-  profileImg.src = p.image || "images/placeholder.png";
-  profileName.textContent = p.name;
-  profileMeta.textContent = `${p.position} · Class of ${p.classYear}`;
-  profileHW.textContent = `Height / Weight: ${p.heightWeight || "—"}`;
-  profileGPA.textContent = `GPA: ${p.gpa || "—"}`;
-  profileWriteup.textContent = p.writeup || "Scouting report coming soon.";
-
-  profileHudl.style.display = p.hudl ? "inline-block" : "none";
-  profileHudl.href = p.hudl || "#";
-
-  profileTwitter.style.display = p.twitter ? "inline-block" : "none";
-  profileTwitter.href = formatTwitter(p.twitter);
-
-  profileModal.classList.remove("hidden");
-}
-
-function closeProfile() {
-  profileModal.classList.add("hidden");
-}
-
-function formatTwitter(v) {
-  if (!v) return "#";
-  if (v.startsWith("http")) return v;
-  return `https://twitter.com/${v.replace("@", "")}`;
 }
 
 classFilter.addEventListener("change", renderPlayers);
