@@ -1,1 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Coach Access</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+</head>
 
+<body class="lock-page">
+
+<div class="lock-box">
+  <img src="images/serra_logo.png" alt="Serra Logo">
+  <h2>View Prospects</h2>
+  <p>Enter recruiting password</p>
+
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="unlock()">Unlock</button>
+
+  <div id="error" class="error"></div>
+</div>
+
+<script>
+  function unlock() {
+    const pass = document.getElementById("password").value;
+    if (pass === "SerraFB!") {
+      sessionStorage.setItem("serraAccess", "granted");
+      window.location.href = "recruits.html";
+    } else {
+      document.getElementById("error").innerText = "Incorrect password";
+    }
+  }
+</script>
+
+</body>
+</html>
