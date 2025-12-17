@@ -7,35 +7,28 @@ const searchInput = document.getElementById("searchInput");
 
 let players = [];
 
-// Fetch roster
 fetch(SHEET_URL)
-  .then(res => res.text())
+  .then(r => r.text())
   .then(csv => {
     const rows = csv.split("\n").slice(1);
 
-    players = rows
-      .map(row => {
-        const c = row.split(",");
+    players = rows.map(row => {
+      const c = row.split(",");
 
-        return {
-          name: c[0]?.trim(),
-          classYear: c[1]?.trim(),
-          position: c[2]?.trim(),
-          heightWeight: c[3]?.trim(),
-          hudl: c[4]?.trim(),
-          writeup: c[5]?.trim(),
-          image: c[6]?.trim(),
-          twitter: c[7]?.trim(),
-          gpa: c[8]?.trim()
-        };
-      })
-      .filter(p => p.name);
+      return {
+        name: c[0]?.trim(),
+        classYear: c[1]?.trim(),
+        position: c[2]?.trim(),
+        heightWeight: c[3]?.trim(),
+        hudl: c[4]?.trim(),
+        writeup: c[5]?.trim(),
+        image: c[6]?.trim(),
+        twitter: c[7]?.trim(),
+        gpa: c[8]?.trim()
+      };
+    }).filter(p => p.name);
 
     renderPlayers();
-  })
-  .catch(() => {
-    grid.innerHTML =
-      "<p style='color:#fff'>Unable to load recruits at this time.</p>";
   });
 
 function renderPlayers() {
@@ -45,52 +38,62 @@ function renderPlayers() {
   const searchVal = searchInput.value.toLowerCase();
 
   players
-    .filter(p => {
-      const matchClass =
-        classVal === "all" || p.classYear === classVal;
-      const matchSearch =
-        p.name.toLowerCase().includes(searchVal);
-      return matchClass && matchSearch;
-    })
+    .filter(p =>
+      (classVal === "all" || p.classYear === classVal) &&
+      p.name.toLowerCase().includes(searchVal)
+    )
     .forEach(p => {
       const card = document.createElement("div");
       card.className = "recruit-card";
-
-      const imgSrc = p.image
-        ? p.image
-        : "images/placeholder.png";
+      card.onclick = () => openProfile(p);
 
       card.innerHTML = `
         <div class="photo-wrap">
-          <img src="${imgSrc}" alt="${p.name}"
+          <img src="${p.image || 'images/placeholder.png'}"
                onerror="this.src='images/placeholder.png'">
         </div>
-
         <h3>${p.name}</h3>
-        <div class="meta">
-          ${p.position} · Class of ${p.classYear}
-        </div>
+        <div class="meta">${p.position} · Class of ${p.classYear}</div>
         <div class="meta">${p.heightWeight}</div>
-
-        <div class="icons">
-          ${p.hudl ? `
-            <a href="${p.hudl}" target="_blank" title="Hudl">
-              🏈
-            </a>` : ""}
-
-          ${p.twitter ? `
-            <a href="${formatTwitter(p.twitter)}" target="_blank" title="Twitter">
-              🐦
-            </a>` : ""}
-        </div>
       `;
 
       grid.appendChild(card);
     });
 }
 
+/* ===== PROFILE MODAL ===== */
+
+function openProfile(p) {
+  document.getElementById("profileImg").src =
+    p.image || "images/placeholder.png";
+
+  document.getElementById("profileName").textContent = p.name;
+  document.getElementById("profileMeta").textContent =
+    `${p.position} · Class of ${p.classYear}`;
+  document.getElementById("profileHW").textContent =
+    `Height / Weight: ${p.heightWeight || "—"}`;
+  document.getElementById("profileGPA").textContent =
+    `GPA: ${p.gpa || "—"}`;
+  document.getElementById("profileWriteup").textContent =
+    p.writeup || "Scouting report coming soon.";
+
+  const hudl = document.getElementById("profileHudl");
+  hudl.style.display = p.hudl ? "inline-block" : "none";
+  hudl.href = p.hudl || "#";
+
+  const twitter = document.getElementById("profileTwitter");
+  twitter.style.display = p.twitter ? "inline-block" : "none";
+  twitter.href = formatTwitter(p.twitter);
+
+  document.getElementById("profileModal").classList.remove("hidden");
+}
+
+function closeProfile() {
+  document.getElementById("profileModal").classList.add("hidden");
+}
+
 function formatTwitter(val) {
-  if (!val) return "";
+  if (!val) return "#";
   if (val.startsWith("http")) return val;
   return `https://twitter.com/${val.replace("@", "")}`;
 }
