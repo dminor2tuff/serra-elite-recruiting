@@ -1,62 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Serra Football Prospects</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <title>Serra Football Recruits</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
-
-<body class="dark">
-
-<script>
-if (sessionStorage.getItem("prospectsAccess") !== "true") {
-  alert("Access denied.");
-  window.location.href = "index.html";
-}
-</script>
+<body>
 
 <header class="site-header">
   <div class="header-inner">
     <div class="brand">
-      <img src="images/serra_logo.png" class="logo">
+      <img src="images/serra_logo.png" class="logo" alt="Serra Football">
       <span>Serra Football Recruiting</span>
     </div>
 
     <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a href="recruits.html" class="active">View Prospects</a>
-      <a href="#" onclick="logout()">Logout</a>
+      <a href="#" id="viewProspectsBtn">View Prospects</a>
+      <a href="admin.html">Admin</a>
     </nav>
   </div>
 </header>
 
-<section class="page-header">
+<!-- PASSWORD GATE -->
+<section id="passwordGate" class="gate">
+  <h2>Recruiting Portal</h2>
+  <p>Enter password to view Serra prospects</p>
+  <input type="password" id="portalPassword" placeholder="Enter password">
+  <button onclick="unlockPortal()">Enter</button>
+  <p id="gateError"></p>
+</section>
+
+<!-- RECRUITS -->
+<main id="recruitsSection" class="container hidden">
   <h1>Serra Football Prospects</h1>
-  <p class="on3-note">Verified prospects with national coverage via On3.</p>
-</section>
 
-<section class="filters">
-  <input type="text" id="search" placeholder="Search name or position">
-  <div class="year-filters">
-    <button data-year="all" class="active">All</button>
-    <button data-year="2026">2026</button>
-    <button data-year="2027">2027</button>
-    <button data-year="2028">2028</button>
-    <button data-year="2029">2029</button>
+  <div class="filters">
+    <input type="text" id="searchInput" placeholder="Search name or position">
   </div>
-</section>
 
-<section id="recruitsGrid" class="recruits-grid"></section>
+  <div id="recruitsGrid" class="recruits-grid"></div>
+</main>
 
-<script src="recruits.js"></script>
-
-<script>
-function logout() {
-  sessionStorage.clear();
-  window.location.href = "index.html";
-}
-</script>
-
+<script src="js/recruits.js"></script>
 </body>
 </html>
