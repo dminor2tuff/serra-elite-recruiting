@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Serra Prospects</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <title>View Prospects</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="recruits">
 
-<header class="top-nav">
-  <div class="nav-left">
-    <img src="images/serra_logo.png" class="nav-logo">
-  </div>
-  <div class="nav-right">
-    <a href="index.html" class="nav-btn">Home</a>
-    <a href="recruits.html" class="nav-btn active">View Prospects</a>
-  </div>
-</header>
+<body class="dark-bg">
 
-<main class="recruit-container">
-  <h1>Serra Football Prospects</h1>
-  <div id="recruitGrid" class="grid"></div>
-</main>
+<div id="lock-screen" class="lock-card">
+  <h2>View Prospects</h2>
+  <input type="password" id="password" placeholder="Password" />
+  <button onclick="unlock()">Unlock</button>
+</div>
+
+<div id="prospects" class="prospect-grid hidden"></div>
+
+<script>
+function unlock() {
+  if (document.getElementById("password").value === "SerraFB!") {
+    document.getElementById("lock-screen").style.display = "none";
+    document.getElementById("prospects").classList.remove("hidden");
+  } else {
+    alert("Incorrect password");
+  }
+}
+</script>
 
 <script src="recruits.js"></script>
 </body>
