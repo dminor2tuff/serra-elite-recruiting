@@ -2,28 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Serra Football Recruiting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="home">
+
+<body class="home-bg">
 
 <header class="top-nav">
-  <div class="nav-left">
-    <img src="images/serra_logo.png" class="nav-logo" alt="Serra Logo">
-  </div>
-  <div class="nav-right">
-    <a href="index.html" class="nav-btn active">Home</a>
-    <a href="index.html#lock" class="nav-btn">View Prospects</a>
-    <a href="admin.html" class="nav-btn admin">Admin</a>
-  </div>
+  <div class="logo">Serra</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="prospects.html">View Prospects</a>
+    <a href="admin.html">Admin</a>
+  </nav>
 </header>
 
 <section class="hero">
-  <img src="images/serra_action.png" class="hero-img" alt="Serra Football">
   <div class="hero-overlay">
     <h1>Serra Football Recruiting</h1>
-    <p>Developing college-ready student-athletes through discipline, academics, and elite competition.</p>
+    <p>Elite development. Proven college placement.</p>
   </div>
 </section>
 
@@ -33,52 +31,12 @@
   <div>5<br><span>CIF Championships</span></div>
   <div>4<br><span>State Titles</span></div>
 </section>
-<section class="external-links">
-  <h2>Serra Football on National Recruiting Platforms</h2>
 
-  <div class="link-buttons">
-    <a
-      href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/"
-      target="_blank"
-      class="ext-btn"
-    >
-      View Serra Prospects on On3
-    </a>
-
-    <a
-      href="https://www.maxpreps.com/ca/gardena/junipero-serra-cavaliers/football/"
-      target="_blank"
-      class="ext-btn"
-    >
-      Serra Football on MaxPreps
-    </a>
-  </div>
+<section class="links">
+  <a href="https://www.on3.com/high-school/junipero-serra-gardena-ca-11605/football/alumni/" target="_blank">
+    View Serra on On3
+  </a>
 </section>
-
-<section id="lock" class="lock-section">
-  <div class="lock-card">
-    <img src="images/serra_logo.png" class="lock-logo">
-    <h2>View Prospects</h2>
-    <p>Enter recruiting password</p>
-
-    <input type="password" id="portalPassword" placeholder="Password">
-    <button class="unlock-btn" onclick="unlock()">Unlock</button>
-    <p id="error" class="error"></p>
-  </div>
-
-  <img src="images/serra_main_qr.png" class="qr-small" alt="QR Code">
-</section>
-
-<script>
-function unlock() {
-  const pass = document.getElementById("portalPassword").value;
-  if (pass === "SerraFB!") {
-    window.location.href = "recruits.html";
-  } else {
-    document.getElementById("error").innerText = "Incorrect password";
-  }
-}
-</script>
 
 </body>
 </html>
