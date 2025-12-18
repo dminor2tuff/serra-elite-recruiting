@@ -1,34 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Serra Prospects</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>View Prospects • Serra Football Recruiting</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body class="dark-bg">
+<body class="site">
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">
+        <img src="images/serra_logo.png" alt="Serra Football" class="brand-logo" />
+        <div class="brand-text">
+          <div class="brand-title">Serra Football Recruiting</div>
+          <div class="brand-sub">View Prospects</div>
+        </div>
+      </a>
 
-<div id="lock-screen" class="lock-card">
-  <img src="images/serra_logo.png" class="lock-logo">
-  <h2>View Prospects</h2>
-  <input type="password" id="password" placeholder="Password">
-  <button onclick="unlock()">Enter</button>
-</div>
+      <nav class="nav">
+        <a class="nav-pill" href="index.html">Home</a>
+        <a class="nav-pill active" href="recruits.html">View Prospects</a>
+        <a class="nav-pill nav-pill--admin" href="admin.html">Admin</a>
+      </nav>
+    </div>
+  </header>
 
-<div id="recruitGrid" class="prospect-grid hidden"></div>
+  <main class="wrap page">
+    <div class="page-head">
+      <h1>Recruiting Portal</h1>
+      <p class="muted">Filter by class year and search by name. Click icons for Hudl and X.</p>
+    </div>
 
-<script>
-function unlock() {
-  if (document.getElementById("password").value === "SerraFB!") {
-    document.getElementById("lock-screen").style.display = "none";
-    document.getElementById("recruitGrid").classList.remove("hidden");
-  } else {
-    alert("Incorrect password");
-  }
-}
-</script>
+    <!-- LOCK OVERLAY -->
+    <div id="lockOverlay" class="overlay">
+      <div class="lock-card">
+        <img src="images/serra_logo.png" class="lock-logo" alt="Serra logo" />
+        <h2>Enter Recruiting Portal</h2>
+        <p class="muted">Password required to view prospects.</p>
 
-<script src="recruits.js"></script>
+        <div class="lock-row">
+          <input id="portalPass" type="password" placeholder="Password" autocomplete="current-password" />
+          <button id="unlockBtn" class="btn btn-primary" type="button">Unlock</button>
+        </div>
+        <div id="lockError" class="error"></div>
+      </div>
+    </div>
+
+    <!-- CONTROLS -->
+    <section class="controls">
+      <div class="control">
+        <label for="classFilter">Class</label>
+        <select id="classFilter">
+          <option value="all">All</option>
+          <option value="2026">2026</option>
+          <option value="2027">2027</option>
+          <option value="2028">2028</option>
+          <option value="2029">2029</option>
+        </select>
+      </div>
+
+      <div class="control control-grow">
+        <label for="nameSearch">Search</label>
+        <input id="nameSearch" type="text" placeholder="Type a player name..." />
+      </div>
+    </section>
+
+    <section>
+      <div id="statusMsg" class="status muted">Loading prospects…</div>
+      <div id="recruitsGrid" class="grid"></div>
+    </section>
+  </main>
+
+  <script>
+    // View Prospects lock: SerraFB!
+    const KEY = "serra_view_access";
+    const PASS = "SerraFB!";
+
+    const overlay = document.getElementById("lockOverlay");
+    const btn = document.getElementById("unlockBtn");
+    const input = document.getElementById("portalPass");
+    const err = document.getElementById("lockError");
+
+    function checkAccess() {
+      if (sessionStorage.getItem(KEY) === "granted") {
+        overlay.style.display = "none";
+      } else {
+        overlay.style.display = "flex";
+      }
+    }
+
+    function unlock() {
+      if (input.value === PASS) {
+        sessionStorage.setItem(KEY, "granted");
+        overlay.style.display = "none";
+        err.textContent = "";
+      } else {
+        err.textContent = "Incorrect password.";
+      }
+    }
+
+    btn.addEventListener("click", unlock);
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") unlock();
+    });
+
+    checkAccess();
+  </script>
+
+  <script src="recruits.js"></script>
 </body>
 </html>
