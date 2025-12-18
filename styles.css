@@ -1,8 +1,9 @@
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(180deg,#071b2e,#0a2f4f);
-  color: white;
+  background: linear-gradient(
+    180deg,
+    #081c2e 0%,
+    #041320 100%
+  );
 }
 
 .top-nav {
