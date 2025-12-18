@@ -279,3 +279,83 @@ input::placeholder{color:rgba(255,255,255,0.45)}
   .brand-sub{display:none}
   .hero{min-height:480px}
 }
+/* =========================
+   MOBILE POLISH (NCSA STYLE)
+========================= */
+
+@media (max-width: 900px) {
+  .hero-content {
+    padding: 56px 0 48px;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .nav {
+    gap: 8px;
+  }
+
+  .nav-pill {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .qr-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .qr-right {
+    margin-top: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    min-height: 440px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+    line-height: 1.1;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .trust-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .qr-img {
+    width: 110px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .player-card {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+}
