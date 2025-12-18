@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>View Prospects</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Serra Prospects</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="dark-bg">
 
 <div id="lock-screen" class="lock-card">
+  <img src="images/serra_logo.png" class="lock-logo">
   <h2>View Prospects</h2>
-  <input type="password" id="password" placeholder="Password" />
-  <button onclick="unlock()">Unlock</button>
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="unlock()">Enter</button>
 </div>
 
-<div id="prospects" class="prospect-grid hidden"></div>
+<div id="recruitGrid" class="prospect-grid hidden"></div>
 
 <script>
 function unlock() {
   if (document.getElementById("password").value === "SerraFB!") {
     document.getElementById("lock-screen").style.display = "none";
-    document.getElementById("prospects").classList.remove("hidden");
+    document.getElementById("recruitGrid").classList.remove("hidden");
   } else {
     alert("Incorrect password");
   }
