@@ -1,71 +1,45 @@
-const CSV_URL =
+const sheetURL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
-fetch(CSV_URL)
+fetch(sheetURL)
   .then(res => res.text())
-  .then(text => {
-    const rows = text.trim().split("\n");
-    rows.shift(); // remove header row
+  .then(csv => {
+    const rows = csv.split("\n").slice(1);
+    const grid = document.getElementById("prospects");
 
-    const grid = document.getElementById("recruitGrid");
-    grid.innerHTML = "";
+    rows.forEach(r => {
+      const cols = r.split(",");
 
-    rows.forEach(row => {
-      const values =
-        row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g)?.map(v =>
-          v.replace(/^"|"$/g, "")
-        ) || [];
+      const name = cols[0];
+      const position = cols[1];
+      const year = cols[2];
+      const image = cols[3];
+      const hudl = cols[4];
+      const twitter = cols[5];
 
-      const name = values[0];
-      const position = values[1];
-      const year = values[2];
-      let hudl = values[3];
-      let twitter = values[4];
-      const image = values[6];
+      if (!name) return;
 
-      if (!name || !image) return;
+      const imgSrc = image?.startsWith("http")
+        ? image
+        : "images/placeholder.png";
 
-      // ✅ FIX HUDL LINKS
-      if (hudl && !hudl.startsWith("http")) {
-        hudl = "https://www.hudl.com/" + hudl.replace(/^\/+/, "");
-      }
+      grid.innerHTML += `
+        <div class="card">
+          <img src="${imgSrc}" class="recruit-photo" />
+          <h3>${name}</h3>
+          <p>${year} • ${position}</p>
 
-      // ✅ FIX TWITTER LINKS
-      if (twitter && !twitter.startsWith("http")) {
-        twitter = "https://twitter.com/" + twitter.replace("@", "");
-      }
-
-      const card = document.createElement("div");
-      card.className = "recruit-card";
-
-      card.innerHTML = `
-        <div class="img-wrap">
-          <img src="${image}" alt="${name}">
-        </div>
-
-        <h3>${name}</h3>
-        <p>${position} • Class of ${year}</p>
-
-        <div class="icons">
-          ${
-            hudl
-              ? `<a href="${hudl}" target="_blank" aria-label="Hudl">
-                   <img src="icons/hudl.svg" alt="Hudl">
-                 </a>`
-              : ""
-          }
-
-          ${
-            twitter
-              ? `<a href="${twitter}" target="_blank" aria-label="Twitter">
-                   <img src="icons/x.svg" alt="Twitter">
-                 </a>`
-              : ""
-          }
+          <div class="recruit-links">
+            ${hudl ? `
+              <a href="${hudl}" target="_blank">
+                <img src="icons/hudl.svg" />
+              </a>` : ""}
+            ${twitter ? `
+              <a href="${twitter}" target="_blank">
+                <img src="icons/twitter-x.svg" />
+              </a>` : ""}
+          </div>
         </div>
       `;
-
-      grid.appendChild(card);
     });
-  })
-  .catch(err => console.error("Recruit sync error:", err));
+  });
