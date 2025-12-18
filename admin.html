@@ -1,46 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Serra Admin</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin • Serra Football Recruiting</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body class="dark">
+<body class="site">
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">
+        <img src="images/serra_logo.png" alt="Serra Football" class="brand-logo" />
+        <div class="brand-text">
+          <div class="brand-title">Serra Football Recruiting</div>
+          <div class="brand-sub">Admin</div>
+        </div>
+      </a>
 
-<script>
-if (sessionStorage.getItem("adminAccess") !== "true") {
-  alert("Admin only.");
-  window.location.href = "index.html";
-}
-</script>
+      <nav class="nav">
+        <a class="nav-pill" href="index.html">Home</a>
+        <a class="nav-pill" href="recruits.html">View Prospects</a>
+        <a class="nav-pill nav-pill--admin active" href="admin.html">Admin</a>
+      </nav>
+    </div>
+  </header>
 
-<header class="site-header">
-  <div class="header-inner">
-    <div class="brand">
-      <img src="images/serra_logo.png" class="logo">
-      <span>Serra Admin</span>
+  <main class="wrap page">
+    <div class="page-head">
+      <h1>Admin Tools</h1>
+      <p class="muted">Password required. This page can be expanded later (uploads, edits, etc.).</p>
     </div>
 
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="#" onclick="logout()">Logout</a>
-    </nav>
-  </div>
-</header>
+    <div id="adminOverlay" class="overlay">
+      <div class="lock-card">
+        <img src="images/serra_logo.png" class="lock-logo" alt="Serra logo" />
+        <h2>Admin Login</h2>
+        <p class="muted">Enter admin password.</p>
 
-<section class="page-header">
-  <h1>Admin Dashboard</h1>
-  <p>Manage recruiting data via Google Sheets</p>
-</section>
+        <div class="lock-row">
+          <input id="adminPass" type="password" placeholder="Password" autocomplete="current-password" />
+          <button id="adminBtn" class="btn btn-primary" type="button">Unlock</button>
+        </div>
+        <div id="adminError" class="error"></div>
+      </div>
+    </div>
 
-<script>
-function logout() {
-  sessionStorage.clear();
-  window.location.href = "index.html";
-}
-</script>
+    <section id="adminContent" class="card" style="display:none;">
+      <h2>Admin Placeholder</h2>
+      <p class="muted">
+        You’re locked in. Next step can be an “Admin Helper” page that shows:
+        how to upload images, how to publish CSV, and how to keep columns clean.
+      </p>
+    </section>
+  </main>
 
+  <script>
+    const KEY = "serra_admin_access";
+    const PASS = "SerraAdmin!";
+
+    const overlay = document.getElementById("adminOverlay");
+    const btn = document.getElementById("adminBtn");
+    const input = document.getElementById("adminPass");
+    const err = document.getElementById("adminError");
+    const content = document.getElementById("adminContent");
+
+    function checkAccess() {
+      if (sessionStorage.getItem(KEY) === "granted") {
+        overlay.style.display = "none";
+        content.style.display = "block";
+      } else {
+        overlay.style.display = "flex";
+        content.style.display = "none";
+      }
+    }
+
+    function unlock() {
+      if (input.value === PASS) {
+        sessionStorage.setItem(KEY, "granted");
+        overlay.style.display = "none";
+        content.style.display = "block";
+        err.textContent = "";
+      } else {
+        err.textContent = "Incorrect admin password.";
+      }
+    }
+
+    btn.addEventListener("click", unlock);
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") unlock();
+    });
+
+    checkAccess();
+  </script>
 </body>
 </html>
