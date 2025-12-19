@@ -365,3 +365,13 @@ input::placeholder{color:rgba(255,255,255,0.45)}
   background: #0a1a2e;
 }
 }
+/* === PLAYER PHOTO CROP (HEAD → NUMBERS) === */
+img[src*="raw.githubusercontent.com"],
+img[src*="/images/"] {
+  width: 100%;
+  height: 260px;              /* consistent card height */
+  object-fit: cover;
+  object-position: center 18%; /* crops from top down */
+  border-radius: 12px;
+  background: #0a1a2e;
+}
