@@ -55,8 +55,22 @@ function render() {
 /* -------------------------
    Player card HTML
 -------------------------- */
-function playerCardHTML(p) {
-  const imgSrc = p.ImageURL || "images/placeholder.png";
+card.innerHTML = `
+  <img src="${imgSrc}" class="recruit-photo" />
+
+  <h3>${name}</h3>
+
+  <p class="meta">
+    ${position} • ${heightWeight} • Class of ${year}
+  </p>
+
+  ${writeup ? `<p class="writeup">${writeup}</p>` : ""}
+
+  <div class="recruit-links">
+    ${hudl ? `<a href="${hudl}" target="_blank"><img src="icons/hudl.svg" alt="Hudl"></a>` : ""}
+    ${twitter ? `<a href="${twitter}" target="_blank"><img src="icons/twitter-x.svg" alt="Twitter"></a>` : ""}
+  </div>
+`;
 
   return `
     <article class="player-card">
@@ -99,12 +113,14 @@ function normalizePlayer(p) {
   for (const k in p) obj[trimKey(k)] = (p[k] ?? "").trim();
 
   // Ensure correct header names
-  const Name = obj["Name"] || "";
-  const Class = obj["Class"] || "";
-  const Position = obj["Position"] || "";
-  const ImageURL = fixUrl(obj["ImageURL"] || "");
-  const HUDL = fixHudl(obj["HUDL"] || "");
-  const Twitter = fixTwitter(obj["Twitter"] || "");
+ const name = cols[0];
+const year = cols[1];
+const position = cols[2];
+const heightWeight = cols[3];
+const hudl = cols[4];
+const writeup = cols[5];
+const image = cols[6];
+const twitter = cols[7];
 
   return { Name, Class, Position, ImageURL, HUDL, Twitter };
 }
