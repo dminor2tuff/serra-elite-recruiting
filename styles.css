@@ -374,4 +374,18 @@ img[src*="/images/"] {
   object-position: center 18%; /* crops from top down */
   border-radius: 12px;
   background: #0a1a2e;
+
+}
+/* === FORCE PLAYER PHOTO CROP (OVERRIDES EVERYTHING) === */
+.prospect-grid img,
+.player-card img,
+.card img,
+img[src*="raw.githubusercontent.com"],
+img[src*="/images/"] {
+  width: 100% !important;
+  height: 260px !important;
+  object-fit: cover !important;
+  object-position: center 18% !important;
+  border-radius: 12px !important;
+  background-color: #0a1a2e !important;
 }
