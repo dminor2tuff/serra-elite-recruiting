@@ -114,4 +114,5 @@ function parseCSV(text) {
 
   // Remove header row
   return rows.slice(1);
+  <script src="recruits.js"></script>
 }
