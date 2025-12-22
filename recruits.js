@@ -3,52 +3,53 @@ document.addEventListener("DOMContentLoaded", () => {
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
   const grid = document.getElementById("recruitGrid");
+  const loading = document.getElementById("loadingText");
 
   if (!grid) {
-    console.error("❌ recruitGrid NOT FOUND in HTML");
+    console.error("❌ recruitGrid not found");
     return;
   }
 
   fetch(CSV_URL)
-    .then(res => {
-      if (!res.ok) throw new Error("CSV fetch failed");
-      return res.text();
-    })
+    .then(res => res.text())
     .then(csv => {
-      const rows = csv.trim().split("\n").slice(1);
-      if (!rows.length) {
-        console.error("❌ CSV has no data rows");
-        return;
-      }
+      const lines = csv.split("\n").filter(Boolean);
+      const headers = lines[0].split(",").map(h => h.trim().toLowerCase());
 
-      rows.forEach(row => {
-        const cols = row.match(/(".*?"|[^",]+)(?=,|$)/g);
-        if (!cols || !cols[0]) return;
+      const get = (row, name) => {
+        const i = headers.indexOf(name.toLowerCase());
+        return i !== -1 ? row[i]?.replace(/^"|"$/g, "").trim() : "";
+      };
 
-        const name = clean(cols[0]);
-        const year = clean(cols[1]);
-        const position = clean(cols[2]);
-        const heightWeight = clean(cols[3]);
-        const hudl = clean(cols[4]);
-        const writeup = clean(cols[5]);
-        const image = clean(cols[6]);
-        const twitter = clean(cols[7]);
+      lines.slice(1).forEach(line => {
+        const cols = line.match(/(".*?"|[^",]+)(?=,|$)/g);
+        if (!cols) return;
 
-        const imgSrc =
-          image && image.startsWith("http")
-            ? image
-            : "images/placeholder.png";
+        const name = get(cols, "name");
+        if (!name) return;
+
+        const year = get(cols, "class");
+        const position = get(cols, "position");
+        const hw = get(cols, "heightweight");
+        const writeup = get(cols, "writeup");
+        const image = get(cols, "imageurl");
+        const hudl = get(cols, "hudl");
+        const twitter = get(cols, "twitter");
 
         const card = document.createElement("div");
         card.className = "card";
 
         card.innerHTML = `
-          <img src="${imgSrc}" class="recruit-photo" onerror="this.src='images/placeholder.png'">
+          <img 
+            src="${image || "images/placeholder.png"}"
+            class="recruit-photo"
+            onerror="this.src='images/placeholder.png'"
+          >
 
           <h3>${name}</h3>
 
           <p class="meta">
-            ${position} • ${heightWeight} • Class of ${year}
+            ${position || ""} • ${hw || ""} • Class of ${year || ""}
           </p>
 
           ${writeup ? `<p class="writeup">${writeup}</p>` : ""}
@@ -62,13 +63,12 @@ document.addEventListener("DOMContentLoaded", () => {
         grid.appendChild(card);
       });
 
-      console.log("✅ Recruits rendered:", grid.children.length);
+      if (loading) loading.remove();
+
+      console.log("✅ Prospects loaded:", grid.children.length);
     })
     .catch(err => {
-      console.error("❌ Recruit load error:", err);
+      console.error("❌ CSV error:", err);
+      if (loading) loading.textContent = "Failed to load prospects.";
     });
-
-  function clean(val) {
-    return val ? val.replace(/^"|"$/g, "").trim() : "";
-  }
 });
