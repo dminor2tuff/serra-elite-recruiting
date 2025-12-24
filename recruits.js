@@ -5,29 +5,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("recruitGrid");
   const loading = document.getElementById("loadingText");
 
-  if (!grid) {
-    console.error("❌ recruitGrid not found");
-    return;
-  }
-
   fetch(CSV_URL)
-    .then(r => r.text())
+    .then(res => res.text())
     .then(csv => {
       const rows = [];
-      let current = [];
-      let insideQuotes = false;
+      let row = [];
       let cell = "";
+      let inQuotes = false;
 
       for (let char of csv) {
-        if (char === '"' ) {
-          insideQuotes = !insideQuotes;
-        } else if (char === "," && !insideQuotes) {
-          current.push(cell.trim());
+        if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === "," && !inQuotes) {
+          row.push(cell.trim());
           cell = "";
-        } else if (char === "\n" && !insideQuotes) {
-          current.push(cell.trim());
-          rows.push(current);
-          current = [];
+        } else if (char === "\n" && !inQuotes) {
+          row.push(cell.trim());
+          rows.push(row);
+          row = [];
           cell = "";
         } else {
           cell += char;
@@ -35,8 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (cell) {
-        current.push(cell.trim());
-        rows.push(current);
+        row.push(cell.trim());
+        rows.push(row);
       }
 
       const headers = rows[0].map(h => h.toLowerCase());
@@ -48,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!name) return;
 
         const card = document.createElement("div");
-        card.className = "card";
+        card.className = "recruit-card";
 
         card.innerHTML = `
           <img
@@ -60,26 +55,43 @@ document.addEventListener("DOMContentLoaded", () => {
           <h3>${name}</h3>
 
           <p class="meta">
-            ${r[col("position")] || ""} • ${r[col("heightweight")] || ""} • Class of ${r[col("class")] || ""}
+            ${r[col("position")] || ""} •
+            ${r[col("heightweight")] || ""} •
+            Class of ${r[col("class")] || ""}
           </p>
 
-          ${r[col("writeup")] ? `<p class="writeup">${r[col("writeup")]}</p>` : ""}
+          ${r[col("writeup")]
+            ? `<p class="writeup">${r[col("writeup")]}</p>`
+            : ""
+          }
 
           <div class="recruit-links">
-            ${r[col("hudl")] ? `<a href="${r[col("hudl")]}" target="_blank"><img src="icons/hudl.svg"></a>` : ""}
-            ${r[col("twitter")] ? `<a href="${r[col("twitter")]}" target="_blank"><img src="icons/twitter-x.svg"></a>` : ""}
+            ${
+              r[col("hudl")]
+                ? `<a href="${r[col("hudl")]}" target="_blank">
+                    <img src="icons/hudl.svg" alt="Hudl">
+                  </a>`
+                : ""
+            }
+
+            ${
+              r[col("twitter")]
+                ? `<a href="${r[col("twitter")]}" target="_blank">
+                    <img src="icons/twitter-x.svg" alt="X">
+                  </a>`
+                : ""
+            }
           </div>
         `;
 
         grid.appendChild(card);
       });
 
-      if (loading) loading.remove();
-
-      console.log("✅ Loaded recruits:", grid.children.length);
+      loading.remove();
+      console.log("✅ Recruits loaded:", grid.children.length);
     })
     .catch(err => {
-      console.error("❌ CSV load failed", err);
-      loading.textContent = "Failed to load prospects.";
+      console.error("❌ Recruit load failed:", err);
+      loading.textContent = "Failed to load recruits.";
     });
 });
