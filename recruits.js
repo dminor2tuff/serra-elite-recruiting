@@ -49,11 +49,25 @@ function render(players) {
       : "images/placeholder.png";
 
   const position = p.Position || p.Pos || "";
-const height = p.Height || p.Ht || "";
-const weight = p.Weight || p.Wt || "";
-const writeup =
-  p.WriteUp || p.Writeup || p.Evaluation || p.Notes || "";
+const height =
+  p.Height ||
+  p.Ht ||
+  p["Height (ft/in)"] ||
+  "";
 
+const weight =
+  p.Weight ||
+  p.Wt ||
+  p["Weight (lbs)"] ||
+  "";
+
+const writeup =
+  p.WriteUp ||
+  p.Writeup ||
+  p.Evaluation ||
+  p.Scouting ||
+  p.Notes ||
+  "";
 const hudl = p.Hudl || p.HUDL || "";
 const twitter = p.Twitter || p.X || "";
 
