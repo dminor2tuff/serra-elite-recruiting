@@ -1,90 +1,59 @@
-const SHEET_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
 const grid = document.getElementById("recruitsGrid");
 const classFilter = document.getElementById("classFilter");
 const searchInput = document.getElementById("searchInput");
 
-Papa.parse(SHEET_URL, {
+function clean(value) {
+  return value ? value.trim() : "";
+}
+
+Papa.parse(CSV_URL, {
   download: true,
   header: true,
-  skipEmptyLines: true,
   complete: function (results) {
-    const players = results.data;
+    const players = results.data.filter(p => p.Name);
+    render(players);
 
-    populateClassFilter(players);
-    renderPlayers(players);
-
-    classFilter.addEventListener("change", () =>
-      filterPlayers(players)
-    );
-    searchInput.addEventListener("input", () =>
-      filterPlayers(players)
-    );
+    classFilter.addEventListener("change", () => filter(players));
+    searchInput.addEventListener("input", () => filter(players));
   },
-  error: function (err) {
-    console.error("CSV Load Error:", err);
-    grid.innerHTML = "<p>Error loading recruits.</p>";
+  error: function () {
+    grid.innerHTML = "<p style='color:#fff'>Error loading recruits.</p>";
   }
 });
 
-// ==============================
-// FILTERS
-// ==============================
-function populateClassFilter(players) {
-  const years = [...new Set(players.map(p => p.Class))].sort();
-  years.forEach(y => {
-    const opt = document.createElement("option");
-    opt.value = y;
-    opt.textContent = y;
-    classFilter.appendChild(opt);
-  });
-}
-
-function filterPlayers(players) {
+function filter(players) {
   const year = classFilter.value;
-  const term = searchInput.value.toLowerCase();
+  const search = searchInput.value.toLowerCase();
 
   const filtered = players.filter(p => {
-    const matchesYear = year === "All" || p.Class === year;
-    const matchesName = p.Name.toLowerCase().includes(term);
-    return matchesYear && matchesName;
+    return (
+      (year === "All" || p.Class === year) &&
+      p.Name.toLowerCase().includes(search)
+    );
   });
 
-  renderPlayers(filtered);
+  render(filtered);
 }
 
-// ==============================
-// RENDER CARDS
-// ==============================
-function renderPlayers(players) {
+function render(players) {
   grid.innerHTML = "";
-
-  if (!players.length) {
-    grid.innerHTML = "<p>No prospects found.</p>";
-    return;
-  }
 
   players.forEach(p => {
     const card = document.createElement("div");
     card.className = "recruit-card";
 
+    const img = p.ImageURL && p.ImageURL.startsWith("http")
+      ? p.ImageURL
+      : "images/placeholder.png";
+
     card.innerHTML = `
-      <img 
-        src="${p.ImageURL}" 
-        class="recruit-photo"
-        onerror="this.src='images/serra_logo.png'"
-      />
-
+      <img src="${img}" class="recruit-photo" alt="${p.Name}">
       <h3>${p.Name}</h3>
-
-      <p class="recruit-meta">
-        ${p.Position} • Class of ${p.Class}<br>
-        ${p.Height} / ${p.Weight} lbs
-      </p>
-
-      ${p.WriteUp ? `<p class="recruit-writeup">${p.WriteUp}</p>` : ""}
-
+      <p>${p.Position} • Class of ${p.Class}</p>
+      <p>${p.Height} / ${p.Weight}</p>
+      <p class="writeup">${p.WriteUp || ""}</p>
       <div class="recruit-links">
         ${p.Hudl ? `<a href="${p.Hudl}" target="_blank">Hudl</a>` : ""}
         ${p.Twitter ? `<a href="${p.Twitter}" target="_blank">X</a>` : ""}
