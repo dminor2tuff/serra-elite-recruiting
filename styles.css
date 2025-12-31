@@ -12,7 +12,34 @@
   --shadow:0 14px 40px rgba(0,0,0,0.55);
   --radius:16px;
 }
+.measurements {
+  font-size: 0.9rem;
+  color: #b8c7ff;
+  margin-top: 4px;
+}
 
+.writeup {
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #e0e4f5;
+  margin-top: 8px;
+}
+
+.recruit-links {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.recruit-links a {
+  color: #7da2ff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.recruit-links a:hover {
+  color: #ffffff;
+}
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
