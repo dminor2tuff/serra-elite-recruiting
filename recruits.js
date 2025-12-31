@@ -1,6 +1,3 @@
-// ==============================
-// CONFIG
-// ==============================
 const SHEET_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
@@ -8,28 +5,12 @@ const grid = document.getElementById("recruitsGrid");
 const classFilter = document.getElementById("classFilter");
 const searchInput = document.getElementById("searchInput");
 
-// ==============================
-// LOAD CSV
-// ==============================
-fetch(SHEET_URL)
-  .then(res => res.text())
-  .then(csv => {
-    const rows = csv.trim().split("\n").slice(1);
-    const players = rows.map(r => {
-      const cols = r.split(",");
-
-      return {
-        name: cols[0]?.trim(),
-        position: cols[1]?.trim(),
-        year: cols[2]?.trim(),
-        height: cols[3]?.trim(),
-        weight: cols[4]?.trim(),
-        image: cols[5]?.trim(),
-        hudl: cols[6]?.trim(),
-        twitter: cols[7]?.trim(),
-        writeup: cols[8]?.trim()
-      };
-    });
+Papa.parse(SHEET_URL, {
+  download: true,
+  header: true,
+  skipEmptyLines: true,
+  complete: function (results) {
+    const players = results.data;
 
     populateClassFilter(players);
     renderPlayers(players);
@@ -40,17 +21,18 @@ fetch(SHEET_URL)
     searchInput.addEventListener("input", () =>
       filterPlayers(players)
     );
-  })
-  .catch(err => {
+  },
+  error: function (err) {
+    console.error("CSV Load Error:", err);
     grid.innerHTML = "<p>Error loading recruits.</p>";
-    console.error(err);
-  });
+  }
+});
 
 // ==============================
 // FILTERS
 // ==============================
 function populateClassFilter(players) {
-  const years = [...new Set(players.map(p => p.year))].sort();
+  const years = [...new Set(players.map(p => p.Class))].sort();
   years.forEach(y => {
     const opt = document.createElement("option");
     opt.value = y;
@@ -64,8 +46,8 @@ function filterPlayers(players) {
   const term = searchInput.value.toLowerCase();
 
   const filtered = players.filter(p => {
-    const matchesYear = year === "All" || p.year === year;
-    const matchesName = p.name.toLowerCase().includes(term);
+    const matchesYear = year === "All" || p.Class === year;
+    const matchesName = p.Name.toLowerCase().includes(term);
     return matchesYear && matchesName;
   });
 
@@ -73,7 +55,7 @@ function filterPlayers(players) {
 }
 
 // ==============================
-// RENDER
+// RENDER CARDS
 // ==============================
 function renderPlayers(players) {
   grid.innerHTML = "";
@@ -89,35 +71,23 @@ function renderPlayers(players) {
 
     card.innerHTML = `
       <img 
-        src="${p.image}" 
+        src="${p.ImageURL}" 
         class="recruit-photo"
         onerror="this.src='images/serra_logo.png'"
-      >
+      />
 
-      <h3>${p.name}</h3>
+      <h3>${p.Name}</h3>
 
       <p class="recruit-meta">
-        ${p.position} • Class of ${p.year}<br>
-        ${p.height} / ${p.weight} lbs
+        ${p.Position} • Class of ${p.Class}<br>
+        ${p.Height} / ${p.Weight} lbs
       </p>
 
-      ${
-        p.writeup
-          ? `<p class="recruit-writeup">${p.writeup}</p>`
-          : ""
-      }
+      ${p.WriteUp ? `<p class="recruit-writeup">${p.WriteUp}</p>` : ""}
 
       <div class="recruit-links">
-        ${
-          p.hudl
-            ? `<a href="${p.hudl}" target="_blank" class="hudl">Hudl</a>`
-            : ""
-        }
-        ${
-          p.twitter
-            ? `<a href="${p.twitter}" target="_blank" class="twitter">X</a>`
-            : ""
-        }
+        ${p.Hudl ? `<a href="${p.Hudl}" target="_blank">Hudl</a>` : ""}
+        ${p.Twitter ? `<a href="${p.Twitter}" target="_blank">X</a>` : ""}
       </div>
     `;
 
