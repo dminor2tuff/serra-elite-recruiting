@@ -73,16 +73,18 @@ const twitter = p.Twitter || p.X || "";
 
 card.innerHTML = `
   <img src="${img}" class="recruit-photo" alt="${p.Name}">
-  
+
   <h3>${p.Name}</h3>
 
   <p class="meta">
     ${position} • Class of ${p.Class}
   </p>
 
-  <p class="measurements">
-    ${height}${height && weight ? " / " : ""}${weight}${weight ? " lbs" : ""}
-  </p>
+  ${
+    height || weight
+      ? `<p class="measurements">${height}${height && weight ? " / " : ""}${weight}${weight ? " lbs" : ""}</p>`
+      : ""
+  }
 
   ${
     writeup
@@ -92,17 +94,13 @@ card.innerHTML = `
 
   <div class="recruit-links">
     ${
-      hudl
-        ? `<a href="${hudl}" target="_blank" aria-label="Hudl">
-            <img src="assets/hudl.svg" class="icon">
-          </a>`
+      p.Hudl
+        ? `<a href="${p.Hudl}" target="_blank" title="Hudl">🎥 Hudl</a>`
         : ""
     }
     ${
-      twitter
-        ? `<a href="${twitter}" target="_blank" aria-label="X">
-            <img src="assets/x.svg" class="icon">
-          </a>`
+      p.Twitter || p.X
+        ? `<a href="${p.Twitter || p.X}" target="_blank" title="X">𝕏</a>`
         : ""
     }
   </div>
