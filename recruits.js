@@ -48,31 +48,47 @@ function render(players) {
       ? p.ImageURL
       : "images/placeholder.png";
 
-    card.innerHTML = `
+  const position = p.Position || p.Pos || "";
+const height = p.Height || p.Ht || "";
+const weight = p.Weight || p.Wt || "";
+const writeup =
+  p.WriteUp || p.Writeup || p.Evaluation || p.Notes || "";
+
+const hudl = p.Hudl || p.HUDL || "";
+const twitter = p.Twitter || p.X || "";
+
+card.innerHTML = `
   <img src="${img}" class="recruit-photo" alt="${p.Name}">
+  
   <h3>${p.Name}</h3>
 
-  <p>
-    ${p.Pos || p.Position || ""} • Class of ${p.Class}
+  <p class="meta">
+    ${position} • Class of ${p.Class}
   </p>
 
-  <p>
-    ${p.Ht || p.Height || ""} / ${p.Wt || p.Weight || ""} lbs
+  <p class="measurements">
+    ${height}${height && weight ? " / " : ""}${weight}${weight ? " lbs" : ""}
   </p>
 
-  <p class="writeup">
-    ${p.WriteUp || p.Writeup || p.Evaluation || p.Notes || ""}
-  </p>
+  ${
+    writeup
+      ? `<p class="writeup">${writeup}</p>`
+      : ""
+  }
 
   <div class="recruit-links">
     ${
-      p.Hudl || p.HUDL
-        ? `<a href="${p.Hudl || p.HUDL}" target="_blank">Hudl</a>`
+      hudl
+        ? `<a href="${hudl}" target="_blank" aria-label="Hudl">
+            <img src="assets/hudl.svg" class="icon">
+          </a>`
         : ""
     }
     ${
-      p.Twitter || p.X
-        ? `<a href="${p.Twitter || p.X}" target="_blank">X</a>`
+      twitter
+        ? `<a href="${twitter}" target="_blank" aria-label="X">
+            <img src="assets/x.svg" class="icon">
+          </a>`
         : ""
     }
   </div>
