@@ -389,3 +389,30 @@ img[src*="/images/"] {
   border-radius: 12px !important;
   background-color: #0a1a2e !important;
 }
+.measurements {
+  font-size: 0.9rem;
+  color: #cfd8ff;
+}
+
+.writeup {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #d7dbe7;
+  margin-top: 6px;
+}
+
+.recruit-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.recruit-links img.icon {
+  width: 22px;
+  height: 22px;
+  opacity: 0.85;
+}
+
+.recruit-links img.icon:hover {
+  opacity: 1;
+}
