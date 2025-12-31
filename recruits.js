@@ -49,16 +49,34 @@ function render(players) {
       : "images/placeholder.png";
 
     card.innerHTML = `
-      <img src="${img}" class="recruit-photo" alt="${p.Name}">
-      <h3>${p.Name}</h3>
-      <p>${p.Position} • Class of ${p.Class}</p>
-      <p>${p.Height} / ${p.Weight}</p>
-      <p class="writeup">${p.WriteUp || ""}</p>
-      <div class="recruit-links">
-        ${p.Hudl ? `<a href="${p.Hudl}" target="_blank">Hudl</a>` : ""}
-        ${p.Twitter ? `<a href="${p.Twitter}" target="_blank">X</a>` : ""}
-      </div>
-    `;
+  <img src="${img}" class="recruit-photo" alt="${p.Name}">
+  <h3>${p.Name}</h3>
+
+  <p>
+    ${p.Pos || p.Position || ""} • Class of ${p.Class}
+  </p>
+
+  <p>
+    ${p.Ht || p.Height || ""} / ${p.Wt || p.Weight || ""} lbs
+  </p>
+
+  <p class="writeup">
+    ${p.WriteUp || p.Writeup || p.Evaluation || p.Notes || ""}
+  </p>
+
+  <div class="recruit-links">
+    ${
+      p.Hudl || p.HUDL
+        ? `<a href="${p.Hudl || p.HUDL}" target="_blank">Hudl</a>`
+        : ""
+    }
+    ${
+      p.Twitter || p.X
+        ? `<a href="${p.Twitter || p.X}" target="_blank">X</a>`
+        : ""
+    }
+  </div>
+`;
 
     grid.appendChild(card);
   });
