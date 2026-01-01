@@ -1,72 +1,81 @@
-const CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const sheetURL =
+  "PASTE_YOUR_PUBLISHED_CSV_URL_HERE";
 
 const grid = document.getElementById("recruitsGrid");
 const classFilter = document.getElementById("classFilter");
 const searchInput = document.getElementById("searchInput");
+const loadingText = document.getElementById("loadingText");
 
 let recruits = [];
 
-// Parse CSV safely
-Papa.parse(CSV_URL, {
+Papa.parse(sheetURL, {
   download: true,
   header: true,
   skipEmptyLines: true,
   complete: (results) => {
-    recruits = results.data.filter(r => r.Name && r.Name.trim() !== "");
-    render();
+    recruits = results.data;
+    buildClassFilter();
+    renderRecruits(recruits);
+    loadingText.remove();
   },
-  error: (err) => {
-    console.error("CSV Load Error:", err);
-    grid.innerHTML = "<p>Error loading recruiting data.</p>";
+  error: () => {
+    loadingText.textContent = "Error loading recruits.";
   }
 });
 
-function render() {
-  grid.innerHTML = "";
-
-  const classVal = classFilter.value;
-  const searchVal = searchInput.value.toLowerCase();
-
-  recruits
-    .filter(r =>
-      (classVal === "All" || r.Class === classVal) &&
-      r.Name.toLowerCase().includes(searchVal)
-    )
-    .forEach(r => {
-      const card = document.createElement("div");
-      card.className = "card";
-
-      const imgSrc = r.ImageURL && r.ImageURL.startsWith("http")
-        ? r.ImageURL
-        : "/images/placeholder.jpg";
-
-      card.innerHTML = `
-        <img src="${imgSrc}" class="recruit-photo"
-             onerror="this.src='/images/placeholder.jpg'">
-
-        <h3>${r.Name}</h3>
-
-        <p class="meta">
-          ${r.Position || ""} • Class of ${r.Class || ""}
-        </p>
-
-        <p class="meta">
-          ${r.HeightWeight || ""}
-        </p>
-
-        ${r.Writeup ? `<p class="writeup">${r.Writeup}</p>` : ""}
-
-        <div class="links">
-          ${r.HUDL ? `<a href="${r.HUDL}" target="_blank" rel="noopener">Hudl</a>` : ""}
-          ${r.Twitter ? `<a href="${r.Twitter}" target="_blank" rel="noopener">X</a>` : ""}
-        </div>
-      `;
-
-      grid.appendChild(card);
-    });
+function buildClassFilter() {
+  const years = [...new Set(recruits.map(r => r.Class))].sort();
+  years.forEach(year => {
+    const opt = document.createElement("option");
+    opt.value = year;
+    opt.textContent = year;
+    classFilter.appendChild(opt);
+  });
 }
 
-// Filters
-classFilter.addEventListener("change", render);
-searchInput.addEventListener("input", render);
+function renderRecruits(data) {
+  grid.innerHTML = "";
+
+  if (data.length === 0) {
+    grid.innerHTML = "<p>No recruits found.</p>";
+    return;
+  }
+
+  data.forEach(r => {
+    const card = document.createElement("div");
+    card.className = "recruit-card";
+
+    card.innerHTML = `
+      <img src="${r.ImageURL}" class="recruit-photo">
+
+      <h3>${r.Name}</h3>
+      <p class="meta">${r.Position} • Class of ${r.Class}</p>
+      <p class="meta">${r.HeightWeight}</p>
+
+      <p class="writeup">${r.Writeup || ""}</p>
+
+      <div class="icons">
+        ${r.HUDL ? `<a href="${r.HUDL}" target="_blank"><i class="fas fa-film"></i></a>` : ""}
+        ${r.Twitter ? `<a href="${r.Twitter}" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>` : ""}
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+}
+
+function applyFilters() {
+  const cls = classFilter.value;
+  const search = searchInput.value.toLowerCase();
+
+  const filtered = recruits.filter(r => {
+    const matchClass = cls === "All" || r.Class === cls;
+    const matchSearch = r.Name.toLowerCase().includes(search);
+    return matchClass && matchSearch;
+  });
+
+  renderRecruits(filtered);
+}
+
+classFilter.addEventListener("change", applyFilters);
+searchInput.addEventListener("input", applyFilters);
