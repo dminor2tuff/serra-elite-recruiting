@@ -1,61 +1,85 @@
-const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+const CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
 const grid = document.getElementById("recruitsGrid");
+const statusText = document.getElementById("status");
 const classFilter = document.getElementById("classFilter");
 const searchInput = document.getElementById("searchInput");
 
-function clean(value) {
-  return value ? value.trim() : "";
-}
+let allPlayers = [];
 
+/* ===============================
+   LOAD CSV
+================================ */
 Papa.parse(CSV_URL, {
   download: true,
   header: true,
-  complete: function (results) {
-    const players = results.data.filter(p => p.Name);
-    render(players);
-
-    classFilter.addEventListener("change", () => filter(players));
-    searchInput.addEventListener("input", () => filter(players));
+  skipEmptyLines: true,
+  complete: results => {
+    allPlayers = results.data;
+    statusText.style.display = "none";
+    renderPlayers();
   },
-  error: function () {
-    grid.innerHTML = "<p style='color:#fff'>Error loading recruits.</p>";
+  error: () => {
+    statusText.textContent = "Error loading recruits.";
   }
 });
 
-function filter(players) {
-  const year = classFilter.value;
+/* ===============================
+   RENDER
+================================ */
+function renderPlayers() {
+  grid.innerHTML = "";
+
+  const selectedClass = classFilter.value;
   const search = searchInput.value.toLowerCase();
 
-  const filtered = players.filter(p => {
-    return (
-      (year === "All" || p.Class === year) &&
-      p.Name.toLowerCase().includes(search)
-    );
+  const filtered = allPlayers.filter(p => {
+    const year = (p.Class || "").toString();
+    const name = (p.Name || "").toLowerCase();
+
+    const classMatch =
+      selectedClass === "All" || year === selectedClass;
+
+    const searchMatch = name.includes(search);
+
+    return classMatch && searchMatch;
   });
 
-  render(filtered);
+  if (filtered.length === 0) {
+    statusText.style.display = "block";
+    statusText.textContent = "No prospects found.";
+    return;
+  }
+
+  statusText.style.display = "none";
+
+  filtered.forEach(player => {
+    grid.appendChild(createRecruitCard(player));
+  });
 }
+
+/* ===============================
+   CARD BUILDER
+================================ */
 function createRecruitCard(p) {
   const card = document.createElement("div");
   card.className = "recruit-card";
 
   const name = p.Name || "";
   const position = p.Position || p.Pos || "";
-  const year = p.Class || p.Year || "";
+  const year = p.Class || "";
 
   const height =
     p.Height ||
     p.Ht ||
     p["Height (ft/in)"] ||
-    p["Ht (ft/in)"] ||
     "";
 
   const weight =
     p.Weight ||
     p.Wt ||
     p["Weight (lbs)"] ||
-    p["Wt (lbs)"] ||
     "";
 
   const hudl = p.Hudl || p.HUDL || "";
@@ -75,7 +99,7 @@ function createRecruitCard(p) {
       : "images/placeholder.png";
 
   card.innerHTML = `
-    <img src="${img}" class="recruit-photo" alt="${name}">
+    <img src="${img}" class="recruit-photo" alt="${name}" />
 
     <h3>${name}</h3>
 
@@ -83,82 +107,23 @@ function createRecruitCard(p) {
       ${position} • Class of ${year}
     </p>
 
-    ${
-      height || weight
-        ? `<p class="measurements">
-            ${height ? height : ""}${height && weight ? " / " : ""}${weight ? weight + " lbs" : ""}
-          </p>`
-        : ""
-    }
+    <p class="measurements">
+      ${height ? height : ""}${height && weight ? " / " : ""}${weight ? weight + " lbs" : ""}
+    </p>
 
-    ${
-      writeup
-        ? `<p class="writeup">${writeup}</p>`
-        : ""
-    }
+    ${writeup ? `<p class="writeup">${writeup}</p>` : ""}
 
     <div class="recruit-links">
-      ${
-        hudl
-          ? `<a href="${hudl}" target="_blank">🎥 Hudl</a>`
-          : ""
-      }
-      ${
-        twitter
-          ? `<a href="${twitter}" target="_blank">𝕏</a>`
-          : ""
-      }
+      ${hudl ? `<a href="${hudl}" target="_blank">🎥 Hudl</a>` : ""}
+      ${twitter ? `<a href="${twitter}" target="_blank">𝕏</a>` : ""}
     </div>
   `;
 
   return card;
 }
-function render(players) {
-  grid.innerHTML = "";
 
-  players.forEach(p => {
-    const card = document.createElement("div");
-    card.className = "recruit-card";
-
-    const img = p.ImageURL && p.ImageURL.startsWith("http")
-      ? p.ImageURL
-      : "images/placeholder.png";
-
-  const position = p.Position || p.Pos || "";
-
-
-const writeup =
-  p.WriteUp ||
-  p.Writeup ||
-  p.Evaluation ||
-  p.Scouting ||
-  p.Notes ||
-  "";
-const hudl = p.Hudl || p.HUDL || "";
-const twitter = p.Twitter || p.X || "";
-
-
-
-  ${
-    writeup
-      ? `<p class="writeup">${writeup}</p>`
-      : ""
-  }
-
-  <div class="recruit-links">
-    ${
-      p.Hudl
-        ? `<a href="${p.Hudl}" target="_blank" title="Hudl">🎥 Hudl</a>`
-        : ""
-    }
-    ${
-      p.Twitter || p.X
-        ? `<a href="${p.Twitter || p.X}" target="_blank" title="X">𝕏</a>`
-        : ""
-    }
-  </div>
-`;
-
-    grid.appendChild(card);
-  });
-}
+/* ===============================
+   EVENTS
+================================ */
+classFilter.addEventListener("change", renderPlayers);
+searchInput.addEventListener("input", renderPlayers);
