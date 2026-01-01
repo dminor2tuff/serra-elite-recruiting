@@ -1,119 +1,63 @@
-<!DOCTYPE html>
+l<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>View Prospects • Serra Football Recruiting</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>View Prospects | Serra Football Recruiting</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="style.css" />
 </head>
 
-<body class="site">
-  <header class="site-header">
-    <div class="wrap header-inner">
-      <a class="brand" href="index.html">
-        <img src="images/serra_logo.png" alt="Serra Football" class="brand-logo" />
-        <div class="brand-text">
-          <div class="brand-title">Serra Football Recruiting</div>
-          <div class="brand-sub">View Prospects</div>
-        </div>
-      </a>
+<body>
 
-      <nav class="nav">
-        <a class="nav-pill" href="index.html">Home</a>
-        <a class="nav-pill active" href="recruits.html">View Prospects</a>
-        <a class="nav-pill nav-pill--admin" href="admin.html">Admin</a>
-      </nav>
-    </div>
-  </header>
+<header class="top-bar">
+  <div class="logo">
+    <img src="images/serra_logo.png" alt="Serra Football" />
+    <span>Serra Football Recruiting</span>
+  </div>
 
-  <main class="wrap page">
-    <div class="page-head">
-      <h1>Recruiting Portal</h1>
-      <p class="muted">Filter by class year and search by name. Click icons for Hudl and X.</p>
-    </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="recruits.html" class="active">View Prospects</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+</header>
 
-    <!-- LOCK OVERLAY -->
-    <div id="lockOverlay" class="overlay">
-      <div class="lock-card">
-        <img src="images/serra_logo.png" class="lock-logo" alt="Serra logo" />
-        <h2>Enter Recruiting Portal</h2>
-        <p class="muted">Password required to view prospects.</p>
+<main class="portal">
 
-        <div class="lock-row">
-          <input id="portalPass" type="password" placeholder="Password" autocomplete="current-password" />
-          <button id="unlockBtn" class="btn btn-primary" type="button">Unlock</button>
-        </div>
-        <div id="lockError" class="error"></div>
-      </div>
-    </div>
+  <h1>Recruiting Portal</h1>
+  <p class="subtitle">
+    Filter by class year and search by name. Click links for Hudl and X.
+  </p>
 
-    <!-- CONTROLS -->
-    <section class="controls">
-      <div class="control">
-        <label for="classFilter">Class</label>
-        <select id="classFilter">
-          <option value="all">All</option>
-          <option value="2026">2026</option>
-          <option value="2027">2027</option>
-          <option value="2028">2028</option>
-          <option value="2029">2029</option>
-        </select>
-      </div>
+  <div class="filters">
+    <select id="classFilter">
+      <option value="All">All</option>
+      <option value="2025">2025</option>
+      <option value="2026">2026</option>
+      <option value="2027">2027</option>
+      <option value="2028">2028</option>
+    </select>
 
-      <div class="control control-grow">
-        <label for="nameSearch">Search</label>
-        <input id="nameSearch" type="text" placeholder="Type a player name..." />
-      </div>
-    </section>
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Type a player name..."
+    />
+  </div>
 
-    <section>
-      <div id="statusMsg" class="status muted">Loading prospects…</div>
-      <div id="recruitsGrid" class="grid"></div>
-    </section>
-  </main>
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="recruits.js"></script>
-  <script>
-    // View Prospects lock: SerraFB!
-    const KEY = "serra_view_access";
-    const PASS = "SerraFB!";
+  <div id="status">Loading prospects…</div>
 
-    const overlay = document.getElementById("lockOverlay");
-    const btn = document.getElementById("unlockBtn");
-    const input = document.getElementById("portalPass");
-    const err = document.getElementById("lockError");
+  <div id="recruitsGrid" class="grid"></div>
 
-    function checkAccess() {
-      if (sessionStorage.getItem(KEY) === "granted") {
-        overlay.style.display = "none";
-      } else {
-        overlay.style.display = "flex";
-      }
-    }
+</main>
 
-    function unlock() {
-      if (input.value === PASS) {
-        sessionStorage.setItem(KEY, "granted");
-        overlay.style.display = "none";
-        err.textContent = "";
-      } else {
-        err.textContent = "Incorrect password.";
-      }
-    }
-
-    btn.addEventListener("click", unlock);
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") unlock();
-    });
-
-    checkAccess();
-  </script>
-
-  <script src="recruits.js"></script>
-<!-- PapaParse MUST come first -->
+<!-- PapaParse MUST load first -->
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-<!-- Your recruits logic -->
+<!-- Your logic -->
 <script src="recruits.js"></script>
+
 </body>
 </html>
