@@ -50,8 +50,9 @@ function renderRecruits(data) {
 
       <h3>${r.Name}</h3>
       <p class="meta">${r.Position} • Class of ${r.Class}</p>
-      <p class="meta">${r.HeightWeight}</p>
-
+     <div class="measurements">
+  <span>${r.HeightWeight}</span>
+</div>
       <p class="writeup">${r.Writeup || ""}</p>
 
       <div class="icons">
