@@ -1,9 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Serra Prospects</title>
+  <meta charset="UTF-8">
+  <title>Serra Football | Recruiting Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="./style.css">
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- PapaParse -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
+
 <body>
 
 <header class="site-header">
@@ -18,9 +29,24 @@
 </header>
 
 <main class="content">
+
   <h1>Recruiting Portal</h1>
-  <p>This page will display verified Serra prospects.</p>
+  <p>Filter by class year and search by name. Click icons for Hudl and X.</p>
+
+  <div class="filters">
+    <select id="classFilter">
+      <option value="All">All Classes</option>
+    </select>
+
+    <input type="text" id="searchInput" placeholder="Search player name...">
+  </div>
+
+  <div id="recruitsGrid" class="recruits-grid">
+    <p id="loadingText">Loading prospects…</p>
+  </div>
+
 </main>
 
+<script src="recruits.js"></script>
 </body>
 </html>
