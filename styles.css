@@ -1,67 +1,199 @@
-/* =========================
-   RECRUIT CARDS
-========================= */
-.recruit-card {
-  background: linear-gradient(180deg, #0b1e33, #081626);
-  border-radius: 14px;
-  padding: 14px;
-  color: #fff;
-  box-shadow: 0 8px 24px rgba(0,0,0,.4);
-  transition: transform .2s ease, box-shadow .2s ease;
+/* ================= RESET ================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.recruit-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0,0,0,.55);
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  background: #040b16;
+  color: #ffffff;
+  line-height: 1.6;
 }
 
-/* PHOTO CROP (head → numbers) */
-.recruit-photo {
+/* ================= HEADER ================= */
+.site-header {
+  background: #020814;
+  border-bottom: 1px solid #13223a;
+}
+
+.header-wrap {
+  max-width: 1200px;
+  margin: auto;
+  padding: 14px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  letter-spacing: .4px;
+}
+
+.brand img {
+  height: 42px;
+}
+
+.main-nav a {
+  margin-left: 18px;
+  color: #cfd8ff;
+  text-decoration: none;
+  font-weight: 600;
+  padding-bottom: 4px;
+}
+
+.main-nav a.active,
+.main-nav a:hover {
+  color: #ffffff;
+  border-bottom: 2px solid #8b1d2c;
+}
+
+/* ================= HERO ================= */
+.hero {
+  position: relative;
+  height: 460px;
+  overflow: hidden;
+}
+
+.hero img {
   width: 100%;
-  height: 280px;
+  height: 100%;
   object-fit: cover;
-  object-position: center top;
-  border-radius: 10px;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(2,8,20,.45),
+    rgba(2,8,20,.92)
+  );
+}
+
+.hero-content {
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 900px;
+  text-align: center;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
   margin-bottom: 10px;
 }
 
-/* NAME */
-.recruit-card h3 {
-  margin: 6px 0 4px;
+.hero-content p {
   font-size: 1.1rem;
-  font-weight: 700;
+  color: #dbe6ff;
 }
 
-/* META LINE */
-.recruit-card .meta {
-  font-size: .9rem;
-  color: #c7d2e5;
-  margin: 2px 0;
+/* ================= PROOF BAR ================= */
+.proof-bar {
+  max-width: 1100px;
+  margin: 50px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  text-align: center;
 }
 
-/* WRITE-UP */
-.recruit-card .writeup {
-  font-size: .9rem;
-  line-height: 1.4;
-  color: #e6ebf3;
-  margin-top: 8px;
+.proof-bar strong {
+  font-size: 2.4rem;
+  display: block;
 }
 
-/* LINKS */
-.recruit-links {
+.proof-bar span {
+  color: #b6c4ff;
+  font-weight: 600;
+}
+
+/* ================= EDITORIAL ================= */
+.editorial {
+  max-width: 1000px;
+  margin: 70px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px,1fr));
+  gap: 50px;
+  padding: 0 22px;
+}
+
+.editorial h2 {
+  color: #8fb3ff;
+  margin-bottom: 10px;
+}
+
+.editorial ul {
+  padding-left: 18px;
+}
+
+.editorial li {
+  margin-bottom: 8px;
+}
+
+/* ================= ACCESS ================= */
+.access {
+  max-width: 900px;
+  margin: 70px auto;
+  background: #0b1e33;
+  padding: 26px;
+  border-radius: 14px;
   display: flex;
-  gap: 12px;
-  margin-top: 10px;
+  align-items: center;
+  gap: 28px;
 }
 
-.recruit-links img {
-  width: 22px;
-  height: 22px;
-  opacity: .9;
-  transition: opacity .2s ease, transform .2s ease;
+.access img {
+  width: 120px;
 }
 
-.recruit-links img:hover {
-  opacity: 1;
-  transform: scale(1.1);
+.access h3 {
+  margin-bottom: 6px;
+}
+
+/* ================= EXTERNAL ================= */
+.external {
+  text-align: center;
+  margin: 50px 0;
+}
+
+.external a {
+  margin: 0 16px;
+  color: #8fb3ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* ================= FOOTER ================= */
+.site-footer {
+  background: #020814;
+  padding: 20px;
+  text-align: center;
+  color: #b6c4ff;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .hero {
+    height: 320px;
+  }
+
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .editorial {
+    grid-template-columns: 1fr;
+  }
+
+  .access {
+    flex-direction: column;
+    text-align: center;
+  }
 }
