@@ -40,7 +40,21 @@ body {
 .main-nav a:hover {
   color: #b11226;
 }
+.measurements {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #e5e5e5;
+}
 
+.recruit-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recruit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
 /* HERO */
 .hero {
   background: url("images/serra-action.jpg") center/cover no-repeat;
