@@ -1,96 +1,67 @@
-lbody {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-  background: linear-gradient(180deg, #071a33, #020b18);
-  color: #ffffff;
-}
-
-.top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 24px;
-  background: #050d1c;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo img {
-  height: 40px;
-}
-
-nav a {
-  margin-left: 14px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  color: #fff;
-  text-decoration: none;
-  background: #0c1f3d;
-}
-
-nav a.active {
-  background: #8b1d2c;
-}
-
-.portal {
-  padding: 30px;
-}
-
-.filters {
-  display: flex;
-  gap: 14px;
-  margin-bottom: 20px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-}
-
+/* =========================
+   RECRUIT CARDS
+========================= */
 .recruit-card {
-  background: #0c162a;
+  background: linear-gradient(180deg, #0b1e33, #081626);
   border-radius: 14px;
   padding: 14px;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+  transition: transform .2s ease, box-shadow .2s ease;
 }
 
+.recruit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.55);
+}
+
+/* PHOTO CROP (head → numbers) */
 .recruit-photo {
   width: 100%;
-  height: 260px;
+  height: 280px;
   object-fit: cover;
-  object-position: top;
+  object-position: center top;
   border-radius: 10px;
+  margin-bottom: 10px;
 }
 
-.meta {
-  color: #cbd6ff;
-  font-size: 0.9rem;
+/* NAME */
+.recruit-card h3 {
+  margin: 6px 0 4px;
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 
-.measurements {
-  font-size: 0.85rem;
-  color: #9fb2ff;
+/* META LINE */
+.recruit-card .meta {
+  font-size: .9rem;
+  color: #c7d2e5;
+  margin: 2px 0;
 }
 
-.writeup {
-  font-size: 0.85rem;
-  line-height: 1.45;
-  margin-top: 6px;
-  color: #e6ebff;
+/* WRITE-UP */
+.recruit-card .writeup {
+  font-size: .9rem;
+  line-height: 1.4;
+  color: #e6ebf3;
+  margin-top: 8px;
 }
 
+/* LINKS */
 .recruit-links {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   margin-top: 10px;
 }
 
-.recruit-links a {
-  color: #7da2ff;
-  font-weight: 600;
-  text-decoration: none;
+.recruit-links img {
+  width: 22px;
+  height: 22px;
+  opacity: .9;
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.recruit-links img:hover {
+  opacity: 1;
+  transform: scale(1.1);
 }
