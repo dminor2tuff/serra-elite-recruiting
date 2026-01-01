@@ -1,203 +1,139 @@
+/* RESET */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  background: linear-gradient(180deg, #081a2f, #040b14);
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(180deg, #071b34, #020b18);
+  color: #ffffff;
+  line-height: 1.6;
 }
 
 /* HEADER */
-.site-header {
-  background: #050b14;
+.main-header {
+  background: #020b18;
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-.nav-container {
+.header-inner {
   max-width: 1200px;
   margin: auto;
-  padding: 14px 20px;
+  padding: 18px 20px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
-.logo img {
-  height: 42px;
+.serra-logo {
+  height: 60px;
 }
 
 .main-nav a {
-  color: #fff;
+  color: #ffffff;
+  margin-left: 18px;
   text-decoration: none;
-  margin-left: 20px;
   font-weight: 600;
 }
 
 .main-nav a:hover {
-  color: #c41e3a;
+  text-decoration: underline;
 }
 
 /* HERO */
 .hero {
-  height: 60vh;
-  background: url("/images/hero.jpg") center/cover no-repeat;
-  position: relative;
+  padding: 70px 20px;
+  text-align: center;
+  background: radial-gradient(circle at top, #0c2a52, #020b18);
 }
 
-.hero-overlay {
-  background: rgba(0,0,0,0.65);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 40px;
+.hero h1 {
+  font-size: 2.6rem;
+  margin-bottom: 10px;
 }
 
-.cta-button {
-  margin-top: 20px;
-  padding: 12px 20px;
-  background: #c41e3a;
-  color: #fff;
-  text-decoration: none;
-  width: fit-content;
+.hero p {
+  font-size: 1.1rem;
+  opacity: 0.85;
 }
 
-/* PORTAL */
-.portal {
-  max-width: 1200px;
+/* CONTENT */
+.content {
+  max-width: 1000px;
   margin: auto;
-  padding: 40px 20px;
+  padding: 50px 20px;
 }
 
-.filters {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+.content h2 {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  font-size: 1.6rem;
+  border-left: 5px solid #c41e3a;
+  padding-left: 12px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-}
-
-.card {
-  background: #0b1626;
-  padding: 16px;
-  border-radius: 10px;
-}
-
-.recruit-photo {
-  width: 100%;
-  height: 320px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.writeup {
-  font-size: 14px;
+.content p {
   opacity: 0.9;
 }
 
-.links a {
+.content ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.content li {
+  margin-bottom: 6px;
+}
+
+/* CTA */
+.cta-buttons {
+  margin-top: 40px;
+}
+
+.cta {
+  display: inline-block;
+  padding: 12px 22px;
   margin-right: 12px;
-  color: #4da3ff;
-  text-decoration: none;
-}
-.form-wrapper {
-  background: #0b1626;
-  padding: 20px;
-  border-radius: 12px;
-}
-
-.subtext {
-  max-width: 700px;
-  margin-bottom: 20px;
-  opacity: 0.85;
-  font-size: 15px;
-}/* ===== RECRUITS PORTAL ===== */
-
-.portal {
-  max-width: 1200px;
-  margin: auto;
-  padding: 40px 20px;
-}
-
-.portal h1 {
-  margin-bottom: 8px;
-}
-
-.subtext {
-  margin-bottom: 20px;
-  opacity: 0.85;
-}
-
-.filters {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-}
-
-.filters select,
-.filters input {
-  padding: 8px 10px;
   border-radius: 6px;
-  border: none;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 22px;
+.primary {
+  background: #c41e3a;
+  color: #fff;
 }
 
-.card {
-  background: #0b1626;
-  padding: 16px;
-  border-radius: 12px;
+.secondary {
+  background: #1f4ed8;
+  color: #fff;
 }
 
-.recruit-photo {
-  width: 100%;
-  height: 320px;
-  object-fit: cover;
-  object-position: center top;
-  border-radius: 10px;
-  margin-bottom: 12px;
-}
-
-.card h3 {
-  margin-bottom: 4px;
-}
-
-.meta {
-  font-size: 14px;
+.cta:hover {
   opacity: 0.85;
 }
 
-.writeup {
-  margin: 10px 0;
-  font-size: 14px;
-  line-height: 1.45;
+/* FOOTER */
+.site-footer {
+  text-align: center;
+  padding: 25px;
+  background: #020b18;
+  opacity: 0.75;
 }
 
-.links a {
-  margin-right: 14px;
-  color: #4da3ff;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.links a:hover {
-  text-decoration: underline;
-}
-
-/* Mobile */
+/* MOBILE */
 @media (max-width: 768px) {
-  .recruit-photo {
-    height: 260px;
+  .header-inner {
+    flex-direction: column;
+  }
+
+  .main-nav {
+    margin-top: 12px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
   }
 }
