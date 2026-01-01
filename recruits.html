@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>View Prospects | Serra Football Recruiting</title>
+  <meta charset="UTF-8" />
+  <title>Prospects | Serra Football Recruiting</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/style.css?v=10">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/style.css?v=20">
 
   <!-- PapaParse -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -16,21 +16,23 @@
 <header class="site-header">
   <div class="nav-container">
     <div class="logo">
-      <img src="/images/serra-logo.png">
+      <img src="/images/serra-logo.png" alt="Serra Football">
     </div>
-
     <nav class="main-nav">
       <a href="/">Home</a>
-      <a href="/recruits.html" class="active">View Prospects</a>
-      <a href="/transcript.html">Request Transcript</a>
+      <a href="/recruits.html" class="active">Prospects</a>
+      <a href="/transcript.html">Transfer Request</a>
+      <a href="/on3.html">On3 Alumni</a>
       <a href="/admin.html">Admin</a>
     </nav>
   </div>
 </header>
 
 <main class="portal">
-  <h1>Recruiting Portal</h1>
-  <p class="subtext">Filter by class year and search by name. Click icons for Hudl and X.</p>
+  <h1>Serra Football Prospects</h1>
+  <p class="subtext">
+    Verified recruiting information for Serra High School Football.
+  </p>
 
   <div class="filters">
     <select id="classFilter">
@@ -38,6 +40,7 @@
       <option value="2026">2026</option>
       <option value="2027">2027</option>
       <option value="2028">2028</option>
+      <option value="2029">2029</option>
     </select>
 
     <input type="text" id="searchInput" placeholder="Search by name">
@@ -46,6 +49,6 @@
   <div id="recruitsGrid" class="grid"></div>
 </main>
 
-<script src="/recruits.js?v=10"></script>
+<script src="/recruits.js?v=20"></script>
 </body>
 </html>
