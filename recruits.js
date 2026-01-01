@@ -1,129 +1,138 @@
+// ============================
+// CONFIG
+// ============================
 const CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
+  "PASTE_YOUR_PUBLISHED_CSV_URL_HERE"; // <-- keep your existing CSV link
 
+// ============================
+// DOM ELEMENTS (SAFE)
+// ============================
 const grid = document.getElementById("recruitsGrid");
-const statusText = document.getElementById("status");
 const classFilter = document.getElementById("classFilter");
 const searchInput = document.getElementById("searchInput");
 
-let allPlayers = [];
+// ============================
+// STATE
+// ============================
+let recruits = [];
 
-/* ===============================
-   LOAD CSV
-================================ */
+// ============================
+// LOAD DATA
+// ============================
 Papa.parse(CSV_URL, {
   download: true,
   header: true,
   skipEmptyLines: true,
-  complete: results => {
-    allPlayers = results.data;
-    statusText.style.display = "none";
-    renderPlayers();
+  complete: function (results) {
+    recruits = results.data;
+    renderRecruits(recruits);
+    populateClassFilter(recruits);
   },
-  error: () => {
-    statusText.textContent = "Error loading recruits.";
+  error: function () {
+    grid.innerHTML = "<p>Error loading recruits.</p>";
   }
 });
 
-/* ===============================
-   RENDER
-================================ */
-function renderPlayers() {
+// ============================
+// HELPERS
+// ============================
+function parseHeightWeight(hw) {
+  if (!hw) return { height: "—", weight: "—" };
+
+  // Expected formats:
+  // 5'10 / 184
+  // 5-10 / 184
+  // 5'10 184
+  const parts = hw.split("/");
+  return {
+    height: parts[0]?.trim() || "—",
+    weight: parts[1]?.replace("lbs", "").trim() || "—"
+  };
+}
+
+// ============================
+// RENDER
+// ============================
+function renderRecruits(data) {
   grid.innerHTML = "";
 
-  const selectedClass = classFilter.value;
-  const search = searchInput.value.toLowerCase();
+  data.forEach((r) => {
+    const { height, weight } = parseHeightWeight(r.HeightWeight);
 
-  const filtered = allPlayers.filter(p => {
-    const year = (p.Class || "").toString();
-    const name = (p.Name || "").toLowerCase();
+    const card = document.createElement("div");
+    card.className = "recruit-card";
 
-    const classMatch =
-      selectedClass === "All" || year === selectedClass;
+    card.innerHTML = `
+      <img 
+        src="${r.ImageURL || "images/placeholder.png"}" 
+        alt="${r.Name}" 
+        class="recruit-photo"
+        loading="lazy"
+      />
 
-    const searchMatch = name.includes(search);
+      <h3>${r.Name}</h3>
 
-    return classMatch && searchMatch;
-  });
+      <p class="meta">
+        ${r.Position} • Class of ${r.Class}
+      </p>
 
-  if (filtered.length === 0) {
-    statusText.style.display = "block";
-    statusText.textContent = "No prospects found.";
-    return;
-  }
+      <p class="meta">
+        ${height} / ${weight} lbs
+      </p>
 
-  statusText.style.display = "none";
+      ${
+        r.Writeup
+          ? `<p class="writeup">${r.Writeup}</p>`
+          : ""
+      }
 
-  filtered.forEach(player => {
-    grid.appendChild(createRecruitCard(player));
+      <div class="recruit-links">
+        ${
+          r.HUDL
+            ? `<a href="${r.HUDL}" target="_blank" aria-label="Hudl">
+                 <img src="images/hudl.svg" alt="Hudl">
+               </a>`
+            : ""
+        }
+        ${
+          r.Twitter
+            ? `<a href="${r.Twitter}" target="_blank" aria-label="Twitter/X">
+                 <img src="images/x.svg" alt="Twitter">
+               </a>`
+            : ""
+        }
+      </div>
+    `;
+
+    grid.appendChild(card);
   });
 }
 
-/* ===============================
-   CARD BUILDER
-================================ */
-function createRecruitCard(p) {
-  const card = document.createElement("div");
-  card.className = "recruit-card";
-
-  const name = p.Name || "";
-  const position = p.Position || p.Pos || "";
-  const year = p.Class || "";
-
-  const height =
-    p.Height ||
-    p.Ht ||
-    p["Height (ft/in)"] ||
-    "";
-
-  const weight =
-    p.Weight ||
-    p.Wt ||
-    p["Weight (lbs)"] ||
-    "";
-
-  const hudl = p.Hudl || p.HUDL || "";
-  const twitter = p.Twitter || p.X || "";
-
-  const writeup =
-    p.WriteUp ||
-    p.Writeup ||
-    p.Evaluation ||
-    p.Scouting ||
-    p.Notes ||
-    "";
-
-  const img =
-    p.ImageURL && p.ImageURL.startsWith("http")
-      ? p.ImageURL
-      : "images/placeholder.png";
-
-  card.innerHTML = `
-    <img src="${img}" class="recruit-photo" alt="${name}" />
-
-    <h3>${name}</h3>
-
-    <p class="meta">
-      ${position} • Class of ${year}
-    </p>
-
-    <p class="measurements">
-      ${height ? height : ""}${height && weight ? " / " : ""}${weight ? weight + " lbs" : ""}
-    </p>
-
-    ${writeup ? `<p class="writeup">${writeup}</p>` : ""}
-
-    <div class="recruit-links">
-      ${hudl ? `<a href="${hudl}" target="_blank">🎥 Hudl</a>` : ""}
-      ${twitter ? `<a href="${twitter}" target="_blank">𝕏</a>` : ""}
-    </div>
-  `;
-
-  return card;
+// ============================
+// FILTERS
+// ============================
+function populateClassFilter(data) {
+  const classes = [...new Set(data.map(r => r.Class))].sort();
+  classes.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = c;
+    classFilter.appendChild(opt);
+  });
 }
 
-/* ===============================
-   EVENTS
-================================ */
-classFilter.addEventListener("change", renderPlayers);
-searchInput.addEventListener("input", renderPlayers);
+function applyFilters() {
+  const cls = classFilter.value;
+  const term = searchInput.value.toLowerCase();
+
+  const filtered = recruits.filter(r => {
+    const matchClass = cls === "All" || r.Class === cls;
+    const matchSearch = r.Name.toLowerCase().includes(term);
+    return matchClass && matchSearch;
+  });
+
+  renderRecruits(filtered);
+}
+
+classFilter.addEventListener("change", applyFilters);
+searchInput.addEventListener("input", applyFilters);
