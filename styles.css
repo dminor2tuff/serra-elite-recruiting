@@ -1,33 +1,32 @@
-/* RESET */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(180deg, #071b34, #020b18);
+  background: #0b1c2d;
   color: #ffffff;
   line-height: 1.6;
 }
 
 /* HEADER */
-.main-header {
-  background: #020b18;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+.site-header {
+  background: #081321;
+  border-bottom: 3px solid #b11226;
 }
 
 .header-inner {
   max-width: 1200px;
   margin: auto;
-  padding: 18px 20px;
+  padding: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.serra-logo {
+.logo img {
   height: 60px;
 }
 
@@ -39,24 +38,46 @@ body {
 }
 
 .main-nav a:hover {
-  text-decoration: underline;
+  color: #b11226;
 }
 
 /* HERO */
 .hero {
-  padding: 70px 20px;
-  text-align: center;
-  background: radial-gradient(circle at top, #0c2a52, #020b18);
+  background: url("images/serra-action.jpg") center/cover no-repeat;
+  height: 420px;
+  position: relative;
+}
+
+.hero-overlay {
+  background: rgba(0,0,0,0.6);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero h1 {
-  font-size: 2.6rem;
+  font-size: 42px;
   margin-bottom: 10px;
 }
 
 .hero p {
-  font-size: 1.1rem;
-  opacity: 0.85;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.cta {
+  background: #b11226;
+  color: #fff;
+  padding: 12px 26px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.cta:hover {
+  background: #8d0d1d;
 }
 
 /* CONTENT */
@@ -66,74 +87,49 @@ body {
   padding: 50px 20px;
 }
 
-.content h2 {
-  margin-top: 40px;
-  margin-bottom: 10px;
-  font-size: 1.6rem;
-  border-left: 5px solid #c41e3a;
+.content-block {
+  margin-bottom: 50px;
+}
+
+.content-block h2 {
+  font-size: 28px;
+  margin-bottom: 12px;
+  border-left: 5px solid #b11226;
   padding-left: 12px;
 }
 
-.content p {
-  opacity: 0.9;
+.content-block.dark {
+  background: #081321;
+  padding: 30px;
+  border-radius: 6px;
 }
 
-.content ul {
-  margin-top: 10px;
-  padding-left: 20px;
+.content-block ul {
+  margin-top: 15px;
 }
 
-.content li {
+.content-block li {
   margin-bottom: 6px;
 }
 
-/* CTA */
-.cta-buttons {
-  margin-top: 40px;
+.quick-links {
+  margin-top: 20px;
 }
 
-.cta {
+.quick-links a {
   display: inline-block;
-  padding: 12px 22px;
   margin-right: 12px;
-  border-radius: 6px;
+  padding: 10px 18px;
+  background: #b11226;
+  color: #fff;
   text-decoration: none;
-  font-weight: bold;
-}
-
-.primary {
-  background: #c41e3a;
-  color: #fff;
-}
-
-.secondary {
-  background: #1f4ed8;
-  color: #fff;
-}
-
-.cta:hover {
-  opacity: 0.85;
+  border-radius: 4px;
 }
 
 /* FOOTER */
 .site-footer {
+  background: #081321;
   text-align: center;
-  padding: 25px;
-  background: #020b18;
-  opacity: 0.75;
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-  .header-inner {
-    flex-direction: column;
-  }
-
-  .main-nav {
-    margin-top: 12px;
-  }
-
-  .hero h1 {
-    font-size: 2rem;
-  }
+  padding: 20px;
+  border-top: 2px solid #b11226;
 }
