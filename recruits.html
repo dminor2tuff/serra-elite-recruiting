@@ -1,63 +1,51 @@
-l<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>View Prospects | Serra Football Recruiting</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css?v=10">
 
-  <link rel="stylesheet" href="style.css" />
+  <!-- PapaParse -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 
 <body>
 
-<header class="top-bar">
-  <div class="logo">
-    <img src="images/serra_logo.png" alt="Serra Football" />
-    <span>Serra Football Recruiting</span>
-  </div>
+<header class="site-header">
+  <div class="nav-container">
+    <div class="logo">
+      <img src="/images/serra-logo.png">
+    </div>
 
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="recruits.html" class="active">View Prospects</a>
-    <a href="admin.html">Admin</a>
-  </nav>
+    <nav class="main-nav">
+      <a href="/">Home</a>
+      <a href="/recruits.html" class="active">View Prospects</a>
+      <a href="/transcript.html">Request Transcript</a>
+      <a href="/admin.html">Admin</a>
+    </nav>
+  </div>
 </header>
 
 <main class="portal">
-
   <h1>Recruiting Portal</h1>
-  <p class="subtitle">
-    Filter by class year and search by name. Click links for Hudl and X.
-  </p>
+  <p class="subtext">Filter by class year and search by name. Click icons for Hudl and X.</p>
 
   <div class="filters">
     <select id="classFilter">
-      <option value="All">All</option>
-      <option value="2025">2025</option>
+      <option value="All">All Classes</option>
       <option value="2026">2026</option>
       <option value="2027">2027</option>
       <option value="2028">2028</option>
     </select>
 
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="Type a player name..."
-    />
+    <input type="text" id="searchInput" placeholder="Search by name">
   </div>
 
-  <div id="status">Loading prospects…</div>
-
   <div id="recruitsGrid" class="grid"></div>
-
 </main>
 
-<!-- PapaParse MUST load first -->
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
-<!-- Your logic -->
-<script src="recruits.js"></script>
-
+<script src="/recruits.js?v=10"></script>
 </body>
 </html>
