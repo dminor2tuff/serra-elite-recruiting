@@ -117,4 +117,87 @@ body {
   margin-bottom: 20px;
   opacity: 0.85;
   font-size: 15px;
+}/* ===== RECRUITS PORTAL ===== */
+
+.portal {
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.portal h1 {
+  margin-bottom: 8px;
+}
+
+.subtext {
+  margin-bottom: 20px;
+  opacity: 0.85;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.filters select,
+.filters input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+.card {
+  background: #0b1626;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.recruit-photo {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.card h3 {
+  margin-bottom: 4px;
+}
+
+.meta {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.writeup {
+  margin: 10px 0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.links a {
+  margin-right: 14px;
+  color: #4da3ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .recruit-photo {
+    height: 260px;
+  }
 }
