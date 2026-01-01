@@ -36,7 +36,83 @@ function filter(players) {
 
   render(filtered);
 }
+function createRecruitCard(p) {
+  const card = document.createElement("div");
+  card.className = "recruit-card";
 
+  const name = p.Name || "";
+  const position = p.Position || p.Pos || "";
+  const year = p.Class || p.Year || "";
+
+  const height =
+    p.Height ||
+    p.Ht ||
+    p["Height (ft/in)"] ||
+    p["Ht (ft/in)"] ||
+    "";
+
+  const weight =
+    p.Weight ||
+    p.Wt ||
+    p["Weight (lbs)"] ||
+    p["Wt (lbs)"] ||
+    "";
+
+  const hudl = p.Hudl || p.HUDL || "";
+  const twitter = p.Twitter || p.X || "";
+
+  const writeup =
+    p.WriteUp ||
+    p.Writeup ||
+    p.Evaluation ||
+    p.Scouting ||
+    p.Notes ||
+    "";
+
+  const img =
+    p.ImageURL && p.ImageURL.startsWith("http")
+      ? p.ImageURL
+      : "images/placeholder.png";
+
+  card.innerHTML = `
+    <img src="${img}" class="recruit-photo" alt="${name}">
+
+    <h3>${name}</h3>
+
+    <p class="meta">
+      ${position} • Class of ${year}
+    </p>
+
+    ${
+      height || weight
+        ? `<p class="measurements">
+            ${height ? height : ""}${height && weight ? " / " : ""}${weight ? weight + " lbs" : ""}
+          </p>`
+        : ""
+    }
+
+    ${
+      writeup
+        ? `<p class="writeup">${writeup}</p>`
+        : ""
+    }
+
+    <div class="recruit-links">
+      ${
+        hudl
+          ? `<a href="${hudl}" target="_blank">🎥 Hudl</a>`
+          : ""
+      }
+      ${
+        twitter
+          ? `<a href="${twitter}" target="_blank">𝕏</a>`
+          : ""
+      }
+    </div>
+  `;
+
+  return card;
+}
 function render(players) {
   grid.innerHTML = "";
 
