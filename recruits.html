@@ -1,3 +1,17 @@
+<script>
+  const ACCESS_KEY = "SERRA2025";
+  const granted = sessionStorage.getItem("serra_access");
+
+  if (!granted) {
+    const input = prompt("Enter recruiting access password:");
+    if (input !== ACCESS_KEY) {
+      alert("Access denied.");
+      window.location.href = "index.html";
+    } else {
+      sessionStorage.setItem("serra_access", "true");
+    }
+  }
+</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
