@@ -1,54 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Prospects | Serra Football Recruiting</title>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/style.css?v=20">
-
-  <!-- PapaParse -->
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <title>Serra Prospects</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
-
 <body>
 
 <header class="site-header">
-  <div class="nav-container">
-    <div class="logo">
-      <img src="/images/serra-logo.png" alt="Serra Football">
-    </div>
+  <div class="header-inner">
+    <h2>Serra Football Recruiting</h2>
     <nav class="main-nav">
-      <a href="/">Home</a>
-      <a href="/recruits.html" class="active">Prospects</a>
-      <a href="/transcript.html">Transfer Request</a>
-      <a href="/on3.html">On3 Alumni</a>
-      <a href="/admin.html">Admin</a>
+      <a href="index.html">Home</a>
+      <a href="recruits.html">Prospects</a>
+      <a href="transcript.html">Request Transcript</a>
     </nav>
   </div>
 </header>
 
-<main class="portal">
-  <h1>Serra Football Prospects</h1>
-  <p class="subtext">
-    Verified recruiting information for Serra High School Football.
-  </p>
-
-  <div class="filters">
-    <select id="classFilter">
-      <option value="All">All Classes</option>
-      <option value="2026">2026</option>
-      <option value="2027">2027</option>
-      <option value="2028">2028</option>
-      <option value="2029">2029</option>
-    </select>
-
-    <input type="text" id="searchInput" placeholder="Search by name">
-  </div>
-
-  <div id="recruitsGrid" class="grid"></div>
+<main class="content">
+  <h1>Recruiting Portal</h1>
+  <p>This page will display verified Serra prospects.</p>
 </main>
 
-<script src="/recruits.js?v=20"></script>
 </body>
 </html>
