@@ -1,138 +1,44 @@
-// ============================
-// CONFIG
-// ============================
-const CSV_URL =
-  "PASTE_YOUR_PUBLISHED_CSV_URL_HERE"; // <-- keep your existing CSV link
+: "images/placeholder.png";
 
-// ============================
-// DOM ELEMENTS (SAFE)
-// ============================
-const grid = document.getElementById("recruitsGrid");
-const classFilter = document.getElementById("classFilter");
-const searchInput = document.getElementById("searchInput");
+const position = p.Position || p.Pos || "";
+const height =
+  p.Height ||
+  p.Ht ||
+  p["Height (ft/in)"] ||
+  "";
 
-// ============================
-// STATE
-// ============================
-let recruits = [];
+const weight =
+  p.Weight ||
+  p.Wt ||
+  p["Weight (lbs)"] ||
+  "";
 
-// ============================
-// LOAD DATA
-// ============================
-Papa.parse(CSV_URL, {
-  download: true,
-  header: true,
-  skipEmptyLines: true,
-  complete: function (results) {
-    recruits = results.data;
-    renderRecruits(recruits);
-    populateClassFilter(recruits);
-  },
-  error: function () {
-    grid.innerHTML = "<p>Error loading recruits.</p>";
+const writeup =
+p.WriteUp ||
+@@ -71,20 +61,7 @@ const writeup =
+const hudl = p.Hudl || p.HUDL || "";
+const twitter = p.Twitter || p.X || "";
+
+card.innerHTML = `
+  <img src="${img}" class="recruit-photo" alt="${p.Name}">
+
+  <h3>${p.Name}</h3>
+
+  <p class="meta">
+    ${position} • Class of ${p.Class}
+  </p>
+
+  ${
+    height || weight
+      ? `<p class="measurements">${height}${height && weight ? " / " : ""}${weight}${weight ? " lbs" : ""}</p>`
+      : ""
   }
+
+${
+writeup
+@@ -108,4 +85,4 @@ card.innerHTML = `
+
+grid.appendChild(card);
 });
-
-// ============================
-// HELPERS
-// ============================
-function parseHeightWeight(hw) {
-  if (!hw) return { height: "—", weight: "—" };
-
-  // Expected formats:
-  // 5'10 / 184
-  // 5-10 / 184
-  // 5'10 184
-  const parts = hw.split("/");
-  return {
-    height: parts[0]?.trim() || "—",
-    weight: parts[1]?.replace("lbs", "").trim() || "—"
-  };
 }
-
-// ============================
-// RENDER
-// ============================
-function renderRecruits(data) {
-  grid.innerHTML = "";
-
-  data.forEach((r) => {
-    const { height, weight } = parseHeightWeight(r.HeightWeight);
-
-    const card = document.createElement("div");
-    card.className = "recruit-card";
-
-    card.innerHTML = `
-      <img 
-        src="${r.ImageURL || "images/placeholder.png"}" 
-        alt="${r.Name}" 
-        class="recruit-photo"
-        loading="lazy"
-      />
-
-      <h3>${r.Name}</h3>
-
-      <p class="meta">
-        ${r.Position} • Class of ${r.Class}
-      </p>
-
-      <p class="meta">
-        ${height} / ${weight} lbs
-      </p>
-
-      ${
-        r.Writeup
-          ? `<p class="writeup">${r.Writeup}</p>`
-          : ""
-      }
-
-      <div class="recruit-links">
-        ${
-          r.HUDL
-            ? `<a href="${r.HUDL}" target="_blank" aria-label="Hudl">
-                 <img src="images/hudl.svg" alt="Hudl">
-               </a>`
-            : ""
-        }
-        ${
-          r.Twitter
-            ? `<a href="${r.Twitter}" target="_blank" aria-label="Twitter/X">
-                 <img src="images/x.svg" alt="Twitter">
-               </a>`
-            : ""
-        }
-      </div>
-    `;
-
-    grid.appendChild(card);
-  });
 }
-
-// ============================
-// FILTERS
-// ============================
-function populateClassFilter(data) {
-  const classes = [...new Set(data.map(r => r.Class))].sort();
-  classes.forEach(c => {
-    const opt = document.createElement("option");
-    opt.value = c;
-    opt.textContent = c;
-    classFilter.appendChild(opt);
-  });
-}
-
-function applyFilters() {
-  const cls = classFilter.value;
-  const term = searchInput.value.toLowerCase();
-
-  const filtered = recruits.filter(r => {
-    const matchClass = cls === "All" || r.Class === cls;
-    const matchSearch = r.Name.toLowerCase().includes(term);
-    return matchClass && matchSearch;
-  });
-
-  renderRecruits(filtered);
-}
-
-classFilter.addEventListener("change", applyFilters);
-searchInput.addEventListener("input", applyFilters);
