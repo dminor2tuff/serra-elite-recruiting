@@ -7,12 +7,18 @@ const searchInput = document.getElementById("searchInput");
 
 let recruits = [];
 
+// Parse CSV safely
 Papa.parse(CSV_URL, {
   download: true,
   header: true,
+  skipEmptyLines: true,
   complete: (results) => {
-    recruits = results.data.filter(r => r.Name);
+    recruits = results.data.filter(r => r.Name && r.Name.trim() !== "");
     render();
+  },
+  error: (err) => {
+    console.error("CSV Load Error:", err);
+    grid.innerHTML = "<p>Error loading recruiting data.</p>";
   }
 });
 
@@ -31,18 +37,29 @@ function render() {
       const card = document.createElement("div");
       card.className = "card";
 
+      const imgSrc = r.ImageURL && r.ImageURL.startsWith("http")
+        ? r.ImageURL
+        : "/images/placeholder.jpg";
+
       card.innerHTML = `
-        <img src="${r.ImageURL}" class="recruit-photo" onerror="this.src='/images/placeholder.jpg'">
+        <img src="${imgSrc}" class="recruit-photo"
+             onerror="this.src='/images/placeholder.jpg'">
 
         <h3>${r.Name}</h3>
-        <p class="meta">${r.Position} • Class of ${r.Class}</p>
-        <p class="meta">${r.HeightWeight || ""}</p>
 
-        <p class="writeup">${r.Writeup || ""}</p>
+        <p class="meta">
+          ${r.Position || ""} • Class of ${r.Class || ""}
+        </p>
+
+        <p class="meta">
+          ${r.HeightWeight || ""}
+        </p>
+
+        ${r.Writeup ? `<p class="writeup">${r.Writeup}</p>` : ""}
 
         <div class="links">
-          ${r.HUDL ? `<a href="${r.HUDL}" target="_blank">Hudl</a>` : ""}
-          ${r.Twitter ? `<a href="${r.Twitter}" target="_blank">X</a>` : ""}
+          ${r.HUDL ? `<a href="${r.HUDL}" target="_blank" rel="noopener">Hudl</a>` : ""}
+          ${r.Twitter ? `<a href="${r.Twitter}" target="_blank" rel="noopener">X</a>` : ""}
         </div>
       `;
 
@@ -50,5 +67,6 @@ function render() {
     });
 }
 
+// Filters
 classFilter.addEventListener("change", render);
 searchInput.addEventListener("input", render);
