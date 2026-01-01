@@ -1,97 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin • Serra Football Recruiting</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-
-<body class="site">
-  <header class="site-header">
-    <div class="wrap header-inner">
-      <a class="brand" href="index.html">
-        <img src="images/serra_logo.png" alt="Serra Football" class="brand-logo" />
-        <div class="brand-text">
-          <div class="brand-title">Serra Football Recruiting</div>
-          <div class="brand-sub">Admin</div>
-        </div>
-      </a>
-
-      <nav class="nav">
-        <a class="nav-pill" href="index.html">Home</a>
-        <a class="nav-pill" href="recruits.html">View Prospects</a>
-        <a class="nav-pill nav-pill--admin active" href="admin.html">Admin</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="wrap page">
-    <div class="page-head">
-      <h1>Admin Tools</h1>
-      <p class="muted">Password required. This page can be expanded later (uploads, edits, etc.).</p>
-    </div>
-
-    <div id="adminOverlay" class="overlay">
-      <div class="lock-card">
-        <img src="images/serra_logo.png" class="lock-logo" alt="Serra logo" />
-        <h2>Admin Login</h2>
-        <p class="muted">Enter admin password.</p>
-
-        <div class="lock-row">
-          <input id="adminPass" type="password" placeholder="Password" autocomplete="current-password" />
-          <button id="adminBtn" class="btn btn-primary" type="button">Unlock</button>
-        </div>
-        <div id="adminError" class="error"></div>
-      </div>
-    </div>
-
-    <section id="adminContent" class="card" style="display:none;">
-      <h2>Admin Placeholder</h2>
-      <p class="muted">
-        You’re locked in. Next step can be an “Admin Helper” page that shows:
-        how to upload images, how to publish CSV, and how to keep columns clean.
-      </p>
-    </section>
-  </main>
-
+  <title>Admin | Serra Recruiting</title>
   <script>
-    const KEY = "serra_admin_access";
-    const PASS = "SerraAdmin!";
-
-    const overlay = document.getElementById("adminOverlay");
-    const btn = document.getElementById("adminBtn");
-    const input = document.getElementById("adminPass");
-    const err = document.getElementById("adminError");
-    const content = document.getElementById("adminContent");
-
-    function checkAccess() {
-      if (sessionStorage.getItem(KEY) === "granted") {
-        overlay.style.display = "none";
-        content.style.display = "block";
-      } else {
-        overlay.style.display = "flex";
-        content.style.display = "none";
-      }
-    }
-
-    function unlock() {
-      if (input.value === PASS) {
-        sessionStorage.setItem(KEY, "granted");
-        overlay.style.display = "none";
-        content.style.display = "block";
-        err.textContent = "";
-      } else {
-        err.textContent = "Incorrect admin password.";
-      }
-    }
-
-    btn.addEventListener("click", unlock);
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") unlock();
-    });
-
-    checkAccess();
+    const pw = prompt("Admin Password:");
+    if (pw !== "SERRAADMIN") location.href = "index.html";
   </script>
+</head>
+<body>
+  <h1>Admin Instructions</h1>
+  <p>All athlete data is managed from Google Sheets.</p>
+
+  <ol>
+    <li>Edit athlete info in the master Google Sheet</li>
+    <li>Do NOT edit site code for players</li>
+    <li>Images must be GitHub raw URLs</li>
+  </ol>
+
+  <a href="https://docs.google.com/spreadsheets" target="_blank">
+    Open Recruiting Sheet
+  </a>
 </body>
 </html>
