@@ -130,4 +130,74 @@ body {
     display: inline-block;
     margin: 8px;
   }
+}/* ===== HERO ===== */
+.hero {
+  position: relative;
+  height: 75vh;
+  background: url("images/serra-team.jpg") center/cover no-repeat;
+}
+
+.hero-overlay {
+  height: 100%;
+  background: linear-gradient(
+    rgba(11, 26, 45, 0.9),
+    rgba(11, 26, 45, 0.9)
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+}
+
+.hero-logo {
+  max-width: 140px;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: #cbd5e1;
+  max-width: 700px;
+}
+
+/* Buttons */
+.hero-buttons {
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  padding: 14px 28px;
+  border-radius: 6px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.btn.primary {
+  background: #c41230;
+  color: white;
+}
+
+.btn.primary:hover {
+  background: #a10e26;
+}
+
+.btn.secondary {
+  border: 2px solid white;
+  color: white;
+}
+
+.btn.secondary:hover {
+  background: white;
+  color: #0b1a2d;
 }
