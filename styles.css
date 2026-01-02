@@ -142,7 +142,63 @@ body {
   font-size: 18px;
   margin-bottom: 20px;
 }
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  height: 420px;
+  background: url("action_photo.jpg") center/cover no-repeat;
+}
 
+.hero-overlay {
+  background: rgba(4, 11, 22, 0.82);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 18px;
+  max-width: 720px;
+  margin: 0 auto 28px;
+  color: #d6d6d6;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.btn {
+  padding: 14px 26px;
+  border-radius: 8px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.btn.primary {
+  background: #b11226;
+  color: #fff;
+}
+
+.btn.secondary {
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
 .cta {
   background: #b11226;
   color: #fff;
