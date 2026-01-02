@@ -45,21 +45,30 @@ function renderRecruits(data) {
     const card = document.createElement("div");
     card.className = "recruit-card";
 
-    card.innerHTML = `
-      <img src="${r.ImageURL}" class="recruit-photo">
+card.innerHTML = `
+  <img src="${img}" class="recruit-photo" />
 
-      <h3>${r.Name}</h3>
-      <p class="meta">${r.Position} • Class of ${r.Class}</p>
-     <div class="measurements">
-  <span>${r.HeightWeight}</span>
-</div>
-      <p class="writeup">${r.Writeup || ""}</p>
+  <h3>${name}</h3>
 
-      <div class="icons">
-        ${r.HUDL ? `<a href="${r.HUDL}" target="_blank"><i class="fas fa-film"></i></a>` : ""}
-        ${r.Twitter ? `<a href="${r.Twitter}" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>` : ""}
-      </div>
-    `;
+  <div class="recruit-meta">
+    ${position} • Class of ${year}<br>
+    ${heightWeight}
+  </div>
+
+  <div class="recruit-writeup">
+    ${writeup || "—"}
+  </div>
+
+  <div class="recruit-links">
+    ${hudl ? `<a href="${hudl}" target="_blank">
+      <img src="hudl_icon.png"> Hudl
+    </a>` : ""}
+
+    ${twitter ? `<a href="${twitter}" target="_blank">
+      <img src="x_icon.png"> X
+    </a>` : ""}
+  </div>
+`;
 
     grid.appendChild(card);
   });
