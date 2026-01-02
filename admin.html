@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Admin | Serra Recruiting</title>
-  <script>
-    const pw = prompt("Admin Password:");
-    if (pw !== "SERRAADMIN") location.href = "index.html";
-  </script>
+  <title>Admin | Serra Football Recruiting</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Admin Instructions</h1>
-  <p>All athlete data is managed from Google Sheets.</p>
 
-  <ol>
-    <li>Edit athlete info in the master Google Sheet</li>
-    <li>Do NOT edit site code for players</li>
-    <li>Images must be GitHub raw URLs</li>
-  </ol>
+<nav class="main-nav">
+  <a href="index.html">Home</a>
+  <a href="recruits.html">Prospects</a>
+  <a href="transcript.html">Request Transcript</a>
+  <a href="on3.html">On3 Alumni</a>
+  <a href="admin.html">Admin</a>
+</nav>
 
-  <a href="https://docs.google.com/spreadsheets" target="_blank">
-    Open Recruiting Sheet
+<div class="container">
+  <h1 class="section-title">Admin Panel</h1>
+  <p>Manage athletes via Google Sheets.</p>
+
+  <a class="btn" 
+     href="https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID"
+     target="_blank">
+    Open Roster Sheet
   </a>
+</div>
+
 </body>
 </html>
