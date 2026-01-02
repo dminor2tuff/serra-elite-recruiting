@@ -296,4 +296,152 @@ footer {
     flex-direction: column;
     gap: 15px;
   }
+}/* NAV */
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background: #0b1a2d;
+  border-bottom: 2px solid #c91f2c;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-logo {
+  height: 42px;
+}
+
+.nav-title {
+  font-weight: bold;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.nav-links a {
+  margin-left: 18px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: #c91f2c;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(
+    rgba(11,26,45,0.85),
+    rgba(11,26,45,0.85)
+  ),
+  url("images/serra-team.jpg") center/cover no-repeat;
+  padding: 100px 20px;
+  text-align: center;
+  color: #fff;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.hero-sub {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* SECTIONS */
+.section {
+  padding: 70px 20px;
+  background: #ffffff;
+}
+
+.section.dark {
+  background: #0b1a2d;
+  color: #fff;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  border-left: 4px solid #c91f2c;
+  padding-left: 14px;
+}
+
+/* LISTS */
+.expectations,
+.coach-access {
+  list-style: none;
+  padding-left: 0;
+}
+
+.expectations li,
+.coach-access li {
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+}
+
+/* BUTTONS */
+.btn {
+  padding: 12px 26px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.btn.primary {
+  background: #c91f2c;
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background: #a41721;
+}
+
+.btn.outline {
+  border: 2px solid #fff;
+  color: #fff;
+}
+
+.btn.outline:hover {
+  background: #fff;
+  color: #0b1a2d;
+}
+
+.center {
+  text-align: center;
+  margin-top: 25px;
+}
+
+/* FOOTER */
+.footer {
+  background: #0b1a2d;
+  color: #aaa;
+  text-align: center;
+  padding: 20px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .nav-links {
+    display: none;
+  }
 }
