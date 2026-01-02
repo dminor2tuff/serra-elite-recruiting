@@ -1,148 +1,84 @@
+/* =========================
+   GLOBAL RESET
+========================= */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
 }
 
 body {
+  font-family: "Inter", Arial, sans-serif;
   background: #0b1a2d;
   color: #ffffff;
   line-height: 1.6;
 }
 
-.site-header {
-  background: #000;
-  border-bottom: 3px solid #a41e35;
+/* =========================
+   LINKS
+========================= */
+a {
+  color: #c41230;
+  text-decoration: none;
+  font-weight: 600;
 }
 
-.header-inner {
-  max-width: 1200px;
-  margin: auto;
-  padding: 12px 20px;
+a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   NAV BAR
+========================= */
+nav {
+  background: #0b1a2d;
+  border-bottom: 2px solid #1f2937;
+  padding: 18px 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.logo {
-  height: 60px;
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.nav a {
-  color: #fff;
-  margin-left: 18px;
-  text-decoration: none;
-  font-weight: bold;
+.nav-left img {
+  height: 42px;
 }
 
-.nav a:hover {
-  color: #a41e35;
-}
-
-.hero {
-  text-align: center;
-  padding: 60px 20px;
-  background: linear-gradient(to bottom, #0b1a2d, #000);
-}
-
-.hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.hero p {
-  font-size: 1.1rem;
-  color: #ccc;
-}
-
-.content {
-  max-width: 900px;
-  margin: auto;
-  padding: 40px 20px;
-}
-
-.content h2 {
-  margin-top: 30px;
-  margin-bottom: 10px;
-  font-size: 1.6rem;
-  border-left: 5px solid #a41e35;
-  padding-left: 12px;
-}
-
-.content p {
-  margin-bottom: 16px;
-  color: #ddd;
-}
-
-.content ul {
+.nav-right a {
   margin-left: 20px;
-  margin-bottom: 20px;
+  font-weight: 700;
+  color: #ffffff;
 }
 
-.content li {
-  margin-bottom: 6px;
+.nav-right a:hover {
+  color: #c41230;
 }
 
-.cta-buttons {
-  margin-top: 30px;
-}
-
-.btn {
-  display: inline-block;
-  background: #a41e35;
-  color: #fff;
-  padding: 12px 22px;
-  margin-right: 10px;
-  text-decoration: none;
-  font-weight: bold;
-  border-radius: 4px;
-}
-
-.btn.secondary {
-  background: #1f3b66;
-}
-
-.btn:hover {
-  opacity: 0.9;
-}
-
-.site-footer {
-  text-align: center;
-  padding: 20px;
-  background: #000;
-  color: #aaa;
-  margin-top: 40px;
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .header-inner {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .nav {
-    margin-top: 10px;
-  }
-
-  .nav a {
-    display: inline-block;
-    margin: 8px;
-  }
-}/* ===== HERO ===== */
+/* =========================
+   HERO
+========================= */
 .hero {
-  position: relative;
   height: 75vh;
   background: url("images/serra-team.jpg") center/cover no-repeat;
+  position: relative;
 }
 
-.hero-overlay {
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 26, 45, 0.88);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
   height: 100%;
-  background: linear-gradient(
-    rgba(11, 26, 45, 0.9),
-    rgba(11, 26, 45, 0.9)
-  );
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -151,53 +87,213 @@ body {
   padding: 40px;
 }
 
-.hero-logo {
-  max-width: 140px;
+.hero-content img {
+  max-width: 150px;
   margin-bottom: 20px;
 }
 
-.hero h1 {
+.hero-content h1 {
   font-size: 3rem;
-  font-weight: 800;
+  font-weight: 900;
   margin-bottom: 10px;
 }
 
-.hero p {
-  font-size: 1.2rem;
-  color: #cbd5e1;
+.hero-content p {
   max-width: 700px;
+  font-size: 1.15rem;
+  color: #cbd5e1;
 }
 
-/* Buttons */
 .hero-buttons {
-  margin-top: 25px;
+  margin-top: 30px;
   display: flex;
   gap: 15px;
 }
 
+/* =========================
+   BUTTONS
+========================= */
 .btn {
   padding: 14px 28px;
   border-radius: 6px;
-  font-weight: 700;
-  text-decoration: none;
+  font-weight: 800;
   transition: 0.2s ease;
+  text-align: center;
 }
 
-.btn.primary {
+.btn-primary {
   background: #c41230;
-  color: white;
+  color: #ffffff;
 }
 
-.btn.primary:hover {
+.btn-primary:hover {
   background: #a10e26;
 }
 
-.btn.secondary {
-  border: 2px solid white;
-  color: white;
+.btn-outline {
+  border: 2px solid #ffffff;
+  color: #ffffff;
 }
 
-.btn.secondary:hover {
-  background: white;
+.btn-outline:hover {
+  background: #ffffff;
   color: #0b1a2d;
+}
+
+/* =========================
+   CONTENT CONTAINER
+========================= */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+/* =========================
+   SECTION HEADERS
+========================= */
+.section-title {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 16px;
+  padding-left: 14px;
+  border-left: 5px solid #c41230;
+}
+
+.section-text {
+  color: #d1d5db;
+  margin-bottom: 40px;
+  font-size: 1.05rem;
+}
+
+/* =========================
+   QUICK ACCESS LIST
+========================= */
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul li {
+  margin-bottom: 10px;
+  padding-left: 22px;
+  position: relative;
+}
+
+ul li::before {
+  content: "•";
+  color: #c41230;
+  position: absolute;
+  left: 0;
+}
+
+/* =========================
+   PROSPECT GRID
+========================= */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+/* =========================
+   PLAYER CARD
+========================= */
+.player-card {
+  background: #111827;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease;
+}
+
+.player-card:hover {
+  transform: translateY(-6px);
+}
+
+.player-photo {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+}
+
+.player-info {
+  padding: 18px;
+}
+
+.player-name {
+  font-size: 1.15rem;
+  font-weight: 900;
+}
+
+.player-meta {
+  font-size: 0.95rem;
+  color: #9ca3af;
+  margin: 6px 0;
+}
+
+.player-writeup {
+  font-size: 0.9rem;
+  color: #d1d5db;
+  margin-top: 10px;
+}
+
+/* =========================
+   PLAYER LINKS
+========================= */
+.player-links {
+  margin-top: 14px;
+  display: flex;
+  gap: 14px;
+}
+
+.player-links img {
+  height: 22px;
+  opacity: 0.85;
+}
+
+.player-links img:hover {
+  opacity: 1;
+}
+
+/* =========================
+   TRANSCRIPT SECTION
+========================= */
+.transcript-box {
+  background: #111827;
+  border-left: 5px solid #c41230;
+  padding: 25px;
+  border-radius: 10px;
+  margin-top: 30px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  background: #0b1a2d;
+  border-top: 2px solid #1f2937;
+  padding: 30px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 15px;
+  }
 }
