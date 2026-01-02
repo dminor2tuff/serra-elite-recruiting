@@ -1,5 +1,5 @@
 <script>
-  const ACCESS_KEY = "SERRA2025";
+  const ACCESS_KEY = "SerraFB!";
   const granted = sessionStorage.getItem("serra_access");
 
   if (!granted) {
@@ -62,5 +62,30 @@
 </main>
 
 <script src="recruits.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Prospects | Serra Football Recruiting</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="recruits.html">View Prospects</a>
+  <a href="transcript.html">Request Transcript</a>
+</nav>
+
+<div class="container">
+  <h1 class="section-title">Recruiting Portal</h1>
+  <div id="recruitsGrid" class="grid"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="recruits.js"></script>
+
 </body>
 </html>
