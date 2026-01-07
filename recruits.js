@@ -1,6 +1,6 @@
 // ✅ IMPORTANT: Paste your *Published CSV link* here (NOT the normal sheet edit link)
 // It must look like: https://docs.google.com/spreadsheets/d/e/.../pub?output=csv
-const SHEET_CSV_URL = "PASTE_YOUR_PUBLISHED_CSV_LINK_HERE";
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv";
 
 const grid = document.getElementById("recruitsGrid");
 const classFilter = document.getElementById("classFilter");
