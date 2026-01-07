@@ -34,7 +34,26 @@ function rowToRecruit(row) {
     offers: clean(map["offers"]),
   };
 }
+const classFilter = document.getElementById("classFilter");
+let allRecruits = [];
 
+/* After Google Sheets loads */
+function renderRecruits(data){
+  allRecruits = data;
+  applyFilters();
+}
+
+function applyFilters(){
+  const selectedClass = classFilter.value;
+  const filtered = allRecruits.filter(player => {
+    if (selectedClass === "all") return true;
+    return String(player.Class).trim() === selectedClass;
+  });
+
+  drawCards(filtered);
+}
+
+classFilter.addEventListener("change", applyFilters);
 function iconButton(href, type) {
   if (!href) return "";
   const label = type === "hudl" ? "Hudl" : "X";
