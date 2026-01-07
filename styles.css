@@ -421,3 +421,33 @@ footer{
   width: 34px;
   height: 34px;
 }
+/* ===============================
+   FILTER BAR
+================================ */
+
+.filters{
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: center;
+}
+
+.filter-group{
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group label{
+  font-size: 0.75rem;
+  color: #bbb;
+  margin-bottom: 4px;
+}
+
+.filter-group select{
+  background: #111;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
