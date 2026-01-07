@@ -238,7 +238,15 @@ ul li::before {
   color: #d1d5db;
   margin-top: 10px;
 }
-
+.recruit-photo{
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center 18%;
+  border-radius: 14px;
+  display:block;
+  background: #0b0f18;
+}
 /* =========================
    PLAYER LINKS
 ========================= */
