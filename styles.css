@@ -362,3 +362,62 @@ footer{
     display:none;
   }
 }
+/* ===============================
+   RECRUIT CARD SIZE FIX
+   (Scouting / Roster View)
+================================ */
+
+/* Grid density */
+.recruits-grid{
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 22px;
+}
+
+/* Card container */
+.recruit-card{
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+/* Image control */
+.recruit-photo{
+  height: 220px;            /* 👈 KEY FIX */
+  aspect-ratio: unset;
+  object-fit: cover;
+  object-position: center 15%;
+}
+
+/* Text tightening */
+.recruit-body{
+  padding: 14px 16px;
+}
+
+.recruit-name{
+  font-size: 1.05rem;
+}
+
+.recruit-meta{
+  font-size: 0.82rem;
+}
+
+.recruit-sub{
+  font-size: 0.85rem;
+  margin: 4px 0;
+}
+
+.recruit-writeup{
+  font-size: 0.82rem;
+  line-height: 1.4;
+  max-height: 3.8em;
+  overflow: hidden;
+}
+
+/* Icons smaller */
+.recruit-links{
+  margin-top: 10px;
+}
+
+.icon-btn{
+  width: 34px;
+  height: 34px;
+}
