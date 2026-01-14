@@ -168,3 +168,39 @@ if (classFilter) classFilter.addEventListener("change", applyFilters);
 if (searchInput) searchInput.addEventListener("input", applyFilters);
 
 loadRecruits();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Recruiting Portal | Serra Football</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- PapaParse FIRST -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+
+<body>
+
+<section class="recruiting-portal">
+  <h1>Recruiting Portal</h1>
+  <p>Filter by class year and search by name.</p>
+
+  <div class="filters">
+    <select id="classFilter">
+      <option value="all">All Classes</option>
+    </select>
+
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search player name..."
+    />
+  </div>
+
+  <div id="recruitsGrid" class="recruits-grid"></div>
+</section>
+
+<!-- YOUR SCRIPT LAST -->
+<script src="recruits.js"></script>
+</body>
+</html>
