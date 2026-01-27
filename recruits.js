@@ -1,7 +1,7 @@
 (() => {
   // ✅ PUT YOUR PUBLISHED CSV LINK HERE (must end with pub?output=csv)
   const SHEET_CSV_URL =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdefPIY8K8ag6AePllWRgYXhjJ-gJddb_8rDaJi3t5BATllbHVK6m5cDsDQxg2PUIYPqHYcXyxbT2/pub?output=csv";
+    https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv
 
   function $(id) { return document.getElementById(id); }
   const statusBox = () => $("statusBox");
