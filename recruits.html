@@ -1,102 +1,64 @@
-<script>
-  const ACCESS_KEY = "SerraFB!";
-  const granted = sessionStorage.getItem("serra_access");
-
-  if (!granted) {
-    const input = prompt("Enter recruiting access password:");
-    if (input !== ACCESS_KEY) {
-      alert("Access denied.");
-      window.location.href = "index.html";
-    } else {
-      sessionStorage.setItem("serra_access", "true");
-    }
-  }
-</script>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Serra Football | Recruiting Portal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="./style.css">
-
-  <!-- Icons -->
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <!-- PapaParse -->
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Recruiting Portal • Serra Football Recruiting</title>
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 
 <body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/index.html">
+        <img class="brand-logo" src="/images/serra-logo.png" alt="Serra" />
+        <div class="brand-text">
+          <div class="brand-title">Serra Football Recruiting</div>
+          <div class="brand-subtitle">View Prospects</div>
+        </div>
+      </a>
 
-<header class="site-header">
-  <div class="header-inner">
-    <h2>Serra Football Recruiting</h2>
-    <nav class="main-nav">
-      <a href="index.html">Home</a>
-      <a href="recruits.html">Prospects</a>
-      <a href="transcript.html">Request Transcript</a>
-    </nav>
-  </div>
-</header>
+      <nav class="nav">
+        <a href="/index.html">Home</a>
+        <a class="active" href="/recruits.html">Prospects</a>
+        <a href="/transcript.html">Request Transcript</a>
+        <a href="/on3.html">On3 Alumni</a>
+        <a href="/admin.html">Admin</a>
+      </nav>
+    </div>
+  </header>
 
-<main class="content">
+  <main class="container">
+    <section class="panel">
+      <h1 class="page-title">Recruiting Portal</h1>
+      <p class="page-subtitle">Filter by class year and search by name. Click icons for Hudl and X.</p>
 
-  <h1>Recruiting Portal</h1>
-  <p>Filter by class year and search by name. Click icons for Hudl and X.</p>
+      <div class="filters">
+        <label class="filter">
+          <span>Class</span>
+          <select id="classFilter">
+            <option value="all">All Classes</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+          </select>
+        </label>
 
-  <div class="filters">
-    <select id="classFilter">
-      <option value="All">All Classes</option>
-    </select>
+        <label class="filter grow">
+          <span>Search</span>
+          <input id="searchInput" type="search" placeholder="Type a player name..." />
+        </label>
+      </div>
 
-    <input type="text" id="searchInput" placeholder="Search player name...">
-  </div>
-<div class="filters">
-  <div class="filter-group">
-    <label for="classFilter">Class</label>
-    <select id="classFilter">
-      <option value="all">All</option>
-      <option value="2026">2026</option>
-      <option value="2027">2027</option>
-      <option value="2028">2028</option>
-      <option value="2029">2029</option>
-    </select>
-  </div>
-</div>
-  <div id="recruitsGrid" class="recruits-grid">
-    <p id="loadingText">Loading prospects…</p>
-  </div>
+      <!-- This is where errors + status will show -->
+      <div id="statusBox" class="status">Loading prospects…</div>
 
-</main>
+      <!-- This is where cards render -->
+      <div id="recruitsGrid" class="recruits-grid"></div>
+    </section>
+  </main>
 
-<script src="recruits.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>View Prospects | Serra Football Recruiting</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-<nav>
-  <a href="index.html">Home</a>
-  <a href="recruits.html">View Prospects</a>
-  <a href="transcript.html">Request Transcript</a>
-</nav>
-
-<div class="container">
-  <h1 class="section-title">Recruiting Portal</h1>
-  <div id="recruitsGrid" class="grid"></div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="recruits.js"></script>
-
+  <script src="/recruits.js?v=10"></script>
 </body>
 </html>
