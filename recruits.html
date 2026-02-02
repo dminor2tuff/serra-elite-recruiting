@@ -1,17 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Recruiting Portal • Serra Football Recruiting</title>
-  <link rel="stylesheet" href="/styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prospects | Serra Football Recruiting</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
+  <!-- NAV -->
   <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="/index.html">
-        <img class="brand-logo" src="/images/serra-logo.png" alt="Serra" />
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">
+        <img class="brand-logo" src="./images/serra-logo.png" alt="Serra" />
         <div class="brand-text">
           <div class="brand-title">Serra Football Recruiting</div>
           <div class="brand-subtitle">View Prospects</div>
@@ -19,46 +20,49 @@
       </a>
 
       <nav class="nav">
-        <a href="/index.html">Home</a>
-        <a class="active" href="/recruits.html">Prospects</a>
-        <a href="/transcript.html">Request Transcript</a>
-        <a href="/on3.html">On3 Alumni</a>
-        <a href="/admin.html">Admin</a>
+        <a href="./index.html">Home</a>
+        <a class="active" href="./recruits.html">Prospects</a>
+        <a href="./transcript.html">Request Transcript</a>
+        <a href="./on3.html">On3 Alumni</a>
+        <a href="./admin.html">Admin</a>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <section class="panel">
+  <!-- PAGE -->
+  <main class="page">
+    <section class="page-head">
       <h1 class="page-title">Recruiting Portal</h1>
-      <p class="page-subtitle">Filter by class year and search by name. Click icons for Hudl and X.</p>
+      <p class="page-sub">
+        Filter by class year and search by name. Click icons for Hudl and X.
+      </p>
 
       <div class="filters">
-        <label class="filter">
-          <span>Class</span>
+        <div class="field">
+          <label for="classFilter">Class</label>
           <select id="classFilter">
             <option value="all">All Classes</option>
-            <option value="2026">2026</option>
-            <option value="2027">2027</option>
-            <option value="2028">2028</option>
-            <option value="2029">2029</option>
           </select>
-        </label>
+        </div>
 
-        <label class="filter grow">
-          <span>Search</span>
-          <input id="searchInput" type="search" placeholder="Type a player name..." />
-        </label>
+        <div class="field grow">
+          <label for="searchInput">Search</label>
+          <input id="searchInput" type="text" placeholder="Type a player name..." autocomplete="off" />
+        </div>
       </div>
 
-      <!-- This is where errors + status will show -->
-      <div id="statusBox" class="status">Loading prospects…</div>
+      <div id="statusText" class="status">Loading prospects…</div>
+    </section>
 
-      <!-- This is where cards render -->
+    <section>
       <div id="recruitsGrid" class="recruits-grid"></div>
     </section>
   </main>
 
-  <script src="/recruits.js?v=10"></script>
+  <!-- PapaParse MUST come first -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <!-- Your recruits logic -->
+  <script src="./recruits.js"></script>
 </body>
 </html>
