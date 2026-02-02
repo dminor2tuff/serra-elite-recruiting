@@ -7,8 +7,7 @@ const CONFIG = {
   // ✅ OPTION A: PUBLISHED CSV (best if you have it)
   // Example:
   // https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?output=csv
-  PUBLISHED_CSV_URL: "PASTE_YOUR_PUBLISHED_CSV_URL_HERE",
-
+  PUBLISHED_CSV_URL: https://docs.google.com/spreadsheets/d/e/2PACX-1vRZdfePIY8K8ag6AePllWRgYXhjJ-gJddB_8rDaJi3t5BAT11bHVK6m5cDsDQXg2PUIYPqHYcXyxbT2/pub?output=csv
   // ✅ OPTION B: GVIZ fallback (works if sheet is publicly viewable)
   // This is the *normal* sheet ID from the edit link: /d/<SHEET_ID>/edit
   SHEET_ID: "PASTE_NORMAL_SHEET_ID_HERE",
